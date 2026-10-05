@@ -108,6 +108,12 @@ struct ReportTests {
         let text = ISPReport.text(log: Log(), start: lastHour, end: now, generated: now, timeZone: .gmt)
         #expect(text.contains("No measurements were taken in this period."))
     }
+
+    @Test func saysNoneWithoutOutages() {
+        let log = Log(samples: samples())
+        let text = ISPReport.text(log: log, start: lastHour, end: now, generated: now, timeZone: .gmt)
+        #expect(text.contains("- Outages: none."))
+    }
 }
 
 struct SampleCSVTests {

@@ -140,8 +140,10 @@ public enum ISPReport {
     private static func summarySection(_ summary: ReportSummary) -> [String] {
         var lines = heading("Summary")
         let downtime = Duration.seconds(summary.totalDowntime(now: summary.end))
-        lines.append("- Outages: \(summary.outages.count), \(format(downtime)) in total.")
-        if !summary.outages.isEmpty {
+        if summary.outages.isEmpty {
+            lines.append("- Outages: none.")
+        } else {
+            lines.append("- Outages: \(summary.outages.count), \(format(downtime)) in total.")
             let isp = summary.ispOutages.count
             lines.append("  During \(isp) of them, my router kept answering while nothing past it did,")
             lines.append("  so the connection inside my home was working and the outage was on the ISP's side.")
