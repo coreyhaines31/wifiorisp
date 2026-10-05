@@ -98,7 +98,7 @@ struct HistoryView: View {
 
             if !model.events.isEmpty {
                 Text("Events").font(.headline)
-                List(model.events.reversed(), id: \.time) { event in
+                List(Array(model.events.reversed().enumerated()), id: \.offset) { _, event in
                     HStack(alignment: .firstTextBaseline) {
                         Text(event.time.formatted(date: .abbreviated, time: .shortened))
                             .foregroundStyle(.secondary)
