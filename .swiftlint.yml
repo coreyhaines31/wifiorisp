@@ -1,0 +1,13 @@
+included:
+  - WiFiOrISP
+  - Packages/WiFiOrISPCore/Sources
+  - Packages/WiFiOrISPCore/Tests
+  - Scripts
+excluded:
+  - Packages/WiFiOrISPCore/.build
+opt_in_rules:
+  - empty_count
+  - first_where
+  - sorted_imports
+identifier_name:
+  excluded: [x, y, id, ms, t]
