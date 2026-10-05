@@ -51,7 +51,8 @@ struct VerdictTests {
     }
 
     @Test func slowRouterWithWeakSignalIsTheSignal() {
-        let verdict = VerdictEngine.evaluate(samples(rssi: -80, router: .reply(ms: 90), internet: .reply(ms: 110)), now: now)
+        let list = samples(rssi: -80, router: .reply(ms: 90), internet: .reply(ms: 110))
+        let verdict = VerdictEngine.evaluate(list, now: now)
         #expect(verdict.kind == .weakSignal)
         #expect(verdict.side == .yours)
     }
@@ -158,7 +159,7 @@ struct StatisticsTests {
 struct ProbeCodingTests {
     @Test func roundTrips() throws {
         let data = try JSONEncoder().encode([Probe.reply(ms: 12.345), .lost])
-        #expect(String(decoding: data, as: UTF8.self) == "[12.3,-1]")
+        #expect(String(bytes: data, encoding: .utf8) == "[12.3,-1]")
         #expect(try JSONDecoder().decode([Probe].self, from: data) == [.reply(ms: 12.3), .lost])
     }
 }

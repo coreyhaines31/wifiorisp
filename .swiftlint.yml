@@ -2,7 +2,6 @@ included:
   - WiFiOrISP
   - Packages/WiFiOrISPCore/Sources
   - Packages/WiFiOrISPCore/Tests
-  - Scripts
 excluded:
   - Packages/WiFiOrISPCore/.build
 opt_in_rules:
@@ -10,4 +9,4 @@ opt_in_rules:
   - first_where
   - sorted_imports
 identifier_name:
-  excluded: [x, y, id, ms, t]
+  excluded: [x, y, id, ms, to, on, v4, v6]

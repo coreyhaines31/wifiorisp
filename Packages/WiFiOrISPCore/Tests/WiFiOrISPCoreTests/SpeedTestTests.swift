@@ -50,8 +50,10 @@ struct ResponsivenessTests {
         #expect(rpm == 900)
     }
 
-    func result(rpm: Int, routerIdle: Double? = 5, routerLoaded: Double? = 8, internetIdle: Double = 15, internetLoaded: Double = 300)
-        -> ResponsivenessResult {
+    func result(
+        rpm: Int, routerIdle: Double? = 5, routerLoaded: Double? = 8,
+        internetIdle: Double = 15, internetLoaded: Double = 300
+    ) -> ResponsivenessResult {
         ResponsivenessResult(
             time: now, rpm: rpm, idleLatencyMs: 20, loadedLatencyMs: 60000 / Double(rpm),
             routerIdleMs: routerIdle, routerLoadedMs: routerLoaded, internetIdleMs: internetIdle,

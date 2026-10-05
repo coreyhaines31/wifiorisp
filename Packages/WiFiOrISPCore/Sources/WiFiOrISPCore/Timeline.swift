@@ -14,7 +14,9 @@ public struct TimelinePoint: Identifiable, Equatable, Sendable {
 }
 
 public enum Timeline {
-    public static func points(_ samples: [Sample], from start: Date, to end: Date, buckets: Int = 300) -> [TimelinePoint] {
+    public static func points(
+        _ samples: [Sample], from start: Date, to end: Date, buckets: Int = 300
+    ) -> [TimelinePoint] {
         guard end > start, buckets > 0 else { return [] }
         let width = end.timeIntervalSince(start) / Double(buckets)
         var grouped: [Int: [Sample]] = [:]

@@ -68,7 +68,8 @@ public struct EventDetector: Sendable {
             lostRun = []
             guard let start = dropStart else { return [] }
             dropStart = nil
-            return [NetworkEvent(time: sample.time, kind: .dropEnded(since: start, routerAnswered: routerAnsweredDuringDrop))]
+            let ended = NetworkEvent.Kind.dropEnded(since: start, routerAnswered: routerAnsweredDuringDrop)
+            return [NetworkEvent(time: sample.time, kind: ended)]
         }
         lostRun.append(sample)
         if dropStart != nil {

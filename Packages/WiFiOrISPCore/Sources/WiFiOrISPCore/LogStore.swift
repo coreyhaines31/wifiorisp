@@ -26,40 +26,6 @@ public final class LogStore: Sendable {
             .appending(path: "WiFi or ISP/Log", directoryHint: .isDirectory)
     }
 
-    private enum Entry: Codable {
-        case sample(Sample)
-        case event(NetworkEvent)
-
-        private enum CodingKeys: String, CodingKey {
-            case sample = "s"
-            case event = "e"
-        }
-
-        init(from decoder: Decoder) throws {
-            let container = try decoder.container(keyedBy: CodingKeys.self)
-            if let sample = try container.decodeIfPresent(Sample.self, forKey: .sample) {
-                self = .sample(sample)
-            } else {
-                self = .event(try container.decode(NetworkEvent.self, forKey: .event))
-            }
-        }
-
-        func encode(to encoder: Encoder) throws {
-            var container = encoder.container(keyedBy: CodingKeys.self)
-            switch self {
-            case .sample(let sample): try container.encode(sample, forKey: .sample)
-            case .event(let event): try container.encode(event, forKey: .event)
-            }
-        }
-
-        var time: Date {
-            switch self {
-            case .sample(let sample): sample.time
-            case .event(let event): event.time
-            }
-        }
-    }
-
     private static func encoder() -> JSONEncoder {
         let encoder = JSONEncoder()
         encoder.dateEncodingStrategy = .secondsSince1970
@@ -129,7 +95,8 @@ public final class LogStore: Sendable {
         let cutoff = Calendar.gmt.startOfDay(for: now).addingTimeInterval(-Double(days) * 86400)
         let files = (try? FileManager.default.contentsOfDirectory(at: directory, includingPropertiesForKeys: nil)) ?? []
         for url in files where url.pathExtension == "jsonl" {
-            if let day = try? Date(url.deletingPathExtension().lastPathComponent, strategy: Self.dayFormat), day < cutoff {
+            let name = url.deletingPathExtension().lastPathComponent
+            if let day = try? Date(name, strategy: Self.dayFormat), day < cutoff {
                 try? FileManager.default.removeItem(at: url)
             }
         }
@@ -137,6 +104,41 @@ public final class LogStore: Sendable {
 
     public func deleteAll() {
         try? FileManager.default.removeItem(at: directory)
+    }
+}
+
+/// One line of a log file.
+private enum Entry: Codable {
+    case sample(Sample)
+    case event(NetworkEvent)
+
+    private enum CodingKeys: String, CodingKey {
+        case sample = "s"
+        case event = "e"
+    }
+
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        if let sample = try container.decodeIfPresent(Sample.self, forKey: .sample) {
+            self = .sample(sample)
+        } else {
+            self = .event(try container.decode(NetworkEvent.self, forKey: .event))
+        }
+    }
+
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        switch self {
+        case .sample(let sample): try container.encode(sample, forKey: .sample)
+        case .event(let event): try container.encode(event, forKey: .event)
+        }
+    }
+
+    var time: Date {
+        switch self {
+        case .sample(let sample): sample.time
+        case .event(let event): event.time
+        }
     }
 }
 

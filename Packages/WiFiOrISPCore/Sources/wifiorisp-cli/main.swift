@@ -12,8 +12,10 @@ func takeSamples() async {
         let result = await sampler.sample()
         history.append(result.sample)
         let sample = result.sample
-        let wifi = sample.wifi.map { "\($0.rssi) dBm, noise \($0.noise), \($0.txRate) Mbps, ch \($0.channel ?? 0) \($0.band?.label ?? "?")" }
-        print("\(sample.link) | \(wifi ?? "no wifi") | router \(String(describing: sample.router)) | internet \(String(describing: sample.internet))")
+        let wifi = sample.wifi.map { "\($0.rssi) dBm, noise \($0.noise), \($0.band?.label ?? "?")" }
+        let router = String(describing: sample.router)
+        let internet = String(describing: sample.internet)
+        print("\(sample.link) | \(wifi ?? "no wifi") | router \(router) | internet \(internet)")
         try? await Task.sleep(for: .seconds(2))
     }
     let verdict = VerdictEngine.evaluate(history, now: Date())
@@ -33,7 +35,8 @@ func speedTest() async {
 
 func responsiveness() async {
     let route = Route.current()
-    let config = ProcessInfo.processInfo.environment["RPM_CONFIG"].flatMap(URL.init(string:)) ?? ResponsivenessTest.defaultConfigURL
+    let config = ProcessInfo.processInfo.environment["RPM_CONFIG"].flatMap(URL.init(string:))
+        ?? ResponsivenessTest.defaultConfigURL
     let test = ResponsivenessTest(configURL: config) {
         guard let router = route?.router else { return nil }
         return await TCPProbe.roundTrip(to: router, port: 53)

@@ -4,7 +4,7 @@ import Testing
 
 struct LogStoreTests {
     func makeStore() -> LogStore {
-        LogStore(directory: FileManager.default.temporaryDirectory.appending(path: "wifiorisp-tests-\(UUID().uuidString)"))
+        LogStore(directory: FileManager.default.temporaryDirectory.appending(path: "wifiorisp-\(UUID().uuidString)"))
     }
 
     @Test func roundTripsSamplesAndEvents() throws {
@@ -36,7 +36,8 @@ struct LogStoreTests {
         let store = makeStore()
         defer { store.deleteAll() }
         try store.append(Sample(time: now, link: .wired))
-        let file = try #require(FileManager.default.contentsOfDirectory(at: store.directory, includingPropertiesForKeys: nil).first)
+        let files = try FileManager.default.contentsOfDirectory(at: store.directory, includingPropertiesForKeys: nil)
+        let file = try #require(files.first)
         let handle = try FileHandle(forWritingTo: file)
         try handle.seekToEnd()
         try handle.write(contentsOf: Data("{\"s\":{\"t\":12".utf8))
@@ -55,15 +56,23 @@ struct LogStoreTests {
     }
 }
 
+func drop(from start: Double, to end: Double, routerAnswered: Bool?) -> [NetworkEvent] {
+    [
+        NetworkEvent(time: now.addingTimeInterval(start), kind: .dropStarted),
+        NetworkEvent(
+            time: now.addingTimeInterval(end),
+            kind: .dropEnded(since: now.addingTimeInterval(start), routerAnswered: routerAnswered)
+        )
+    ]
+}
+
+let lastHour = now.addingTimeInterval(-3600)
+
 struct ReportTests {
     @Test func countsOutagesAndWhichSide() {
-        let events = [
-            NetworkEvent(time: now.addingTimeInterval(-600), kind: .dropStarted),
-            NetworkEvent(time: now.addingTimeInterval(-540), kind: .dropEnded(since: now.addingTimeInterval(-600), routerAnswered: true)),
-            NetworkEvent(time: now.addingTimeInterval(-300), kind: .dropStarted),
-            NetworkEvent(time: now.addingTimeInterval(-270), kind: .dropEnded(since: now.addingTimeInterval(-300), routerAnswered: false))
-        ]
-        let summary = ReportSummary(log: Log(samples: samples(), events: events), start: now.addingTimeInterval(-3600), end: now)
+        let events = drop(from: -600, to: -540, routerAnswered: true)
+            + drop(from: -300, to: -270, routerAnswered: false)
+        let summary = ReportSummary(log: Log(samples: samples(), events: events), start: lastHour, end: now)
         #expect(summary.outages.count == 2)
         #expect(summary.ispOutages.count == 1)
         #expect(summary.totalDowntime(now: now) == 90)
@@ -71,7 +80,7 @@ struct ReportTests {
 
     @Test func anOpenDropIsOngoing() {
         let events = [NetworkEvent(time: now.addingTimeInterval(-60), kind: .dropStarted)]
-        let summary = ReportSummary(log: Log(samples: samples(), events: events), start: now.addingTimeInterval(-3600), end: now)
+        let summary = ReportSummary(log: Log(samples: samples(), events: events), start: lastHour, end: now)
         #expect(summary.outages == [.init(start: now.addingTimeInterval(-60), end: nil, routerAnswered: nil)])
         #expect(summary.totalDowntime(now: now) == 60)
     }
@@ -85,10 +94,7 @@ struct ReportTests {
     }
 
     @Test func textMentionsTheISPSide() {
-        let events = [
-            NetworkEvent(time: now.addingTimeInterval(-600), kind: .dropStarted),
-            NetworkEvent(time: now.addingTimeInterval(-540), kind: .dropEnded(since: now.addingTimeInterval(-600), routerAnswered: true))
-        ]
+        let events = drop(from: -600, to: -540, routerAnswered: true)
         let text = ISPReport.text(
             log: Log(samples: samples(), events: events), start: now.addingTimeInterval(-3600), end: now,
             generated: now, timeZone: .gmt
@@ -99,7 +105,7 @@ struct ReportTests {
     }
 
     @Test func emptyPeriod() {
-        let text = ISPReport.text(log: Log(), start: now.addingTimeInterval(-3600), end: now, generated: now, timeZone: .gmt)
+        let text = ISPReport.text(log: Log(), start: lastHour, end: now, generated: now, timeZone: .gmt)
         #expect(text.contains("No measurements were taken in this period."))
     }
 }

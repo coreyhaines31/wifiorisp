@@ -125,7 +125,8 @@ public enum VerdictEngine {
             )
         case .reply:
             return Verdict(
-                kind: .ispDown, headline: wired ? "Offline: ISP is down, not your network" : "Offline: ISP is down, WiFi is fine",
+                kind: .ispDown,
+                headline: wired ? "Offline: ISP is down, not your network" : "Offline: ISP is down, WiFi is fine",
                 short: "ISP",
                 detail: "Your router answers, but nothing past it does. The outage is on your ISP's side "
                     + "(or between your router and modem)."
@@ -174,7 +175,8 @@ public enum VerdictEngine {
         }
 
         var routerSlow: Bool {
-            routerMeasured && (routerLoss >= VerdictEngine.lossThreshold || (routerMedian ?? 0) > VerdictEngine.slowRouterMs)
+            routerMeasured
+                && (routerLoss >= VerdictEngine.lossThreshold || (routerMedian ?? 0) > VerdictEngine.slowRouterMs)
         }
 
         var ispSlow: Bool {
@@ -205,57 +207,70 @@ public enum VerdictEngine {
         }
     }
 
-    static func slownessVerdict(_ m: Measurements) -> Verdict {
-        let wifi = m.link == .wifi
-        let weak = m.signal == .weak
-
-        if m.routerSlow {
-            if wifi && weak {
-                return Verdict(
-                    kind: .weakSignal, headline: "Slow: weak WiFi signal", short: "WiFi",
-                    detail: "\(m.numbers) Even your router is slow to answer, and the signal is weak. "
-                        + "Move closer to the router or add an access point."
-                )
-            }
-            return Verdict(
-                kind: .localNetwork,
-                headline: wifi ? "Slow: WiFi or router, not ISP" : "Slow: your router, not ISP",
-                short: wifi ? "WiFi" : "Router",
-                detail: "\(m.numbers) "
-                    + (wifi
-                        ? "The signal is fine, but your router is slow to answer. That points to a busy channel, "
-                            + "interference, or an overloaded router. Try restarting the router or changing its channel."
-                        : "Your router is slow to answer over the cable. Try restarting it.")
-            )
+    static func slownessVerdict(_ measured: Measurements) -> Verdict {
+        let wifi = measured.link == .wifi
+        let weak = measured.signal == .weak
+        if measured.routerSlow {
+            return yourSideVerdict(measured)
         }
-        if m.ispSlow {
-            if !m.routerMeasured && wifi && weak {
-                return Verdict(
-                    kind: .weakSignal, headline: "Slow: likely weak WiFi signal", short: "WiFi",
-                    detail: "\(m.numbers) Your router doesn't answer probes, so the app can't split the delay, "
-                        + "but the signal is weak."
-                )
-            }
-            let hedge = m.routerMeasured ? "" : "likely "
-            return Verdict(
-                kind: .isp,
-                headline: "Slow: \(hedge)ISP, not \(wifi ? "WiFi" : "your network")", short: "ISP",
-                detail: "\(m.numbers) "
-                    + (m.routerMeasured
-                        ? "Your router answers quickly, so the delay is past it: your ISP, or your modem."
-                        : "Your router doesn't answer probes, so this is based on the signal being fine.")
-            )
+        if measured.ispSlow {
+            return ispVerdict(measured)
         }
         if wifi && weak {
             return Verdict(
                 kind: .goodWeakSignal, headline: "Fine, but WiFi signal is weak", short: nil,
-                detail: "\(m.numbers) Everything answers on time for now, but the signal is weak enough to cause drops."
+                detail: "\(measured.numbers) Everything answers on time for now, "
+                    + "but the signal is weak enough to cause drops."
             )
         }
         return Verdict(
             kind: .good,
             headline: wifi ? "Fine: WiFi and ISP both OK" : "Fine: network and ISP both OK", short: nil,
-            detail: m.numbers
+            detail: measured.numbers
+        )
+    }
+
+    /// The router itself is slow: the problem is on your side of the line.
+    private static func yourSideVerdict(_ measured: Measurements) -> Verdict {
+        let wifi = measured.link == .wifi
+        if wifi && measured.signal == .weak {
+            return Verdict(
+                kind: .weakSignal, headline: "Slow: weak WiFi signal", short: "WiFi",
+                detail: "\(measured.numbers) Even your router is slow to answer, and the signal is weak. "
+                    + "Move closer to the router or add an access point."
+            )
+        }
+        return Verdict(
+            kind: .localNetwork,
+            headline: wifi ? "Slow: WiFi or router, not ISP" : "Slow: your router, not ISP",
+            short: wifi ? "WiFi" : "Router",
+            detail: "\(measured.numbers) "
+                + (wifi
+                    ? "The signal is fine, but your router is slow to answer. That points to a busy channel, "
+                        + "interference, or an overloaded router. "
+                        + "Try restarting the router or changing its channel."
+                    : "Your router is slow to answer over the cable. Try restarting it.")
+        )
+    }
+
+    /// The router answers fine but the internet doesn't: the problem is past the router.
+    private static func ispVerdict(_ measured: Measurements) -> Verdict {
+        let wifi = measured.link == .wifi
+        if !measured.routerMeasured && wifi && measured.signal == .weak {
+            return Verdict(
+                kind: .weakSignal, headline: "Slow: likely weak WiFi signal", short: "WiFi",
+                detail: "\(measured.numbers) Your router doesn't answer probes, so the app can't split the delay, "
+                    + "but the signal is weak."
+            )
+        }
+        let hedge = measured.routerMeasured ? "" : "likely "
+        return Verdict(
+            kind: .isp,
+            headline: "Slow: \(hedge)ISP, not \(wifi ? "WiFi" : "your network")", short: "ISP",
+            detail: "\(measured.numbers) "
+                + (measured.routerMeasured
+                    ? "Your router answers quickly, so the delay is past it: your ISP, or your modem."
+                    : "Your router doesn't answer probes, so this is based on the signal being fine.")
         )
     }
 }

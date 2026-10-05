@@ -83,11 +83,15 @@ private enum SocketAddress {
         switch self {
         case .v4(var address):
             withUnsafePointer(to: &address) {
-                $0.withMemoryRebound(to: sockaddr.self, capacity: 1) { body($0, socklen_t(MemoryLayout<sockaddr_in>.size)) }
+                $0.withMemoryRebound(to: sockaddr.self, capacity: 1) {
+                    body($0, socklen_t(MemoryLayout<sockaddr_in>.size))
+                }
             }
         case .v6(var address):
             withUnsafePointer(to: &address) {
-                $0.withMemoryRebound(to: sockaddr.self, capacity: 1) { body($0, socklen_t(MemoryLayout<sockaddr_in6>.size)) }
+                $0.withMemoryRebound(to: sockaddr.self, capacity: 1) {
+                    body($0, socklen_t(MemoryLayout<sockaddr_in6>.size))
+                }
             }
         }
     }

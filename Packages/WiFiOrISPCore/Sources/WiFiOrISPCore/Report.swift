@@ -35,10 +35,29 @@ public struct ReportSummary: Equatable, Sendable {
         self.start = start
         self.end = end
         sampleCount = log.samples.count
+        outages = Self.outages(log.events)
+        (ispSlowShare, yourSideSlowShare) = Self.slowShares(log.samples)
 
+        let samples = log.samples
+        routerMedianMs = Statistics.median(samples.compactMap { $0.router?.ms })
+        let internet = samples.compactMap(\.internet)
+        let internetMs = internet.compactMap(\.ms)
+        internetMedianMs = Statistics.median(internetMs)
+        internetP95Ms = Statistics.percentile(internetMs, 0.95)
+        internetLoss = internet.isEmpty ? 0 : Double(internet.filter(\.isLost).count) / Double(internet.count)
+
+        var seen = Set<String>()
+        networks = samples.compactMap { $0.wifi?.ssid }.filter { seen.insert($0).inserted }
+        speedTests = log.events.compactMap { if case .speedTest(let result) = $0.kind { result } else { nil } }
+        responsiveness = log.events.compactMap {
+            if case .responsiveness(let result) = $0.kind { result } else { nil }
+        }
+    }
+
+    private static func outages(_ events: [NetworkEvent]) -> [Outage] {
         var outages: [Outage] = []
         var openStart: Date?
-        for event in log.events {
+        for event in events {
             switch event.kind {
             case .dropStarted:
                 openStart = event.time
@@ -52,15 +71,17 @@ public struct ReportSummary: Equatable, Sendable {
         if let openStart {
             outages.append(Outage(start: openStart, end: nil, routerAnswered: nil))
         }
-        self.outages = outages
+        return outages
+    }
 
+    /// Replays the verdict over the log, weighting each sample by the time until the next one.
+    private static func slowShares(_ samples: [Sample]) -> (isp: Double, yours: Double) {
         var ispTime = 0.0
         var yourTime = 0.0
         var measured = 0.0
-        let samples = log.samples
         for index in samples.indices {
             let next = index + 1 < samples.count ? samples[index + 1].time : samples[index].time
-            let weight = min(next.timeIntervalSince(samples[index].time), Self.maxGap)
+            let weight = min(next.timeIntervalSince(samples[index].time), maxGap)
             guard weight > 0 else { continue }
             let window = Array(samples[max(0, index - VerdictEngine.window + 1)...index])
             measured += weight
@@ -70,20 +91,8 @@ public struct ReportSummary: Equatable, Sendable {
             case nil: break
             }
         }
-        ispSlowShare = measured > 0 ? ispTime / measured : 0
-        yourSideSlowShare = measured > 0 ? yourTime / measured : 0
-
-        routerMedianMs = Statistics.median(samples.compactMap { $0.router?.ms })
-        let internet = samples.compactMap(\.internet)
-        let internetMs = internet.compactMap(\.ms)
-        internetMedianMs = Statistics.median(internetMs)
-        internetP95Ms = Statistics.percentile(internetMs, 0.95)
-        internetLoss = internet.isEmpty ? 0 : Double(internet.filter(\.isLost).count) / Double(internet.count)
-
-        var seen = Set<String>()
-        networks = samples.compactMap { $0.wifi?.ssid }.filter { seen.insert($0).inserted }
-        speedTests = log.events.compactMap { if case .speedTest(let result) = $0.kind { result } else { nil } }
-        responsiveness = log.events.compactMap { if case .responsiveness(let result) = $0.kind { result } else { nil } }
+        guard measured > 0 else { return (0, 0) }
+        return (ispTime / measured, yourTime / measured)
     }
 
     public var ispOutages: [Outage] { outages.filter { $0.routerAnswered == true } }
@@ -95,15 +104,18 @@ public struct ReportSummary: Equatable, Sendable {
 
 /// A plain-text report to send an ISP: what happened, when, and why it's on their side.
 public enum ISPReport {
-    public static func text(log: Log, start: Date, end: Date, generated: Date = Date(), timeZone: TimeZone = .current) -> String {
+    public static func text(
+        log: Log, start: Date, end: Date, generated: Date = Date(), timeZone: TimeZone = .current
+    ) -> String {
         let summary = ReportSummary(log: log, start: start, end: end)
-        let time = Date.FormatStyle(date: .abbreviated, time: .shortened, timeZone: timeZone)
-        func when(_ date: Date) -> String { date.formatted(time) }
+        let style = Date.FormatStyle(date: .abbreviated, time: .shortened, timeZone: timeZone)
+        let when = { (date: Date) in date.formatted(style) }
 
-        var lines: [String] = []
-        lines.append("Connection report")
-        lines.append(String(repeating: "=", count: 17))
-        lines.append("Period: \(when(start)) to \(when(end)) (\(timeZone.identifier))")
+        var lines = [
+            "Connection report",
+            String(repeating: "=", count: 17),
+            "Period: \(when(start)) to \(when(end)) (\(timeZone.identifier))"
+        ]
         if !summary.networks.isEmpty {
             lines.append("Network: \(summary.networks.joined(separator: ", "))")
         }
@@ -114,14 +126,24 @@ public enum ISPReport {
             lines.append("No measurements were taken in this period.")
             return lines.joined(separator: "\n") + "\n"
         }
+        lines += summarySection(summary)
+        lines += outagesSection(summary, when: when)
+        lines += testsSection(summary, when: when)
+        lines += methodSection(summary)
+        return lines.joined(separator: "\n") + "\n"
+    }
 
-        lines.append("Summary")
-        lines.append("-------")
-        let isp = summary.ispOutages
-        let downtime = Duration.seconds(summary.totalDowntime(now: end))
+    private static func heading(_ title: String) -> [String] {
+        [title, String(repeating: "-", count: title.count)]
+    }
+
+    private static func summarySection(_ summary: ReportSummary) -> [String] {
+        var lines = heading("Summary")
+        let downtime = Duration.seconds(summary.totalDowntime(now: summary.end))
         lines.append("- Outages: \(summary.outages.count), \(format(downtime)) in total.")
         if !summary.outages.isEmpty {
-            lines.append("  During \(isp.count) of them, my router kept answering while nothing past it did,")
+            let isp = summary.ispOutages.count
+            lines.append("  During \(isp) of them, my router kept answering while nothing past it did,")
             lines.append("  so the connection inside my home was working and the outage was on the ISP's side.")
         }
         lines.append("- Slow because of the ISP's side: \(percent(summary.ispSlowShare)) of the time measured.")
@@ -133,62 +155,65 @@ public enum ISPReport {
             lines.append("- Typical round trip to the internet: \(ms(internet)) (95th percentile \(ms(p95))).")
         }
         lines.append("- Internet probes lost: \(percent(summary.internetLoss)).")
-        lines.append("")
+        return lines + [""]
+    }
 
-        if !summary.outages.isEmpty {
-            lines.append("Outages")
-            lines.append("-------")
-            for outage in summary.outages {
-                let range = "\(when(outage.start)) to \(outage.end.map(when) ?? "ongoing")"
-                let side = switch outage.routerAnswered {
-                case true: "router answered throughout: ISP side"
-                case false: "router or Wi-Fi was also down"
-                case nil: "router not measured"
-                }
-                lines.append("- \(range), \(format(.seconds(outage.duration(now: end)))) (\(side))")
+    private static func outagesSection(_ summary: ReportSummary, when: (Date) -> String) -> [String] {
+        guard !summary.outages.isEmpty else { return [] }
+        var lines = heading("Outages")
+        for outage in summary.outages {
+            let range = "\(when(outage.start)) to \(outage.end.map(when) ?? "ongoing")"
+            let side = switch outage.routerAnswered {
+            case true: "router answered throughout: ISP side"
+            case false: "router or Wi-Fi was also down"
+            case nil: "router not measured"
             }
-            lines.append("")
+            lines.append("- \(range), \(format(.seconds(outage.duration(now: summary.end)))) (\(side))")
         }
+        return lines + [""]
+    }
 
+    private static func testsSection(_ summary: ReportSummary, when: (Date) -> String) -> [String] {
+        var lines: [String] = []
         if !summary.speedTests.isEmpty {
-            lines.append("Speed tests (M-Lab NDT7)")
-            lines.append("------------------------")
+            lines += heading("Speed tests (M-Lab NDT7)")
             for test in summary.speedTests {
-                lines.append("- \(when(test.time)): \(mbps(test.downloadMbps)) down, \(mbps(test.uploadMbps)) up, server \(test.server)")
+                lines.append("- \(when(test.time)): \(mbps(test.downloadMbps)) down, \(mbps(test.uploadMbps)) up, "
+                    + "server \(test.server)")
             }
             lines.append("")
         }
-
         if !summary.responsiveness.isEmpty {
-            lines.append("Lag under load (IETF responsiveness test)")
-            lines.append("-----------------------------------------")
+            lines += heading("Lag under load (IETF responsiveness test)")
             for test in summary.responsiveness {
                 lines.append("- \(when(test.time)): \(test.rpm) RPM (\(test.grade.rawValue)), round trips went from "
                     + "\(ms(test.idleLatencyMs)) to \(ms(test.loadedLatencyMs)) under load")
             }
             lines.append("")
         }
-
-        lines.append("How this was measured")
-        lines.append("---------------------")
-        lines.append("Every 5 to 30 seconds, my Mac timed a TCP handshake to my router and, at the same moment, to")
-        lines.append("1.1.1.1 and 8.8.8.8. A handshake is one network round trip. When the router answers quickly but")
-        lines.append("the internet doesn't, the delay is past the router. An outage starts after two missed probes")
-        lines.append("in a row. \(summary.sampleCount) measurements were taken in this period.")
-        return lines.joined(separator: "\n") + "\n"
+        return lines
     }
 
-    static func format(_ duration: Duration) -> String {
+    private static func methodSection(_ summary: ReportSummary) -> [String] {
+        heading("How this was measured") + [
+            "Every 5 to 30 seconds, my Mac timed a TCP handshake to my router and, at the same moment, to",
+            "1.1.1.1 and 8.8.8.8. A handshake is one network round trip. When the router answers quickly but",
+            "the internet doesn't, the delay is past the router. An outage starts after two missed probes",
+            "in a row. \(summary.sampleCount) measurements were taken in this period."
+        ]
+    }
+
+    public static func format(_ duration: Duration) -> String {
         duration.formatted(.units(allowed: [.hours, .minutes, .seconds], width: .abbreviated, maximumUnitCount: 2))
     }
 
-    static func percent(_ share: Double) -> String {
+    public static func percent(_ share: Double) -> String {
         share > 0 && share < 0.001 ? "<0.1%" : share.formatted(.percent.precision(.fractionLength(0...1)))
     }
 
-    static func ms(_ value: Double) -> String { "\(Int(value.rounded())) ms" }
+    public static func ms(_ value: Double) -> String { "\(Int(value.rounded())) ms" }
 
-    static func mbps(_ value: Double) -> String { "\(Int(value.rounded())) Mbps" }
+    public static func mbps(_ value: Double) -> String { "\(Int(value.rounded())) Mbps" }
 }
 
 /// Every sample as CSV, for spreadsheets.

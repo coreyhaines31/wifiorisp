@@ -89,20 +89,7 @@ public final class NDT7Client: Sendable {
     }
 
     static func parseLocate(_ data: Data) throws -> Target? {
-        struct Response: Decodable {
-            struct Result: Decodable {
-                struct Location: Decodable {
-                    var city: String?
-                    var country: String?
-                }
-
-                var urls: [String: String]
-                var location: Location?
-            }
-
-            var results: [Result]?
-        }
-        for result in try JSONDecoder().decode(Response.self, from: data).results ?? [] {
+        for result in try JSONDecoder().decode(LocateResponse.self, from: data).results ?? [] {
             if let download = result.urls["wss:///ndt/v7/download"].flatMap(URL.init(string:)),
                let upload = result.urls["wss:///ndt/v7/upload"].flatMap(URL.init(string:)) {
                 let place = [result.location?.city, result.location?.country].compactMap { $0 }.joined(separator: ", ")
@@ -117,27 +104,6 @@ public final class NDT7Client: Sendable {
     struct Measured {
         var mbps: Double
         var minRTTms: Double?
-    }
-
-    /// The parts of an NDT7 server measurement message the app uses.
-    struct ServerMeasurement: Decodable {
-        struct TCPInfo: Decodable {
-            var minRTT: Double?
-            var bytesReceived: Double?
-            var elapsedTime: Double?
-
-            enum CodingKeys: String, CodingKey {
-                case minRTT = "MinRTT"
-                case bytesReceived = "BytesReceived"
-                case elapsedTime = "ElapsedTime"
-            }
-        }
-
-        var tcpInfo: TCPInfo?
-
-        enum CodingKeys: String, CodingKey {
-            case tcpInfo = "TCPInfo"
-        }
     }
 
     private func webSocket(session: URLSession, url: URL) -> URLSessionWebSocketTask {
@@ -245,9 +211,9 @@ public final class NDT7Client: Sendable {
 /// The latest numbers the server sent during an upload.
 private final class ServerReports: @unchecked Sendable {
     private let lock = NSLock()
-    private var info: NDT7Client.ServerMeasurement.TCPInfo?
+    private var info: TCPInfo?
 
-    func update(_ info: NDT7Client.ServerMeasurement.TCPInfo) {
+    func update(_ info: TCPInfo) {
         lock.withLock { self.info = info }
     }
 
@@ -260,5 +226,40 @@ private final class ServerReports: @unchecked Sendable {
 
     var minRTTms: Double? {
         lock.withLock { info?.minRTT.map { $0 / 1000 } }
+    }
+}
+
+private struct LocateResponse: Decodable {
+    struct Result: Decodable {
+        var urls: [String: String]
+        var location: Location?
+    }
+
+    struct Location: Decodable {
+        var city: String?
+        var country: String?
+    }
+
+    var results: [Result]?
+}
+
+/// The parts of an NDT7 server measurement message the app uses.
+struct ServerMeasurement: Decodable {
+    var tcpInfo: TCPInfo?
+
+    enum CodingKeys: String, CodingKey {
+        case tcpInfo = "TCPInfo"
+    }
+}
+
+struct TCPInfo: Decodable {
+    var minRTT: Double?
+    var bytesReceived: Double?
+    var elapsedTime: Double?
+
+    enum CodingKeys: String, CodingKey {
+        case minRTT = "MinRTT"
+        case bytesReceived = "BytesReceived"
+        case elapsedTime = "ElapsedTime"
     }
 }

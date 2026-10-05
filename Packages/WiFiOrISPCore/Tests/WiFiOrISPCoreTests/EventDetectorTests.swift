@@ -3,10 +3,18 @@ import Testing
 @testable import WiFiOrISPCore
 
 struct EventDetectorTests {
-    func sample(_ offset: Double, internet: Probe = .reply(ms: 20), router: Probe? = .reply(ms: 3), wifi: WiFiReading? = nil) -> Sample {
+    func reading(
+        rssi: Int, channel: Int = 36, band: Band = .ghz5, ssid: String? = "Home", bssid: String? = "aa"
+    ) -> WiFiReading {
+        WiFiReading(rssi: rssi, noise: -92, txRate: 400, channel: channel, band: band, ssid: ssid, bssid: bssid)
+    }
+
+    func sample(
+        _ offset: Double, internet: Probe = .reply(ms: 20), router: Probe? = .reply(ms: 3), wifi: WiFiReading? = nil
+    ) -> Sample {
         Sample(
             time: now.addingTimeInterval(offset), link: .wifi,
-            wifi: wifi ?? WiFiReading(rssi: -55, noise: -92, txRate: 400, channel: 36, band: .ghz5, ssid: "Home", bssid: "aa"),
+            wifi: wifi ?? reading(rssi: -55),
             router: router, internet: internet
         )
     }
@@ -41,7 +49,7 @@ struct EventDetectorTests {
         for offset in 0..<4 {
             _ = detector.process(sample(Double(offset) * 10))
         }
-        let weaker = WiFiReading(rssi: -72, noise: -92, txRate: 100, channel: 36, band: .ghz5, ssid: "Home", bssid: "bb")
+        let weaker = reading(rssi: -72, bssid: "bb")
         let events = detector.process(sample(40, wifi: weaker))
         #expect(events.count == 1)
         #expect(events.first?.kind == .roamed(fromBSSID: "aa", toBSSID: "bb", fromRSSI: -55, toRSSI: -72))
@@ -51,15 +59,15 @@ struct EventDetectorTests {
     @Test func roamingToAStrongerAccessPointIsLoggedButNotAlerted() {
         var detector = EventDetector()
         _ = detector.process(sample(0))
-        let stronger = WiFiReading(rssi: -45, noise: -92, txRate: 800, channel: 36, band: .ghz5, ssid: "Home", bssid: "bb")
+        let stronger = reading(rssi: -45, bssid: "bb")
         let events = detector.process(sample(10, wifi: stronger))
         #expect(events.first?.alertKind == nil)
     }
 
     @Test func withoutBSSIDAChannelChangeCountsAsARoam() {
         var detector = EventDetector()
-        _ = detector.process(sample(0, wifi: WiFiReading(rssi: -50, noise: -92, txRate: 400, channel: 36, band: .ghz5)))
-        let events = detector.process(sample(10, wifi: WiFiReading(rssi: -50, noise: -92, txRate: 400, channel: 149, band: .ghz5)))
+        _ = detector.process(sample(0, wifi: reading(rssi: -50, ssid: nil, bssid: nil)))
+        let events = detector.process(sample(10, wifi: reading(rssi: -50, channel: 149, ssid: nil, bssid: nil)))
         #expect(events.first?.kind == .roamed(fromBSSID: nil, toBSSID: nil, fromRSSI: -50, toRSSI: -50))
     }
 
