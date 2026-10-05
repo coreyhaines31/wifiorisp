@@ -115,3 +115,21 @@ struct SampleCSVTests {
         #expect(lines[1].hasSuffix(",,1,20.0,0"))
     }
 }
+
+struct TimelineTests {
+    @Test func bucketsSamples() {
+        var list = samples(12, router: .reply(ms: 4))
+        list[11].internet = .lost
+        list[10].wifi?.rssi = -70
+        let points = Timeline.points(list, from: now.addingTimeInterval(-120), to: now, buckets: 2)
+        #expect(points.count == 2)
+        #expect(points[0].routerMs == 4)
+        #expect(points[1].rssi == -70)
+        #expect(points[1].internetLoss > 0)
+        #expect(points[0].internetLoss == 0)
+    }
+
+    @Test func emptyRange() {
+        #expect(Timeline.points(samples(), from: now, to: now).isEmpty)
+    }
+}
