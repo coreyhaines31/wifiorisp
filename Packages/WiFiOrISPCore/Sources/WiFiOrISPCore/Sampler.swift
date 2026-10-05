@@ -20,6 +20,12 @@ public final class Sampler {
 
     public var wifiInterfaceName: String? { wifiReader.interfaceName }
 
+    /// The router and the port it answers on, for tests that probe it themselves.
+    public var routerTarget: (address: String, port: UInt16)? {
+        guard let address = routerPorts.router, let port = routerPorts.port else { return nil }
+        return (address, port)
+    }
+
     /// - Parameter readWiFi: false while CoreWLAN is backed off; the sample then has no Wi-Fi reading.
     public func sample(readWiFi: Bool = true, now: Date = Date()) async -> Result {
         let route = Route.current()
@@ -27,37 +33,39 @@ public final class Sampler {
         let wifiResult: WiFiReader.Result = readWiFi ? wifiReader.read() : .notAssociated
         let wifiReading: WiFiReading? = if case .reading(let reading) = wifiResult { reading } else { nil }
 
-        let link: Link
-        if let route {
-            if route.interface == wifiInterface {
-                link = .wifi
-            } else if route.isTunnel {
-                link = wifiReading != nil ? .wifi : .wired
-            } else {
-                link = .wired
-            }
+        // With a VPN up, the default route is the tunnel; traffic still rides Wi-Fi if Wi-Fi has a router.
+        let wifiRouter = wifiInterface.flatMap(Route.router(for:))
+        let overWiFi = route.map { $0.interface == wifiInterface || ($0.isTunnel && wifiRouter != nil) } ?? false
+        let link: Link = if route != nil {
+            overWiFi ? .wifi : .wired
         } else {
-            link = wifiReading != nil ? .wifi : .none
+            wifiReading != nil ? .wifi : .none
         }
-        let wifiReadFailed = readWiFi && wifiReading == nil && route != nil && route?.interface == wifiInterface
+        let wifiReadFailed = readWiFi && wifiReading == nil && overWiFi
 
         guard link != .none else {
             return Result(sample: Sample(time: now, link: .none), wifiReadFailed: false)
         }
 
-        var routerAddress = route?.router
-        if link == .wifi, let wifiInterface {
-            routerAddress = Route.router(for: wifiInterface) ?? routerAddress
-        }
+        let routerAddress = link == .wifi ? (wifiRouter ?? route?.router) : route?.router
         routerPorts.use(router: routerAddress)
+        var discovery: UInt16??
         if routerPorts.needsDiscovery(now: now), let routerAddress {
             let port = await RouterPorts.discoverPort(router: routerAddress)
-            routerPorts.discovered(port: port, router: routerAddress, now: now)
+            discovery = .some(port)
+            if let port {
+                routerPorts.discovered(port: port, router: routerAddress, now: now)
+            }
         }
 
         async let internet = Self.probeInternet()
         async let router = Self.probeRouter(routerAddress, port: routerPorts.port)
         let (internetProbe, routerProbe) = await (internet, router)
+        // No port answered. If the internet answers, the router is ignoring probes: wait before
+        // trying again. If it doesn't, the router may just be down right now, so try next sample.
+        if case .some(.none) = discovery, !internetProbe.isLost, let routerAddress {
+            routerPorts.discovered(port: nil, router: routerAddress, now: now)
+        }
         let recordedRouter = routerProbe.flatMap { routerPorts.record(router: $0, internet: internetProbe) }
 
         return Result(
@@ -67,10 +75,10 @@ public final class Sampler {
     }
 
     /// The faster of the two targets; lost only if both are.
-    nonisolated static func probeInternet() async -> Probe {
+    nonisolated static func probeInternet(timeout: TimeInterval = 2) async -> Probe {
         await withTaskGroup(of: Probe.self) { group in
             for target in internetTargets {
-                group.addTask { await TCPProbe.roundTrip(to: target, port: internetPort) }
+                group.addTask { await TCPProbe.roundTrip(to: target, port: internetPort, timeout: timeout) }
             }
             var best = Probe.lost
             for await probe in group {

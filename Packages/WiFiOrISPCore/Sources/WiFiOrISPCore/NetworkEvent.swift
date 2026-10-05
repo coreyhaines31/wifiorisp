@@ -48,6 +48,16 @@ public struct EventDetector: Sendable {
 
     public var isDropped: Bool { dropStart != nil }
 
+    /// Ends an open drop, for when monitoring stops (sleep, a test, quitting) before the internet
+    /// is seen coming back. Logging the end keeps the outage from looking like it never ended.
+    public mutating func close(at time: Date) -> NetworkEvent? {
+        guard let start = dropStart else { return nil }
+        dropStart = nil
+        lostRun = []
+        let ended = NetworkEvent.Kind.dropEnded(since: start, routerAnswered: routerAnsweredDuringDrop)
+        return NetworkEvent(time: max(time, start), kind: ended)
+    }
+
     public mutating func process(_ sample: Sample) -> [NetworkEvent] {
         var events = dropEvents(sample)
         if let previous, let old = previous.wifi, let new = sample.wifi, previous.link == .wifi, sample.link == .wifi {

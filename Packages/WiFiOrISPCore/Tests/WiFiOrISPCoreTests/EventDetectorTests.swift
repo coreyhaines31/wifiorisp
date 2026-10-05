@@ -85,4 +85,14 @@ struct EventDetectorTests {
         let other = WiFiReading(rssi: -50, noise: -92, txRate: 400, channel: 6, band: .ghz2, ssid: "Cafe", bssid: "cc")
         #expect(detector.process(sample(10, wifi: other)).map(\.kind) == [.networkChanged(from: "Home", to: "Cafe")])
     }
+
+    @Test func closingEndsAnOpenDrop() {
+        var detector = EventDetector()
+        _ = detector.process(sample(0, internet: .lost))
+        _ = detector.process(sample(10, internet: .lost))
+        let ended = detector.close(at: now.addingTimeInterval(10))
+        #expect(ended?.kind == .dropEnded(since: now, routerAnswered: true))
+        #expect(!detector.isDropped)
+        #expect(detector.close(at: now) == nil)
+    }
 }

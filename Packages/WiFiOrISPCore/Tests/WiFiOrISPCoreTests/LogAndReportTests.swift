@@ -78,11 +78,32 @@ struct ReportTests {
         #expect(summary.totalDowntime(now: now) == 90)
     }
 
-    @Test func anOpenDropIsOngoing() {
+    @Test func anUnendedDropEndsWhenTheInternetAnswersAgain() {
+        // samples() answer every 10 s up to `now`; the drop started at -60.
         let events = [NetworkEvent(time: now.addingTimeInterval(-60), kind: .dropStarted)]
         let summary = ReportSummary(log: Log(samples: samples(), events: events), start: lastHour, end: now)
-        #expect(summary.outages == [.init(start: now.addingTimeInterval(-60), end: nil, routerAnswered: nil)])
-        #expect(summary.totalDowntime(now: now) == 60)
+        let expected = ReportSummary.Outage(
+            start: now.addingTimeInterval(-60), end: now.addingTimeInterval(-50), routerAnswered: nil
+        )
+        #expect(summary.outages == [expected])
+    }
+
+    @Test func anUnendedDropStopsAtTheLastMeasurement() {
+        // Down until the app quit at -40; the report runs to `now`.
+        let down = samples(3, internet: .lost, now: now.addingTimeInterval(-40))
+        let events = [NetworkEvent(time: now.addingTimeInterval(-60), kind: .dropStarted)]
+        let summary = ReportSummary(log: Log(samples: down, events: events), start: lastHour, end: now)
+        #expect(summary.totalDowntime(now: now) == 20)
+    }
+
+    @Test func aSecondStartClosesAnUnendedDrop() {
+        let events = [
+            NetworkEvent(time: now.addingTimeInterval(-600), kind: .dropStarted),
+            NetworkEvent(time: now.addingTimeInterval(-60), kind: .dropStarted)
+        ]
+        let summary = ReportSummary(log: Log(events: events), start: lastHour, end: now)
+        #expect(summary.outages.count == 2)
+        #expect(summary.outages[0].end == now.addingTimeInterval(-60))
     }
 
     @Test func sharesTimeBySide() {

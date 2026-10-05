@@ -130,17 +130,24 @@ public final class ResponsivenessTest: Sendable {
     private let configURL: URL
     private let routerProbe: @Sendable () async -> Probe?
 
-    /// - Parameter routerProbe: times one round trip to the router, or returns nil if it can't be measured.
+    /// - Parameter routerProbe: times one round trip to the router (waiting up to `loadedProbeTimeout`),
+    ///   or returns nil if it can't be measured.
     public init(configURL: URL = defaultConfigURL, routerProbe: @escaping @Sendable () async -> Probe?) {
         self.configURL = configURL
         self.routerProbe = routerProbe
     }
 
+    /// Under heavy bufferbloat a round trip can take seconds. Probes wait this long, and one
+    /// that times out counts as this long rather than being dropped, which would hide the worst.
+    public static let loadedProbeTimeout: TimeInterval = 3
+
     /// Router and internet together, like the background monitor.
     private func pairedProbe() async -> (router: Double?, internet: Double?) {
         async let router = routerProbe()
-        async let internet = Sampler.probeInternet()
-        return await (router?.ms, internet.ms)
+        async let internet = Sampler.probeInternet(timeout: Self.loadedProbeTimeout)
+        let ceiling = Self.loadedProbeTimeout * 1000
+        let (routerProbe, internetProbe) = await (router, internet)
+        return (routerProbe.map { $0.ms ?? ceiling }, internetProbe.ms ?? ceiling)
     }
 
     public func run(

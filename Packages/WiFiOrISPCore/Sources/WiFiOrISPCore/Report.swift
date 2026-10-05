@@ -35,7 +35,7 @@ public struct ReportSummary: Equatable, Sendable {
         self.start = start
         self.end = end
         sampleCount = log.samples.count
-        outages = Self.outages(log.events)
+        outages = Self.outages(log.events, samples: log.samples)
         (ispSlowShare, yourSideSlowShare) = Self.slowShares(log.samples)
 
         let samples = log.samples
@@ -54,12 +54,21 @@ public struct ReportSummary: Equatable, Sendable {
         }
     }
 
-    private static func outages(_ events: [NetworkEvent]) -> [Outage] {
+    /// Pairs drop starts with their ends. A start with no end (the app quit mid-drop) ends at
+    /// the first sample afterwards where the internet answered, so it can't run on forever.
+    static func outages(_ events: [NetworkEvent], samples: [Sample]) -> [Outage] {
+        func recovery(after start: Date) -> Date? {
+            samples.first { $0.time > start && $0.internet?.ms != nil }?.time
+        }
         var outages: [Outage] = []
         var openStart: Date?
         for event in events {
             switch event.kind {
             case .dropStarted:
+                if let openStart {
+                    let end = recovery(after: openStart) ?? event.time
+                    outages.append(Outage(start: openStart, end: end, routerAnswered: nil))
+                }
                 openStart = event.time
             case .dropEnded(let since, let routerAnswered):
                 outages.append(Outage(start: since, end: event.time, routerAnswered: routerAnswered))
@@ -69,7 +78,9 @@ public struct ReportSummary: Equatable, Sendable {
             }
         }
         if let openStart {
-            outages.append(Outage(start: openStart, end: nil, routerAnswered: nil))
+            // Never answered again: count it up to the last measurement, not to the end of the report.
+            let lastSeen = samples.last.map(\.time).flatMap { $0 > openStart ? $0 : nil }
+            outages.append(Outage(start: openStart, end: recovery(after: openStart) ?? lastSeen, routerAnswered: nil))
         }
         return outages
     }

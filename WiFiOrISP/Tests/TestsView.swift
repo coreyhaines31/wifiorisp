@@ -59,8 +59,12 @@ final class TestsModel: ObservableObject {
     func runLagTest() {
         guard running == nil else { return }
         start(.lag(phase: ResponsivenessPhase.idle.rawValue, fraction: 0))
+        // Probe the router on the port the monitor found it answering on, so idle and loaded match.
+        let router = monitor.routerTarget
         let test = ResponsivenessTest(configURL: Preferences.responsivenessServer) {
-            await Self.routerProbe()
+            guard let router else { return nil }
+            let timeout = ResponsivenessTest.loadedProbeTimeout
+            return await TCPProbe.roundTrip(to: router.address, port: router.port, timeout: timeout)
         }
         Task {
             do {
@@ -88,19 +92,6 @@ final class TestsModel: ObservableObject {
     private func finish() {
         running = nil
         monitor.resume()
-    }
-
-    /// The router on the port that answers, the same way the background monitor finds it.
-    nonisolated static func routerProbe() async -> Probe? {
-        guard let route = Route.current() else { return nil }
-        let wifi = await MainActor.run { WiFiReader().interfaceName }
-        let router = wifi.flatMap(Route.router(for:)) ?? route.router
-        guard let router else { return nil }
-        for port: UInt16 in [53, 80, 443] {
-            let probe = await TCPProbe.roundTrip(to: router, port: port, timeout: 1)
-            if !probe.isLost { return probe }
-        }
-        return nil
     }
 
     static func label(_ phase: SpeedTestPhase) -> String {

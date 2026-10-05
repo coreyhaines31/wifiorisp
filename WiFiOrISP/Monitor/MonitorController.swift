@@ -57,13 +57,30 @@ final class MonitorController: ObservableObject {
 
     func resume() {
         isPaused = false
-        detector = EventDetector()
+        resetDetector()
         settlingUntil = Date().addingTimeInterval(PollPolicy.fastest)
         restartLoop()
     }
 
     func record(_ event: NetworkEvent) {
         try? store.append(event)
+    }
+
+    /// The router and the port the monitor found it answering on.
+    var routerTarget: (address: String, port: UInt16)? { sampler.routerTarget }
+
+    /// Called at quit, so a drop in progress gets an end in the log.
+    func stop() {
+        loop?.cancel()
+        resetDetector()
+    }
+
+    /// Starts drop detection over, closing any drop in progress at the last measurement.
+    private func resetDetector() {
+        if let ended = detector.close(at: lastSampleTime) {
+            try? store.append(ended)
+        }
+        detector = EventDetector()
     }
 
     // MARK: - Loop
@@ -123,7 +140,7 @@ final class MonitorController: ObservableObject {
 
     private func wake() {
         asleep = false
-        detector = EventDetector()
+        resetDetector()
         policy.reset()
         settlingUntil = Date().addingTimeInterval(Self.settleTime)
         if !isPaused {

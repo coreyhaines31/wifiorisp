@@ -17,4 +17,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         )
         monitor.start()
     }
+
+    func applicationWillTerminate(_ notification: Notification) {
+        monitor.stop()
+    }
 }
