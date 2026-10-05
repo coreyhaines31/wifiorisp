@@ -151,6 +151,7 @@ final class LoadFlow: NSObject, LoadGenerator, URLSessionDataDelegate, @unchecke
     private var transferred = 0
     private var stopped = false
     private var loadTask: URLSessionTask?
+    private var startedAt = Date()
     private lazy var session = URLSession(configuration: Self.configuration, delegate: self, delegateQueue: nil)
 
     init(download url: URL) {
@@ -162,7 +163,10 @@ final class LoadFlow: NSObject, LoadGenerator, URLSessionDataDelegate, @unchecke
 
     func start() {
         let task = session.dataTask(with: URLRequest(url: url, cachePolicy: .reloadIgnoringLocalAndRemoteCacheData))
-        lock.withLock { loadTask = task }
+        lock.withLock {
+            loadTask = task
+            startedAt = Date()
+        }
         task.resume()
     }
 
@@ -183,7 +187,11 @@ final class LoadFlow: NSObject, LoadGenerator, URLSessionDataDelegate, @unchecke
     }
 
     func urlSession(_ session: URLSession, task: URLSessionTask, didCompleteWithError error: Error?) {
-        let restart = lock.withLock { task === loadTask && !stopped }
+        // A transfer that ends almost at once (an error page, a dropped connection) would
+        // otherwise restart in a tight loop; give up on this flow instead.
+        let restart = lock.withLock {
+            task === loadTask && !stopped && Date().timeIntervalSince(startedAt) >= 1
+        }
         if restart {
             start()
         }
