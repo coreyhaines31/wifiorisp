@@ -82,8 +82,13 @@ final class Windows {
 
         let end = Date()
         let start = end.addingTimeInterval(-choices[picker.indexOfSelectedItem].1)
-        let log = monitor.store.load(from: start, to: end)
-        write(ISPReport.text(log: log, start: start, end: end), to: url)
+        let store = monitor.store
+        Task {
+            let text = await Task.detached {
+                ISPReport.text(log: store.load(from: start, to: end), start: start, end: end)
+            }.value
+            write(text, to: url)
+        }
     }
 
     func exportCSV() {
@@ -94,8 +99,12 @@ final class Windows {
         NSApp.activate()
         guard panel.runModal() == .OK, let url = panel.url else { return }
         let end = Date()
-        let log = monitor.store.load(from: end.addingTimeInterval(-Double(Preferences.keepDays) * 86400), to: end)
-        write(SampleCSV.text(log.samples), to: url)
+        let start = end.addingTimeInterval(-Double(Preferences.keepDays) * 86400)
+        let store = monitor.store
+        Task {
+            let text = await Task.detached { SampleCSV.text(store.load(from: start, to: end).samples) }.value
+            write(text, to: url)
+        }
     }
 
     private func write(_ text: String, to url: URL) {

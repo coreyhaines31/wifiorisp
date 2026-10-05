@@ -18,12 +18,18 @@ final class TestsModel: ObservableObject {
 
     init(monitor: MonitorController) {
         self.monitor = monitor
-        let log = monitor.store.load(from: Date().addingTimeInterval(-30 * 86400), to: Date())
-        for event in log.events {
-            switch event.kind {
-            case .speedTest(let result): speed = result
-            case .responsiveness(let result): lag = result
-            default: break
+        let store = monitor.store
+        Task {
+            let events = await Task.detached {
+                store.load(from: Date().addingTimeInterval(-30 * 86400), to: Date()).events
+            }.value
+            // Newest first, and never over a result from a test run while this loaded.
+            for event in events.reversed() {
+                switch event.kind {
+                case .speedTest(let result): speed = speed ?? result
+                case .responsiveness(let result): lag = lag ?? result
+                default: break
+                }
             }
         }
     }
