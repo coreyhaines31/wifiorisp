@@ -1,7 +1,7 @@
 import Foundation
 import WiFiOrISPCore
 
-// Development tool: `swift run wifiorisp-cli [samples|speed|rpm]`.
+// Development tool: `swift run wifiorisp-cli [samples|speed|rpm|report]`.
 let command = CommandLine.arguments.dropFirst().first ?? "samples"
 
 @MainActor
@@ -50,7 +50,16 @@ func responsiveness() async {
     }
 }
 
+func report() {
+    let end = Date()
+    let start = end.addingTimeInterval(-86400)
+    let log = LogStore(directory: LogStore.defaultDirectory).load(from: start, to: end)
+    print(ISPReport.text(log: log, start: start, end: end))
+}
+
 switch command {
+case "report":
+    report()
 case "speed":
     await speedTest()
 case "rpm":
