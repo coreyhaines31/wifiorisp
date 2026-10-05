@@ -144,4 +144,9 @@ struct TimelineTests {
     @Test func emptyRange() {
         #expect(Timeline.points(samples(), from: now, to: now).isEmpty)
     }
+
+    @Test func neutralizesFormulas() {
+        #expect(SampleCSV.escape("=HYPERLINK(1)") == "'=HYPERLINK(1)")
+        #expect(SampleCSV.escape("Home") == "Home")
+    }
 }

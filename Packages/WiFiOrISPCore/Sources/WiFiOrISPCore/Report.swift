@@ -258,6 +258,8 @@ public enum SampleCSV {
     }
 
     static func escape(_ field: String) -> String {
+        // A leading = + - or @ would run as a formula in a spreadsheet.
+        let field = field.first.map { "=+-@".contains($0) } == true ? "'" + field : field
         guard field.contains(where: { ",\"\n".contains($0) }) else { return field }
         return "\"" + field.replacingOccurrences(of: "\"", with: "\"\"") + "\""
     }
