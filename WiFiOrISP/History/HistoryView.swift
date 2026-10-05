@@ -25,7 +25,7 @@ final class HistoryModel: ObservableObject {
         }
     }
 
-    @Published var range: Range = .day {
+    @Published var range: Range = .hour {
         didSet { reload() }
     }
     @Published private(set) var points: [TimelinePoint] = []
@@ -111,7 +111,7 @@ struct HistoryView: View {
             }
         }
         .padding(20)
-        .frame(minWidth: 760, minHeight: 640)
+        .frame(minWidth: 760, minHeight: 640, alignment: .top)
         .onAppear { model.reload() }
     }
 
@@ -159,12 +159,19 @@ struct HistoryView: View {
     private func line(_ point: TimelinePoint, ms: Double, probe: String) -> some ChartContent {
         LineMark(x: .value("Time", point.start), y: .value("ms", min(ms, yCap)), series: .value("Probe", probe))
             .foregroundStyle(by: .value("Probe", probe))
+            .symbol(.circle)
+            .symbolSize(isSparse ? 20 : 0)
     }
+
+    /// With only a few points, lines alone can be invisible; mark each point too.
+    private var isSparse: Bool { model.points.count < 30 }
 
     private var signalChart: some View {
         Chart(model.points.filter { $0.rssi != nil }) { point in
             LineMark(x: .value("Time", point.start), y: .value("dBm", point.rssi ?? 0))
                 .foregroundStyle(.teal)
+                .symbol(.circle)
+                .symbolSize(isSparse ? 20 : 0)
         }
         .chartXScale(domain: model.start...model.end)
         .chartYScale(domain: -90 ... -30)
