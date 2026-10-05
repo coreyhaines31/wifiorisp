@@ -24,6 +24,8 @@ extension ResponsivenessTest {
         defer { connection.cancel() }
         let queue = DispatchQueue(label: "app.wifiorisp.foreign-probe")
 
+        // A server that connects but never answers would otherwise hold up the whole test.
+        queue.asyncAfter(deadline: .now() + 5) { connection.cancel() }
         guard await ready(connection, queue: queue) else { return nil }
         let handshakes = await withCheckedContinuation { continuation in
             connection.requestEstablishmentReport(queue: queue) { report in

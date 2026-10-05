@@ -169,8 +169,14 @@ public final class NDT7Client: Sendable {
                 }
             }
         }
+        // If the socket stalls, a send can wait forever; cancelling the task makes it throw.
+        let watchdog = Task {
+            try await Task.sleep(for: .seconds(Self.phaseLimit))
+            task.cancel(with: .normalClosure, reason: nil)
+        }
         defer {
             reader.cancel()
+            watchdog.cancel()
             task.cancel(with: .normalClosure, reason: nil)
         }
 
