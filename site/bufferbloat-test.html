@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bufferbloat Test — Free, in Your Browser</title>
+  <meta name="description" content="Test your connection for bufferbloat: how much your latency rises when the connection is busy. Free, runs in your browser in 25 seconds, with a grade and how to fix it.">
+  <link rel="canonical" href="https://wifiorisp.com/bufferbloat-test">
+  <meta property="og:title" content="Bufferbloat Test — Free, in Your Browser">
+  <meta property="og:description" content="Test your connection for bufferbloat: how much your latency rises when the connection is busy. Free, runs in your browser in 25 seconds, with a grade and how to fix it.">
+  <meta property="og:image" content="https://wifiorisp.com/images/icon.png">
+  <meta property="og:url" content="https://wifiorisp.com/bufferbloat-test">
+  <meta name="theme-color" content="#0b1530">
+  <link rel="icon" href="/images/icon.png">
+  <link rel="apple-touch-icon" href="/images/icon.png">
+  <link rel="stylesheet" href="/site.css">
+  <script src="https://cdn.usefathom.com/script.js" data-site="CRTCSZKQ" defer></script>
+  <script src="/bufferbloat.js" defer></script>
+</head>
+<body>
+  <header class="nav">
+    <div class="wrap">
+      <a class="brand" href="/"><img src="/images/icon.png" alt=""> WiFi or ISP</a>
+      <nav>
+        <a href="/#how">How it works</a>
+        <a href="/bufferbloat-test">Bufferbloat test</a>
+        <a href="https://github.com/coreyhaines31/wifiorisp">GitHub</a>
+        <a class="pill" href="https://github.com/coreyhaines31/wifiorisp/releases/latest">Download</a>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <section class="sub-hero">
+      <div class="wrap narrow">
+        <p class="eyebrow">Free bufferbloat test</p>
+        <h1>Bufferbloat test</h1>
+        <p class="lede">Speed tests tell you how fast your connection goes. This one tells you how laggy it gets while it's busy, which is why video calls stutter when someone starts a download.</p>
+        
+      </div>
+    </section>
+    <section class="tool">
+      <div class="wrap narrow">
+        <div class="bb-card">
+          <div class="bb-run">
+            <button class="pill big" id="bb-start" type="button">Start the test</button>
+            <span class="bb-live" id="bb-live" aria-live="polite"></span>
+          </div>
+          <div class="bb-track"><div class="bb-bar" id="bb-bar"></div></div>
+          <p class="bb-status" id="bb-status">Takes about 25 seconds. Close other downloads and video first.</p>
+          <div class="bb-result" id="bb-result" hidden>
+            <div class="bb-grade" id="bb-grade" data-grade="A">A</div>
+            <div>
+              <p class="bb-summary" id="bb-summary"></p>
+              <dl class="bb-numbers">
+                <dt>Idle latency</dt><dd id="bb-idle"></dd>
+                <dt>While downloading</dt><dd id="bb-down"></dd>
+                <dt>While uploading</dt><dd id="bb-up"></dd>
+                <dt>Download speed</dt><dd id="bb-down-rate"></dd>
+                <dt>Upload speed</dt><dd id="bb-up-rate"></dd>
+              </dl>
+            </div>
+          </div>
+          <p class="bb-note">Runs in your browser against Cloudflare's public speed test servers. Nothing is stored. Uses a few hundred MB on a fast connection.</p>
+        </div>
+      </div>
+    </section>
+    <section class="article">
+      <div class="wrap narrow prose">
+
+        <h2>What is bufferbloat?</h2>
+        <p>Every router and modem holds packets in a queue when more arrives than the line can carry. A small queue smooths out bursts. A big one fills up whenever something saturates your connection, like a cloud backup, a game update, or a 4K stream, and every other packet waits in line behind it.</p>
+        <p>That wait is <strong>bufferbloat</strong>. Your speed test still looks great, but a video call that needed a reply in 30 ms now waits 300 ms, and it freezes, talks over people, or drops.</p>
+
+        <h2>How to read your grade</h2>
+        <p>The grade is based on how much latency rises under load, in whichever direction is worse:</p>
+        <ul>
+          <li><strong>A+ or A</strong> (under 30 ms added): you won't notice it.</li>
+          <li><strong>B</strong> (30 to 60 ms): calls may hiccup during big transfers.</li>
+          <li><strong>C</strong> (60 to 200 ms): noticeable lag whenever the connection is busy.</li>
+          <li><strong>D or F</strong> (over 200 ms): real-time anything suffers during uploads and downloads.</li>
+        </ul>
+        <p>Upload bufferbloat is the most common kind on cable and DSL, because upload speeds are smaller and the modem's queue fills faster.</p>
+
+        <h2>How to fix bufferbloat</h2>
+        <ol class="steps">
+          <li><b>Turn on smart queueing in your router.</b> Look for Smart Queue Management (SQM), “Smart Queues”, or adaptive QoS in its settings. It keeps the queue short by sending traffic slightly slower than your line's maximum.</li>
+          <li><b>Set the limits a bit below your real speed.</b> Most SQM settings ask for your download and upload speeds. Use about 90% of what a speed test shows, so the queue forms in your router (where it's managed) instead of in the modem.</li>
+          <li><b>No such setting? Your router may be the bottleneck.</b> Many ISP-supplied routers have none. A router with SQM, or one that runs OpenWrt with <code>cake</code>, usually takes a C or D to an A.</li>
+          <li><b>Still bad with SQM on? Show your ISP.</b> If the queue is past your equipment, it's theirs to fix. Bring the numbers.</li>
+        </ol>
+
+        <h2>Is the queue in your Wi-Fi or past your router?</h2>
+        <p>A browser can't see your router, so this test can only say how much lag builds up, not where. The queue can sit in your Wi-Fi (a busy channel or your Mac's own upload), in your router, or in the modem and the ISP's network, and each one has a different fix.</p>
+        <p><a href="/">WiFi or ISP</a> for Mac runs the same kind of test, and while the connection is loaded it also times your router and the internet side by side. If the router slows down as much as the internet does, the queue is on your side. If the router stays quick, it's past it.</p>
+
+        <h2>How this test works</h2>
+        <p>It measures round trips to Cloudflare at idle, then fills your download with five parallel streams for 10 seconds, then your upload with four, timing round trips over a separate TCP connection the whole time. Cloudflare reports how long it spent on each reply, and that time is subtracted, so the numbers are network round trips. The first two seconds of each phase are skipped while the streams ramp up. Latency is the median, so one slow probe doesn't decide your grade.</p>
+
+      </div>
+    </section>
+    <section class="faq">
+      <div class="wrap narrow">
+        <h2>Questions</h2>
+        <details><summary>Is this a speed test?</summary><p>Partly. It reports the speeds it reached while loading the connection, but the point is the lag under load. A connection can be fast and still badly bloated.</p></details>
+        <details><summary>Why is my upload grade worse than my download?</summary><p>Upload is usually the smaller pipe, so its queue fills sooner. It's also where your own devices queue packets before they reach the router.</p></details>
+        <details><summary>Does Wi-Fi cause bufferbloat?</summary><p>It can. A busy Wi-Fi channel or a weak signal adds its own queue between your device and the router. Test on a cable to compare, or use WiFi or ISP, which checks the router and the internet separately.</p></details>
+        <details><summary>How is this different from Apple&#x27;s networkQuality?</summary><p>Both measure responsiveness under load. Apple's tool reports round trips per minute (RPM), and this page reports added milliseconds. WiFi or ISP uses the same IETF method as Apple and adds router probes to show where the queue is.</p></details>
+      </div>
+    </section>
+    <section class="cta">
+      <div class="wrap">
+        <img src="/images/icon.png" alt="" width="96" height="96">
+        <h2>Find out where the lag comes from.</h2>
+        <p class="cta-sub">WiFi or ISP is a free Mac menu bar app. It times your router and the internet at the same moment, says which side is slow, and keeps a log you can send your ISP.</p>
+        <div class="actions center">
+          <a class="pill big" href="https://github.com/coreyhaines31/wifiorisp/releases/latest"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11m-5-5 5 5 5-5M5 20h14"/></svg>Download free</a>
+        </div>
+        <p class="fineprint"><code>brew install --cask coreyhaines31/tap/wifiorisp</code></p>
+      </div>
+    </section>
+  </main>
+  <footer>
+    <div class="wrap">
+      <nav class="footer-links" aria-label="Guides"><a href="/bufferbloat-test">Bufferbloat test</a><a href="/why-is-my-wifi-so-slow">Why is my Wi-Fi so slow?</a><a href="/internet-keeps-dropping">Internet keeps dropping?</a></nav>
+      <nav class="footer-links" aria-label="Alternatives"><a href="/alternatives/">Alternatives</a></nav>
+      <span>© 2026 Corey Haines · Source available under <a href="https://github.com/coreyhaines31/wifiorisp/blob/main/LICENSE">FSL-1.1-MIT</a></span>
+      <span><a href="https://github.com/coreyhaines31/wifiorisp">GitHub</a> · <a href="https://github.com/coreyhaines31/wifiorisp/issues">Report a bug</a> · Also by Corey: <a href="https://midnightoil.app">Midnight Oil</a></span>
+    </div>
+  </footer>
+</body>
+</html>

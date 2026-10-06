@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Internet Keeps Dropping? How to Find Out Whose Fault It Is</title>
+  <meta name="description" content="If your internet keeps dropping, the key question is whether your router stays reachable while it&#x27;s down. Here&#x27;s how to check on a Mac, fix your side, and get your ISP to fix theirs.">
+  <link rel="canonical" href="https://wifiorisp.com/internet-keeps-dropping">
+  <meta property="og:title" content="Internet Keeps Dropping? How to Find Out Whose Fault It Is">
+  <meta property="og:description" content="If your internet keeps dropping, the key question is whether your router stays reachable while it&#x27;s down. Here&#x27;s how to check on a Mac, fix your side, and get your ISP to fix theirs.">
+  <meta property="og:image" content="https://wifiorisp.com/images/icon.png">
+  <meta property="og:url" content="https://wifiorisp.com/internet-keeps-dropping">
+  <meta name="theme-color" content="#0b1530">
+  <link rel="icon" href="/images/icon.png">
+  <link rel="apple-touch-icon" href="/images/icon.png">
+  <link rel="stylesheet" href="/site.css">
+  <script src="https://cdn.usefathom.com/script.js" data-site="CRTCSZKQ" defer></script>
+</head>
+<body>
+  <header class="nav">
+    <div class="wrap">
+      <a class="brand" href="/"><img src="/images/icon.png" alt=""> WiFi or ISP</a>
+      <nav>
+        <a href="/#how">How it works</a>
+        <a href="/bufferbloat-test">Bufferbloat test</a>
+        <a href="https://github.com/coreyhaines31/wifiorisp">GitHub</a>
+        <a class="pill" href="https://github.com/coreyhaines31/wifiorisp/releases/latest">Download</a>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <section class="sub-hero">
+      <div class="wrap narrow">
+        <p class="eyebrow">Guide</p>
+        <h1>Internet keeps dropping?</h1>
+        <p class="lede">Drops are maddening because they never happen while you're looking, or while your ISP is on the phone. One question settles whose problem it is: while the internet is down, can you still reach your router?</p>
+        <div class="tldr"><h2>The short answer</h2><p>If your router keeps answering while the internet is gone, the outage is your ISP's (or your modem's). If the router disappears too, it's your Wi-Fi or router. Catching that needs a log, because drops come and go.</p></div>
+      </div>
+    </section>
+    <section class="article">
+      <div class="wrap narrow prose">
+
+        <h2>The one test that settles it</h2>
+        <p>Next time it drops, open Terminal and run <code>ping 192.168.1.1</code> (your router's address, from System Settings → Wi-Fi → Details… → TCP/IP), and in a second window <code>ping 1.1.1.1</code>.</p>
+        <ul>
+          <li><strong>Router answers, internet doesn't:</strong> your home network is fine. The outage is past it, at the modem or the ISP.</li>
+          <li><strong>Neither answers:</strong> your Mac lost the router. That's your Wi-Fi signal, interference, or the router itself.</li>
+        </ul>
+        <p>The catch: you have to be watching when it happens. Drops that last 40 seconds at 2 AM, or every afternoon for a week, need something that checks all the time and writes it down.</p>
+
+        <h2>If your Mac loses the router</h2>
+        <ul>
+          <li><strong>Weak signal.</strong> At the edge of range, Wi-Fi drops and reconnects. Check signal strength (Option-click the Wi-Fi icon; RSSI below −75 is weak) and move closer or add an access point.</li>
+          <li><strong>Roaming between access points.</strong> In mesh or multi-AP homes, a Mac can hop to a farther access point and struggle there. Turning Wi-Fi off and on often moves it back.</li>
+          <li><strong>Interference on 2.4 GHz.</strong> Microwaves, Bluetooth, baby monitors, and neighbors all share it. Use 5 or 6 GHz if you can.</li>
+          <li><strong>An overheating or overloaded router.</strong> If drops hit every device at once, restart it, give it airflow, and update its firmware.</li>
+        </ul>
+
+        <h2>If the router stays up and the internet goes</h2>
+        <ul>
+          <li>Look at the modem's lights during a drop. A blinking or orange online light means it lost the line.</li>
+          <li>Check that coax or phone connections are finger-tight, and that there's no splitter you don't need.</li>
+          <li>Restart the modem, and check your ISP's outage page.</li>
+          <li>If it keeps happening, it's a line or network problem only your ISP can fix. Get the evidence together first.</li>
+        </ul>
+
+        <h2>How to get your ISP to actually fix it</h2>
+        <p>Support scripts start with “restart your router” and end with “it's working now.” What moves a ticket forward is a record: the date and time of each drop, how long it lasted, and proof your router was reachable the whole time. Five drops with timestamps get a technician sent out. “It keeps dropping” doesn't.</p>
+
+      </div>
+    </section>
+    <section class="faq">
+      <div class="wrap narrow">
+        <h2>Questions</h2>
+        <details><summary>Why does my internet drop at the same time every day?</summary><p>Regular drops point to something scheduled or periodic: heavy neighborhood use in the evening, a device on your network that syncs at that hour, or the ISP's equipment. Log a few days to see the pattern.</p></details>
+        <details><summary>Why does only my Mac lose the connection?</summary><p>Then it's the Mac's Wi-Fi link, not the internet: its signal, roaming, or the band it's on. Other devices staying online rules out the ISP.</p></details>
+        <details><summary>Is it my modem or my router?</summary><p>If the router stays reachable but nothing past it is, look at the modem's lights. A modem that loses its online light is losing the ISP's line.</p></details>
+      </div>
+    </section>
+    <section class="cta">
+      <div class="wrap">
+        <img src="/images/icon.png" alt="" width="96" height="96">
+        <h2>Catch every drop, and who caused it.</h2>
+        <p class="cta-sub">WiFi or ISP is a free Mac menu bar app. It times your router and the internet at the same moment, says which side is slow, and keeps a log you can send your ISP.</p>
+        <div class="actions center">
+          <a class="pill big" href="https://github.com/coreyhaines31/wifiorisp/releases/latest"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11m-5-5 5 5 5-5M5 20h14"/></svg>Download free</a>
+        </div>
+        <p class="fineprint"><code>brew install --cask coreyhaines31/tap/wifiorisp</code></p>
+      </div>
+    </section>
+  </main>
+  <footer>
+    <div class="wrap">
+      <nav class="footer-links" aria-label="Guides"><a href="/bufferbloat-test">Bufferbloat test</a><a href="/why-is-my-wifi-so-slow">Why is my Wi-Fi so slow?</a><a href="/internet-keeps-dropping">Internet keeps dropping?</a></nav>
+      <nav class="footer-links" aria-label="Alternatives"><a href="/alternatives/">Alternatives</a></nav>
+      <span>© 2026 Corey Haines · Source available under <a href="https://github.com/coreyhaines31/wifiorisp/blob/main/LICENSE">FSL-1.1-MIT</a></span>
+      <span><a href="https://github.com/coreyhaines31/wifiorisp">GitHub</a> · <a href="https://github.com/coreyhaines31/wifiorisp/issues">Report a bug</a> · Also by Corey: <a href="https://midnightoil.app">Midnight Oil</a></span>
+    </div>
+  </footer>
+</body>
+</html>
