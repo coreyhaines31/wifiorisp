@@ -1,0 +1,47 @@
+name: Release
+
+on:
+  push:
+    tags: ["v*"]
+
+jobs:
+  release:
+    runs-on: macos-latest
+    permissions:
+      contents: write
+    env:
+      TEAM_ID: KPQU8X839X
+      APPLE_ID: ${{ secrets.APPLE_ID }}
+      APPLE_APP_PASSWORD: ${{ secrets.APPLE_APP_PASSWORD }}
+      GH_TOKEN: ${{ github.token }}
+    # Skips quietly until the App Store Connect API key secrets exist;
+    # releases are made locally with Scripts/release.sh in the meantime.
+    if: ${{ vars.CI_RELEASES == 'true' }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # the build number is the commit count
+
+      - name: Install tools
+        run: brew install xcodegen
+
+      # Developer ID signing is cloud-managed: xcodebuild signs through an
+      # App Store Connect API key instead of a local certificate.
+      - name: Write App Store Connect API key
+        run: echo "${{ secrets.ASC_API_KEY }}" > "$RUNNER_TEMP/asc.p8"
+
+      - name: Write Sparkle private key
+        run: echo "${{ secrets.SPARKLE_PRIVATE_KEY }}" > "$RUNNER_TEMP/sparkle.key"
+
+      - name: Configure git for the Homebrew tap
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Build, notarize, and publish
+        env:
+          SPARKLE_KEY_FILE: ${{ runner.temp }}/sparkle.key
+          ASC_KEY_PATH: ${{ runner.temp }}/asc.p8
+          ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
+          ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
+        run: Scripts/release.sh "${GITHUB_REF_NAME#v}"
