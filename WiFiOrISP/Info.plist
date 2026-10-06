@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>$(DEVELOPMENT_LANGUAGE)</string>
+	<key>CFBundleDisplayName</key>
+	<string>WiFi or ISP</string>
+	<key>CFBundleExecutable</key>
+	<string>$(EXECUTABLE_NAME)</string>
+	<key>CFBundleIdentifier</key>
+	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>CFBundleName</key>
+	<string>$(PRODUCT_NAME)</string>
+	<key>CFBundlePackageType</key>
+	<string>APPL</string>
+	<key>CFBundleShortVersionString</key>
+	<string>$(MARKETING_VERSION)</string>
+	<key>CFBundleVersion</key>
+	<string>$(CURRENT_PROJECT_VERSION)</string>
+	<key>LSApplicationCategoryType</key>
+	<string>public.app-category.utilities</string>
+	<key>LSUIElement</key>
+	<true/>
+	<key>NSHumanReadableCopyright</key>
+	<string>Copyright © 2026 Corey Haines. FSL-1.1-MIT.</string>
+	<key>NSLocationUsageDescription</key>
+	<string>macOS only shows apps the Wi-Fi network name (and which access point you're on) with Location access. WiFi or ISP uses it to label your history by network and to spot roaming. It never reads or stores where you are.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>macOS only shows apps the Wi-Fi network name (and which access point you're on) with Location access. WiFi or ISP uses it to label your history by network and to spot roaming. It never reads or stores where you are.</string>
+	<key>SUEnableAutomaticChecks</key>
+	<true/>
+	<key>SUFeedURL</key>
+	<string>https://github.com/coreyhaines31/wifiorisp/releases/latest/download/appcast.xml</string>
+	<key>SUPublicEDKey</key>
+	<string>5MTMTktA0NUipG5n3iJy+27VbXN9uKgO2BbCgK8yUKU=</string>
+</dict>
+</plist>

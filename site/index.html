@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>WiFi or ISP — Is your slow internet your Wi-Fi or your ISP?</title>
+  <meta name="description" content="A free Mac menu bar app that times your router and the internet at the same moment, then tells you which one is slow. Keeps a log of drops and slowdowns you can send your ISP.">
+  <meta property="og:title" content="WiFi or ISP — Is your slow internet your Wi-Fi or your ISP?">
+  <meta property="og:description" content="A free Mac menu bar app that tells you which side to blame, and keeps the receipts for your ISP.">
+  <meta property="og:image" content="https://wifiorisp.com/images/icon.png">
+  <meta property="og:url" content="https://wifiorisp.com">
+  <meta name="theme-color" content="#0b1530">
+  <link rel="icon" href="/images/icon.png">
+  <link rel="apple-touch-icon" href="/images/icon.png">
+  <link rel="stylesheet" href="/site.css">
+</head>
+<body>
+  <header class="nav">
+    <div class="wrap">
+      <a class="brand" href="/"><img src="/images/icon.png" alt=""> WiFi or ISP</a>
+      <nav>
+        <a href="#how">How it works</a>
+        <a href="#faq">FAQ</a>
+        <a href="https://github.com/coreyhaines31/wifiorisp">GitHub</a>
+        <a class="pill" href="https://github.com/coreyhaines31/wifiorisp/releases/latest">Download</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="wrap hero-grid">
+        <div class="hero-copy">
+          <p class="kicker"><span class="dot"></span>Free for Mac · No account · No tracking</p>
+          <h1>Is it your Wi&#8209;Fi<br>or <em>your ISP?</em></h1>
+          <p class="lede">WiFi or ISP sits in your menu bar and times your router and the internet at the same moment. When things slow down, it tells you which side to blame, and keeps the receipts for your ISP.</p>
+          <div class="actions">
+            <a class="pill big" href="https://github.com/coreyhaines31/wifiorisp/releases/latest">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11m-5-5 5 5 5-5M5 20h14"/></svg>Download free</a>
+            <a class="pill big ghost" href="https://github.com/coreyhaines31/wifiorisp">View source code</a>
+          </div>
+          <p class="fineprint">macOS 14 or later · Apple Silicon and Intel · Notarized by Apple<br><code>brew install --cask coreyhaines31/tap/wifiorisp</code></p>
+        </div>
+
+        <div class="hero-demo" role="img" aria-label="The WiFi or ISP menu open, saying: Slow: ISP, not WiFi. Router 4 ms, internet 186 ms.">
+          <div class="menubar">
+            <span class="mb-left"><span class="apple"></span><b>Zoom</b><span>Meeting</span><span>View</span></span>
+            <span class="mb-right"><span class="mb-item active"><svg viewBox="0 0 24 24" aria-hidden="true"><path class="globe" d="M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18Zm0 0c2.5 2.4 3.8 5.4 3.8 9s-1.3 6.6-3.8 9m0-18C9.5 5.4 8.2 8.4 8.2 12s1.3 6.6 3.8 9M3.5 9h17M3.5 15h17"/></svg> −52 dBm · ISP</span><span>Tue 9:41 AM</span></span>
+          </div>
+          <div class="nsmenu">
+            <div class="card">
+              <div class="headline"><i class="led isp"></i>Slow: ISP, not WiFi</div>
+              <p>Router 4 ms, internet 186 ms (17% lost), signal −52 dBm. Your router answers quickly, so the delay is past it: your ISP, or your modem.</p>
+              <dl>
+                <dt>Network</dt><dd>Home</dd>
+                <dt>Signal</dt><dd>−52 dBm (excellent)</dd>
+                <dt>Noise</dt><dd>−94 dBm, SNR 42 dB</dd>
+                <dt>Band</dt><dd>5 GHz, channel 149</dd>
+                <dt>Router</dt><dd class="good">4 ms</dd>
+                <dt>Internet</dt><dd class="bad">186 ms</dd>
+              </dl>
+            </div>
+            <div class="sep"></div>
+            <div class="mi">Run Speed Test…</div>
+            <div class="mi">Test Lag Under Load…</div>
+            <div class="mi">History…<span>⌘H</span></div>
+            <div class="mi">Export Report for Your ISP…<span>⌘E</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="how" id="how">
+      <div class="wrap">
+        <h2>One question, answered with two numbers.</h2>
+        <p class="section-lede">Every few seconds, the app times a round trip to your router and, at the same moment, one to the internet. Your router is the border: everything before it is yours, everything after it is your ISP's.</p>
+
+        <div class="line" aria-hidden="true">
+          <div class="node"><span class="glyph mac"></span>Your Mac</div>
+          <div class="hop yours"><span>Wi&#8209;Fi</span></div>
+          <div class="node"><span class="glyph router"></span>Router</div>
+          <div class="hop theirs"><span>ISP</span></div>
+          <div class="node"><span class="glyph globe"></span>Internet</div>
+        </div>
+        <div class="sides" aria-hidden="true"><span class="yours">Your side</span><span class="theirs">Their side</span></div>
+
+        <div class="cases">
+          <article class="case">
+            <div class="nums"><span class="good">Router 4 ms</span><span class="bad">Internet 186 ms</span></div>
+            <h3><i class="led isp"></i>Slow: ISP, not WiFi</h3>
+            <p>Your router answers right away, so the slowdown is past it. Call your ISP, and send them the report.</p>
+          </article>
+          <article class="case">
+            <div class="nums"><span class="bad">Router 92 ms</span><span class="bad">Signal −81 dBm</span></div>
+            <h3><i class="led yours"></i>Slow: weak WiFi signal</h3>
+            <p>Even the router is slow to answer, and the signal is weak. Move closer, or add an access point.</p>
+          </article>
+          <article class="case">
+            <div class="nums"><span class="bad">Router 88 ms</span><span class="good">Signal −52 dBm</span></div>
+            <h3><i class="led yours"></i>Slow: WiFi or router, not ISP</h3>
+            <p>Strong signal, slow router. That's a crowded channel or an overloaded router. Restart it, or change its channel.</p>
+          </article>
+          <article class="case">
+            <div class="nums"><span class="good">Router answers</span><span class="bad">Internet silent</span></div>
+            <h3><i class="led isp"></i>Offline: ISP is down, WiFi is fine</h3>
+            <p>Your home network works. The outage is upstream, and the app notes exactly when it started and ended.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="recorder">
+      <div class="wrap two">
+        <div>
+          <h2>A flight recorder for your connection.</h2>
+          <p>Slow internet never happens while the support rep is on the phone. So WiFi or ISP logs it in the background: signal, noise, transmit rate, roaming, router and internet round trips, and every drop. Look back an hour or a month.</p>
+          <p>When you're ready to complain, export a plain-text report. It lists each outage and whether your router kept answering through it, which is the part that makes an ISP stop telling you to restart your router.</p>
+        </div>
+        <div class="stack">
+          <figure class="chart" role="img" aria-label="A 24-hour chart: router latency flat near 4 ms, internet latency spiking past 200 ms in the evening, with two outages shaded red.">
+            <figcaption><b>Round trip (ms)</b><span><i class="k isp"></i>Internet <i class="k router"></i>Router</span></figcaption>
+            <svg viewBox="0 0 600 200" preserveAspectRatio="none">
+              <g class="grid"><path d="M0 50H600M0 100H600M0 150H600"/></g>
+              <rect class="outage" x="352" y="0" width="18" height="190"/>
+              <rect class="outage" x="452" y="0" width="34" height="190"/>
+              <path class="l-isp" d="M0 172 L40 170 L80 173 L120 169 L160 171 L200 166 L240 160 L270 128 L300 96 L325 60 L345 84 L352 70 M370 64 L395 38 L420 92 L452 66 M486 112 L520 150 L560 166 L600 170"/>
+              <path class="l-router" d="M0 186 L600 186"/>
+            </svg>
+            <div class="axis"><span>6 AM</span><span>Noon</span><span>6 PM</span><span>Now</span></div>
+          </figure>
+          <pre class="report"><b>Connection report</b>
+Period: Oct 1 at 9:00 AM to Oct 8 at 9:00 AM
+
+- Outages: 3, 47 min in total.
+  During 3 of them, my router kept answering
+  while nothing past it did, so the outage was
+  on the ISP's side.
+- Slow because of the ISP's side: 9.4%
+- Slow because of my home network: 0.6%
+- Typical round trip to my router: 4 ms.</pre>
+        </div>
+      </div>
+    </section>
+
+    <section class="alerts">
+      <div class="wrap two flip">
+        <div class="toasts" role="img" aria-label="Three notifications: Internet dropped, Switched to 2.4 GHz, and Roamed to a weaker access point.">
+          <div class="toast"><img src="/images/icon.png" alt=""><div><b>Internet dropped</b><span>Your router is still answering, so the outage is past it: your ISP's side.</span></div></div>
+          <div class="toast"><img src="/images/icon.png" alt=""><div><b>Switched to 2.4 GHz</b><span>Your Mac moved to the slower 2.4 GHz band on “Home”.</span></div></div>
+          <div class="toast"><img src="/images/icon.png" alt=""><div><b>Roamed to a weaker access point</b><span>Signal went from −55 to −74 dBm.</span></div></div>
+        </div>
+        <div>
+          <h2>Know the moment it happens.</h2>
+          <p>Get a heads-up when the internet drops (and when it's back, with how long it was gone), when your Mac quietly falls back to 2.4 GHz, or when it roams to an access point that's worse than the one it left.</p>
+          <p>Turn each one off in Settings. Reconnecting after sleep never counts as a drop.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="tests">
+      <div class="wrap">
+        <h2>Two tests that settle arguments.</h2>
+        <div class="test-grid">
+          <article class="test">
+            <h3>Speed</h3>
+            <div class="speed"><div><b>412</b><span>Mbps down</span></div><div><b>38</b><span>Mbps up</span></div></div>
+            <p>Measured against the nearest <a href="https://www.measurementlab.net">Measurement Lab</a> server, a nonprofit research project. M-Lab publishes every result as open data, and the app tells you so before your first test. Runs only when you click it.</p>
+          </article>
+          <article class="test">
+            <h3>Lag under load</h3>
+            <div class="rpm"><b>205</b><span>RPM · Low</span></div>
+            <p class="verdict"><i class="led isp"></i>Lags under load: past your router (bufferbloat)</p>
+            <p>Fills your connection both ways and measures how slow round trips get, using the IETF responsiveness test. Router probes during the test show whether the queue is on your side or past it, and what to change.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="trust">
+      <div class="wrap">
+        <h2>Light on your Mac. Silent about you.</h2>
+        <div class="trust-grid">
+          <div><h3>No tracking</h3><p>No analytics, no account. History stays on your Mac, and nothing is sent anywhere except the tests you start.</p></div>
+          <div><h3>Location, only for a name</h3><p>macOS treats your Wi-Fi network's name as location data. Allow it and your history is labeled by network. Skip it and everything else still works.</p></div>
+          <div><h3>Never scans</h3><p>It reads your current connection without scanning for networks, and backs off if macOS's Wi-Fi service gets busy.</p></div>
+          <div><h3>No admin rights</h3><p>Round trips are timed with ordinary connections, not ping, so there's nothing to install with a password.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="faq" id="faq">
+      <div class="wrap narrow">
+        <h2>Questions</h2>
+        <details><summary>Why is my Wi-Fi so slow?</summary><p>Usually one of three things: a weak signal (too far from the router, or walls in the way), a crowded channel or overloaded router, or a problem past your router at your ISP. Each one looks the same from your browser. WiFi or ISP tells them apart by timing your router and the internet together.</p></details>
+        <details><summary>What does “WiFi” mean in the verdict?</summary><p>Your side of the line: your Mac's radio, the air, and your router. “ISP” means everything past the router, including your modem and the line to your provider. If your router is slow, that's on your side, even with a strong signal.</p></details>
+        <details><summary>What is bufferbloat?</summary><p>When an upload or download fills your connection, packets pile up in a queue and every round trip slows down. That's why video calls stutter while a backup runs. The lag-under-load test measures it and says whether the queue is in your Wi-Fi or router, or past it. Turning on Smart Queue Management (SQM) on your router usually fixes it.</p></details>
+        <details><summary>Does it run speed tests all the time?</summary><p>No. The background checks are single tiny round trips, every 5 to 30 seconds. Speed and lag tests only run when you click them.</p></details>
+        <details><summary>Why does it ask for Location?</summary><p>Only to show your Wi-Fi network's name, which macOS treats as location data. The app never asks where you are. Say no and it shows “Unknown network”.</p></details>
+        <details><summary>Does it work over Ethernet or a VPN?</summary><p>Yes. On a cable it skips the signal readings and still compares your router with the internet. With a VPN on, it still measures the Wi-Fi network underneath.</p></details>
+        <details><summary>Is it really free?</summary><p>Yes. The source is on GitHub under the Functional Source License, which turns into the MIT license two years after each release.</p></details>
+      </div>
+    </section>
+
+    <section class="cta">
+      <div class="wrap">
+        <img src="/images/icon.png" alt="" width="96" height="96">
+        <h2>Next time it's slow, know who to call.</h2>
+        <div class="actions center">
+          <a class="pill big" href="https://github.com/coreyhaines31/wifiorisp/releases/latest">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11m-5-5 5 5 5-5M5 20h14"/></svg>Download free</a>
+        </div>
+        <p class="fineprint"><code>brew install --cask coreyhaines31/tap/wifiorisp</code></p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <span>© 2026 Corey Haines · Source available under <a href="https://github.com/coreyhaines31/wifiorisp/blob/main/LICENSE">FSL-1.1-MIT</a></span>
+      <span><a href="https://github.com/coreyhaines31/wifiorisp">GitHub</a> · <a href="https://github.com/coreyhaines31/wifiorisp/issues">Report a bug</a> · Also by Corey: <a href="https://midnightoil.app">Midnight Oil</a></span>
+    </div>
+  </footer>
+</body>
+</html>

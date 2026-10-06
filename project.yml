@@ -1,0 +1,62 @@
+name: WiFiOrISP
+options:
+  bundleIdPrefix: app.wifiorisp
+  deploymentTarget:
+    macOS: "14.0"
+  createIntermediateGroups: true
+settings:
+  base:
+    SWIFT_VERSION: "6.0"
+    MARKETING_VERSION: "0.1.0"
+    CURRENT_PROJECT_VERSION: "1"
+    ENABLE_HARDENED_RUNTIME: YES
+    DEVELOPMENT_TEAM: KPQU8X839X
+    CODE_SIGN_STYLE: Automatic
+    DEAD_CODE_STRIPPING: YES
+packages:
+  WiFiOrISPCore:
+    path: Packages/WiFiOrISPCore
+  Sparkle:
+    url: https://github.com/sparkle-project/Sparkle
+    exactVersion: "2.10.0"
+targets:
+  WiFiOrISP:
+    type: application
+    platform: macOS
+    sources:
+      - WiFiOrISP
+    dependencies:
+      - package: WiFiOrISPCore
+      - package: Sparkle
+    entitlements:
+      path: WiFiOrISP/WiFiOrISP.entitlements
+      properties:
+        com.apple.security.personal-information.location: true
+    info:
+      path: WiFiOrISP/Info.plist
+      properties:
+        CFBundleDisplayName: WiFi or ISP
+        CFBundleShortVersionString: $(MARKETING_VERSION)
+        CFBundleVersion: $(CURRENT_PROJECT_VERSION)
+        LSUIElement: true
+        LSApplicationCategoryType: public.app-category.utilities
+        NSHumanReadableCopyright: Copyright © 2026 Corey Haines. FSL-1.1-MIT.
+        NSLocationUsageDescription: macOS only shows apps the Wi-Fi network name (and which access point you're on) with Location access. WiFi or ISP uses it to label your history by network and to spot roaming. It never reads or stores where you are.
+        NSLocationWhenInUseUsageDescription: macOS only shows apps the Wi-Fi network name (and which access point you're on) with Location access. WiFi or ISP uses it to label your history by network and to spot roaming. It never reads or stores where you are.
+        SUFeedURL: https://github.com/coreyhaines31/wifiorisp/releases/latest/download/appcast.xml
+        SUPublicEDKey: 5MTMTktA0NUipG5n3iJy+27VbXN9uKgO2BbCgK8yUKU=
+        SUEnableAutomaticChecks: true
+    settings:
+      base:
+        PRODUCT_NAME: WiFi or ISP
+        PRODUCT_MODULE_NAME: WiFiOrISP
+        PRODUCT_BUNDLE_IDENTIFIER: app.wifiorisp.WiFiOrISP
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+schemes:
+  WiFiOrISP:
+    build:
+      targets:
+        WiFiOrISP: all
+    test:
+      targets:
+        - package: WiFiOrISPCore/WiFiOrISPCoreTests
