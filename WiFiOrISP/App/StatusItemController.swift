@@ -36,14 +36,7 @@ final class StatusItemController: NSObject, NSMenuDelegate {
 
     private func refreshButton() {
         let verdict = monitor.verdict
-        let symbol = Self.symbol(for: verdict, link: monitor.latest?.link)
-        // The plain Wi-Fi icon fills its bars with the signal, like the system's own.
-        let strength = monitor.latest?.wifi.map { PlainLanguage.signalStrength(rssi: $0.rssi) }
-        let image = symbol == "wifi" && strength != nil
-            ? NSImage(systemSymbolName: symbol, variableValue: strength ?? 1, accessibilityDescription: nil)
-            : NSImage(systemSymbolName: symbol, accessibilityDescription: nil)
-        image?.isTemplate = true
-        statusItem.button?.image = image
+        statusItem.button?.image = RouterIcon.menuBarImage(Self.lights(for: verdict, latest: monitor.latest))
 
         var parts: [String] = []
         if Preferences.showsSignalInMenuBar, let rssi = monitor.latest?.wifi?.rssi {
@@ -60,13 +53,12 @@ final class StatusItemController: NSObject, NSMenuDelegate {
         statusItem.button?.toolTip = verdict.headline
     }
 
-    static func symbol(for verdict: Verdict, link: NetworkLink?) -> String {
-        switch verdict.kind {
-        case .notConnected: return "wifi.slash"
-        case .isp, .ispDown: return "globe"
-        case .weakSignal, .localNetwork, .routerUnreachable, .offline: return "wifi.exclamationmark"
-        default: return link == .wired ? "cable.connector" : "wifi"
-        }
+    /// LEDs show signal strength while things are fine; they go dark when something's wrong.
+    static func lights(for verdict: Verdict, latest: Sample?) -> RouterIcon.Lights {
+        if verdict.kind == .notConnected { return .off }
+        if verdict.isProblem { return .dark }
+        guard let wifi = latest?.wifi else { return .bars(3) }
+        return .bars(RouterIcon.bars(strength: PlainLanguage.signalStrength(rssi: wifi.rssi)))
     }
 
     // MARK: - Menu
