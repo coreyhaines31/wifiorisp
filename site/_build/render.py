@@ -5,6 +5,7 @@ plus sitemap.xml and the homepage footer links.
     python3 site/_build/render.py
 """
 import html
+import json
 import os
 import sys
 
@@ -16,6 +17,9 @@ ROOT = os.path.join(os.path.dirname(__file__), "..")
 SITE = "https://wifiorisp.com"
 DOWNLOAD = "https://github.com/coreyhaines31/wifiorisp/releases/latest"
 REPO = "https://github.com/coreyhaines31/wifiorisp"
+UPDATED = "2026-10-06"
+UPDATED_TEXT = "October 6, 2026"
+AUTHOR = {"@type": "Person", "name": "Corey Haines", "url": "https://corey.co"}
 DOWNLOAD_ICON = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11m-5-5 5 5 5-5M5 20h14"/></svg>'
 
 
@@ -105,15 +109,38 @@ def faq(items):
 '''
 
 
+def structured_data(page, path):
+    """Article plus FAQ schema, as JSON-LD."""
+    graph = [{
+        "@type": "Article",
+        "headline": html.unescape(page["title"]),
+        "description": page["description"],
+        "url": f"{SITE}{path}",
+        "dateModified": UPDATED,
+        "author": AUTHOR,
+        "publisher": {"@type": "Organization", "name": "WiFi or ISP", "logo": f"{SITE}/images/icon.png"},
+    }]
+    if page.get("faqs"):
+        graph.append({
+            "@type": "FAQPage",
+            "mainEntity": [{"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}}
+                           for q, a in page["faqs"]],
+        })
+    data = json.dumps({"@context": "https://schema.org", "@graph": graph}, ensure_ascii=False)
+    return f'\n  <script type="application/ld+json">{data}</script>'
+
+
 def article(page, path):
     tldr = f'<div class="tldr"><h2>The short answer</h2><p>{page["tldr"]}</p></div>' if page.get("tldr") else ""
-    return (head(page["title"], page["description"], path, page.get("scripts", ""))
+    scripts = page.get("scripts", "") + structured_data(page, path)
+    return (head(page["title"], page["description"], path, scripts)
             + f'''  <main>
     <section class="sub-hero">
       <div class="wrap narrow">
         <p class="eyebrow">{esc(page["eyebrow"])}</p>
         <h1>{page["h1"]}</h1>
         <p class="lede">{page["lede"]}</p>
+        <p class="byline">By <a href="https://corey.co">Corey Haines</a>, maker of WiFi or ISP · Updated {UPDATED_TEXT}</p>
         {tldr}
       </div>
     </section>
@@ -171,7 +198,7 @@ def update_homepage_footer():
 
 
 def sitemap(paths):
-    urls = "\n".join(f"  <url><loc>{SITE}{p}</loc></url>" for p in paths)
+    urls = "\n".join(f"  <url><loc>{SITE}{p}</loc><lastmod>{UPDATED}</lastmod></url>" for p in paths)
     return f'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n{urls}\n</urlset>\n'
 
 
