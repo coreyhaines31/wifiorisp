@@ -132,7 +132,7 @@ struct VerdictTests {
 
     @Test func detailCarriesTheNumbers() {
         let verdict = VerdictEngine.evaluate(samples(internet: .reply(ms: 180)), now: now)
-        #expect(verdict.detail.hasPrefix("Router 3 ms, internet 180 ms, signal -55 dBm."))
+        #expect(verdict.detail.hasPrefix("Your router answers in 3 ms, but the internet takes 180 ms."))
     }
 
     @Test func signalQualityThresholds() {
@@ -140,6 +140,32 @@ struct VerdictTests {
         #expect(VerdictEngine.SignalQuality(rssi: -67, snr: 40) == .fair)
         #expect(VerdictEngine.SignalQuality(rssi: -50, snr: 20) == .fair)
         #expect(VerdictEngine.SignalQuality(rssi: -75, snr: 40) == .weak)
+    }
+}
+
+struct PlainLanguageTests {
+    @Test func describesAGoodConnectionWithoutUnits() {
+        let detail = VerdictEngine.evaluate(samples(rssi: -40), now: now).detail
+        #expect(detail == "Your Wi-Fi signal is excellent, and your router and the internet both answer quickly.")
+        #expect(!detail.contains("dBm"))
+    }
+
+    @Test func mentionsMissedChecks() {
+        var list = samples(router: .reply(ms: 60))
+        list[2].router = .lost
+        #expect(VerdictEngine.evaluate(list, now: now).detail.contains("missing 17% of checks"))
+    }
+
+    @Test func words() {
+        #expect(PlainLanguage.signal(rssi: -40, snr: 50) == "Excellent")
+        #expect(PlainLanguage.signal(rssi: -62, snr: 30) == "Good")
+        #expect(PlainLanguage.signal(rssi: -80, snr: 10) == "Weak")
+        #expect(PlainLanguage.router(6) == .fast)
+        #expect(PlainLanguage.router(90) == .slow)
+        #expect(PlainLanguage.internet(15) == .fast)
+        #expect(PlainLanguage.internet(90) == .okay)
+        #expect(PlainLanguage.signalStrength(rssi: -37) == 1)
+        #expect(PlainLanguage.signalStrength(rssi: -95) == 0)
     }
 }
 

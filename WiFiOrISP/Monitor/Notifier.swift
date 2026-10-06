@@ -32,8 +32,8 @@ final class Notifier {
             guard allowed(kind, at: event.time) else { return }
             post(
                 title: "Roamed to a weaker access point",
-                body: "Signal went from \(from) to \(to) dBm. "
-                    + "Turning Wi-Fi off and on can move you back to a closer one."
+                body: "Your Mac switched to an access point with a weaker signal (\(Self.signalWord(from)) to "
+                    + "\(Self.signalWord(to))). Turning Wi-Fi off and on can move you back to a closer one."
             )
         default:
             break
@@ -57,6 +57,11 @@ final class Notifier {
             .formatted(.units(allowed: [.hours, .minutes, .seconds], width: .wide, maximumUnitCount: 2))
         let side = routerAnswered == true ? " Your router answered throughout, so it was the ISP." : ""
         post(title: "Back online", body: "The internet was down for \(duration).\(side)")
+    }
+
+    /// Roams don't carry noise readings, so judge the words on signal alone.
+    private static func signalWord(_ rssi: Int) -> String {
+        PlainLanguage.signal(rssi: rssi, snr: 99).lowercased()
     }
 
     private func allowed(_ kind: AlertKind, at time: Date) -> Bool {

@@ -151,6 +151,7 @@ public enum VerdictEngine {
         var internetLoss: Double
         var signal: SignalQuality?
         var rssi: Int?
+        var snr: Int?
 
         init(_ recent: [Sample]) {
             link = recent.last?.link ?? .none
@@ -166,6 +167,7 @@ public enum VerdictEngine {
             if let rssi = Statistics.median(readings.map { Double($0.rssi) }),
                let snr = Statistics.median(readings.map { Double($0.snr) }) {
                 self.rssi = Int(rssi.rounded())
+                self.snr = Int(snr.rounded())
                 signal = SignalQuality(rssi: Int(rssi.rounded()), snr: Int(snr.rounded()))
             }
         }
@@ -184,72 +186,65 @@ public enum VerdictEngine {
             return internetLoss >= VerdictEngine.lossThreshold || gap > VerdictEngine.slowISPGapMs
         }
 
-        var numbers: String {
-            var parts: [String] = []
-            if let routerMedian {
-                parts.append("router \(Self.format(routerMedian))\(Self.lossNote(routerLoss))")
-            } else if !routerMeasured {
-                parts.append("router not measurable")
-            }
-            if let internetMedian {
-                parts.append("internet \(Self.format(internetMedian))\(Self.lossNote(internetLoss))")
-            }
-            if let rssi {
-                parts.append("signal \(rssi) dBm")
-            }
-            return parts.joined(separator: ", ").capitalizedFirst + "."
+        /// "4 ms", plus how many checks went unanswered, if any.
+        static func timing(_ ms: Double?, loss: Double) -> String {
+            let time = ms.map { "\(Int($0.rounded())) ms" } ?? "no answer"
+            return loss > 0 ? "\(time), missing \(Int((loss * 100).rounded()))% of checks" : time
         }
 
-        static func format(_ ms: Double) -> String { "\(Int(ms.rounded())) ms" }
+        var router: String { Self.timing(routerMedian, loss: routerLoss) }
+        var internet: String { Self.timing(internetMedian, loss: internetLoss) }
 
-        static func lossNote(_ loss: Double) -> String {
-            loss > 0 ? " (\(Int((loss * 100).rounded()))% lost)" : ""
+        /// "excellent", "weak", and so on, for use mid-sentence.
+        var signalWord: String {
+            guard let rssi, let snr else { return "unknown" }
+            return PlainLanguage.signal(rssi: rssi, snr: snr).lowercased()
         }
     }
 
     static func slownessVerdict(_ measured: Measurements) -> Verdict {
         let wifi = measured.link == .wifi
-        let weak = measured.signal == .weak
         if measured.routerSlow {
             return yourSideVerdict(measured)
         }
         if measured.ispSlow {
             return ispVerdict(measured)
         }
-        if wifi && weak {
+        if wifi && measured.signal == .weak {
             return Verdict(
                 kind: .goodWeakSignal, headline: "Fine, but WiFi signal is weak", short: nil,
-                detail: "\(measured.numbers) Everything answers on time for now, "
-                    + "but the signal is weak enough to cause drops."
+                detail: "Everything answers on time for now, but your Wi-Fi signal is weak enough to cause drops. "
+                    + "Moving closer to the router helps."
             )
         }
         return Verdict(
             kind: .good,
             headline: wifi ? "Fine: WiFi and ISP both OK" : "Fine: network and ISP both OK", short: nil,
-            detail: measured.numbers
+            detail: wifi
+                ? "Your Wi-Fi signal is \(measured.signalWord), and your router and the internet both answer quickly."
+                : "Your router and the internet both answer quickly."
         )
     }
 
     /// The router itself is slow: the problem is on your side of the line.
     private static func yourSideVerdict(_ measured: Measurements) -> Verdict {
         let wifi = measured.link == .wifi
+        let router = "Your router takes \(measured.router) to answer, when it should take a few."
         if wifi && measured.signal == .weak {
             return Verdict(
                 kind: .weakSignal, headline: "Slow: weak WiFi signal", short: "WiFi",
-                detail: "\(measured.numbers) Even your router is slow to answer, and the signal is weak. "
-                    + "Move closer to the router or add an access point."
+                detail: "\(router) Your Wi-Fi signal is weak, so move closer to the router or add an access point."
             )
         }
         return Verdict(
             kind: .localNetwork,
             headline: wifi ? "Slow: WiFi or router, not ISP" : "Slow: your router, not ISP",
             short: wifi ? "WiFi" : "Router",
-            detail: "\(measured.numbers) "
+            detail: "\(router) "
                 + (wifi
-                    ? "The signal is fine, but your router is slow to answer. That points to a busy channel, "
-                        + "interference, or an overloaded router. "
-                        + "Try restarting the router or changing its channel."
-                    : "Your router is slow to answer over the cable. Try restarting it.")
+                    ? "Your signal is \(measured.signalWord), so it's a busy channel, interference, or an "
+                        + "overloaded router. Try restarting the router or changing its channel."
+                    : "Try restarting it.")
         )
     }
 
@@ -259,24 +254,19 @@ public enum VerdictEngine {
         if !measured.routerMeasured && wifi && measured.signal == .weak {
             return Verdict(
                 kind: .weakSignal, headline: "Slow: likely weak WiFi signal", short: "WiFi",
-                detail: "\(measured.numbers) Your router doesn't answer probes, so the app can't split the delay, "
-                    + "but the signal is weak."
+                detail: "The internet takes \(measured.internet) to answer and your Wi-Fi signal is weak. "
+                    + "Your router doesn't answer checks, so the app can't tell for sure."
             )
         }
         let hedge = measured.routerMeasured ? "" : "likely "
         return Verdict(
             kind: .isp,
             headline: "Slow: \(hedge)ISP, not \(wifi ? "WiFi" : "your network")", short: "ISP",
-            detail: "\(measured.numbers) "
-                + (measured.routerMeasured
-                    ? "Your router answers quickly, so the delay is past it: your ISP, or your modem."
-                    : "Your router doesn't answer probes, so this is based on the signal being fine.")
+            detail: measured.routerMeasured
+                ? "Your router answers in \(measured.router), but the internet takes \(measured.internet). "
+                    + "The delay is past your router: your ISP, or your modem."
+                : "The internet takes \(measured.internet) to answer. Your router doesn't answer checks, "
+                    + "but your Wi-Fi signal is \(measured.signalWord), so the delay is likely past it."
         )
-    }
-}
-
-extension String {
-    var capitalizedFirst: String {
-        prefix(1).uppercased() + dropFirst()
     }
 }

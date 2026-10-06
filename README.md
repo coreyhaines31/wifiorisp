@@ -14,11 +14,11 @@
 
 ---
 
-When the internet feels slow, WiFi or ISP measures both sides of the line at the same moment: the round trip to your router, and the round trip past it to the internet. If the router answers fast and the internet doesn't, it's your ISP. If even the router is slow, it's your Wi-Fi or router. The menu bar shows your signal and the verdict, like **−58 dBm · ISP**.
+When the internet feels slow, WiFi or ISP measures both sides of the line at the same moment: the round trip to your router, and the round trip past it to the internet. If the router answers fast and the internet doesn't, it's your ISP. If even the router is slow, it's your Wi-Fi or router. The menu bar icon fills with your Wi-Fi signal and names the slow side when there is one, like **ISP**.
 
 ## Features
 
-- **The verdict** — "Slow: ISP, not WiFi", "Slow: weak WiFi signal", "Slow: WiFi or router, not ISP", "Offline: ISP is down, WiFi is fine", with the numbers behind it: signal, noise, SNR, transmit rate, band, router and internet latency.
+- **The verdict** — "Slow: ISP, not WiFi", "Slow: weak WiFi signal", "Slow: WiFi or router, not ISP", "Offline: ISP is down, WiFi is fine", explained in plain words (Excellent, Fast, Slow), with the raw numbers (dBm, noise, band, link rate) a glance away.
 - **Flight recorder** — logs signal, noise, transmit rate, roaming, router and internet latency, and drops in the background. A timeline shows the last hour to 30 days.
 - **A report for your ISP** — a plain-text summary of outages and slowdowns, including whether your router kept answering during each outage (which puts it on their side). Or export everything as CSV.
 - **Alerts** — when the internet drops (and comes back), when your Mac falls back to 2.4 GHz, or when it roams to a weaker access point.
