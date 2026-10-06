@@ -30,6 +30,14 @@ struct VerdictCard: View {
                 }
             }
             .font(.callout)
+
+            if let details {
+                Text(details)
+                    .font(.caption)
+                    .foregroundStyle(.tertiary)
+                    .monospacedDigit()
+                    .fixedSize(horizontal: false, vertical: true)
+            }
         }
         .padding(.horizontal, 14)
         .padding(.vertical, 10)
@@ -42,46 +50,41 @@ struct VerdictCard: View {
     }
 
     private var rows: [Row] {
-        guard let sample = monitor.latest else { return [] }
+        guard let sample = monitor.latest, sample.link != .none else { return [] }
         var rows: [Row] = []
-        switch sample.link {
-        case .wifi:
+        if sample.link == .wifi {
+            if let wifi = sample.wifi {
+                rows.append(Row(label: "Wi-Fi signal", value: PlainLanguage.signal(rssi: wifi.rssi, snr: wifi.snr)))
+            }
             let name = sample.wifi?.ssid ?? (location.isAuthorized ? "Hidden network" : "Unknown network")
             rows.append(Row(label: "Network", value: name))
-            if let wifi = sample.wifi {
-                rows.append(Row(label: "Signal", value: "\(wifi.rssi) dBm (\(Format.quality(wifi)))"))
-                rows.append(Row(label: "Noise", value: "\(wifi.noise) dBm, SNR \(wifi.snr) dB"))
-                rows.append(Row(label: "Transmit rate", value: "\(Int(wifi.txRate.rounded())) Mbps"))
-                if let band = wifi.band {
-                    let channel = wifi.channel.map { ", channel \($0)" } ?? ""
-                    rows.append(Row(label: "Band", value: "\(band.label)\(channel)"))
-                }
-            }
-        case .wired:
+        } else {
             rows.append(Row(label: "Network", value: "Wired"))
-        case .none:
-            return []
         }
-        rows.append(Row(label: "Router", value: Format.probe(sample.router, unmeasured: "doesn't answer probes")))
-        rows.append(Row(label: "Internet", value: Format.probe(sample.internet, unmeasured: "not measured")))
+        rows.append(Row(label: "Router", value: Format.speed(sample.router, rate: PlainLanguage.router)))
+        rows.append(Row(label: "Internet", value: Format.speed(sample.internet, rate: PlainLanguage.internet)))
         return rows
+    }
+
+    /// The raw numbers, for people who want them.
+    private var details: String? {
+        guard let wifi = monitor.latest?.wifi, monitor.latest?.link == .wifi else { return nil }
+        var parts = ["Signal \(wifi.rssi) dBm", "noise \(wifi.noise) dBm"]
+        if let band = wifi.band {
+            parts.append(band.label + (wifi.channel.map { " channel \($0)" } ?? ""))
+        }
+        parts.append("link rate \(Int(wifi.txRate.rounded())) Mbps")
+        return parts.joined(separator: " · ")
     }
 }
 
 enum Format {
-    static func probe(_ probe: Probe?, unmeasured: String) -> String {
+    /// "Fast · 7 ms", or what happened instead.
+    static func speed(_ probe: Probe?, rate: (Double) -> PlainLanguage.Speed) -> String {
         switch probe {
-        case .reply(let ms): "\(Int(ms.rounded())) ms"
-        case .lost: "no answer"
-        case nil: unmeasured
-        }
-    }
-
-    static func quality(_ wifi: WiFiReading) -> String {
-        switch VerdictEngine.SignalQuality(rssi: wifi.rssi, snr: wifi.snr) {
-        case .good: wifi.rssi >= -55 ? "excellent" : "good"
-        case .fair: "fair"
-        case .weak: "weak"
+        case .reply(let ms): "\(rate(ms).rawValue) · \(Int(ms.rounded())) ms"
+        case .lost: "No answer"
+        case nil: "Not measured"
         }
     }
 

@@ -37,7 +37,11 @@ final class StatusItemController: NSObject, NSMenuDelegate {
     private func refreshButton() {
         let verdict = monitor.verdict
         let symbol = Self.symbol(for: verdict, link: monitor.latest?.link)
-        let image = NSImage(systemSymbolName: symbol, accessibilityDescription: nil)
+        // The plain Wi-Fi icon fills its bars with the signal, like the system's own.
+        let strength = monitor.latest?.wifi.map { PlainLanguage.signalStrength(rssi: $0.rssi) }
+        let image = symbol == "wifi" && strength != nil
+            ? NSImage(systemSymbolName: symbol, variableValue: strength ?? 1, accessibilityDescription: nil)
+            : NSImage(systemSymbolName: symbol, accessibilityDescription: nil)
         image?.isTemplate = true
         statusItem.button?.image = image
 

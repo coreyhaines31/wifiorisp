@@ -6,7 +6,7 @@ struct GeneralSettingsView: View {
     let updater: Updater
     @State private var launchAtLogin = SMAppService.mainApp.status == .enabled
     @State private var checksAutomatically: Bool
-    @AppStorage(Preferences.Keys.showsSignalInMenuBar) private var showsSignal = true
+    @AppStorage(Preferences.Keys.showsSignalInMenuBar) private var showsSignal = false
     @AppStorage(Preferences.Keys.showsVerdictInMenuBar) private var showsVerdict = true
 
     init(updater: Updater) {
@@ -29,7 +29,8 @@ struct GeneralSettingsView: View {
                     }
                 }
             Section("Menu bar") {
-                Toggle("Show signal strength (dBm)", isOn: $showsSignal)
+                Toggle("Show signal strength as a number", isOn: $showsSignal)
+                    .help("dBm is the unit radios use: −30 is as strong as it gets, −80 barely works.")
                 Toggle("Show which side is slow (WiFi, Router, or ISP)", isOn: $showsVerdict)
             }
             Section("Updates") {
