@@ -4,10 +4,10 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Bufferbloat Test — Free, in Your Browser</title>
-  <meta name="description" content="Test your connection for bufferbloat: how much your latency rises when the connection is busy. Free, runs in your browser in 25 seconds, with a grade and how to fix it.">
+  <meta name="description" content="Test your connection for bufferbloat: how much lag builds up while it&#x27;s busy. Free, runs in your browser in 25 seconds, with a grade and how to fix it.">
   <link rel="canonical" href="https://wifiorisp.com/bufferbloat-test">
   <meta property="og:title" content="Bufferbloat Test — Free, in Your Browser">
-  <meta property="og:description" content="Test your connection for bufferbloat: how much your latency rises when the connection is busy. Free, runs in your browser in 25 seconds, with a grade and how to fix it.">
+  <meta property="og:description" content="Test your connection for bufferbloat: how much lag builds up while it&#x27;s busy. Free, runs in your browser in 25 seconds, with a grade and how to fix it.">
   <meta property="og:image" content="https://wifiorisp.com/images/icon.png">
   <meta property="og:url" content="https://wifiorisp.com/bufferbloat-test">
   <meta name="theme-color" content="#0b1530">
@@ -16,6 +16,7 @@
   <link rel="stylesheet" href="/site.css">
   <script src="https://cdn.usefathom.com/script.js" data-site="CRTCSZKQ" defer></script>
   <script src="/bufferbloat.js" defer></script>
+  <script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "Article", "headline": "Bufferbloat Test — Free, in Your Browser", "description": "Test your connection for bufferbloat: how much lag builds up while it's busy. Free, runs in your browser in 25 seconds, with a grade and how to fix it.", "url": "https://wifiorisp.com/bufferbloat-test", "dateModified": "2026-10-06", "author": {"@type": "Person", "name": "Corey Haines", "url": "https://corey.co"}, "publisher": {"@type": "Organization", "name": "WiFi or ISP", "logo": "https://wifiorisp.com/images/icon.png"}}, {"@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Is this a speed test?", "acceptedAnswer": {"@type": "Answer", "text": "Partly. It reports the speeds it reached while loading the connection, but the point is the lag under load. A connection can be fast and still badly bloated."}}, {"@type": "Question", "name": "Why is my upload grade worse than my download?", "acceptedAnswer": {"@type": "Answer", "text": "Upload is usually the smaller pipe, so its queue fills sooner. It's also where your own devices queue packets before they reach the router."}}, {"@type": "Question", "name": "Does Wi-Fi cause bufferbloat?", "acceptedAnswer": {"@type": "Answer", "text": "It can. A busy Wi-Fi channel or a weak signal adds its own queue between your device and the router. Test on a cable to compare, or use WiFi or ISP, which checks the router and the internet separately."}}, {"@type": "Question", "name": "How is this different from Apple's networkQuality?", "acceptedAnswer": {"@type": "Answer", "text": "Both measure responsiveness under load. Apple's tool reports round trips per minute (RPM), and this page reports added milliseconds. WiFi or ISP uses the same IETF method as Apple and adds router probes to show where the queue is."}}]}]}</script>
 </head>
 <body>
   <header class="nav">
@@ -35,6 +36,7 @@
         <p class="eyebrow">Free bufferbloat test</p>
         <h1>Bufferbloat test</h1>
         <p class="lede">Speed tests tell you how fast your connection goes. This one tells you how laggy it gets while it's busy, which is why video calls stutter when someone starts a download.</p>
+        <p class="byline">By <a href="https://corey.co">Corey Haines</a>, maker of WiFi or ISP · Updated October 6, 2026</p>
         
       </div>
     </section>
@@ -122,7 +124,7 @@
   <footer>
     <div class="wrap">
       <nav class="footer-links" aria-label="Guides"><a href="/bufferbloat-test">Bufferbloat test</a><a href="/why-is-my-wifi-so-slow">Why is my Wi-Fi so slow?</a><a href="/internet-keeps-dropping">Internet keeps dropping?</a></nav>
-      <nav class="footer-links" aria-label="Alternatives"><a href="/alternatives/">Alternatives</a></nav>
+      <nav class="footer-links" aria-label="Alternatives"><a href="/alternatives/">Alternatives</a><a href="/alternatives/netspot">NetSpot alternative</a><a href="/alternatives/pingkit">PingKit alternative</a><a href="/alternatives/istat-menus">iStat Menus alternative</a><a href="/alternatives/wifi-explorer">WiFi Explorer alternative</a><a href="/alternatives/wifi-signal">WiFi Signal alternative</a></nav>
       <span>© 2026 Corey Haines · Source available under <a href="https://github.com/coreyhaines31/wifiorisp/blob/main/LICENSE">FSL-1.1-MIT</a></span>
       <span><a href="https://github.com/coreyhaines31/wifiorisp">GitHub</a> · <a href="https://github.com/coreyhaines31/wifiorisp/issues">Report a bug</a> · Also by Corey: <a href="https://midnightoil.app">Midnight Oil</a></span>
     </div>

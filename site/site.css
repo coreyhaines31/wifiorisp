@@ -310,3 +310,8 @@ section.article { padding-top: 32px; }
 .bb-numbers dd { margin: 0; font-variant-numeric: tabular-nums; }
 .bb-note { color: var(--muted); font-size: 13.5px; margin-top: 20px; }
 @media (max-width: 520px) { .bb-result { grid-template-columns: 1fr; } .bb-card { padding: 20px; } }
+.byline { color: var(--muted); font-size: 14px; margin-top: 16px; }
+.byline a { color: inherit; }
+.source-note { font-size: 14px !important; margin-top: 8px; }
+section.article { padding-bottom: 24px; }
+section.article + .faq { padding-top: 40px; }
