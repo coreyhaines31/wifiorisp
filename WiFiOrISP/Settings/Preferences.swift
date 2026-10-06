@@ -22,7 +22,7 @@ enum Preferences {
             Key.alertsOn24GHz: true,
             Key.alertsOnWeakerRoam: true,
             Key.showsVerdictInMenuBar: true,
-            Key.showsSignalInMenuBar: true,
+            Key.showsSignalInMenuBar: false,
             Key.keepDays: LogStore.defaultKeepDays,
             Key.responsivenessServer: ResponsivenessTest.defaultConfigURL.absoluteString
         ])

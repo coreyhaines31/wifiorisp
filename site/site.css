@@ -123,7 +123,7 @@ h1 em { font-style: normal; color: var(--amber-ink); }
 .apple { width: 12px; height: 14px; background: #fff; border-radius: 6px 6px 7px 7px; opacity: 0.9; }
 .mb-item { display: inline-flex; align-items: center; gap: 5px; padding: 2px 7px; border-radius: 5px; }
 .mb-item.active { background: rgba(255, 255, 255, 0.24); }
-.mb-item svg { width: 14px; height: 14px; fill: none; stroke: #fff; stroke-width: 1.8; }
+.mb-item svg { width: 15px; height: 15px; fill: none; stroke: #fff; stroke-width: 1.6; stroke-linecap: round; }
 @media (max-width: 420px) { .mb-left span:not(.apple):not(b) { display: none; } }
 
 .nsmenu {
@@ -139,6 +139,7 @@ h1 em { font-style: normal; color: var(--amber-ink); }
 .card dl { display: grid; grid-template-columns: auto 1fr; gap: 3px 16px; margin: 0; }
 .card dt { color: var(--muted); }
 .card dd { margin: 0; font-variant-numeric: tabular-nums; }
+.card small { display: block; margin-top: 10px; color: var(--muted); opacity: 0.7; font-size: 11.5px; font-variant-numeric: tabular-nums; }
 dd.good, .good { color: var(--good); }
 dd.bad, .bad { color: var(--bad); }
 .sep { height: 1px; background: color-mix(in srgb, var(--ink) 14%, transparent); margin: 6px 10px; }

@@ -90,9 +90,9 @@ struct HistoryView: View {
                 )
                 .frame(maxHeight: .infinity)
             } else {
-                Text("Round trip (ms)").font(.headline)
+                Text("Response time (ms, lower is better)").font(.headline)
                 latencyChart.frame(height: 200)
-                Text("Wi-Fi signal (dBm)").font(.headline)
+                Text("Wi-Fi signal").font(.headline)
                 signalChart.frame(height: 120)
             }
 
@@ -175,6 +175,12 @@ struct HistoryView: View {
         }
         .chartXScale(domain: model.start...model.end)
         .chartYScale(domain: -90 ... -30)
+        .chartYAxis {
+            AxisMarks(values: [-45, -60, -71, -82]) { value in
+                AxisGridLine()
+                AxisValueLabel(Self.signalLabel(value.as(Int.self) ?? 0))
+            }
+        }
     }
 
     private var bucketWidth: TimeInterval {
@@ -185,6 +191,10 @@ struct HistoryView: View {
     private var yCap: Double {
         let values = model.points.compactMap(\.internetMs) + model.points.compactMap(\.routerMs)
         return max(50, (Statistics.percentile(values, 0.98) ?? 50) * 1.2)
+    }
+
+    static func signalLabel(_ rssi: Int) -> String {
+        PlainLanguage.signal(rssi: rssi, snr: 99)
     }
 
     static func describe(_ event: NetworkEvent) -> String {
@@ -200,7 +210,8 @@ struct HistoryView: View {
             }
             return "Back online after \(duration), \(side)"
         case .roamed(_, _, let from, let to):
-            return "Roamed to another access point (\(from) → \(to) dBm)"
+            return "Switched access points (signal \(Self.signalLabel(from).lowercased()) → "
+                + "\(Self.signalLabel(to).lowercased()))"
         case .bandChanged(let from, let to):
             return "Band changed from \(from.label) to \(to.label)"
         case .networkChanged(let from, let to):
