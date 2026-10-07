@@ -61,6 +61,21 @@ final class StatusItemController: NSObject, NSMenuDelegate {
         return .bars(RouterIcon.bars(strength: PlainLanguage.signalStrength(rssi: wifi.rssi)))
     }
 
+    // MARK: - Next steps
+
+    private func perform(_ action: NextStep.Action) {
+        switch action {
+        case .page(let path):
+            if let url = URL(string: "https://wifiorisp.com" + path) {
+                NSWorkspace.shared.open(url)
+            }
+        case .runSpeedTest, .runLagTest:
+            windows.showTests()
+        case .exportReport:
+            windows.exportReport()
+        }
+    }
+
     // MARK: - Menu
 
     func menuWillOpen(_ menu: NSMenu) {
@@ -70,7 +85,10 @@ final class StatusItemController: NSObject, NSMenuDelegate {
     func menuNeedsUpdate(_ menu: NSMenu) {
         menu.removeAllItems()
 
-        let card = NSHostingView(rootView: VerdictCard(monitor: monitor, location: location))
+        let card = NSHostingView(rootView: VerdictCard(monitor: monitor, location: location) { [weak self] action in
+            menu.cancelTracking()
+            self?.perform(action)
+        })
         card.frame.size = card.fittingSize
         let cardItem = NSMenuItem()
         cardItem.view = card
