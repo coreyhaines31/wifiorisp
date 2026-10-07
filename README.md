@@ -24,7 +24,7 @@ When the internet feels slow, WiFi or ISP measures both sides of the line at the
 - **Alerts** — when the internet drops (and comes back), when your Mac falls back to 2.4 GHz, or when it roams to a weaker access point.
 - **Speed test** — on demand, against [M-Lab](https://www.measurementlab.net) (NDT7). M-Lab publishes every result as open data, and the app tells you that before your first test.
 - **Lag under load** — the IETF [responsiveness test](https://datatracker.ietf.org/doc/draft-ietf-ippm-responsiveness/) (RPM), with router probes during the test to show whether the queue is on your side or past your router.
-- **No telemetry.** History stays on your Mac. Nothing is sent anywhere except the tests you start.
+- **No telemetry.** History stays on your Mac. The app asks Cloudflare once per network which provider you're on (to tailor its advice); otherwise it only talks to the internet for the tests you start.
 
 ## How it measures
 

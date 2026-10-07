@@ -74,7 +74,7 @@ ALTERNATIVES = [
             ("Device discovery on your network", "No", "Yes"),
             ("iPhone companion", "No", "Yes"),
             ("Source code", "Public on GitHub", "Not public"),
-            ("Data leaving your Mac", "Only tests you start", "Uptime Watch targets on PingKit's servers; usage counters"),
+            ("Data leaving your Mac", "A provider lookup per network, and tests you start", "Uptime Watch targets on PingKit's servers; usage counters"),
         ],
         body='''
         <h2>At a glance</h2>
@@ -90,7 +90,7 @@ ALTERNATIVES = [
           <li><strong>Lag under load on the Mac.</strong> WiFi or ISP runs the IETF responsiveness test and times your router and the internet during it, so it can say whether the lag builds up in your Wi-Fi or past your router.</li>
           <li><strong>Wi-Fi alerts.</strong> It tells you when your Mac falls back to 2.4 GHz or roams to a weaker access point.</li>
           <li><strong>No subscription.</strong> Everything is free, and the source is on GitHub.</li>
-          <li><strong>Nothing leaves your Mac</strong> unless you start a test.</li>
+          <li><strong>No analytics or accounts.</strong> Beyond one provider lookup per network, it only talks to the internet for tests you start.</li>
         </ul>
 ''',
         faqs=[
