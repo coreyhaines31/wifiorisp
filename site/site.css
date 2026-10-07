@@ -327,3 +327,9 @@ section.article + .faq { padding-top: 40px; }
 .pt-rating[data-rating="Slow"] { color: var(--bad); }
 .resources .related { margin-top: 32px; }
 @media (min-width: 860px) { .resources .related { grid-template-columns: repeat(3, 1fr); } }
+.needs h2 { font-size: 22px; margin-bottom: 16px; }
+.needs-grid { display: grid; gap: 12px 24px; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+.needs label { display: flex; justify-content: space-between; align-items: center; gap: 12px; font-size: 15.5px; }
+.needs label.check { justify-content: flex-start; }
+.needs input[type="number"] { width: 70px; font: inherit; padding: 4px 8px; border: 1px solid var(--line); border-radius: 8px; background: var(--bg); color: var(--ink); }
+.needs-out { margin-top: 20px; font-size: 18px; }
