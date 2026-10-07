@@ -101,8 +101,9 @@ struct PrivacySettingsView: View {
             } header: {
                 Text("History")
             } footer: {
-                Text("History stays on this Mac. The app has no analytics and sends nothing anywhere, "
-                    + "except the speed and lag tests you start yourself.")
+                Text("History stays on this Mac, and the app has no analytics. To tailor its advice, it asks "
+                    + "Cloudflare once per network which provider you're on. The only other traffic is the "
+                    + "speed and lag tests you start.")
                     .foregroundStyle(.secondary)
             }
         }
@@ -126,6 +127,51 @@ struct AdvancedSettingsView: View {
             } footer: {
                 Text("Any server that implements the IETF responsiveness test works, including one you host yourself "
                     + "with github.com/network-quality/goserver.")
+                    .foregroundStyle(.secondary)
+            }
+        }
+        .formStyle(.grouped)
+    }
+}
+
+struct PlanSettingsView: View {
+    @AppStorage(Preferences.Keys.planDown) private var download = 0.0
+    @AppStorage(Preferences.Keys.planUp) private var upload = 0.0
+    @AppStorage(Preferences.Keys.people) private var people = 2
+    @AppStorage(Preferences.Keys.videoCalls) private var videoCalls = true
+    @AppStorage(Preferences.Keys.gaming) private var gaming = false
+    @AppStorage(Preferences.Keys.streams4K) private var streams4K = 1
+    @AppStorage(Preferences.Keys.bigUploads) private var bigUploads = false
+
+    private var profile: HomeProfile {
+        HomeProfile(
+            people: people, videoCalls: videoCalls, gaming: gaming, streams4K: streams4K, bigUploads: bigUploads
+        )
+    }
+
+    var body: some View {
+        Form {
+            Section {
+                TextField("Download (Mbps)", value: $download, format: .number)
+                TextField("Upload (Mbps)", value: $upload, format: .number)
+            } header: {
+                Text("What you pay for")
+            } footer: {
+                Text("It's on your bill or your provider's app. The app compares it with your speed tests "
+                    + "and adds it to the report for your provider.")
+                    .foregroundStyle(.secondary)
+            }
+            Section {
+                Stepper("People at home: \(people)", value: $people, in: 1...12)
+                Toggle("Video calls or remote work", isOn: $videoCalls)
+                Toggle("Online gaming", isOn: $gaming)
+                Stepper("4K streams at once: \(streams4K)", value: $streams4K, in: 0...8)
+                Toggle("Big uploads (backups, video, livestreams)", isOn: $bigUploads)
+            } header: {
+                Text("How your home uses the internet")
+            } footer: {
+                Text("Your home needs about \(Int(profile.targetDownMbps)) Mbps down and "
+                    + "\(Int(profile.targetUpMbps)) Mbps up. If your plan falls short, the app will say so.")
                     .foregroundStyle(.secondary)
             }
         }
