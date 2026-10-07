@@ -125,7 +125,7 @@ public enum Advice {
             ))
         }
         steps.append(NextStep("Raise the router up and out of cabinets", .page("/wifi-signal-strength")))
-        steps.append(NextStep("Still weak here? Add a mesh point", .page("/routers#mesh")))
+        steps.append(NextStep("Still weak here? Add a mesh point", .page("/routers#large-home")))
         return steps
     }
 
@@ -176,7 +176,7 @@ public enum Advice {
             headline: "Your router is holding your Mac back",
             detail: "Your Mac supports Wi-Fi 6E, but it's connected with \(generation.label), the newest your router "
                 + "offers. A Wi-Fi 6E or 7 router would be noticeably faster.",
-            recommendation: "/routers#wifi-7"
+            recommendation: "/routers#wifi-7-6ghz"
         )
     }
 

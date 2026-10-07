@@ -56,7 +56,7 @@ public enum RouterMaker: String, CaseIterable, Codable, Sendable {
     /// The router's own name for its smart-queueing setting, where it has one that helps with lag.
     public var smartQueueSetting: String? {
         switch self {
-        case .eero: "Optimize for Conferencing and Gaming"
+        case .eero: "SQM in the eero app (off in bridge mode)"
         case .asus: "Adaptive QoS"
         case .ubiquiti: "Smart Queues"
         case .netgear: "Dynamic QoS (select Nighthawk models)"
