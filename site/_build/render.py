@@ -12,6 +12,7 @@ import sys
 sys.path.insert(0, os.path.dirname(__file__))
 from alternatives import ALTERNATIVES, HUB  # noqa: E402
 from guides import GUIDES  # noqa: E402
+import pseo  # noqa: E402
 
 ROOT = os.path.join(os.path.dirname(__file__), "..")
 SITE = "https://wifiorisp.com"
@@ -38,7 +39,10 @@ def head(title, description, path, scripts=""):
   <link rel="canonical" href="{SITE}{path}">
   <meta property="og:title" content="{esc(title)}">
   <meta property="og:description" content="{esc(description)}">
-  <meta property="og:image" content="{SITE}/images/icon.png">
+  <meta property="og:image" content="{SITE}/images/og.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
   <meta property="og:url" content="{SITE}{path}">
   <meta name="theme-color" content="#0b1530">
   <link rel="icon" href="/images/icon.png">
@@ -65,7 +69,8 @@ def footer_links():
     """Every guide and alternative page, linked from every footer."""
     guides = "".join(f'<a href="/{g["slug"]}">{esc(g["link"])}</a>' for g in GUIDES)
     alts = "".join(f'<a href="/alternatives/{a["slug"]}">{esc(a["competitor"])} alternative</a>' for a in ALTERNATIVES)
-    return (f'      <nav class="footer-links" aria-label="Guides">{guides}</nav>\n'
+    hubs = '<a href="/slow-internet">Slow internet by provider</a><a href="/router-login">Router login guides</a>'
+    return (f'      <nav class="footer-links" aria-label="Guides">{guides}{hubs}</nav>\n'
             f'      <nav class="footer-links" aria-label="Alternatives"><a href="/alternatives/">Alternatives</a>{alts}</nav>\n')
 
 
@@ -126,7 +131,8 @@ def structured_data(page, path):
             "mainEntity": [{"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}}
                            for q, a in page["faqs"]],
         })
-    data = json.dumps({"@context": "https://schema.org", "@graph": graph}, ensure_ascii=False)
+    # "</" would end the script tag early if any text ever contained it.
+    data = json.dumps({"@context": "https://schema.org", "@graph": graph}, ensure_ascii=False).replace("</", "<\\/")
     return f'\n  <script type="application/ld+json">{data}</script>'
 
 
@@ -204,9 +210,16 @@ def sitemap(paths):
 
 def main():
     paths = ["/"]
+    fills = {"{{CHANNEL_BRANDS}}": pseo.channel_brands(), "{{RESTART_BRANDS}}": pseo.restart_brands()}
     for guide in GUIDES:
-        write(f'{guide["slug"]}.html', article(guide, f'/{guide["slug"]}'))
+        page = dict(guide)
+        for marker, content in fills.items():
+            page["body"] = page["body"].replace(marker, content)
+        write(f'{guide["slug"]}.html', article(page, f'/{guide["slug"]}'))
         paths.append(f'/{guide["slug"]}')
+    for page in pseo.pages():
+        write(f'{page["slug"]}.html', article(page, f'/{page["slug"]}'))
+        paths.append(f'/{page["slug"]}')
     for alt in ALTERNATIVES:
         write(f'alternatives/{alt["slug"]}.html', alternative_page(alt))
         paths.append(f'/alternatives/{alt["slug"]}')

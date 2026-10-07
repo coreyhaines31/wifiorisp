@@ -4,7 +4,6 @@
 // connections per host, so load uses five and the probe keeps the sixth to itself.
 (() => {
   const LOAD = "https://speed.cloudflare.com";
-  const PROBE = "https://speed.cloudflare.com/__down?bytes=0";
   const PHASE_MS = 10000;
   const RAMP_MS = 2000;
   const PROBE_GAP_MS = 200;
@@ -27,30 +26,7 @@
   const ms = (x) => `${Math.round(x)} ms`;
   const mbps = (bytes, millis) => (bytes * 8) / (millis / 1000) / 1e6;
 
-  // One round trip: request sent to first byte back, minus the time Cloudflare reports spending
-  // on the request itself (its Server-Timing header), which is often larger than the round trip.
-  async function probe(signal) {
-    const url = `${PROBE}&r=${Math.random().toString(36).slice(2)}`;
-    const t0 = performance.now();
-    try {
-      const res = await fetch(url, { cache: "no-store", signal });
-      await res.arrayBuffer();
-    } catch {
-      return null;
-    }
-    // The timing entry is recorded just after the body finishes, so give it a moment.
-    let entry = performance.getEntriesByName(url).pop();
-    for (let i = 0; !entry && i < 5; i++) {
-      await sleep(20);
-      entry = performance.getEntriesByName(url).pop();
-    }
-    if (performance.getEntriesByType("resource").length > 200) performance.clearResourceTimings();
-    if (!entry || !(entry.responseStart > 0)) return performance.now() - t0;
-    const server = (entry.serverTiming || [])
-      .filter((t) => t.name === "cfSpeedEdge" || t.name === "cfSpeedWorker")
-      .reduce((sum, t) => sum + t.duration, 0);
-    return Math.max(1, entry.responseStart - entry.requestStart - server);
-  }
+  const probe = window.wifiProbe;
 
   async function probeLoop(until, onProbe, signal) {
     while (performance.now() < until && !signal.aborted) {
