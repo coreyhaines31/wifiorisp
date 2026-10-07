@@ -116,6 +116,13 @@ struct HardwareTests {
         #expect(GatewayHardware.parseMAC("192.168.1.1 (192.168.1.1) -- no entry") == nil)
     }
 
+    @Test func namesWiFi6E() {
+        let sixE = WiFiReading(rssi: -40, noise: -90, txRate: 2000, band: .ghz6, generation: .wifi6)
+        let six = WiFiReading(rssi: -40, noise: -90, txRate: 800, band: .ghz5, generation: .wifi6)
+        #expect(sixE.generationLabel == "Wi-Fi 6E")
+        #expect(six.generationLabel == "Wi-Fi 6")
+    }
+
     @Test func knowsMajorProviders() {
         #expect(Provider(asn: 20115).name == "Spectrum")
         #expect(Provider(asn: 400391).name == nil)

@@ -67,6 +67,12 @@ public struct WiFiReading: Codable, Equatable, Sendable {
         self.widthMHz = widthMHz
     }
 
+    /// "Wi-Fi 6E" for Wi-Fi 6 on the 6 GHz band, otherwise the generation's name.
+    public var generationLabel: String? {
+        guard let generation else { return nil }
+        return generation == .wifi6 && band == .ghz6 ? "Wi-Fi 6E" : generation.label
+    }
+
     /// Signal-to-noise ratio in dB. Above 25 is good, below 15 is poor.
     public var snr: Int { rssi - noise }
 }
