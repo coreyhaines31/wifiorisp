@@ -16,6 +16,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             monitor: monitor, location: location, windows: windows, updater: updater
         )
         monitor.start()
+        if !Preferences.hasSeenWelcome {
+            windows.showWelcome()
+        }
     }
 
     func applicationWillTerminate(_ notification: Notification) {

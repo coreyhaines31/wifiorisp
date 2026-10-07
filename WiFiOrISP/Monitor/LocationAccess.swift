@@ -38,6 +38,17 @@ final class LocationAccess: NSObject, ObservableObject, CLLocationManagerDelegat
         Everything else works without it. Your network just shows as "Unknown network".
         """
 
+    /// Asks macOS directly, or opens System Settings if it was already turned down.
+    /// For places that have already explained why, like the welcome window.
+    func request() {
+        if status == .notDetermined {
+            NSApp.activate()
+            manager.requestWhenInUseAuthorization()
+        } else if status == .denied {
+            Self.openSystemSettings()
+        }
+    }
+
     /// Explains why, then asks macOS (or opens System Settings if it was already turned down).
     func requestWithExplanation() {
         let alert = NSAlert()
