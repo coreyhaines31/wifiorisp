@@ -315,3 +315,7 @@ section.article { padding-top: 32px; }
 .source-note { font-size: 14px !important; margin-top: 8px; }
 section.article { padding-bottom: 24px; }
 section.article + .faq { padding-top: 40px; }
+.callout { margin: 0 0 28px; padding: 14px 18px; border-radius: var(--radius); background: color-mix(in srgb, var(--amber) 14%, var(--surface)); border: 1px solid color-mix(in srgb, var(--amber) 40%, transparent); }
+.callout p { color: var(--ink) !important; margin: 0; }
+.sources { font-size: 14px; word-break: break-all; }
+.sources li { color: var(--muted); }
