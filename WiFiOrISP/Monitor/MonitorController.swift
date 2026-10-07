@@ -22,6 +22,7 @@ final class MonitorController: ObservableObject {
     @Published private(set) var lag: ResponsivenessResult?
     private(set) var macSupports6GHz = false
     private var identifiedRouter: String?
+    private var providerLookedUp = Date.distantPast
 
     var onChange: (() -> Void)?
 
@@ -107,15 +108,32 @@ final class MonitorController: ObservableObject {
     /// address table; the provider takes one request to Cloudflare, skipped behind a VPN, where it
     /// would name the VPN instead.
     private func identifyNetworkIfNeeded() {
-        guard let router = sampler.routerTarget?.address, router != identifiedRouter else { return }
+        guard let router = sampler.routerTarget?.address else { return }
+        if router == identifiedRouter {
+            // A failed provider lookup (say, while offline) gets another try every ten minutes.
+            guard provider == nil, Date().timeIntervalSince(providerLookedUp) > 600 else { return }
+            lookUpProvider(for: router)
+            return
+        }
         identifiedRouter = router
         maker = nil
         provider = nil
         Task {
             let mac = await Task.detached { GatewayHardware.macAddress(of: router) }.value
+            // The network may have changed while this ran; only keep answers for the current router.
+            guard router == identifiedRouter else { return }
             maker = mac.flatMap(RouterMaker.lookup)
-            guard Route.current()?.isTunnel != true else { return }
-            provider = await Provider.detect()
+        }
+        lookUpProvider(for: router)
+    }
+
+    private func lookUpProvider(for router: String) {
+        providerLookedUp = Date()
+        guard Route.current()?.isTunnel != true else { return }
+        Task {
+            let found = await Provider.detect()
+            guard router == identifiedRouter else { return }
+            provider = found
         }
     }
 
