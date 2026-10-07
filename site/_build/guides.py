@@ -187,3 +187,289 @@ GUIDES = [
         "cta": "Catch every drop, and who caused it.",
     },
 ]
+
+GUIDES += [
+    # ------------------------------------------------------------------ Change Wi-Fi channel
+    {
+        "slug": "how-to-change-wifi-channel",
+        "link": "How to change your Wi-Fi channel",
+        "title": "How to Change Your Wi-Fi Channel (and Pick the Best One)",
+        "description": "Step-by-step: find a less crowded Wi-Fi channel on a Mac, then change it on Xfinity, Spectrum, AT&T, Verizon, Netgear, TP-Link, Asus, Linksys, and more.",
+        "eyebrow": "Guide",
+        "h1": "How to change your Wi-Fi channel",
+        "lede": "When your signal is strong but Wi-Fi is still slow, a crowded channel is a common culprit, especially in apartments. Here's how to find a quieter one and switch to it on the router you have.",
+        "tldr": "On 2.4 GHz, use channel 1, 6, or 11. On 5 GHz, pick the channel your Mac's Wireless Diagnostics scan recommends. Then change it in your router's app or admin page; some routers, like eero and newer Spectrum models, only pick channels automatically.",
+        "body": '''
+        <h2>When changing the channel helps</h2>
+        <p>Wi-Fi networks on the same channel take turns talking. If a dozen neighbors share yours, your router waits, and everything feels slow even with full bars. Signs it's the channel: a strong signal, a slow router response, and slowdowns that get worse in the evening when everyone's home. <a href="/why-is-my-wifi-so-slow">Here's how to check which side is slow first.</a></p>
+
+        <h2>Find the least crowded channel on a Mac</h2>
+        <ol class="steps">
+          <li><b>Open Wireless Diagnostics.</b> Hold Option, click the Wi-Fi icon in the menu bar, and choose Open Wireless Diagnostics. Skip the assistant that appears.</li>
+          <li><b>Scan.</b> From the Window menu, choose Scan, then click Scan Now. You'll see every network around you with its channel.</li>
+          <li><b>Read the recommendation.</b> The summary on the left lists the best 2.4 GHz and 5 GHz channels for where you're sitting.</li>
+        </ol>
+
+        <h2>Which channel to pick</h2>
+        <ul>
+          <li><strong>2.4 GHz:</strong> only 1, 6, and 11 don't overlap each other in the US. Use whichever of those three is least busy. Anything in between overlaps two of them.</li>
+          <li><strong>5 GHz:</strong> there are many more channels. 36 to 48 and 149 to 165 work with every device. The DFS channels in between are often empty, but the router has to move off them if it detects radar.</li>
+          <li><strong>6 GHz:</strong> if your router and Mac both support Wi-Fi 6E or 7, 6 GHz is wide open and rarely crowded.</li>
+          <li><strong>Automatic</strong> is fine on most modern routers. Switch to a manual channel only if automatic keeps landing somewhere crowded.</li>
+        </ul>
+
+        <h2>How to change it on your router</h2>
+        <p>Steps from each maker's own documentation. If yours isn't listed, look for “Wireless,” “Wi-Fi settings,” or “Radio settings” in the admin page or app.</p>
+{{CHANNEL_BRANDS}}
+        <h2>After you change it</h2>
+        <p>Devices reconnect within a few seconds. Give it a day: if slowdowns stop at the times they used to happen, the channel was the problem. If your router keeps answering slowly with a strong signal, the router itself may be overloaded or too old.</p>
+''',
+        "faqs": [
+            ("Is 2.4 GHz or 5 GHz better?", "5 GHz is much faster and less crowded, but it doesn't reach as far through walls. Use 5 GHz (or 6 GHz) when you're reasonably close to the router, and 2.4 GHz only for range."),
+            ("Why can't I change the channel on my router?", "Some routers choose channels automatically and don't offer a manual setting, including eero and Spectrum's newer routers, and Cox's Panoramic gateways. They're designed to move to quieter channels on their own; restarting them can prompt a fresh pick."),
+            ("Will changing the channel disconnect my devices?", "Briefly. Devices reconnect to the new channel on their own within a few seconds."),
+        ],
+        "cta": "Know when the channel is the problem.",
+    },
+    # ------------------------------------------------------------------ Restart router
+    {
+        "slug": "how-to-restart-router",
+        "link": "How to restart your router",
+        "title": "How to Restart Your Router and Modem (the Right Way)",
+        "description": "The right order to restart a modem and router, how long to wait, how to do it from your ISP's app, and what it means when a restart doesn't fix slow internet.",
+        "eyebrow": "Guide",
+        "h1": "How to restart your router (the right way)",
+        "lede": "Restarting fixes more internet problems than anything else, but the order matters when you have a separate modem and router. Here's how to do it properly, and what to do when it doesn't help.",
+        "tldr": "Unplug the modem and the router. Wait a minute. Plug in the modem first and wait two minutes until its lights settle, then plug in the router. If you have a single gateway box, just unplug it for a minute.",
+        "body": '''
+        <h2>The order that works</h2>
+        <ol class="steps">
+          <li><b>Unplug both</b> the modem (the box your ISP's cable, fiber, or phone line goes into) and the Wi-Fi router. If it's one combined gateway, unplug that.</li>
+          <li><b>Wait at least 60 seconds.</b> It lets the modem drop its session with your ISP so it starts fresh.</li>
+          <li><b>Plug in the modem first.</b> Wait about two minutes, until its online or internet light is steady.</li>
+          <li><b>Then plug in the router.</b> Give it another two minutes to start Wi-Fi.</li>
+          <li><b>Check.</b> Load a few different websites. Better: check that your router <em>and</em> the internet both answer quickly.</li>
+        </ol>
+        <p>Fiber users: don't touch the fiber cable or the back of the fiber terminal. Restart from power only.</p>
+
+        <h2>Restart from your phone instead</h2>
+        <p>Most ISPs let you restart their equipment from an app or your online account, which also runs their own line checks. Steps from each company's documentation:</p>
+{{RESTART_BRANDS}}
+        <h2>When a restart doesn't fix it</h2>
+        <ul>
+          <li><strong>Slow again within days:</strong> the router may be overheating, out of date, or overloaded. Update its firmware, give it airflow, or replace it if it's more than five or six years old.</li>
+          <li><strong>Still slow right after a restart:</strong> find out which side is slow. If your router answers quickly and the internet doesn't, the problem is past your home, and only your ISP can fix it. <a href="/why-is-my-wifi-so-slow">Here's how to tell.</a></li>
+          <li><strong>The internet keeps dropping:</strong> <a href="/internet-keeps-dropping">log the drops</a>, so your ISP can see when and how long.</li>
+        </ul>
+''',
+        "faqs": [
+            ("How long should I unplug my router?", "At least 60 seconds. Shorter restarts may not clear the modem's connection with your ISP."),
+            ("Is restarting the same as resetting?", "No. Restarting just turns it off and on. Resetting (usually holding a recessed button for several seconds) erases your Wi-Fi name, password, and settings. Don't reset unless support tells you to."),
+            ("How often should I restart my router?", "Only when something's wrong. If you need to restart it every few days, that's a sign of a deeper problem worth fixing."),
+        ],
+        "cta": "Check that the restart actually worked.",
+    },
+    # ------------------------------------------------------------------ Wi-Fi keeps disconnecting
+    {
+        "slug": "why-does-my-wifi-keep-disconnecting",
+        "link": "Why does my Wi-Fi keep disconnecting?",
+        "title": "Why Does My Wi-Fi Keep Disconnecting? 8 Causes and Fixes",
+        "description": "Wi-Fi that keeps disconnecting is usually signal, interference, roaming, or the router. Here's how to tell which, and fix it, starting with one quick test.",
+        "eyebrow": "Guide",
+        "h1": "Why does my Wi-Fi keep disconnecting?",
+        "lede": "Wi-Fi that drops and reconnects is different from an internet outage: your device is losing its link to the router itself. That narrows the cause to your side of the line, which is good news, because you can fix it.",
+        "tldr": "If your device loses the router itself, it's signal, interference, roaming, or the router. If the router stays connected and the internet goes, it's your ISP. Check which one first.",
+        "body": '''
+        <h2>First: is it the Wi-Fi or the internet?</h2>
+        <p>When it drops, does the Wi-Fi icon lose its bars (or show an exclamation mark), or do the bars stay full while pages stop loading? Lost bars mean the Wi-Fi link. Full bars and no internet usually mean the outage is past your router, and <a href="/internet-keeps-dropping">this guide covers that</a>.</p>
+
+        <h2>The usual causes on your side</h2>
+        <h3>1. Weak signal at the edge of range</h3>
+        <p>Below about −75 dBm, Wi-Fi gets unreliable and drops under load. Move closer, or add a mesh point or access point. <a href="/wifi-signal-strength">What counts as a good signal.</a></p>
+        <h3>2. Interference on 2.4 GHz</h3>
+        <p>Microwaves, Bluetooth, baby monitors, and wireless cameras all share 2.4 GHz. If drops line up with the microwave running, that's it. Use 5 or 6 GHz.</p>
+        <h3>3. A crowded channel</h3>
+        <p>In apartments, too many networks on one channel cause timeouts that look like drops. <a href="/how-to-change-wifi-channel">Switch to a quieter channel.</a></p>
+        <h3>4. Roaming between access points</h3>
+        <p>With mesh or multiple access points, devices sometimes hop to a farther one with a worse signal, or hop back and forth. Turning Wi-Fi off and on usually lands you on the nearest one.</p>
+        <h3>5. Band steering</h3>
+        <p>Routers that use one name for 2.4 and 5 GHz move devices between bands. If that causes drops, some routers let you split them into two names.</p>
+        <h3>6. The router itself</h3>
+        <p>If every device drops at once, the router is the common factor: restart it, update its firmware, and make sure it isn't overheating in a closed cabinet.</p>
+        <h3>7. Power saving</h3>
+        <p>Some devices put Wi-Fi to sleep aggressively. On a Mac, sleep settings and networks that don't handle sleeping clients well can cause disconnects after the screen turns off.</p>
+        <h3>8. Too many devices</h3>
+        <p>Older or ISP-supplied routers can struggle with dozens of smart-home devices. If drops started when you added devices, that's a clue.</p>
+
+        <h2>Catch the pattern</h2>
+        <p>Drops are hard to fix when you can't see them. A log of when your device lost the router, what the signal was, and whether it had just roamed usually points straight at the cause.</p>
+''',
+        "faqs": [
+            ("Why does my Wi-Fi disconnect at night?", "Often interference or congestion: neighbors' networks are busiest in the evening, and some devices (like a microwave or streaming boxes) are used more. Check whether the drops line up with a weak signal or a busy channel."),
+            ("Why does only one device keep disconnecting?", "Then it's that device: its distance from the router, its Wi-Fi hardware, its power-saving settings, or an out-of-date driver or system."),
+        ],
+        "cta": "See every drop, and why it happened.",
+    },
+    # ------------------------------------------------------------------ Signal strength
+    {
+        "slug": "wifi-signal-strength",
+        "link": "Wi-Fi signal strength chart",
+        "title": "Wi-Fi Signal Strength: What's a Good dBm? (Chart)",
+        "description": "What Wi-Fi signal strength numbers mean: a dBm chart from excellent (−30) to unusable (−90), what SNR is, and how to check your signal on a Mac.",
+        "eyebrow": "Guide",
+        "h1": "Wi-Fi signal strength: what's a good dBm?",
+        "lede": "Wi-Fi signal is measured in dBm, a negative number where closer to zero is stronger. Here's what the numbers mean, in plain words.",
+        "tldr": "−30 to −55 dBm is excellent, −55 to −67 is good, −67 to −75 is fair, and below −75 dBm is weak enough to cause slowdowns and drops.",
+        "body": '''
+        <h2>The chart</h2>
+        <div class="table-wrap"><table class="compare">
+          <thead><tr><th>Signal (dBm)</th><th>In plain words</th><th>What to expect</th></tr></thead>
+          <tbody>
+            <tr><td>−30 to −55</td><td>Excellent</td><td>Full speed. You're close to the router.</td></tr>
+            <tr><td>−55 to −67</td><td>Good</td><td>Fast and reliable for video calls and streaming.</td></tr>
+            <tr><td>−67 to −75</td><td>Fair</td><td>Fine for browsing; video calls may stutter.</td></tr>
+            <tr><td>−75 to −85</td><td>Weak</td><td>Slow, with dropouts. Time to move closer or add an access point.</td></tr>
+            <tr><td>Below −85</td><td>Unusable</td><td>Barely connects, if at all.</td></tr>
+          </tbody>
+        </table></div>
+        <p>The scale is logarithmic: every 3 dB is half (or double) the power, so −70 is a much weaker signal than −60, not a slightly weaker one.</p>
+
+        <h2>Signal isn't the whole story: noise and SNR</h2>
+        <p>Your router's signal competes with background radio noise, usually around −90 dBm. What matters is how far the signal rises above it, the signal-to-noise ratio (SNR). Above 25 dB is good; below 15 dB is poor even if the signal number looks fine.</p>
+
+        <h2>How to check your signal on a Mac</h2>
+        <ol class="steps">
+          <li><b>Hold Option and click the Wi-Fi icon</b> in the menu bar.</li>
+          <li><b>Read RSSI and Noise</b> under your network. RSSI is the signal in dBm; subtract Noise from it to get SNR.</li>
+        </ol>
+        <p>That's a snapshot. Signal changes as you move, as doors close, and as your Mac switches access points, so a log over a day tells you more than one reading.</p>
+
+        <h2>How to improve a weak signal</h2>
+        <ul>
+          <li>Move the router up high and toward the middle of your home.</li>
+          <li>Keep it out of cabinets and away from metal, mirrors, and fish tanks.</li>
+          <li>Add a mesh point or access point for distant rooms.</li>
+          <li>Use 5 or 6 GHz when you're close; 2.4 GHz reaches farther but is slower.</li>
+        </ul>
+        <p>A strong signal and slow internet anyway? Then the problem is the router or your ISP. <a href="/why-is-my-wifi-so-slow">Here's how to tell.</a></p>
+''',
+        "faqs": [
+            ("Is −50 dBm good Wi-Fi signal?", "Yes, −50 dBm is excellent. You'll get full speed."),
+            ("Is −70 dBm good?", "It's fair: fine for browsing and most streaming, but at the edge for video calls. Below −75 dBm, expect problems."),
+            ("Why is my signal strong but Wi-Fi slow?", "A strong signal only covers the link to your router. A crowded channel, a struggling router, or your ISP can still make things slow."),
+        ],
+        "cta": "Your signal, in plain words, all day.",
+    },
+    # ------------------------------------------------------------------ Good ping
+    {
+        "slug": "what-is-a-good-ping",
+        "link": "What is a good ping?",
+        "title": "What Is a Good Ping? Latency Explained, With a Chart",
+        "description": "What a good ping is for browsing, video calls, and gaming, why your router's ping matters, and what jitter and lag under load mean. Plus how to test yours.",
+        "eyebrow": "Guide",
+        "h1": "What is a good ping?",
+        "lede": "Ping, or latency, is how long a round trip takes from your device to a server and back, in milliseconds. Lower is better, and steady matters as much as low.",
+        "tldr": "Under 20 ms is excellent, 20 to 50 ms is good, 50 to 100 ms is fine for most things, and over 100 ms is noticeable in calls and games. Your router itself should answer in under 10 ms.",
+        "body": '''
+        <h2>The chart</h2>
+        <div class="table-wrap"><table class="compare">
+          <thead><tr><th>Ping to the internet</th><th>Rating</th><th>Good for</th></tr></thead>
+          <tbody>
+            <tr><td>Under 20 ms</td><td>Excellent</td><td>Everything, including competitive gaming</td></tr>
+            <tr><td>20–50 ms</td><td>Good</td><td>Video calls, gaming, streaming</td></tr>
+            <tr><td>50–100 ms</td><td>OK</td><td>Browsing and streaming; calls are fine</td></tr>
+            <tr><td>100–200 ms</td><td>Slow</td><td>Noticeable delay in calls; games feel laggy</td></tr>
+            <tr><td>Over 200 ms</td><td>Poor</td><td>Calls talk over each other; real-time games suffer</td></tr>
+          </tbody>
+        </table></div>
+        <p>Satellite connections are the exception: older geostationary satellite service is around 600 ms by physics, and Starlink is usually much lower.</p>
+
+        <h2>Ping your router, too</h2>
+        <p>A round trip to your own router should take a few milliseconds on Wi-Fi, and under 1 ms on a cable. If even your router is slow, the problem is your Wi-Fi or router, and a faster internet plan won't help. If the router is fast and the internet is slow, it's past your home. That one comparison is the fastest way to know <a href="/why-is-my-wifi-so-slow">whether it's your Wi-Fi or your ISP</a>.</p>
+
+        <h2>Jitter: when ping won't sit still</h2>
+        <p>Jitter is how much ping varies from one round trip to the next. A steady 60 ms is better for a call than one that bounces between 15 and 150. Under 30 ms of jitter is fine for calls.</p>
+
+        <h2>Lag under load</h2>
+        <p>Many connections have a great ping when idle and a terrible one while something's uploading or downloading. That's bufferbloat, and it's why calls stutter during a backup. <a href="/bufferbloat-test">Test it here.</a></p>
+
+        <h2>How to check your ping on a Mac</h2>
+        <p>Open Terminal and run <code>ping -c 20 1.1.1.1</code>. The summary line at the end shows the minimum, average, and maximum, plus standard deviation, a rough measure of jitter.</p>
+''',
+        "faqs": [
+            ("Is 30 ms ping good?", "Yes. 30 ms is good for everything, including video calls and most gaming."),
+            ("Is 100 ms ping bad?", "It's noticeable in fast games and you may see a slight delay in calls, but browsing and streaming are fine."),
+            ("Does Wi-Fi add ping?", "A little, usually a few milliseconds. A weak signal or crowded channel can add much more, and that shows up as a slow ping to your own router."),
+        ],
+        "cta": "Watch your ping to the router and the internet.",
+    },
+    # ------------------------------------------------------------------ Mac keeps disconnecting
+    {
+        "slug": "mac-keeps-disconnecting-from-wifi",
+        "link": "Mac keeps disconnecting from Wi-Fi",
+        "title": "Mac Keeps Disconnecting From Wi-Fi? How to Fix It",
+        "description": "Your Mac keeps dropping Wi-Fi? Check whether it's the Mac or the network, then try these macOS fixes: forget and rejoin, renew DHCP, private address, and more.",
+        "eyebrow": "Guide",
+        "h1": "Mac keeps disconnecting from Wi-Fi?",
+        "lede": "If your Mac drops Wi-Fi while your phone stays connected, the problem is between that Mac and the router. Start with the quick checks, then work through the macOS-specific fixes.",
+        "tldr": "Check the signal first (Option-click the Wi-Fi icon). Then forget and rejoin the network, renew its DHCP lease, and try turning off the private Wi-Fi address for that network. If other devices drop too, it's the router or the network, not the Mac.",
+        "body": '''
+        <h2>Is it the Mac or the network?</h2>
+        <p>If your phone and other devices drop at the same moment, it's the router or your internet. <a href="/why-does-my-wifi-keep-disconnecting">Start here instead.</a> If only the Mac drops, keep going.</p>
+
+        <h2>Fixes, in order</h2>
+        <ol class="steps">
+          <li><b>Check the signal.</b> Option-click the Wi-Fi icon. RSSI weaker than about −75 dBm means the Mac is at the edge of range. Move closer or add an access point.</li>
+          <li><b>Forget and rejoin.</b> System Settings → Wi-Fi → the ⋯ button or Details next to the network → Forget This Network. Then join it again.</li>
+          <li><b>Renew the DHCP lease.</b> System Settings → Wi-Fi → Details → TCP/IP → Renew DHCP Lease. This fixes connections that look joined but don't pass traffic.</li>
+          <li><b>Try without the private Wi-Fi address.</b> In the network's Details, set Private Wi-Fi Address to Off for this network. Some routers and captive portals handle rotating addresses badly.</li>
+          <li><b>Disconnect from VPNs and filters</b> to rule them out. Some interfere with reconnects after sleep.</li>
+          <li><b>Prefer 5 or 6 GHz.</b> If your router uses separate names for each band, join the 5 GHz one. Bluetooth and other gear crowd 2.4 GHz.</li>
+          <li><b>Update macOS.</b> Wi-Fi fixes ship in system updates.</li>
+          <li><b>Run Wireless Diagnostics.</b> Option-click the Wi-Fi icon → Open Wireless Diagnostics, and choose to monitor your connection. It runs in the background and saves a report when the connection drops.</li>
+        </ol>
+
+        <h2>After sleep only?</h2>
+        <p>If the Mac only loses Wi-Fi when it wakes, it's usually reconnecting slowly rather than failing: give it a few seconds. If it truly can't reconnect without toggling Wi-Fi, forget and rejoin the network, and check for a router firmware update.</p>
+''',
+        "faqs": [
+            ("Why does my MacBook keep disconnecting from Wi-Fi but my phone doesn't?", "Something specific to the Mac's link: it's farther from the router, on a different band, using a private address the router handles badly, or running a VPN or filter. Work through the fixes above."),
+            ("Does a private Wi-Fi address cause disconnects?", "It can on some networks, especially ones that track devices by address. Turning it off for your home network is safe."),
+        ],
+        "cta": "Know when your Mac drops, and why.",
+    },
+    # ------------------------------------------------------------------ Slow at night
+    {
+        "slug": "internet-slow-at-night",
+        "link": "Internet slow at night?",
+        "title": "Internet Slow at Night? Here's Why, and How to Fix It",
+        "description": "Internet slow every evening? It's usually ISP congestion, crowded Wi-Fi channels, or busy devices at home. Here's how to tell which, and fix it.",
+        "eyebrow": "Guide",
+        "h1": "Internet slow at night?",
+        "lede": "If your internet is fine all day and crawls from about 7 to 11 PM, you're not imagining it. Evening is peak time for everyone around you, and three different things get busy at once.",
+        "tldr": "Time your router and the internet when it's slow. If the router is slow too, neighbors' Wi-Fi is crowding your channel, or your own devices are. If the router is fast and the internet isn't, it's your ISP's network congesting at peak hours.",
+        "body": '''
+        <h2>Three reasons it's slow in the evening</h2>
+        <h3>1. Your ISP's network is congested</h3>
+        <p>Cable internet in particular shares capacity across a neighborhood. When everyone streams at once, speeds and latency suffer. Your router answers quickly, but the internet doesn't. Only your ISP can fix this, so log the slowdowns and send them the pattern.</p>
+        <h3>2. Your Wi-Fi channel is crowded</h3>
+        <p>Neighbors' networks get busiest in the evening too. If your signal is strong but even your router answers slowly at night, <a href="/how-to-change-wifi-channel">switch to a quieter channel</a> or move to 5 or 6 GHz.</p>
+        <h3>3. Your own household</h3>
+        <p>Evening is when streaming, game downloads, backups, and video calls overlap at home. A single big upload can make everything else lag. That's bufferbloat, and smart queueing on your router fixes it. <a href="/bufferbloat-test">Test for it.</a></p>
+
+        <h2>How to tell which one it is</h2>
+        <p>Measure while it's slow, not the next morning. Compare a round trip to your router with one to the internet:</p>
+        <ul>
+          <li><strong>Router slow:</strong> it's your Wi-Fi (channel or signal) or your router.</li>
+          <li><strong>Router fast, internet slow, nobody home using much:</strong> your ISP's evening congestion.</li>
+          <li><strong>Only slow while someone's uploading or downloading:</strong> bufferbloat.</li>
+        </ul>
+        <p>A week of evenings, logged, makes the pattern obvious, and gives you something concrete to show your ISP.</p>
+''',
+        "faqs": [
+            ("Why is my internet slow at night but fast in the morning?", "Evening is peak usage for your neighborhood (which strains your ISP's network) and for nearby Wi-Fi networks (which crowd your channel). Compare your router's response with the internet's to see which."),
+            ("Will a faster plan fix evening slowdowns?", "Only if the bottleneck is your plan's speed. Neighborhood congestion and Wi-Fi channel crowding don't go away with a faster plan."),
+        ],
+        "cta": "Catch the evening slowdowns as they happen.",
+    },
+]
