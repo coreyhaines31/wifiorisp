@@ -14,6 +14,7 @@ final class Windows {
     private var testsWindow: NSWindow?
     private var historyWindow: NSWindow?
     private var settingsWindow: NSWindow?
+    private var welcomeWindow: NSWindow?
 
     init(monitor: MonitorController, location: LocationAccess, updater: Updater) {
         self.monitor = monitor
@@ -38,6 +39,17 @@ final class Windows {
             history.reload()
         }
         show(historyWindow)
+    }
+
+    /// The first-run window. Closing it any way counts as seen.
+    func showWelcome() {
+        let window = makeWindow("Welcome", view: WelcomeView(location: location) { [weak self] in
+            self?.welcomeWindow?.close()
+        })
+        window.styleMask = [.titled, .closable]
+        welcomeWindow = window
+        Preferences.hasSeenWelcome = true
+        show(window)
     }
 
     func showSettings() {
