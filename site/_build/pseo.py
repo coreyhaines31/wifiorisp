@@ -6,6 +6,7 @@ import re
 
 from isp_data import ISPS
 from router_data import ADDRESSES, ROUTERS
+from router_picks import GUIDANCE, NEEDS
 
 
 def esc(text):
@@ -290,6 +291,109 @@ def restart_brands():
     return "\n".join(blocks)
 
 
+# Amazon Associates tag for router links. None until Corey has one; links then carry no tag.
+AMAZON_TAG = None
+
+DISCLOSURE = ("Some links on this page are affiliate links: if you buy through them, we may earn a commission "
+              "at no cost to you. Picks are chosen by need first, and we only suggest replacing equipment when "
+              "a ceiling is the problem.")
+
+
+def amazon_link(phrase):
+    from urllib.parse import quote_plus
+    url = f"https://www.amazon.com/s?k={quote_plus(phrase)}"
+    if AMAZON_TAG:
+        url += f"&tag={AMAZON_TAG}"
+    return url
+
+
+def pick_card(pick):
+    facts = [
+        ("Wi-Fi", verified(pick.get("wifi_standard"))),
+        ("Bands", verified(pick.get("bands"))),
+        ("Mesh", "Yes" if pick.get("mesh") else "No"),
+        ("Smart queueing", verified(pick.get("smart_queue")) or "No"),
+        ("Price", verified(pick.get("price"))),
+    ]
+    rows = "".join(f"<dt>{esc(k)}</dt><dd>{esc(v)}</dd>" for k, v in facts if v)
+    label = "Our pick" if pick.get("role") == "main" else "Budget pick"
+    links = " · ".join(filter(None, [
+        link(pick.get("manufacturer_url"), f"{pick['maker']} product page"),
+        f'<a href="{esc(amazon_link(pick["amazon_search"]))}" rel="sponsored nofollow">Find it on Amazon</a>'
+        if pick.get("amazon_search") else "",
+    ]))
+    return f'''<article class="pick">
+          <p class="pick-role">{label}</p>
+          <h3>{esc(pick["name"])}</h3>
+          <p>{esc(verified(pick.get("why")))}</p>
+          <p class="pick-downside"><strong>The catch:</strong> {esc(verified(pick.get("downside")))}</p>
+          <dl class="pick-facts">{rows}</dl>
+          <p class="pick-links">{links}</p>
+        </article>'''
+
+
+def strip_citation(text):
+    """Guidance ends with 'Source: <url>'; the URLs are listed under Sources instead."""
+    return re.sub(r"\s*Sources?:\s.*$", "", text)
+
+
+def routers_page():
+    sections = []
+    for need in NEEDS:
+        cards = "".join(pick_card(p) for p in need["picks"])
+        sections.append(f'''<h2 id="{esc(need["slug"])}">{esc(need["title"])}</h2>
+        <p>{esc(verified(need.get("summary")))}</p>
+        <div class="picks">{cards}</div>''')
+    guidance = "".join(f"<li>{esc(strip_citation(g))}</li>" for g in verified_list(GUIDANCE))
+    cited = {u for g in GUIDANCE for u in re.findall(r"https?://\S+", g)}
+    all_sources = sorted(cited | {u for n in NEEDS for p in n["picks"] for u in p.get("sources", [])})
+    amazon_line = "<p class=\"source-note\">As an Amazon Associate I earn from qualifying purchases.</p>" if AMAZON_TAG else ""
+    body = f'''
+        <div class="callout"><p>{esc(DISCLOSURE)} <a href="/affiliate-disclosure">How we choose and earn.</a></p></div>
+        {amazon_line}
+        <h2>Before you buy</h2>
+        <ul>{guidance}</ul>
+        {"".join(sections)}
+        {sources(all_sources)}
+'''
+    return {
+        "slug": "routers",
+        "title": "Best Wi-Fi Routers by Need: Mesh, Gaming, Budget, Wi-Fi 7",
+        "description": "Router and mesh picks by need: apartments, big homes, video calls and gaming (with real smart queueing), budget, ISP gateways, and Wi-Fi 7 for newer Macs.",
+        "eyebrow": "Routers",
+        "h1": "The right router for the problem you have",
+        "lede": "Only replace your router when it's the ceiling: too old for your devices, too weak for your home, or unable to stop lag under load. Here's what fits each case, and the catch with each.",
+        "tldr": "Mesh for big homes, a router with real smart queueing (eero or GL.iNet) for laggy calls and games, and Wi-Fi 6E or 7 only if your Mac supports it. If the slowdown is on your provider's side, a new router won't help.",
+        "body": body,
+        "faqs": [],
+        "cta": "Find out if your router is the ceiling.",
+    }
+
+
+def disclosure_page():
+    return {
+        "slug": "affiliate-disclosure",
+        "title": "Affiliate Disclosure",
+        "description": "How WiFi or ISP chooses router and provider recommendations, and how affiliate links work on this site.",
+        "eyebrow": "Disclosure",
+        "h1": "How we recommend things",
+        "lede": "WiFi or ISP is free. Some links to routers and internet providers are affiliate links, which is how the project pays for itself. Here's how that works and what it never changes.",
+        "body": '''
+        <h2>The rules we follow</h2>
+        <ul>
+          <li><strong>Diagnosis first.</strong> The app only suggests replacing equipment or switching providers when it finds a real ceiling: a router older than your devices, Wi-Fi slower than your plan, no smart queueing for lag under load, or a plan too small for your home.</li>
+          <li><strong>Picks by need, not by commission.</strong> Router picks come from manufacturer specs and independent reviews, and each one lists its downside.</li>
+          <li><strong>Labeled links.</strong> Affiliate links are marked as sponsored, and pages that contain them say so at the top.</li>
+          <li><strong>No cost to you.</strong> Buying through a link costs the same. If a link earns a commission, it doesn't change the price.</li>
+        </ul>
+        <h2>The app stays private</h2>
+        <p>The app has no analytics and no account. Recommendations are worked out on your Mac from your measurements, and links open in your browser only when you click them. Nothing about your network is sent to us or to any retailer or provider.</p>
+''',
+        "faqs": [],
+        "cta": "See what's actually slowing you down.",
+    }
+
+
 def pages():
-    return ([isp_page(i) for i in ISPS] + [isp_hub()]
+    return ([routers_page(), disclosure_page()] + [isp_page(i) for i in ISPS] + [isp_hub()]
             + [router_page(r) for r in ROUTERS] + [address_page(a) for a in ADDRESSES] + [router_hub()])

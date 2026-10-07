@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>How to Compare Internet Providers at Your Address</title>
+  <meta name="description" content="Work out the speeds your home actually needs, see which providers serve your address, and compare plans on what matters: upload, lag, and the real price.">
+  <link rel="canonical" href="https://wifiorisp.com/providers">
+  <meta property="og:title" content="How to Compare Internet Providers at Your Address">
+  <meta property="og:description" content="Work out the speeds your home actually needs, see which providers serve your address, and compare plans on what matters: upload, lag, and the real price.">
+  <meta property="og:image" content="https://wifiorisp.com/images/og.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta property="og:url" content="https://wifiorisp.com/providers">
+  <meta name="theme-color" content="#0b1530">
+  <link rel="icon" href="/images/icon.png">
+  <link rel="apple-touch-icon" href="/images/icon.png">
+  <link rel="stylesheet" href="/site.css">
+  <script src="https://cdn.usefathom.com/script.js" data-site="CRTCSZKQ" defer></script>
+  <script src="/needs.js" defer></script>
+  <script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "Article", "headline": "How to Compare Internet Providers at Your Address", "description": "Work out the speeds your home actually needs, see which providers serve your address, and compare plans on what matters: upload, lag, and the real price.", "url": "https://wifiorisp.com/providers", "dateModified": "2026-10-06", "author": {"@type": "Person", "name": "Corey Haines", "url": "https://corey.co"}, "publisher": {"@type": "Organization", "name": "WiFi or ISP", "logo": "https://wifiorisp.com/images/icon.png"}}, {"@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "How much internet speed do I need?", "acceptedAnswer": {"@type": "Answer", "text": "A rough guide: 10 Mbps down per person, plus 25 Mbps for each 4K stream, and about 3 Mbps up for each person on a video call. Use the calculator above for your home."}}, {"@type": "Question", "name": "Is fiber better than cable?", "acceptedAnswer": {"@type": "Answer", "text": "Usually. Fiber offers the same speed up and down and lower, steadier latency. Cable is fast downstream but uploads are much smaller, and it can slow down in busy evenings."}}, {"@type": "Question", "name": "What does the FCC map show?", "acceptedAnswer": {"@type": "Answer", "text": "Which providers say they can serve each location, with technology and maximum advertised speeds. It doesn't show prices, and a listing isn't a guarantee of service."}}]}]}</script>
+</head>
+<body>
+  <header class="nav">
+    <div class="wrap">
+      <a class="brand" href="/"><img src="/images/icon.png" alt=""> WiFi or ISP</a>
+      <nav>
+        <a href="/#how">How it works</a>
+        <a href="/bufferbloat-test">Bufferbloat test</a>
+        <a href="https://github.com/coreyhaines31/wifiorisp">GitHub</a>
+        <a class="pill" href="https://github.com/coreyhaines31/wifiorisp/releases/latest">Download</a>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <section class="sub-hero">
+      <div class="wrap narrow">
+        <p class="eyebrow">Compare providers</p>
+        <h1>Compare internet providers at your address</h1>
+        <p class="lede">When your plan or provider is the ceiling, switching can fix what no router will. Start from what your home needs, then see who can deliver it where you live.</p>
+        <p class="byline">By <a href="https://corey.co">Corey Haines</a>, maker of WiFi or ISP · Updated October 6, 2026</p>
+        
+      </div>
+    </section>
+    <section class="tool">
+      <div class="wrap narrow">
+        <form class="bb-card needs" id="needs-form" onsubmit="return false">
+          <h2>How much internet does your home need?</h2>
+          <div class="needs-grid">
+            <label>People at home <input id="n-people" type="number" min="1" max="12" value="2"></label>
+            <label>4K streams at once <input id="n-streams" type="number" min="0" max="8" value="1"></label>
+            <label class="check"><input id="n-calls" type="checkbox" checked> Video calls or remote work</label>
+            <label class="check"><input id="n-gaming" type="checkbox"> Online gaming</label>
+            <label class="check"><input id="n-uploads" type="checkbox"> Big uploads (backups, video, streaming)</label>
+          </div>
+          <dl class="bb-numbers needs-out">
+            <dt>Download</dt><dd id="n-down"></dd>
+            <dt>Upload</dt><dd id="n-up"></dd>
+          </dl>
+          <p class="bb-note" id="n-note"></p>
+        </form>
+      </div>
+    </section>
+    <section class="article">
+      <div class="wrap narrow prose">
+
+        <h2>See who serves your address</h2>
+        <ol class="steps">
+          <li><b>Open the FCC's National Broadband Map</b> at <a href="https://broadbandmap.fcc.gov">broadbandmap.fcc.gov</a> and enter your address.</li>
+          <li><b>Read the fixed providers list.</b> It shows each provider's technology (fiber, cable, DSL, fixed wireless, satellite) and its fastest advertised speeds.</li>
+          <li><b>Confirm with the provider.</b> A listing means the provider told the FCC it <em>can</em> serve your address, not that it already does. Check its site before you count on it.</li>
+        </ol>
+        <p>We're building a lookup right here that ranks the providers at your address by what your home needs.</p>
+
+        <h2>What to compare</h2>
+        <ul>
+          <li><strong>Technology first.</strong> Fiber is usually best: fast both ways, low lag, and steady in the evening. Cable is fast downstream but uploads are much slower. 5G home internet varies with the signal at your window. Satellite is the fallback where nothing else reaches.</li>
+          <li><strong>Upload speed.</strong> It's what video calls, backups, and livestreams use, and where many plans fall short.</li>
+          <li><strong>The real price.</strong> Look at the FCC broadband label every provider must show: the price after the promotion ends, equipment fees, and data caps.</li>
+          <li><strong>Lag under load.</strong> Plans don't list it, but it decides whether calls stutter. If a neighbor has the provider, ask them to run our <a href="/bufferbloat-test">bufferbloat test</a>.</li>
+        </ul>
+
+        <h2>Before you switch</h2>
+        <p>Make sure the provider is the problem. If your router answers slowly, a new provider won't help. WiFi or ISP tells you which side it is, and if you're getting far less than you pay for, its report helps you get that fixed first.</p>
+
+      </div>
+    </section>
+    <section class="faq">
+      <div class="wrap narrow">
+        <h2>Questions</h2>
+        <details><summary>How much internet speed do I need?</summary><p>A rough guide: 10 Mbps down per person, plus 25 Mbps for each 4K stream, and about 3 Mbps up for each person on a video call. Use the calculator above for your home.</p></details>
+        <details><summary>Is fiber better than cable?</summary><p>Usually. Fiber offers the same speed up and down and lower, steadier latency. Cable is fast downstream but uploads are much smaller, and it can slow down in busy evenings.</p></details>
+        <details><summary>What does the FCC map show?</summary><p>Which providers say they can serve each location, with technology and maximum advertised speeds. It doesn't show prices, and a listing isn't a guarantee of service.</p></details>
+      </div>
+    </section>
+    <section class="cta">
+      <div class="wrap">
+        <img src="/images/icon.png" alt="" width="96" height="96">
+        <h2>Know whether it's the provider before you switch.</h2>
+        <p class="cta-sub">WiFi or ISP is a free Mac menu bar app. It times your router and the internet at the same moment, says which side is slow, and keeps a log you can send your ISP.</p>
+        <div class="actions center">
+          <a class="pill big" href="https://github.com/coreyhaines31/wifiorisp/releases/latest"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11m-5-5 5 5 5-5M5 20h14"/></svg>Download free</a>
+        </div>
+        <p class="fineprint"><code>brew install --cask coreyhaines31/tap/wifiorisp</code></p>
+      </div>
+    </section>
+  </main>
+  <footer>
+    <div class="wrap">
+      <nav class="footer-links" aria-label="Guides"><a href="/bufferbloat-test">Bufferbloat test</a><a href="/why-is-my-wifi-so-slow">Why is my Wi-Fi so slow?</a><a href="/internet-keeps-dropping">Internet keeps dropping?</a><a href="/how-to-change-wifi-channel">How to change your Wi-Fi channel</a><a href="/how-to-restart-router">How to restart your router</a><a href="/why-does-my-wifi-keep-disconnecting">Why does my Wi-Fi keep disconnecting?</a><a href="/wifi-signal-strength">Wi-Fi signal strength chart</a><a href="/what-is-a-good-ping">What is a good ping?</a><a href="/mac-keeps-disconnecting-from-wifi">Mac keeps disconnecting from Wi-Fi</a><a href="/internet-slow-at-night">Internet slow at night?</a><a href="/ping-test">Ping and jitter test</a><a href="/providers">Compare internet providers</a><a href="/slow-internet">Slow internet by provider</a><a href="/router-login">Router login guides</a><a href="/routers">Router picks by need</a><a href="/affiliate-disclosure">Affiliate disclosure</a></nav>
+      <nav class="footer-links" aria-label="Alternatives"><a href="/alternatives/">Alternatives</a><a href="/alternatives/netspot">NetSpot alternative</a><a href="/alternatives/pingkit">PingKit alternative</a><a href="/alternatives/istat-menus">iStat Menus alternative</a><a href="/alternatives/wifi-explorer">WiFi Explorer alternative</a><a href="/alternatives/wifi-signal">WiFi Signal alternative</a></nav>
+      <span>© 2026 Corey Haines · Source available under <a href="https://github.com/coreyhaines31/wifiorisp/blob/main/LICENSE">FSL-1.1-MIT</a></span>
+      <span><a href="https://github.com/coreyhaines31/wifiorisp">GitHub</a> · <a href="https://github.com/coreyhaines31/wifiorisp/issues">Report a bug</a> · Also by Corey: <a href="https://midnightoil.app">Midnight Oil</a></span>
+    </div>
+  </footer>
+</body>
+</html>

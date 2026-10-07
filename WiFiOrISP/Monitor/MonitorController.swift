@@ -15,6 +15,14 @@ final class MonitorController: ObservableObject {
     @Published private(set) var latest: Sample?
     @Published private(set) var recent: [Sample] = []
     @Published private(set) var isPaused = false
+    /// Who made the router, and which provider the connection belongs to, for tailored advice.
+    @Published private(set) var maker: RouterMaker?
+    @Published private(set) var provider: Provider?
+    @Published private(set) var speedTests: [SpeedTestResult] = []
+    @Published private(set) var lag: ResponsivenessResult?
+    private(set) var macSupports6GHz = false
+    private var identifiedRouter: String?
+    private var providerLookedUp = Date.distantPast
 
     var onChange: (() -> Void)?
 
@@ -39,7 +47,18 @@ final class MonitorController: ObservableObject {
             MainActor.assumeIsolated { self?.wake() }
         }
         watchNetworkChanges()
+        macSupports6GHz = WiFiReader().supports6GHz
+        loadRecentTests()
         restartLoop()
+    }
+
+    /// What the advice is based on, right now.
+    var adviceContext: AdviceContext {
+        AdviceContext(
+            verdict: verdict, latest: latest, macSupports6GHz: macSupports6GHz, maker: maker, provider: provider,
+            plan: Preferences.plan, profile: Preferences.plan == nil ? nil : Preferences.profile,
+            speedTests: speedTests, lag: lag
+        )
     }
 
     /// Measures right away, for example when the menu opens. Never faster than the policy allows.
@@ -64,6 +83,58 @@ final class MonitorController: ObservableObject {
 
     func record(_ event: NetworkEvent) {
         try? store.append(event)
+        remember(event)
+    }
+
+    private func remember(_ event: NetworkEvent) {
+        switch event.kind {
+        case .speedTest(let result): speedTests = Array((speedTests + [result]).suffix(10))
+        case .responsiveness(let result): lag = result
+        default: break
+        }
+    }
+
+    private func loadRecentTests() {
+        let store = store
+        Task {
+            let events = await Task.detached {
+                store.load(from: Date().addingTimeInterval(-30 * 86400), to: Date()).events
+            }.value
+            events.forEach(remember)
+        }
+    }
+
+    /// Looks up the router's maker and the provider once per router. The maker comes from the Mac's own
+    /// address table; the provider takes one request to Cloudflare, skipped behind a VPN, where it
+    /// would name the VPN instead.
+    private func identifyNetworkIfNeeded() {
+        guard let router = sampler.routerTarget?.address else { return }
+        if router == identifiedRouter {
+            // A failed provider lookup (say, while offline) gets another try every ten minutes.
+            guard provider == nil, Date().timeIntervalSince(providerLookedUp) > 600 else { return }
+            lookUpProvider(for: router)
+            return
+        }
+        identifiedRouter = router
+        maker = nil
+        provider = nil
+        Task {
+            let mac = await Task.detached { GatewayHardware.macAddress(of: router) }.value
+            // The network may have changed while this ran; only keep answers for the current router.
+            guard router == identifiedRouter else { return }
+            maker = mac.flatMap(RouterMaker.lookup)
+        }
+        lookUpProvider(for: router)
+    }
+
+    private func lookUpProvider(for router: String) {
+        providerLookedUp = Date()
+        guard Route.current()?.isTunnel != true else { return }
+        Task {
+            let found = await Provider.detect()
+            guard router == identifiedRouter else { return }
+            provider = found
+        }
     }
 
     /// The router and the port the monitor found it answering on.
@@ -128,6 +199,7 @@ final class MonitorController: ObservableObject {
             detector = EventDetector()
         }
         verdict = VerdictEngine.evaluate(recent, now: sample.time)
+        identifyNetworkIfNeeded()
         onChange?()
     }
 

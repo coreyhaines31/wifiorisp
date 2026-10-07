@@ -69,7 +69,8 @@ def footer_links():
     """Every guide and alternative page, linked from every footer."""
     guides = "".join(f'<a href="/{g["slug"]}">{esc(g["link"])}</a>' for g in GUIDES)
     alts = "".join(f'<a href="/alternatives/{a["slug"]}">{esc(a["competitor"])} alternative</a>' for a in ALTERNATIVES)
-    hubs = '<a href="/slow-internet">Slow internet by provider</a><a href="/router-login">Router login guides</a>'
+    hubs = ('<a href="/slow-internet">Slow internet by provider</a><a href="/router-login">Router login guides</a>'
+            '<a href="/routers">Router picks by need</a><a href="/affiliate-disclosure">Affiliate disclosure</a>')
     return (f'      <nav class="footer-links" aria-label="Guides">{guides}{hubs}</nav>\n'
             f'      <nav class="footer-links" aria-label="Alternatives"><a href="/alternatives/">Alternatives</a>{alts}</nav>\n')
 

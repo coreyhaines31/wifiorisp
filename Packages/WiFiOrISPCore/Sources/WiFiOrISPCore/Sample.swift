@@ -47,10 +47,14 @@ public struct WiFiReading: Codable, Equatable, Sendable {
     public var ssid: String?
     /// The access point's MAC address. Only available with Location access.
     public var bssid: String?
+    /// The Wi-Fi generation of the connection, which is the lower of the Mac's and the router's.
+    public var generation: WiFiGeneration?
+    /// Channel width in MHz.
+    public var widthMHz: Int?
 
     public init(
         rssi: Int, noise: Int, txRate: Double, channel: Int? = nil, band: Band? = nil,
-        ssid: String? = nil, bssid: String? = nil
+        ssid: String? = nil, bssid: String? = nil, generation: WiFiGeneration? = nil, widthMHz: Int? = nil
     ) {
         self.rssi = rssi
         self.noise = noise
@@ -59,10 +63,35 @@ public struct WiFiReading: Codable, Equatable, Sendable {
         self.band = band
         self.ssid = ssid
         self.bssid = bssid
+        self.generation = generation
+        self.widthMHz = widthMHz
+    }
+
+    /// "Wi-Fi 6E" for Wi-Fi 6 on the 6 GHz band, otherwise the generation's name.
+    public var generationLabel: String? {
+        guard let generation else { return nil }
+        return generation == .wifi6 && band == .ghz6 ? "Wi-Fi 6E" : generation.label
     }
 
     /// Signal-to-noise ratio in dB. Above 25 is good, below 15 is poor.
     public var snr: Int { rssi - noise }
+}
+
+/// Wi-Fi generations by their marketing names. Wi-Fi 6E is Wi-Fi 6 on the 6 GHz band.
+public enum WiFiGeneration: Int, Codable, Sendable, Comparable {
+    case legacy = 3
+    case wifi4 = 4
+    case wifi5 = 5
+    case wifi6 = 6
+    case wifi7 = 7
+
+    public var label: String {
+        self == .legacy ? "older than Wi-Fi 4" : "Wi-Fi \(rawValue)"
+    }
+
+    public static func < (lhs: WiFiGeneration, rhs: WiFiGeneration) -> Bool {
+        lhs.rawValue < rhs.rawValue
+    }
 }
 
 public enum Link: String, Codable, Sendable {

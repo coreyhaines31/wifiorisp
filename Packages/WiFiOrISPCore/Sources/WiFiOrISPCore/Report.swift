@@ -116,7 +116,7 @@ public struct ReportSummary: Equatable, Sendable {
 /// A plain-text report to send an ISP: what happened, when, and why it's on their side.
 public enum ISPReport {
     public static func text(
-        log: Log, start: Date, end: Date, generated: Date = Date(), timeZone: TimeZone = .current
+        log: Log, start: Date, end: Date, generated: Date = Date(), timeZone: TimeZone = .current, plan: Plan? = nil
     ) -> String {
         let summary = ReportSummary(log: log, start: start, end: end)
         let style = Date.FormatStyle(date: .abbreviated, time: .shortened, timeZone: timeZone)
@@ -138,6 +138,7 @@ public enum ISPReport {
             return lines.joined(separator: "\n") + "\n"
         }
         lines += summarySection(summary)
+        lines += planSection(summary, plan: plan)
         lines += outagesSection(summary, when: when)
         lines += testsSection(summary, when: when)
         lines += methodSection(summary)
@@ -168,6 +169,20 @@ public enum ISPReport {
             lines.append("- Typical round trip to the internet: \(ms(internet)) (95th percentile \(ms(p95))).")
         }
         lines.append("- Internet probes lost: \(percent(summary.internetLoss)).")
+        return lines + [""]
+    }
+
+    /// What the plan promises against what speed tests measured.
+    private static func planSection(_ summary: ReportSummary, plan: Plan?) -> [String] {
+        guard let plan else { return [] }
+        var lines = heading("My plan")
+        lines.append("- I pay for \(mbps(plan.downMbps)) down and \(mbps(plan.upMbps)) up.")
+        if let download = Statistics.median(summary.speedTests.map(\.downloadMbps)),
+           let upload = Statistics.median(summary.speedTests.map(\.uploadMbps)) {
+            lines.append("- Speed tests in this period: typically \(mbps(download)) down "
+                + "(\(percent(download / plan.downMbps)) of the plan) and \(mbps(upload)) up "
+                + "(\(percent(upload / plan.upMbps))).")
+        }
         return lines + [""]
     }
 

@@ -538,3 +538,64 @@ GUIDES += [
         "cta": "Watch your ping all day, router and internet.",
     },
 ]
+
+NEEDS_WIDGET = '''    <section class="tool">
+      <div class="wrap narrow">
+        <form class="bb-card needs" id="needs-form" onsubmit="return false">
+          <h2>How much internet does your home need?</h2>
+          <div class="needs-grid">
+            <label>People at home <input id="n-people" type="number" min="1" max="12" value="2"></label>
+            <label>4K streams at once <input id="n-streams" type="number" min="0" max="8" value="1"></label>
+            <label class="check"><input id="n-calls" type="checkbox" checked> Video calls or remote work</label>
+            <label class="check"><input id="n-gaming" type="checkbox"> Online gaming</label>
+            <label class="check"><input id="n-uploads" type="checkbox"> Big uploads (backups, video, streaming)</label>
+          </div>
+          <dl class="bb-numbers needs-out">
+            <dt>Download</dt><dd id="n-down"></dd>
+            <dt>Upload</dt><dd id="n-up"></dd>
+          </dl>
+          <p class="bb-note" id="n-note"></p>
+        </form>
+      </div>
+    </section>
+'''
+
+GUIDES += [
+    {
+        "slug": "providers",
+        "link": "Compare internet providers",
+        "title": "How to Compare Internet Providers at Your Address",
+        "description": "Work out the speeds your home actually needs, see which providers serve your address, and compare plans on what matters: upload, lag, and the real price.",
+        "eyebrow": "Compare providers",
+        "h1": "Compare internet providers at your address",
+        "lede": "When your plan or provider is the ceiling, switching can fix what no router will. Start from what your home needs, then see who can deliver it where you live.",
+        "scripts": '\n  <script src="/needs.js" defer></script>',
+        "widget": NEEDS_WIDGET,
+        "body": '''
+        <h2>See who serves your address</h2>
+        <ol class="steps">
+          <li><b>Open the FCC's National Broadband Map</b> at <a href="https://broadbandmap.fcc.gov">broadbandmap.fcc.gov</a> and enter your address.</li>
+          <li><b>Read the fixed providers list.</b> It shows each provider's technology (fiber, cable, DSL, fixed wireless, satellite) and its fastest advertised speeds.</li>
+          <li><b>Confirm with the provider.</b> A listing means the provider told the FCC it <em>can</em> serve your address, not that it already does. Check its site before you count on it.</li>
+        </ol>
+        <p>We're building a lookup right here that ranks the providers at your address by what your home needs.</p>
+
+        <h2>What to compare</h2>
+        <ul>
+          <li><strong>Technology first.</strong> Fiber is usually best: fast both ways, low lag, and steady in the evening. Cable is fast downstream but uploads are much slower. 5G home internet varies with the signal at your window. Satellite is the fallback where nothing else reaches.</li>
+          <li><strong>Upload speed.</strong> It's what video calls, backups, and livestreams use, and where many plans fall short.</li>
+          <li><strong>The real price.</strong> Look at the FCC broadband label every provider must show: the price after the promotion ends, equipment fees, and data caps.</li>
+          <li><strong>Lag under load.</strong> Plans don't list it, but it decides whether calls stutter. If a neighbor has the provider, ask them to run our <a href="/bufferbloat-test">bufferbloat test</a>.</li>
+        </ul>
+
+        <h2>Before you switch</h2>
+        <p>Make sure the provider is the problem. If your router answers slowly, a new provider won't help. WiFi or ISP tells you which side it is, and if you're getting far less than you pay for, its report helps you get that fixed first.</p>
+''',
+        "faqs": [
+            ("How much internet speed do I need?", "A rough guide: 10 Mbps down per person, plus 25 Mbps for each 4K stream, and about 3 Mbps up for each person on a video call. Use the calculator above for your home."),
+            ("Is fiber better than cable?", "Usually. Fiber offers the same speed up and down and lower, steadier latency. Cable is fast downstream but uploads are much smaller, and it can slow down in busy evenings."),
+            ("What does the FCC map show?", "Which providers say they can serve each location, with technology and maximum advertised speeds. It doesn't show prices, and a listing isn't a guarantee of service."),
+        ],
+        "cta": "Know whether it's the provider before you switch.",
+    },
+]

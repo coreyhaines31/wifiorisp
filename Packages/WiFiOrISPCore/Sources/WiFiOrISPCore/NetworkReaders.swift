@@ -62,8 +62,38 @@ public final class WiFiReader {
             channel: channel?.channelNumber,
             band: channel.flatMap { Band(channel: $0) },
             ssid: interface.ssid(),
-            bssid: interface.bssid()
+            bssid: interface.bssid(),
+            generation: WiFiGeneration(phyMode: interface.activePHYMode()),
+            widthMHz: channel.flatMap { Self.megahertz($0.channelWidth) }
         ))
+    }
+
+    /// Whether this Mac's Wi-Fi hardware can use the 6 GHz band, which means Wi-Fi 6E or newer.
+    public var supports6GHz: Bool {
+        client.interface()?.supportedWLANChannels()?.contains { $0.channelBand == .band6GHz } ?? false
+    }
+
+    private static func megahertz(_ width: CWChannelWidth) -> Int? {
+        switch width {
+        case .width20MHz: 20
+        case .width40MHz: 40
+        case .width80MHz: 80
+        case .width160MHz: 160
+        default: nil
+        }
+    }
+}
+
+extension WiFiGeneration {
+    init?(phyMode: CWPHYMode) {
+        switch phyMode {
+        case .mode11a, .mode11b, .mode11g: self = .legacy
+        case .mode11n: self = .wifi4
+        case .mode11ac: self = .wifi5
+        case .mode11ax: self = .wifi6
+        case .mode11be: self = .wifi7
+        default: return nil
+        }
     }
 }
 
