@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>How to Change Your Wi-Fi Channel (and Pick the Best One)</title>
+  <meta name="description" content="Step-by-step: find a less crowded Wi-Fi channel on a Mac, then change it on Xfinity, Spectrum, AT&amp;T, Verizon, Netgear, TP-Link, Asus, Linksys, and more.">
+  <link rel="canonical" href="https://wifiorisp.com/how-to-change-wifi-channel">
+  <meta property="og:title" content="How to Change Your Wi-Fi Channel (and Pick the Best One)">
+  <meta property="og:description" content="Step-by-step: find a less crowded Wi-Fi channel on a Mac, then change it on Xfinity, Spectrum, AT&amp;T, Verizon, Netgear, TP-Link, Asus, Linksys, and more.">
+  <meta property="og:image" content="https://wifiorisp.com/images/og.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta property="og:url" content="https://wifiorisp.com/how-to-change-wifi-channel">
+  <meta name="theme-color" content="#0b1530">
+  <link rel="icon" href="/images/icon.png">
+  <link rel="apple-touch-icon" href="/images/icon.png">
+  <link rel="stylesheet" href="/site.css">
+  <script src="https://cdn.usefathom.com/script.js" data-site="CRTCSZKQ" defer></script>
+  <script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "Article", "headline": "How to Change Your Wi-Fi Channel (and Pick the Best One)", "description": "Step-by-step: find a less crowded Wi-Fi channel on a Mac, then change it on Xfinity, Spectrum, AT&T, Verizon, Netgear, TP-Link, Asus, Linksys, and more.", "url": "https://wifiorisp.com/how-to-change-wifi-channel", "dateModified": "2026-10-06", "author": {"@type": "Person", "name": "Corey Haines", "url": "https://corey.co"}, "publisher": {"@type": "Organization", "name": "WiFi or ISP", "logo": "https://wifiorisp.com/images/icon.png"}}, {"@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Is 2.4 GHz or 5 GHz better?", "acceptedAnswer": {"@type": "Answer", "text": "5 GHz is much faster and less crowded, but it doesn't reach as far through walls. Use 5 GHz (or 6 GHz) when you're reasonably close to the router, and 2.4 GHz only for range."}}, {"@type": "Question", "name": "Why can't I change the channel on my router?", "acceptedAnswer": {"@type": "Answer", "text": "Some routers choose channels automatically and don't offer a manual setting, including eero and Spectrum's newer routers, and Cox's Panoramic gateways. They're designed to move to quieter channels on their own; restarting them can prompt a fresh pick."}}, {"@type": "Question", "name": "Will changing the channel disconnect my devices?", "acceptedAnswer": {"@type": "Answer", "text": "Briefly. Devices reconnect to the new channel on their own within a few seconds."}}]}]}</script>
+</head>
+<body>
+  <header class="nav">
+    <div class="wrap">
+      <a class="brand" href="/"><img src="/images/icon.png" alt=""> WiFi or ISP</a>
+      <nav>
+        <a href="/#how">How it works</a>
+        <a href="/bufferbloat-test">Bufferbloat test</a>
+        <a href="https://github.com/coreyhaines31/wifiorisp">GitHub</a>
+        <a class="pill" href="https://github.com/coreyhaines31/wifiorisp/releases/latest">Download</a>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <section class="sub-hero">
+      <div class="wrap narrow">
+        <p class="eyebrow">Guide</p>
+        <h1>How to change your Wi-Fi channel</h1>
+        <p class="lede">When your signal is strong but Wi-Fi is still slow, a crowded channel is a common culprit, especially in apartments. Here's how to find a quieter one and switch to it on the router you have.</p>
+        <p class="byline">By <a href="https://corey.co">Corey Haines</a>, maker of WiFi or ISP · Updated October 6, 2026</p>
+        <div class="tldr"><h2>The short answer</h2><p>On 2.4 GHz, use channel 1, 6, or 11. On 5 GHz, pick the channel your Mac's Wireless Diagnostics scan recommends. Then change it in your router's app or admin page; some routers, like eero and newer Spectrum models, only pick channels automatically.</p></div>
+      </div>
+    </section>
+    <section class="article">
+      <div class="wrap narrow prose">
+
+        <h2>When changing the channel helps</h2>
+        <p>Wi-Fi networks on the same channel take turns talking. If a dozen neighbors share yours, your router waits, and everything feels slow even with full bars. Signs it's the channel: a strong signal, a slow router response, and slowdowns that get worse in the evening when everyone's home. <a href="/why-is-my-wifi-so-slow">Here's how to check which side is slow first.</a></p>
+
+        <h2>Find the least crowded channel on a Mac</h2>
+        <ol class="steps">
+          <li><b>Open Wireless Diagnostics.</b> Hold Option, click the Wi-Fi icon in the menu bar, and choose Open Wireless Diagnostics. Skip the assistant that appears.</li>
+          <li><b>Scan.</b> From the Window menu, choose Scan, then click Scan Now. You'll see every network around you with its channel.</li>
+          <li><b>Read the recommendation.</b> The summary on the left lists the best 2.4 GHz and 5 GHz channels for where you're sitting.</li>
+        </ol>
+
+        <h2>Which channel to pick</h2>
+        <ul>
+          <li><strong>2.4 GHz:</strong> only 1, 6, and 11 don't overlap each other in the US. Use whichever of those three is least busy. Anything in between overlaps two of them.</li>
+          <li><strong>5 GHz:</strong> there are many more channels. 36 to 48 and 149 to 165 work with every device. The DFS channels in between are often empty, but the router has to move off them if it detects radar.</li>
+          <li><strong>6 GHz:</strong> if your router and Mac both support Wi-Fi 6E or 7, 6 GHz is wide open and rarely crowded.</li>
+          <li><strong>Automatic</strong> is fine on most modern routers. Switch to a manual channel only if automatic keeps landing somewhere crowded.</li>
+        </ul>
+
+        <h2>How to change it on your router</h2>
+        <p>Steps from each maker's own documentation. If yours isn't listed, look for “Wireless,” “Wi-Fi settings,” or “Radio settings” in the admin page or app.</p>
+<h3><a href="/router-login/xfinity">Xfinity (Comcast) Gateway</a></h3><ol class="steps"><li>XB2 and XB3 gateways only: go to http://10.0.0.1 and sign in.</li><li>Go to Gateway &gt; Connection &gt; Wi-Fi.</li><li>Click EDIT next to the band you want to change.</li><li>Select Manual for Channel Selection, then pick a channel.</li><li>Click Save Settings at the bottom of the page.</li></ol><p>On XB6 and newer gateways, Xfinity says Wi-Fi settings are optimized automatically and advanced Wi-Fi settings cannot be managed from the Admin Tool; Xfinity points these customers to the Xfinity app instead.</p>
+<h3><a href="/router-login/spectrum">Spectrum Router</a></h3><ol class="steps"><li>Spectrum&#x27;s own guidance is that newer routers pick the channel with the most capacity automatically; restarting the modem and router makes it re-select the best available channel.</li></ol><p>We found no Spectrum article offering manual channel selection. Advanced WiFi Settings in the app covers DNS, UPnP, port forwarding, IP reservation and factory reset.</p>
+<h3><a href="/router-login/att">AT&amp;T Wi-Fi Gateway</a></h3><ol class="steps"><li>Go to http://192.168.1.254.</li><li>Select Home Network, then Wi-Fi.</li><li>Enter the Device Access Code from the gateway&#x27;s label.</li><li>Select Advanced Options and scroll to the 2.4 GHz or 5 GHz radio section to set the channel.</li><li>Save.</li></ol><p>Path confirmed on AT&amp;T&#x27;s BGW320 FAQ (Home Network &gt; Wi-Fi &gt; Advanced Options, with 2.4 GHz and 5 GHz radio sections).</p>
+<h3><a href="/router-login/verizon-fios">Verizon Fios Router</a></h3><ol class="steps"><li>Verizon Router (CR1000A): sign in at mynetworksettings.com.</li><li>From the Advanced menu, select Wi-Fi, then Radio Management.</li><li>Optionally click Scan to rate channels (Channel Analysis shows a 0-10 congestion score).</li><li>Under Channel Settings, pick a channel or leave it on Auto.</li><li>To keep a manual channel after a reboot, open Settings on that page and tick &#x27;Keep my channel selection during power cycle&#x27;, then Apply changes.</li></ol><p>Path is from the Verizon Router CR1000A user guide. Older Fios Router models (e.g.</p>
+<h3><a href="/router-login/cox">Cox Panoramic Wifi Gateway</a></h3><ol class="steps"><li>Not user-changeable. Per Cox forum moderators, Panoramic gateways manage channel selection, channel width and Wi-Fi mode automatically and scan for the least congested channel; a restart triggers a fresh scan.</li></ol>
+<h3><a href="/router-login/eero">eero</a></h3><ol class="steps"><li>Not user-changeable. eero uses automatic channel selection and Dynamic Frequency Selection to move to less congested channels; eero suggests a soft reset so the system re-learns your environment.</li></ol>
+<h3><a href="/router-login/google-nest-wifi">Google Nest Wifi / Google Wifi</a></h3><ol class="steps"><li>Not user-changeable. Google says the router and points work together to keep devices on the clearest channel automatically.</li></ol>
+<h3><a href="/router-login/netgear">NETGEAR (Nighthawk and Orbi)</a></h3><ol class="steps"><li>Sign in at routerlogin.net (Orbi: orbilogin.com).</li><li>Select Wireless (on some models ADVANCED &gt; Wireless Settings).</li><li>Scroll to the band you want and choose a number from the Channel menu.</li><li>Click Apply. If you use extenders, set them to match.</li></ol><p>Not every channel is available in every region.</p>
+<h3><a href="/router-login/tp-link">TP-Link (Archer and Deco)</a></h3><ol class="steps"><li>Archer: sign in at tplinkwifi.net, go to Advanced &gt; Wireless &gt; Wireless Settings, pick a Channel (TP-Link recommends Auto unless you have problems), Save.</li><li>Deco: only some models allow manual channels (Deco app: More &gt; Wi-Fi Settings &gt; Advanced). Others use More &gt; Network Optimization to pick channels automatically.</li></ol><p>Exact menus vary by model and firmware.</p>
+<h3><a href="/router-login/asus">ASUS</a></h3><ol class="steps"><li>Sign in at www.asusrouter.com.</li><li>Go to Wireless &gt; General.</li><li>Pick the band (2.4 / 5 / 6 GHz), set Control Channel, click Apply.</li></ol><p>By default ASUS picks the control channel automatically. Available channels depend on your country.</p>
+<h3><a href="/router-login/linksys">Linksys (including Velop)</a></h3><ol class="steps"><li>Web: sign in, click Wi-Fi Settings, and set Channel (and Channel width) there.</li><li>App: menu &gt; Wi-Fi Settings &gt; Advanced Wi-Fi Settings &gt; Channel Finder to scan for the best channels (some models re-scan automatically every 5 days).</li></ol><p>Settings vary by model.</p>
+<h3><a href="/router-login/ubiquiti-unifi">Ubiquiti UniFi (Dream Router, UniFi Express)</a></h3><ol class="steps"><li>In UniFi Network: set channels for all APs under Radios, or per access point in UniFi Devices &gt; select the AP &gt; Settings.</li><li>Ubiquiti recommends only channels 1, 6 or 11 on 2.4 GHz.</li></ol><p>Menu names come from Ubiquiti&#x27;s help center and shift between UniFi Network versions.</p>
+<h3><a href="/router-login/apple-airport">Apple AirPort (discontinued)</a></h3><ol class="steps"><li>Open AirPort Utility, select the base station, click Edit.</li><li>Click Wireless, then Wireless Options near the bottom.</li><li>Choose channels from the 2.4 GHz Channel and 5 GHz Channel pop-up menus.</li><li>Click Save, then Update.</li></ol>
+        <h2>After you change it</h2>
+        <p>Devices reconnect within a few seconds. Give it a day: if slowdowns stop at the times they used to happen, the channel was the problem. If your router keeps answering slowly with a strong signal, the router itself may be overloaded or too old.</p>
+
+      </div>
+    </section>
+    <section class="faq">
+      <div class="wrap narrow">
+        <h2>Questions</h2>
+        <details><summary>Is 2.4 GHz or 5 GHz better?</summary><p>5 GHz is much faster and less crowded, but it doesn't reach as far through walls. Use 5 GHz (or 6 GHz) when you're reasonably close to the router, and 2.4 GHz only for range.</p></details>
+        <details><summary>Why can&#x27;t I change the channel on my router?</summary><p>Some routers choose channels automatically and don't offer a manual setting, including eero and Spectrum's newer routers, and Cox's Panoramic gateways. They're designed to move to quieter channels on their own; restarting them can prompt a fresh pick.</p></details>
+        <details><summary>Will changing the channel disconnect my devices?</summary><p>Briefly. Devices reconnect to the new channel on their own within a few seconds.</p></details>
+      </div>
+    </section>
+    <section class="cta">
+      <div class="wrap">
+        <img src="/images/icon.png" alt="" width="96" height="96">
+        <h2>Know when the channel is the problem.</h2>
+        <p class="cta-sub">WiFi or ISP is a free Mac menu bar app. It times your router and the internet at the same moment, says which side is slow, and keeps a log you can send your ISP.</p>
+        <div class="actions center">
+          <a class="pill big" href="https://github.com/coreyhaines31/wifiorisp/releases/latest"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11m-5-5 5 5 5-5M5 20h14"/></svg>Download free</a>
+        </div>
+        <p class="fineprint"><code>brew install --cask coreyhaines31/tap/wifiorisp</code></p>
+      </div>
+    </section>
+  </main>
+  <footer>
+    <div class="wrap">
+      <nav class="footer-links" aria-label="Guides"><a href="/bufferbloat-test">Bufferbloat test</a><a href="/why-is-my-wifi-so-slow">Why is my Wi-Fi so slow?</a><a href="/internet-keeps-dropping">Internet keeps dropping?</a><a href="/how-to-change-wifi-channel">How to change your Wi-Fi channel</a><a href="/how-to-restart-router">How to restart your router</a><a href="/why-does-my-wifi-keep-disconnecting">Why does my Wi-Fi keep disconnecting?</a><a href="/wifi-signal-strength">Wi-Fi signal strength chart</a><a href="/what-is-a-good-ping">What is a good ping?</a><a href="/mac-keeps-disconnecting-from-wifi">Mac keeps disconnecting from Wi-Fi</a><a href="/internet-slow-at-night">Internet slow at night?</a><a href="/ping-test">Ping and jitter test</a><a href="/slow-internet">Slow internet by provider</a><a href="/router-login">Router login guides</a></nav>
+      <nav class="footer-links" aria-label="Alternatives"><a href="/alternatives/">Alternatives</a><a href="/alternatives/netspot">NetSpot alternative</a><a href="/alternatives/pingkit">PingKit alternative</a><a href="/alternatives/istat-menus">iStat Menus alternative</a><a href="/alternatives/wifi-explorer">WiFi Explorer alternative</a><a href="/alternatives/wifi-signal">WiFi Signal alternative</a></nav>
+      <span>© 2026 Corey Haines · Source available under <a href="https://github.com/coreyhaines31/wifiorisp/blob/main/LICENSE">FSL-1.1-MIT</a></span>
+      <span><a href="https://github.com/coreyhaines31/wifiorisp">GitHub</a> · <a href="https://github.com/coreyhaines31/wifiorisp/issues">Report a bug</a> · Also by Corey: <a href="https://midnightoil.app">Midnight Oil</a></span>
+    </div>
+  </footer>
+</body>
+</html>

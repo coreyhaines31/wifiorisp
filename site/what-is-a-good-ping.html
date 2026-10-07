@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>What Is a Good Ping? Latency Explained, With a Chart</title>
+  <meta name="description" content="What a good ping is for browsing, video calls, and gaming, why your router&#x27;s ping matters, and what jitter and lag under load mean. Plus how to test yours.">
+  <link rel="canonical" href="https://wifiorisp.com/what-is-a-good-ping">
+  <meta property="og:title" content="What Is a Good Ping? Latency Explained, With a Chart">
+  <meta property="og:description" content="What a good ping is for browsing, video calls, and gaming, why your router&#x27;s ping matters, and what jitter and lag under load mean. Plus how to test yours.">
+  <meta property="og:image" content="https://wifiorisp.com/images/og.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta property="og:url" content="https://wifiorisp.com/what-is-a-good-ping">
+  <meta name="theme-color" content="#0b1530">
+  <link rel="icon" href="/images/icon.png">
+  <link rel="apple-touch-icon" href="/images/icon.png">
+  <link rel="stylesheet" href="/site.css">
+  <script src="https://cdn.usefathom.com/script.js" data-site="CRTCSZKQ" defer></script>
+  <script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "Article", "headline": "What Is a Good Ping? Latency Explained, With a Chart", "description": "What a good ping is for browsing, video calls, and gaming, why your router's ping matters, and what jitter and lag under load mean. Plus how to test yours.", "url": "https://wifiorisp.com/what-is-a-good-ping", "dateModified": "2026-10-06", "author": {"@type": "Person", "name": "Corey Haines", "url": "https://corey.co"}, "publisher": {"@type": "Organization", "name": "WiFi or ISP", "logo": "https://wifiorisp.com/images/icon.png"}}, {"@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Is 30 ms ping good?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. 30 ms is good for everything, including video calls and most gaming."}}, {"@type": "Question", "name": "Is 100 ms ping bad?", "acceptedAnswer": {"@type": "Answer", "text": "It's noticeable in fast games and you may see a slight delay in calls, but browsing and streaming are fine."}}, {"@type": "Question", "name": "Does Wi-Fi add ping?", "acceptedAnswer": {"@type": "Answer", "text": "A little, usually a few milliseconds. A weak signal or crowded channel can add much more, and that shows up as a slow ping to your own router."}}]}]}</script>
+</head>
+<body>
+  <header class="nav">
+    <div class="wrap">
+      <a class="brand" href="/"><img src="/images/icon.png" alt=""> WiFi or ISP</a>
+      <nav>
+        <a href="/#how">How it works</a>
+        <a href="/bufferbloat-test">Bufferbloat test</a>
+        <a href="https://github.com/coreyhaines31/wifiorisp">GitHub</a>
+        <a class="pill" href="https://github.com/coreyhaines31/wifiorisp/releases/latest">Download</a>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <section class="sub-hero">
+      <div class="wrap narrow">
+        <p class="eyebrow">Guide</p>
+        <h1>What is a good ping?</h1>
+        <p class="lede">Ping, or latency, is how long a round trip takes from your device to a server and back, in milliseconds. Lower is better, and steady matters as much as low.</p>
+        <p class="byline">By <a href="https://corey.co">Corey Haines</a>, maker of WiFi or ISP · Updated October 6, 2026</p>
+        <div class="tldr"><h2>The short answer</h2><p>Under 20 ms is excellent, 20 to 50 ms is good, 50 to 100 ms is fine for most things, and over 100 ms is noticeable in calls and games. Your router itself should answer in under 10 ms.</p></div>
+      </div>
+    </section>
+    <section class="article">
+      <div class="wrap narrow prose">
+
+        <h2>The chart</h2>
+        <div class="table-wrap"><table class="compare">
+          <thead><tr><th>Ping to the internet</th><th>Rating</th><th>Good for</th></tr></thead>
+          <tbody>
+            <tr><td>Under 20 ms</td><td>Excellent</td><td>Everything, including competitive gaming</td></tr>
+            <tr><td>20–50 ms</td><td>Good</td><td>Video calls, gaming, streaming</td></tr>
+            <tr><td>50–100 ms</td><td>OK</td><td>Browsing and streaming; calls are fine</td></tr>
+            <tr><td>100–200 ms</td><td>Slow</td><td>Noticeable delay in calls; games feel laggy</td></tr>
+            <tr><td>Over 200 ms</td><td>Poor</td><td>Calls talk over each other; real-time games suffer</td></tr>
+          </tbody>
+        </table></div>
+        <p>Satellite connections are the exception: older geostationary satellite service is around 600 ms by physics, and Starlink is usually much lower.</p>
+
+        <h2>Ping your router, too</h2>
+        <p>A round trip to your own router should take a few milliseconds on Wi-Fi, and under 1 ms on a cable. If even your router is slow, the problem is your Wi-Fi or router, and a faster internet plan won't help. If the router is fast and the internet is slow, it's past your home. That one comparison is the fastest way to know <a href="/why-is-my-wifi-so-slow">whether it's your Wi-Fi or your ISP</a>.</p>
+
+        <h2>Jitter: when ping won't sit still</h2>
+        <p>Jitter is how much ping varies from one round trip to the next. A steady 60 ms is better for a call than one that bounces between 15 and 150. Under 30 ms of jitter is fine for calls.</p>
+
+        <h2>Lag under load</h2>
+        <p>Many connections have a great ping when idle and a terrible one while something's uploading or downloading. That's bufferbloat, and it's why calls stutter during a backup. <a href="/bufferbloat-test">Test it here.</a></p>
+
+        <h2>How to check your ping on a Mac</h2>
+        <p>Open Terminal and run <code>ping -c 20 1.1.1.1</code>. The summary line at the end shows the minimum, average, and maximum, plus standard deviation, a rough measure of jitter.</p>
+
+      </div>
+    </section>
+    <section class="faq">
+      <div class="wrap narrow">
+        <h2>Questions</h2>
+        <details><summary>Is 30 ms ping good?</summary><p>Yes. 30 ms is good for everything, including video calls and most gaming.</p></details>
+        <details><summary>Is 100 ms ping bad?</summary><p>It's noticeable in fast games and you may see a slight delay in calls, but browsing and streaming are fine.</p></details>
+        <details><summary>Does Wi-Fi add ping?</summary><p>A little, usually a few milliseconds. A weak signal or crowded channel can add much more, and that shows up as a slow ping to your own router.</p></details>
+      </div>
+    </section>
+    <section class="cta">
+      <div class="wrap">
+        <img src="/images/icon.png" alt="" width="96" height="96">
+        <h2>Watch your ping to the router and the internet.</h2>
+        <p class="cta-sub">WiFi or ISP is a free Mac menu bar app. It times your router and the internet at the same moment, says which side is slow, and keeps a log you can send your ISP.</p>
+        <div class="actions center">
+          <a class="pill big" href="https://github.com/coreyhaines31/wifiorisp/releases/latest"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11m-5-5 5 5 5-5M5 20h14"/></svg>Download free</a>
+        </div>
+        <p class="fineprint"><code>brew install --cask coreyhaines31/tap/wifiorisp</code></p>
+      </div>
+    </section>
+  </main>
+  <footer>
+    <div class="wrap">
+      <nav class="footer-links" aria-label="Guides"><a href="/bufferbloat-test">Bufferbloat test</a><a href="/why-is-my-wifi-so-slow">Why is my Wi-Fi so slow?</a><a href="/internet-keeps-dropping">Internet keeps dropping?</a><a href="/how-to-change-wifi-channel">How to change your Wi-Fi channel</a><a href="/how-to-restart-router">How to restart your router</a><a href="/why-does-my-wifi-keep-disconnecting">Why does my Wi-Fi keep disconnecting?</a><a href="/wifi-signal-strength">Wi-Fi signal strength chart</a><a href="/what-is-a-good-ping">What is a good ping?</a><a href="/mac-keeps-disconnecting-from-wifi">Mac keeps disconnecting from Wi-Fi</a><a href="/internet-slow-at-night">Internet slow at night?</a><a href="/ping-test">Ping and jitter test</a><a href="/slow-internet">Slow internet by provider</a><a href="/router-login">Router login guides</a></nav>
+      <nav class="footer-links" aria-label="Alternatives"><a href="/alternatives/">Alternatives</a><a href="/alternatives/netspot">NetSpot alternative</a><a href="/alternatives/pingkit">PingKit alternative</a><a href="/alternatives/istat-menus">iStat Menus alternative</a><a href="/alternatives/wifi-explorer">WiFi Explorer alternative</a><a href="/alternatives/wifi-signal">WiFi Signal alternative</a></nav>
+      <span>© 2026 Corey Haines · Source available under <a href="https://github.com/coreyhaines31/wifiorisp/blob/main/LICENSE">FSL-1.1-MIT</a></span>
+      <span><a href="https://github.com/coreyhaines31/wifiorisp">GitHub</a> · <a href="https://github.com/coreyhaines31/wifiorisp/issues">Report a bug</a> · Also by Corey: <a href="https://midnightoil.app">Midnight Oil</a></span>
+    </div>
+  </footer>
+</body>
+</html>

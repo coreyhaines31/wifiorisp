@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Wi-Fi Signal Strength: What&#x27;s a Good dBm? (Chart)</title>
+  <meta name="description" content="What Wi-Fi signal strength numbers mean: a dBm chart from excellent (−30) to unusable (−90), what SNR is, and how to check your signal on a Mac.">
+  <link rel="canonical" href="https://wifiorisp.com/wifi-signal-strength">
+  <meta property="og:title" content="Wi-Fi Signal Strength: What&#x27;s a Good dBm? (Chart)">
+  <meta property="og:description" content="What Wi-Fi signal strength numbers mean: a dBm chart from excellent (−30) to unusable (−90), what SNR is, and how to check your signal on a Mac.">
+  <meta property="og:image" content="https://wifiorisp.com/images/og.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta property="og:url" content="https://wifiorisp.com/wifi-signal-strength">
+  <meta name="theme-color" content="#0b1530">
+  <link rel="icon" href="/images/icon.png">
+  <link rel="apple-touch-icon" href="/images/icon.png">
+  <link rel="stylesheet" href="/site.css">
+  <script src="https://cdn.usefathom.com/script.js" data-site="CRTCSZKQ" defer></script>
+  <script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "Article", "headline": "Wi-Fi Signal Strength: What's a Good dBm? (Chart)", "description": "What Wi-Fi signal strength numbers mean: a dBm chart from excellent (−30) to unusable (−90), what SNR is, and how to check your signal on a Mac.", "url": "https://wifiorisp.com/wifi-signal-strength", "dateModified": "2026-10-06", "author": {"@type": "Person", "name": "Corey Haines", "url": "https://corey.co"}, "publisher": {"@type": "Organization", "name": "WiFi or ISP", "logo": "https://wifiorisp.com/images/icon.png"}}, {"@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Is −50 dBm good Wi-Fi signal?", "acceptedAnswer": {"@type": "Answer", "text": "Yes, −50 dBm is excellent. You'll get full speed."}}, {"@type": "Question", "name": "Is −70 dBm good?", "acceptedAnswer": {"@type": "Answer", "text": "It's fair: fine for browsing and most streaming, but at the edge for video calls. Below −75 dBm, expect problems."}}, {"@type": "Question", "name": "Why is my signal strong but Wi-Fi slow?", "acceptedAnswer": {"@type": "Answer", "text": "A strong signal only covers the link to your router. A crowded channel, a struggling router, or your ISP can still make things slow."}}]}]}</script>
+</head>
+<body>
+  <header class="nav">
+    <div class="wrap">
+      <a class="brand" href="/"><img src="/images/icon.png" alt=""> WiFi or ISP</a>
+      <nav>
+        <a href="/#how">How it works</a>
+        <a href="/bufferbloat-test">Bufferbloat test</a>
+        <a href="https://github.com/coreyhaines31/wifiorisp">GitHub</a>
+        <a class="pill" href="https://github.com/coreyhaines31/wifiorisp/releases/latest">Download</a>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <section class="sub-hero">
+      <div class="wrap narrow">
+        <p class="eyebrow">Guide</p>
+        <h1>Wi-Fi signal strength: what's a good dBm?</h1>
+        <p class="lede">Wi-Fi signal is measured in dBm, a negative number where closer to zero is stronger. Here's what the numbers mean, in plain words.</p>
+        <p class="byline">By <a href="https://corey.co">Corey Haines</a>, maker of WiFi or ISP · Updated October 6, 2026</p>
+        <div class="tldr"><h2>The short answer</h2><p>−30 to −55 dBm is excellent, −55 to −67 is good, −67 to −75 is fair, and below −75 dBm is weak enough to cause slowdowns and drops.</p></div>
+      </div>
+    </section>
+    <section class="article">
+      <div class="wrap narrow prose">
+
+        <h2>The chart</h2>
+        <div class="table-wrap"><table class="compare">
+          <thead><tr><th>Signal (dBm)</th><th>In plain words</th><th>What to expect</th></tr></thead>
+          <tbody>
+            <tr><td>−30 to −55</td><td>Excellent</td><td>Full speed. You're close to the router.</td></tr>
+            <tr><td>−55 to −67</td><td>Good</td><td>Fast and reliable for video calls and streaming.</td></tr>
+            <tr><td>−67 to −75</td><td>Fair</td><td>Fine for browsing; video calls may stutter.</td></tr>
+            <tr><td>−75 to −85</td><td>Weak</td><td>Slow, with dropouts. Time to move closer or add an access point.</td></tr>
+            <tr><td>Below −85</td><td>Unusable</td><td>Barely connects, if at all.</td></tr>
+          </tbody>
+        </table></div>
+        <p>The scale is logarithmic: every 3 dB is half (or double) the power, so −70 is a much weaker signal than −60, not a slightly weaker one.</p>
+
+        <h2>Signal isn't the whole story: noise and SNR</h2>
+        <p>Your router's signal competes with background radio noise, usually around −90 dBm. What matters is how far the signal rises above it, the signal-to-noise ratio (SNR). Above 25 dB is good; below 15 dB is poor even if the signal number looks fine.</p>
+
+        <h2>How to check your signal on a Mac</h2>
+        <ol class="steps">
+          <li><b>Hold Option and click the Wi-Fi icon</b> in the menu bar.</li>
+          <li><b>Read RSSI and Noise</b> under your network. RSSI is the signal in dBm; subtract Noise from it to get SNR.</li>
+        </ol>
+        <p>That's a snapshot. Signal changes as you move, as doors close, and as your Mac switches access points, so a log over a day tells you more than one reading.</p>
+
+        <h2>How to improve a weak signal</h2>
+        <ul>
+          <li>Move the router up high and toward the middle of your home.</li>
+          <li>Keep it out of cabinets and away from metal, mirrors, and fish tanks.</li>
+          <li>Add a mesh point or access point for distant rooms.</li>
+          <li>Use 5 or 6 GHz when you're close; 2.4 GHz reaches farther but is slower.</li>
+        </ul>
+        <p>A strong signal and slow internet anyway? Then the problem is the router or your ISP. <a href="/why-is-my-wifi-so-slow">Here's how to tell.</a></p>
+
+      </div>
+    </section>
+    <section class="faq">
+      <div class="wrap narrow">
+        <h2>Questions</h2>
+        <details><summary>Is −50 dBm good Wi-Fi signal?</summary><p>Yes, −50 dBm is excellent. You'll get full speed.</p></details>
+        <details><summary>Is −70 dBm good?</summary><p>It's fair: fine for browsing and most streaming, but at the edge for video calls. Below −75 dBm, expect problems.</p></details>
+        <details><summary>Why is my signal strong but Wi-Fi slow?</summary><p>A strong signal only covers the link to your router. A crowded channel, a struggling router, or your ISP can still make things slow.</p></details>
+      </div>
+    </section>
+    <section class="cta">
+      <div class="wrap">
+        <img src="/images/icon.png" alt="" width="96" height="96">
+        <h2>Your signal, in plain words, all day.</h2>
+        <p class="cta-sub">WiFi or ISP is a free Mac menu bar app. It times your router and the internet at the same moment, says which side is slow, and keeps a log you can send your ISP.</p>
+        <div class="actions center">
+          <a class="pill big" href="https://github.com/coreyhaines31/wifiorisp/releases/latest"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11m-5-5 5 5 5-5M5 20h14"/></svg>Download free</a>
+        </div>
+        <p class="fineprint"><code>brew install --cask coreyhaines31/tap/wifiorisp</code></p>
+      </div>
+    </section>
+  </main>
+  <footer>
+    <div class="wrap">
+      <nav class="footer-links" aria-label="Guides"><a href="/bufferbloat-test">Bufferbloat test</a><a href="/why-is-my-wifi-so-slow">Why is my Wi-Fi so slow?</a><a href="/internet-keeps-dropping">Internet keeps dropping?</a><a href="/how-to-change-wifi-channel">How to change your Wi-Fi channel</a><a href="/how-to-restart-router">How to restart your router</a><a href="/why-does-my-wifi-keep-disconnecting">Why does my Wi-Fi keep disconnecting?</a><a href="/wifi-signal-strength">Wi-Fi signal strength chart</a><a href="/what-is-a-good-ping">What is a good ping?</a><a href="/mac-keeps-disconnecting-from-wifi">Mac keeps disconnecting from Wi-Fi</a><a href="/internet-slow-at-night">Internet slow at night?</a><a href="/ping-test">Ping and jitter test</a><a href="/slow-internet">Slow internet by provider</a><a href="/router-login">Router login guides</a></nav>
+      <nav class="footer-links" aria-label="Alternatives"><a href="/alternatives/">Alternatives</a><a href="/alternatives/netspot">NetSpot alternative</a><a href="/alternatives/pingkit">PingKit alternative</a><a href="/alternatives/istat-menus">iStat Menus alternative</a><a href="/alternatives/wifi-explorer">WiFi Explorer alternative</a><a href="/alternatives/wifi-signal">WiFi Signal alternative</a></nav>
+      <span>© 2026 Corey Haines · Source available under <a href="https://github.com/coreyhaines31/wifiorisp/blob/main/LICENSE">FSL-1.1-MIT</a></span>
+      <span><a href="https://github.com/coreyhaines31/wifiorisp">GitHub</a> · <a href="https://github.com/coreyhaines31/wifiorisp/issues">Report a bug</a> · Also by Corey: <a href="https://midnightoil.app">Midnight Oil</a></span>
+    </div>
+  </footer>
+</body>
+</html>
