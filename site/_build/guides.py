@@ -38,7 +38,7 @@ GUIDES = [
         "eyebrow": "Free bufferbloat test",
         "h1": "Bufferbloat test",
         "lede": "Speed tests tell you how fast your connection goes. This one tells you how laggy it gets while it's busy, which is why video calls stutter when someone starts a download.",
-        "scripts": '\n  <script src="/bufferbloat.js" defer></script>',
+        "scripts": '\n  <script src="/probe.js" defer></script>\n  <script src="/bufferbloat.js" defer></script>',
         "widget": BUFFERBLOAT_WIDGET,
         "body": '''
         <h2>What is bufferbloat?</h2>
@@ -471,5 +471,70 @@ GUIDES += [
             ("Will a faster plan fix evening slowdowns?", "Only if the bottleneck is your plan's speed. Neighborhood congestion and Wi-Fi channel crowding don't go away with a faster plan."),
         ],
         "cta": "Catch the evening slowdowns as they happen.",
+    },
+]
+
+PING_WIDGET = '''    <section class="tool">
+      <div class="wrap narrow">
+        <div class="bb-card">
+          <div class="bb-run">
+            <button class="pill big" id="pt-start" type="button">Start the test</button>
+            <span class="bb-live" id="pt-live" aria-live="polite"></span>
+          </div>
+          <svg class="pt-spark" id="pt-spark" viewBox="0 0 300 60" preserveAspectRatio="none" aria-hidden="true"></svg>
+          <div class="bb-track"><div class="bb-bar" id="pt-bar"></div></div>
+          <p class="bb-status" id="pt-status">Takes about 15 seconds and uses almost no data.</p>
+          <div class="bb-result" id="pt-result" hidden>
+            <div class="pt-rating" id="pt-rating">Good</div>
+            <div>
+              <p class="bb-summary" id="pt-summary"></p>
+              <dl class="bb-numbers">
+                <dt>Ping</dt><dd id="pt-ping"></dd>
+                <dt>Jitter</dt><dd id="pt-jitter"></dd>
+                <dt>Range</dt><dd id="pt-range"></dd>
+                <dt>Didn't come back</dt><dd id="pt-lost"></dd>
+              </dl>
+            </div>
+          </div>
+          <p class="bb-note">Times 40 round trips to Cloudflare from your browser, one every quarter second. Nothing is stored.</p>
+        </div>
+      </div>
+    </section>
+'''
+
+GUIDES += [
+    {
+        "slug": "ping-test",
+        "link": "Ping and jitter test",
+        "title": "Ping and Jitter Test — Free, in Your Browser",
+        "description": "Test your ping and jitter in 15 seconds, free in your browser. See your median latency, how steady it is, and what the numbers mean for calls and games.",
+        "eyebrow": "Free ping test",
+        "h1": "Ping and jitter test",
+        "lede": "Ping is how long a round trip takes. Jitter is how much that time jumps around. Together they decide whether video calls and games feel smooth.",
+        "scripts": '\n  <script src="/probe.js" defer></script>\n  <script src="/ping.js" defer></script>',
+        "widget": PING_WIDGET,
+        "body": '''
+        <h2>How to read your results</h2>
+        <ul>
+          <li><strong>Ping</strong> is the median of 40 round trips, so one slow reply doesn't skew it. Under 20 ms is excellent and under 50 ms is good. <a href="/what-is-a-good-ping">More on what counts as a good ping.</a></li>
+          <li><strong>Jitter</strong> is the average change from one round trip to the next. Under 10 ms is excellent; over 30 ms makes calls choppy.</li>
+          <li><strong>Didn't come back</strong> counts requests with no reply within 2 seconds. A few in a row usually means a dropout.</li>
+        </ul>
+
+        <h2>Ping is fine here but calls still lag?</h2>
+        <p>This measures an idle connection. Many connections only lag while something else is uploading or downloading. <a href="/bufferbloat-test">Test lag under load.</a></p>
+
+        <h2>Is high ping your Wi-Fi or your ISP?</h2>
+        <p>A browser can only time the whole trip to the internet. To know which part is slow, compare it with a round trip to your router. If your router alone takes more than a few milliseconds, the delay is in your Wi-Fi. <a href="/why-is-my-wifi-so-slow">Here's how to check.</a></p>
+
+        <h2>How this test works</h2>
+        <p>Your browser requests a zero-byte file from Cloudflare's speed test server 40 times over an existing connection. Each round trip is the time from sending the request to the first byte of the reply, minus the time Cloudflare reports spending on it, so what's left is the network.</p>
+''',
+        "faqs": [
+            ("What's the difference between ping and latency?", "They're used interchangeably. Ping is the name of the classic tool that measures latency, the time for a round trip."),
+            ("Is this as accurate as the ping command?", "Close. The ping command uses ICMP; this uses web requests, which is what your apps actually send. Expect results within a few milliseconds of each other."),
+            ("Why does my ping change between tests?", "Network conditions shift constantly: other traffic at home, your Wi-Fi signal, and congestion at your ISP. Jitter measures that variation within one test."),
+        ],
+        "cta": "Watch your ping all day, router and internet.",
     },
 ]

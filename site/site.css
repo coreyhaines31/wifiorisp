@@ -319,3 +319,9 @@ section.article + .faq { padding-top: 40px; }
 .callout p { color: var(--ink) !important; margin: 0; }
 .sources { font-size: 14px; word-break: break-all; }
 .sources li { color: var(--muted); }
+.pt-spark { width: 100%; height: 60px; margin-top: 16px; display: block; }
+.pt-spark polyline { fill: none; stroke: var(--amber); stroke-width: 2; vector-effect: non-scaling-stroke; }
+.pt-rating { font: 800 30px var(--font); }
+.pt-rating[data-rating="Excellent"], .pt-rating[data-rating="Good"] { color: var(--good); }
+.pt-rating[data-rating="OK"] { color: var(--amber-ink); }
+.pt-rating[data-rating="Slow"] { color: var(--bad); }
