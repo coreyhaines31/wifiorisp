@@ -14,6 +14,7 @@ enum Preferences {
         static let keepDays = "keepDays"
         static let responsivenessServer = "responsivenessServer"
         static let acceptedMLabTerms = "acceptedMLabTerms"
+        static let hasSeenWelcome = "hasSeenWelcome"
     }
 
     static func registerDefaults() {
@@ -51,6 +52,11 @@ enum Preferences {
     static var responsivenessServer: URL {
         defaults.string(forKey: Key.responsivenessServer).flatMap(URL.init(string:))
             ?? ResponsivenessTest.defaultConfigURL
+    }
+
+    static var hasSeenWelcome: Bool {
+        get { defaults.bool(forKey: Key.hasSeenWelcome) }
+        set { defaults.set(newValue, forKey: Key.hasSeenWelcome) }
     }
 
     static var acceptedMLabTerms: Bool {
