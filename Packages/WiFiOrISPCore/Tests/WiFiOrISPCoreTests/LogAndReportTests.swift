@@ -130,6 +130,16 @@ struct ReportTests {
         #expect(text.contains("No measurements were taken in this period."))
     }
 
+    @Test func comparesSpeedTestsWithThePlan() {
+        let test = SpeedTestResult(time: now, downloadMbps: 250, uploadMbps: 10, minRTTms: nil, server: "x")
+        let log = Log(samples: samples(), events: [NetworkEvent(time: now, kind: .speedTest(test))])
+        let text = ISPReport.text(
+            log: log, start: lastHour, end: now, generated: now, timeZone: .gmt, plan: Plan(downMbps: 500, upMbps: 20)
+        )
+        #expect(text.contains("I pay for 500 Mbps down and 20 Mbps up."))
+        #expect(text.contains("typically 250 Mbps down (50% of the plan) and 10 Mbps up (50%)"))
+    }
+
     @Test func saysNoneWithoutOutages() {
         let log = Log(samples: samples())
         let text = ISPReport.text(log: log, start: lastHour, end: now, generated: now, timeZone: .gmt)

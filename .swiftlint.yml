@@ -4,6 +4,7 @@ included:
   - Packages/WiFiOrISPCore/Tests
 excluded:
   - Packages/WiFiOrISPCore/.build
+  - Packages/WiFiOrISPCore/Sources/WiFiOrISPCore/RouterMakerPrefixes.swift
 opt_in_rules:
   - empty_count
   - first_where

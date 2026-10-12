@@ -1,7 +1,7 @@
 import Foundation
 import WiFiOrISPCore
 
-// Development tool: `swift run wifiorisp-cli [samples|speed|rpm|report]`.
+// Development tool: `swift run wifiorisp-cli [samples|speed|rpm|report|identify]`.
 let command = CommandLine.arguments.dropFirst().first ?? "samples"
 
 @MainActor
@@ -57,7 +57,23 @@ func report() {
     print(ISPReport.text(log: log, start: start, end: end))
 }
 
+@MainActor
+func identify() async {
+    let reader = WiFiReader()
+    let router = Route.current()?.router
+    let mac = router.flatMap(GatewayHardware.macAddress(of:))
+    print("router \(router ?? "?") mac \(mac ?? "?") maker \(mac.flatMap(RouterMaker.lookup)?.name ?? "unknown")")
+    if case .reading(let wifi) = reader.read() {
+        let generation = wifi.generationLabel ?? "?"
+        print("wifi \(generation) \(wifi.widthMHz ?? 0) MHz, Mac supports 6 GHz: \(reader.supports6GHz)")
+    }
+    let provider = await Provider.detect()
+    print("provider ASN \(provider?.asn ?? 0) \(provider?.name ?? "not in the known list")")
+}
+
 switch command {
+case "identify":
+    await identify()
 case "report":
     report()
 case "speed":

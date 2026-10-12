@@ -327,3 +327,20 @@ section.article + .faq { padding-top: 40px; }
 .pt-rating[data-rating="Slow"] { color: var(--bad); }
 .resources .related { margin-top: 32px; }
 @media (min-width: 860px) { .resources .related { grid-template-columns: repeat(3, 1fr); } }
+.needs h2 { font-size: 22px; margin-bottom: 16px; }
+.needs-grid { display: grid; gap: 12px 24px; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+.needs label { display: flex; justify-content: space-between; align-items: center; gap: 12px; font-size: 15.5px; }
+.needs label.check { justify-content: flex-start; }
+.needs input[type="number"] { width: 70px; font: inherit; padding: 4px 8px; border: 1px solid var(--line); border-radius: 8px; background: var(--bg); color: var(--ink); }
+.needs-out { margin-top: 20px; font-size: 18px; }
+.picks { display: grid; gap: 16px; margin-top: 16px; }
+@media (min-width: 720px) { .picks { grid-template-columns: 1fr 1fr; } }
+.pick { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 20px; min-width: 0; }
+.pick h3 { margin: 4px 0 10px !important; }
+.pick p { font-size: 16px !important; }
+.pick-role { font: 700 12px var(--font); letter-spacing: 0.08em; text-transform: uppercase; color: var(--amber-ink) !important; }
+.pick-downside { margin-top: 10px; }
+.pick-facts { display: grid; grid-template-columns: auto 1fr; gap: 4px 14px; margin: 14px 0 0; font-size: 14.5px; }
+.pick-facts dt { color: var(--muted); }
+.pick-facts dd { margin: 0; color: var(--ink); }
+.pick-links { margin-top: 14px; font-size: 15px !important; }

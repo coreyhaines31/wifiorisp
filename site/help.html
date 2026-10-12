@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>WiFi or ISP Help: Getting Started and Troubleshooting</title>
+  <meta name="description" content="How to install WiFi or ISP, find it in the menu bar, allow the right permissions, read the verdicts, and fix common problems like Unknown network.">
+  <link rel="canonical" href="https://wifiorisp.com/help">
+  <meta property="og:title" content="WiFi or ISP Help: Getting Started and Troubleshooting">
+  <meta property="og:description" content="How to install WiFi or ISP, find it in the menu bar, allow the right permissions, read the verdicts, and fix common problems like Unknown network.">
+  <meta property="og:image" content="https://wifiorisp.com/images/og.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta property="og:url" content="https://wifiorisp.com/help">
+  <meta name="theme-color" content="#0b1530">
+  <link rel="icon" href="/images/icon.png">
+  <link rel="apple-touch-icon" href="/images/icon.png">
+  <link rel="stylesheet" href="/site.css">
+  <script src="https://cdn.usefathom.com/script.js" data-site="CRTCSZKQ" defer></script>
+  <script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "Article", "headline": "WiFi or ISP Help: Getting Started and Troubleshooting", "description": "How to install WiFi or ISP, find it in the menu bar, allow the right permissions, read the verdicts, and fix common problems like Unknown network.", "url": "https://wifiorisp.com/help", "dateModified": "2026-10-06", "author": {"@type": "Person", "name": "Corey Haines", "url": "https://corey.co"}, "publisher": {"@type": "Organization", "name": "WiFi or ISP", "logo": "https://wifiorisp.com/images/icon.png"}}]}</script>
+</head>
+<body>
+  <header class="nav">
+    <div class="wrap">
+      <a class="brand" href="/"><img src="/images/icon.png" alt=""> WiFi or ISP</a>
+      <nav>
+        <a href="/#how">How it works</a>
+        <a href="/bufferbloat-test">Bufferbloat test</a>
+        <a href="/help">Help</a>
+        <a href="https://github.com/coreyhaines31/wifiorisp">GitHub</a>
+        <a class="pill" href="https://github.com/coreyhaines31/wifiorisp/releases/latest">Download</a>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <section class="sub-hero">
+      <div class="wrap narrow">
+        <p class="eyebrow">Help</p>
+        <h1>Getting started with WiFi or ISP</h1>
+        <p class="lede">Everything you need for the first few minutes, and answers to the questions people ask most.</p>
+        <p class="byline">By <a href="https://corey.co">Corey Haines</a>, maker of WiFi or ISP · Updated October 6, 2026</p>
+        
+      </div>
+    </section>
+    <section class="article">
+      <div class="wrap narrow prose">
+
+        <h2 id="install">Install</h2>
+        <p>Requires macOS 14 Sonoma or later. <a href="https://github.com/coreyhaines31/wifiorisp/releases/latest">Download the DMG</a>, open it, and drag WiFi or ISP to Applications. Or, with Homebrew: <code>brew install --cask coreyhaines31/tap/wifiorisp</code>. It's signed and notarized by Apple, and updates itself.</p>
+
+        <h2 id="first-launch">Your first two minutes</h2>
+        <ol class="steps">
+          <li><b>Open it from Applications.</b> There's no Dock icon or main window. It lives in the menu bar, as a small router icon near the clock.</li>
+          <li><b>Answer the welcome window.</b> Allow Location access if you want to see your Wi-Fi network's name (macOS treats it as location data; the app never reads your location). Leave “Open at login” on so it keeps watching.</li>
+          <li><b>Allow local network access.</b> macOS 15 and later ask once; the app needs it to time your router.</li>
+          <li><b>Allow notifications</b> if you want them. They tell you about drops and weak connections.</li>
+          <li><b>Give it 30 seconds.</b> The first verdict needs a few measurements.</li>
+        </ol>
+        <p>Can't see the icon? On MacBooks with a notch, a full menu bar hides icons behind it. Hold ⌘ and drag other icons aside, or quit a few menu bar apps.</p>
+
+        <h2 id="reading">Reading the menu</h2>
+        <p>The router icon's three lights show your Wi-Fi signal. When something is slow, the lights go dark and a word appears beside it: <strong>WiFi</strong>, <strong>Router</strong>, or <strong>ISP</strong>. A slash means you're not connected to any network.</p>
+        <div class="table-wrap"><table class="compare">
+          <thead><tr><th>You see</th><th>It means</th></tr></thead>
+          <tbody>
+            <tr><td>Fine: WiFi and ISP both OK</td><td>Your router and the internet both answer quickly.</td></tr>
+            <tr><td>Slow: weak WiFi signal</td><td>Even your router is slow, and the signal is weak.</td></tr>
+            <tr><td>Slow: WiFi or router, not ISP</td><td>Strong signal, but the router is slow: a busy channel, interference, or an overloaded router.</td></tr>
+            <tr><td>Slow: ISP, not WiFi</td><td>Your router is quick; the internet past it isn't.</td></tr>
+            <tr><td>Offline: ISP is down, WiFi is fine</td><td>Your router answers, nothing past it does.</td></tr>
+            <tr><td>Offline: can't reach your router</td><td>Your Mac lost the router.</td></tr>
+          </tbody>
+        </table></div>
+        <p>Under the verdict, <strong>What to do</strong> lists the next steps for your situation. Click one to open the right guide, start a test, or export a report for your provider. <a href="/why-is-my-wifi-so-slow">How the verdict works.</a></p>
+
+        <h2 id="troubleshooting">Troubleshooting</h2>
+        <h3>It says “Unknown network”</h3>
+        <p>Location access isn't allowed. Click <strong>Show Network Name…</strong> in the menu, or turn on WiFi or ISP in System Settings → Privacy &amp; Security → Location Services.</p>
+        <h3>The router “doesn't answer probes”</h3>
+        <p>Some routers ignore the probes; the verdict then relies on your signal and the internet's timing. If that's new, check System Settings → Privacy &amp; Security → Local Network and make sure WiFi or ISP is on.</p>
+        <h3>It says “Wired”</h3>
+        <p>Your Mac is using Ethernet, so there's no Wi-Fi signal to show. Your router and the internet are still measured.</p>
+        <h3>I'm on a VPN</h3>
+        <p>It still times the router of the Wi-Fi network underneath. It skips identifying your provider, which would name the VPN.</p>
+        <h3>A speed or lag test failed</h3>
+        <p>Both need a working internet connection. If it's down, the verdict will say so.</p>
+
+        <h2 id="privacy">Privacy</h2>
+        <p>No analytics and no account. History stays on your Mac. In the background, the app times a handshake to your router and to two internet addresses every few seconds (no data is sent in them), and asks Cloudflare once per network which provider you're on. Speed and lag tests run only when you start them. <a href="https://github.com/coreyhaines31/wifiorisp/blob/main/docs/how-it-works.md">The full method.</a></p>
+
+        <h2 id="uninstall">Uninstall</h2>
+        <p>Quit it from its menu and drag it to the Trash. If it opens at login, turn that off first in its Settings, or in System Settings → General → Login Items. With Homebrew, <code>brew uninstall --zap --cask wifiorisp</code> also removes its history and settings.</p>
+
+        <h2 id="contact">Still stuck?</h2>
+        <p><a href="https://github.com/coreyhaines31/wifiorisp/issues/new/choose">Report it on GitHub</a> with your macOS version and what the menu shows.</p>
+
+      </div>
+    </section>
+    <section class="cta">
+      <div class="wrap">
+        <img src="/images/icon.png" alt="" width="96" height="96">
+        <h2>Ready when you are.</h2>
+        <p class="cta-sub">WiFi or ISP is a free Mac menu bar app. It times your router and the internet at the same moment, says which side is slow, and keeps a log you can send your ISP.</p>
+        <div class="actions center">
+          <a class="pill big" href="https://github.com/coreyhaines31/wifiorisp/releases/latest"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11m-5-5 5 5 5-5M5 20h14"/></svg>Download free</a>
+        </div>
+        <p class="fineprint"><code>brew install --cask coreyhaines31/tap/wifiorisp</code></p>
+      </div>
+    </section>
+  </main>
+  <footer>
+    <div class="wrap">
+      <nav class="footer-links" aria-label="Guides"><a href="/bufferbloat-test">Bufferbloat test</a><a href="/why-is-my-wifi-so-slow">Why is my Wi-Fi so slow?</a><a href="/internet-keeps-dropping">Internet keeps dropping?</a><a href="/how-to-change-wifi-channel">How to change your Wi-Fi channel</a><a href="/how-to-restart-router">How to restart your router</a><a href="/why-does-my-wifi-keep-disconnecting">Why does my Wi-Fi keep disconnecting?</a><a href="/wifi-signal-strength">Wi-Fi signal strength chart</a><a href="/what-is-a-good-ping">What is a good ping?</a><a href="/mac-keeps-disconnecting-from-wifi">Mac keeps disconnecting from Wi-Fi</a><a href="/internet-slow-at-night">Internet slow at night?</a><a href="/ping-test">Ping and jitter test</a><a href="/providers">Compare internet providers</a><a href="/help">Help and troubleshooting</a><a href="/slow-internet">Slow internet by provider</a><a href="/router-login">Router login guides</a><a href="/routers">Router picks by need</a><a href="/affiliate-disclosure">Affiliate disclosure</a></nav>
+      <nav class="footer-links" aria-label="Alternatives"><a href="/alternatives/">Alternatives</a><a href="/alternatives/netspot">NetSpot alternative</a><a href="/alternatives/pingkit">PingKit alternative</a><a href="/alternatives/istat-menus">iStat Menus alternative</a><a href="/alternatives/wifi-explorer">WiFi Explorer alternative</a><a href="/alternatives/wifi-signal">WiFi Signal alternative</a></nav>
+      <span>© 2026 Corey Haines · Source available under <a href="https://github.com/coreyhaines31/wifiorisp/blob/main/LICENSE">FSL-1.1-MIT</a></span>
+      <span><a href="https://github.com/coreyhaines31/wifiorisp">GitHub</a> · <a href="https://github.com/coreyhaines31/wifiorisp/issues">Report a bug</a> · Also by Corey: <a href="https://midnightoil.app">Midnight Oil</a></span>
+    </div>
+  </footer>
+</body>
+</html>

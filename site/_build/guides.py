@@ -538,3 +538,128 @@ GUIDES += [
         "cta": "Watch your ping all day, router and internet.",
     },
 ]
+
+NEEDS_WIDGET = '''    <section class="tool">
+      <div class="wrap narrow">
+        <form class="bb-card needs" id="needs-form" onsubmit="return false">
+          <h2>How much internet does your home need?</h2>
+          <div class="needs-grid">
+            <label>People at home <input id="n-people" type="number" min="1" max="12" value="2"></label>
+            <label>4K streams at once <input id="n-streams" type="number" min="0" max="8" value="1"></label>
+            <label class="check"><input id="n-calls" type="checkbox" checked> Video calls or remote work</label>
+            <label class="check"><input id="n-gaming" type="checkbox"> Online gaming</label>
+            <label class="check"><input id="n-uploads" type="checkbox"> Big uploads (backups, video, streaming)</label>
+          </div>
+          <dl class="bb-numbers needs-out">
+            <dt>Download</dt><dd id="n-down"></dd>
+            <dt>Upload</dt><dd id="n-up"></dd>
+          </dl>
+          <p class="bb-note" id="n-note"></p>
+        </form>
+      </div>
+    </section>
+'''
+
+GUIDES += [
+    {
+        "slug": "providers",
+        "link": "Compare internet providers",
+        "title": "How to Compare Internet Providers at Your Address",
+        "description": "Work out the speeds your home actually needs, see which providers serve your address, and compare plans on what matters: upload, lag, and the real price.",
+        "eyebrow": "Compare providers",
+        "h1": "Compare internet providers at your address",
+        "lede": "When your plan or provider is the ceiling, switching can fix what no router will. Start from what your home needs, then see who can deliver it where you live.",
+        "scripts": '\n  <script src="/needs.js" defer></script>',
+        "widget": NEEDS_WIDGET,
+        "body": '''
+        <h2>See who serves your address</h2>
+        <ol class="steps">
+          <li><b>Open the FCC's National Broadband Map</b> at <a href="https://broadbandmap.fcc.gov">broadbandmap.fcc.gov</a> and enter your address.</li>
+          <li><b>Read the fixed providers list.</b> It shows each provider's technology (fiber, cable, DSL, fixed wireless, satellite) and its fastest advertised speeds.</li>
+          <li><b>Confirm with the provider.</b> A listing means the provider told the FCC it <em>can</em> serve your address, not that it already does. Check its site before you count on it.</li>
+        </ol>
+        <p>We're building a lookup right here that ranks the providers at your address by what your home needs.</p>
+
+        <h2>What to compare</h2>
+        <ul>
+          <li><strong>Technology first.</strong> Fiber is usually best: fast both ways, low lag, and steady in the evening. Cable is fast downstream but uploads are much slower. 5G home internet varies with the signal at your window. Satellite is the fallback where nothing else reaches.</li>
+          <li><strong>Upload speed.</strong> It's what video calls, backups, and livestreams use, and where many plans fall short.</li>
+          <li><strong>The real price.</strong> Look at the FCC broadband label every provider must show: the price after the promotion ends, equipment fees, and data caps.</li>
+          <li><strong>Lag under load.</strong> Plans don't list it, but it decides whether calls stutter. If a neighbor has the provider, ask them to run our <a href="/bufferbloat-test">bufferbloat test</a>.</li>
+        </ul>
+
+        <h2>Before you switch</h2>
+        <p>Make sure the provider is the problem. If your router answers slowly, a new provider won't help. WiFi or ISP tells you which side it is, and if you're getting far less than you pay for, its report helps you get that fixed first.</p>
+''',
+        "faqs": [
+            ("How much internet speed do I need?", "A rough guide: 10 Mbps down per person, plus 25 Mbps for each 4K stream, and about 3 Mbps up for each person on a video call. Use the calculator above for your home."),
+            ("Is fiber better than cable?", "Usually. Fiber offers the same speed up and down and lower, steadier latency. Cable is fast downstream but uploads are much smaller, and it can slow down in busy evenings."),
+            ("What does the FCC map show?", "Which providers say they can serve each location, with technology and maximum advertised speeds. It doesn't show prices, and a listing isn't a guarantee of service."),
+        ],
+        "cta": "Know whether it's the provider before you switch.",
+    },
+]
+
+GUIDES += [
+    {
+        "slug": "help",
+        "link": "Help and troubleshooting",
+        "title": "WiFi or ISP Help: Getting Started and Troubleshooting",
+        "description": "How to install WiFi or ISP, find it in the menu bar, allow the right permissions, read the verdicts, and fix common problems like Unknown network.",
+        "eyebrow": "Help",
+        "h1": "Getting started with WiFi or ISP",
+        "lede": "Everything you need for the first few minutes, and answers to the questions people ask most.",
+        "body": '''
+        <h2 id="install">Install</h2>
+        <p>Requires macOS 14 Sonoma or later. <a href="https://github.com/coreyhaines31/wifiorisp/releases/latest">Download the DMG</a>, open it, and drag WiFi or ISP to Applications. Or, with Homebrew: <code>brew install --cask coreyhaines31/tap/wifiorisp</code>. It's signed and notarized by Apple, and updates itself.</p>
+
+        <h2 id="first-launch">Your first two minutes</h2>
+        <ol class="steps">
+          <li><b>Open it from Applications.</b> There's no Dock icon or main window. It lives in the menu bar, as a small router icon near the clock.</li>
+          <li><b>Answer the welcome window.</b> Allow Location access if you want to see your Wi-Fi network's name (macOS treats it as location data; the app never reads your location). Leave “Open at login” on so it keeps watching.</li>
+          <li><b>Allow local network access.</b> macOS 15 and later ask once; the app needs it to time your router.</li>
+          <li><b>Allow notifications</b> if you want them. They tell you about drops and weak connections.</li>
+          <li><b>Give it 30 seconds.</b> The first verdict needs a few measurements.</li>
+        </ol>
+        <p>Can't see the icon? On MacBooks with a notch, a full menu bar hides icons behind it. Hold ⌘ and drag other icons aside, or quit a few menu bar apps.</p>
+
+        <h2 id="reading">Reading the menu</h2>
+        <p>The router icon's three lights show your Wi-Fi signal. When something is slow, the lights go dark and a word appears beside it: <strong>WiFi</strong>, <strong>Router</strong>, or <strong>ISP</strong>. A slash means you're not connected to any network.</p>
+        <div class="table-wrap"><table class="compare">
+          <thead><tr><th>You see</th><th>It means</th></tr></thead>
+          <tbody>
+            <tr><td>Fine: WiFi and ISP both OK</td><td>Your router and the internet both answer quickly.</td></tr>
+            <tr><td>Slow: weak WiFi signal</td><td>Even your router is slow, and the signal is weak.</td></tr>
+            <tr><td>Slow: WiFi or router, not ISP</td><td>Strong signal, but the router is slow: a busy channel, interference, or an overloaded router.</td></tr>
+            <tr><td>Slow: ISP, not WiFi</td><td>Your router is quick; the internet past it isn't.</td></tr>
+            <tr><td>Offline: ISP is down, WiFi is fine</td><td>Your router answers, nothing past it does.</td></tr>
+            <tr><td>Offline: can't reach your router</td><td>Your Mac lost the router.</td></tr>
+          </tbody>
+        </table></div>
+        <p>Under the verdict, <strong>What to do</strong> lists the next steps for your situation. Click one to open the right guide, start a test, or export a report for your provider. <a href="/why-is-my-wifi-so-slow">How the verdict works.</a></p>
+
+        <h2 id="troubleshooting">Troubleshooting</h2>
+        <h3>It says “Unknown network”</h3>
+        <p>Location access isn't allowed. Click <strong>Show Network Name…</strong> in the menu, or turn on WiFi or ISP in System Settings → Privacy &amp; Security → Location Services.</p>
+        <h3>The router “doesn't answer probes”</h3>
+        <p>Some routers ignore the probes; the verdict then relies on your signal and the internet's timing. If that's new, check System Settings → Privacy &amp; Security → Local Network and make sure WiFi or ISP is on.</p>
+        <h3>It says “Wired”</h3>
+        <p>Your Mac is using Ethernet, so there's no Wi-Fi signal to show. Your router and the internet are still measured.</p>
+        <h3>I'm on a VPN</h3>
+        <p>It still times the router of the Wi-Fi network underneath. It skips identifying your provider, which would name the VPN.</p>
+        <h3>A speed or lag test failed</h3>
+        <p>Both need a working internet connection. If it's down, the verdict will say so.</p>
+
+        <h2 id="privacy">Privacy</h2>
+        <p>No analytics and no account. History stays on your Mac. In the background, the app times a handshake to your router and to two internet addresses every few seconds (no data is sent in them), and asks Cloudflare once per network which provider you're on. Speed and lag tests run only when you start them. <a href="https://github.com/coreyhaines31/wifiorisp/blob/main/docs/how-it-works.md">The full method.</a></p>
+
+        <h2 id="uninstall">Uninstall</h2>
+        <p>Quit it from its menu and drag it to the Trash. If it opens at login, turn that off first in its Settings, or in System Settings → General → Login Items. With Homebrew, <code>brew uninstall --zap --cask wifiorisp</code> also removes its history and settings.</p>
+
+        <h2 id="contact">Still stuck?</h2>
+        <p><a href="https://github.com/coreyhaines31/wifiorisp/issues/new/choose">Report it on GitHub</a> with your macOS version and what the menu shows.</p>
+''',
+        "faqs": [],
+        "cta": "Ready when you are.",
+    },
+]

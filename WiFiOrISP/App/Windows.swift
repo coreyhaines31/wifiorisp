@@ -57,6 +57,7 @@ final class Windows {
             let tabs = NSTabViewController()
             tabs.tabStyle = .toolbar
             add("General", symbol: "gearshape", view: GeneralSettingsView(updater: updater), to: tabs)
+            add("Your Plan", symbol: "house", view: PlanSettingsView(), to: tabs)
             add("Alerts", symbol: "bell", view: AlertsSettingsView(), to: tabs)
             let privacy = PrivacySettingsView(location: location, store: monitor.store)
             add("Privacy", symbol: "hand.raised", view: privacy, to: tabs)
@@ -95,9 +96,10 @@ final class Windows {
         let end = Date()
         let start = end.addingTimeInterval(-choices[picker.indexOfSelectedItem].1)
         let store = monitor.store
+        let plan = Preferences.plan
         Task {
             let text = await Task.detached {
-                ISPReport.text(log: store.load(from: start, to: end), start: start, end: end)
+                ISPReport.text(log: store.load(from: start, to: end), start: start, end: end, plan: plan)
             }.value
             write(text, to: url)
         }
