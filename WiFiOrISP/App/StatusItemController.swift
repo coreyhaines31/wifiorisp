@@ -114,6 +114,9 @@ final class StatusItemController: NSObject, NSMenuDelegate {
         let check = ClosureMenuItem("Check for Updates…") { [weak self] in self?.updater.checkForUpdates() }
         check.isEnabled = updater.canCheck
         menu.addItem(check)
+        menu.addItem(ClosureMenuItem("WiFi or ISP Help") {
+            NSWorkspace.shared.open(URL(string: "https://wifiorisp.com/help")!)
+        })
         menu.addItem(ClosureMenuItem("About WiFi or ISP") {
             NSApp.activate()
             NSApp.orderFrontStandardAboutPanel(nil)
