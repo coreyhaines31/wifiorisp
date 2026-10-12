@@ -109,7 +109,10 @@ mkdir -p "$BUILD/appcast" && cp "$DMG" "$BUILD/appcast/"
   "$BUILD/appcast"
 
 echo "▶ Publishing GitHub release v$VERSION"
-gh release create "v$VERSION" "$DMG" "$BUILD/appcast/appcast.xml" \
+# A copy without the version in its name, so releases/latest/download/WiFiOrISP.dmg always works
+# for install scripts and AI agents.
+cp "$DMG" "$BUILD/WiFiOrISP.dmg"
+gh release create "v$VERSION" "$DMG" "$BUILD/WiFiOrISP.dmg" "$BUILD/appcast/appcast.xml" \
   --repo "$REPO" --target main --title "$APP_NAME $VERSION" --generate-notes
 
 echo "▶ Updating the Homebrew cask"
