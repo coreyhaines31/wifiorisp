@@ -607,11 +607,40 @@ GUIDES += [
         "title": "WiFi or ISP Help: Getting Started and Troubleshooting",
         "description": "How to install WiFi or ISP, find it in the menu bar, allow the right permissions, read the verdicts, and fix common problems like Unknown network.",
         "eyebrow": "Help",
+        "scripts": '\n  <script src="/copy.js" defer></script>',
         "h1": "Getting started with WiFi or ISP",
         "lede": "Everything you need for the first few minutes, and answers to the questions people ask most.",
         "body": '''
         <h2 id="install">Install</h2>
         <p>Requires macOS 14 Sonoma or later. <a href="https://github.com/coreyhaines31/wifiorisp/releases/latest">Download the DMG</a>, open it, and drag WiFi or ISP to Applications. Or, with Homebrew: <code>brew install --cask coreyhaines31/tap/wifiorisp</code>. It's signed and notarized by Apple, and updates itself.</p>
+
+        <h2 id="agent">Install with Claude Code or Codex</h2>
+        <p>Paste this into your coding agent and it will install and open the app for you.</p>
+        <div class="prompt">
+          <button class="pill copy" type="button" data-copy-target="agent-install">Copy</button>
+          <pre id="agent-install">Install the macOS app "WiFi or ISP" for me.
+If Homebrew is installed (check with `command -v brew`), run:
+  brew install --cask coreyhaines31/tap/wifiorisp
+Otherwise, download and install the signed DMG:
+  curl -fL -o /tmp/WiFiOrISP.dmg https://github.com/coreyhaines31/wifiorisp/releases/latest/download/WiFiOrISP.dmg
+  hdiutil attach -nobrowse -quiet -mountpoint /tmp/wifiorisp-dmg /tmp/WiFiOrISP.dmg
+  ditto "/tmp/wifiorisp-dmg/WiFi or ISP.app" "/Applications/WiFi or ISP.app"
+  hdiutil detach -quiet /tmp/wifiorisp-dmg
+Then open it with: open -a "WiFi or ISP"
+It's a menu bar app with no Dock icon. Tell me to look for the small router
+icon near the clock, and that its welcome window asks about Location access
+(only used to show the Wi-Fi network name) and opening at login.</pre>
+        </div>
+        <p>Want to build it from source instead?</p>
+        <div class="prompt">
+          <button class="pill copy" type="button" data-copy-target="agent-build">Copy</button>
+          <pre id="agent-build">Clone https://github.com/coreyhaines31/wifiorisp and build it from source.
+It needs Xcode 16 or later. Install XcodeGen and SwiftLint with Homebrew if
+they're missing, then from the repo root run Scripts/run-local.sh, which builds
+the app signed to run locally (no Apple Developer account) and opens it.
+Then run the tests with: cd Packages/WiFiOrISPCore &amp;&amp; swift test
+Read CONTRIBUTING.md before changing any code.</pre>
+        </div>
 
         <h2 id="first-launch">Your first two minutes</h2>
         <ol class="steps">
