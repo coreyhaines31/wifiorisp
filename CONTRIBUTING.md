@@ -13,6 +13,8 @@ brew install xcodegen swiftlint
 Scripts/run-local.sh
 ```
 
+Working with Claude Code or Codex? Point it at this file and at [docs/how-it-works.md](docs/how-it-works.md) first: they explain the layout, the commands, and why the thresholds are what they are.
+
 `run-local.sh` generates the Xcode project, builds it signed "to run locally", and opens the app. Quit any installed copy first: both share the same settings and history.
 
 To work in Xcode instead, run `xcodegen generate` and open `WiFiOrISP.xcodeproj`. The project is generated from `project.yml` and isn't checked in, so edit `project.yml`, not the project. Xcode will ask for a signing team: pick your own, or set Signing to "Sign to Run Locally".
