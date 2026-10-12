@@ -29,6 +29,25 @@ Requires macOS 14 Sonoma or later, on Apple Silicon or Intel.
 brew install --cask coreyhaines31/tap/wifiorisp
 ```
 
+### Or ask your AI agent
+
+Paste this into Claude Code, Codex, or another coding agent:
+
+```text
+Install the macOS app "WiFi or ISP" for me.
+If Homebrew is installed (check with `command -v brew`), run:
+  brew install --cask coreyhaines31/tap/wifiorisp
+Otherwise, download and install the signed DMG:
+  curl -fL -o /tmp/WiFiOrISP.dmg https://github.com/coreyhaines31/wifiorisp/releases/latest/download/WiFiOrISP.dmg
+  hdiutil attach -nobrowse -quiet -mountpoint /tmp/wifiorisp-dmg /tmp/WiFiOrISP.dmg
+  ditto "/tmp/wifiorisp-dmg/WiFi or ISP.app" "/Applications/WiFi or ISP.app"
+  hdiutil detach -quiet /tmp/wifiorisp-dmg
+Then open it with: open -a "WiFi or ISP"
+It's a menu bar app with no Dock icon. Tell me to look for the small router
+icon near the clock, and that its welcome window asks about Location access
+(only used to show the Wi-Fi network name) and opening at login.
+```
+
 ## Your first two minutes
 
 1. **Open WiFi or ISP** from Applications. There's no Dock icon and no window to look for: it lives in the menu bar, as a small router icon near the clock.
@@ -113,6 +132,17 @@ git clone https://github.com/coreyhaines31/wifiorisp.git
 cd wifiorisp
 brew install xcodegen swiftlint
 Scripts/run-local.sh        # builds, signs to run locally, and opens the app
+```
+
+Or paste this into your coding agent:
+
+```text
+Clone https://github.com/coreyhaines31/wifiorisp and build it from source.
+It needs Xcode 16 or later. Install XcodeGen and SwiftLint with Homebrew if
+they're missing, then from the repo root run Scripts/run-local.sh, which builds
+the app signed to run locally (no Apple Developer account) and opens it.
+Then run the tests with: cd Packages/WiFiOrISPCore && swift test
+Read CONTRIBUTING.md before changing any code.
 ```
 
 Tests, the project layout, the developer CLI, and the website generator are covered in [CONTRIBUTING.md](CONTRIBUTING.md).
