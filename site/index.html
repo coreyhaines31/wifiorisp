@@ -17,6 +17,7 @@
   <link rel="apple-touch-icon" href="/images/icon.png">
   <link rel="canonical" href="https://wifiorisp.com/">
   <link rel="stylesheet" href="/site.css">
+  <script src="/copy.js" defer></script>
   <script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "SoftwareApplication", "name": "WiFi or ISP", "operatingSystem": "macOS 14 or later", "applicationCategory": "UtilitiesApplication", "description": "A free Mac menu bar app that times your router and the internet at the same moment and tells you whether slow internet is your Wi-Fi or your ISP.", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}, "downloadUrl": "https://github.com/coreyhaines31/wifiorisp/releases/latest", "url": "https://wifiorisp.com", "image": "https://wifiorisp.com/images/icon.png", "author": {"@type": "Person", "name": "Corey Haines", "url": "https://corey.co"}}, {"@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Why is my Wi-Fi so slow?", "acceptedAnswer": {"@type": "Answer", "text": "Usually one of three things: a weak signal (too far from the router, or walls in the way), a crowded channel or overloaded router, or a problem past your router at your ISP. Each one looks the same from your browser. WiFi or ISP tells them apart by timing your router and the internet together."}}, {"@type": "Question", "name": "What does “WiFi” mean in the verdict?", "acceptedAnswer": {"@type": "Answer", "text": "Your side of the line: your Mac's radio, the air, and your router. “ISP” means everything past the router, including your modem and the line to your provider. If your router is slow, that's on your side, even with a strong signal."}}, {"@type": "Question", "name": "What is bufferbloat?", "acceptedAnswer": {"@type": "Answer", "text": "When an upload or download fills your connection, packets pile up in a queue and every round trip slows down. That's why video calls stutter while a backup runs. The lag-under-load test measures it and says whether the queue is in your Wi-Fi or router, or past it. Turning on Smart Queue Management (SQM) on your router usually fixes it."}}, {"@type": "Question", "name": "What do dBm and ms mean?", "acceptedAnswer": {"@type": "Answer", "text": "You don't need to know: the app says Excellent, Fast, or Slow. If you're curious, dBm is radio signal strength (−30 is as strong as it gets, −80 barely works) and ms is milliseconds, how long a reply takes (your router should answer in a few). Turn on the number in the menu bar in Settings if you like it."}}, {"@type": "Question", "name": "Does it run speed tests all the time?", "acceptedAnswer": {"@type": "Answer", "text": "No. The background checks are single tiny round trips, every 5 to 30 seconds. Speed and lag tests only run when you click them."}}, {"@type": "Question", "name": "Why does it ask for Location?", "acceptedAnswer": {"@type": "Answer", "text": "Only to show your Wi-Fi network's name, which macOS treats as location data. The app never asks where you are. Say no and it shows “Unknown network”."}}, {"@type": "Question", "name": "Does it work over Ethernet or a VPN?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. On a cable it skips the signal readings and still compares your router with the internet. With a VPN on, it still measures the Wi-Fi network underneath."}}, {"@type": "Question", "name": "Is it really free?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. The source is on GitHub under the Functional Source License, which turns into the MIT license two years after each release."}}]}]}</script>
   <script src="https://cdn.usefathom.com/script.js" data-site="CRTCSZKQ" defer></script>
 </head>
@@ -46,7 +47,7 @@
               <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11m-5-5 5 5 5-5M5 20h14"/></svg>Download free</a>
             <a class="pill big ghost" href="https://github.com/coreyhaines31/wifiorisp">View source code</a>
           </div>
-          <p class="fineprint">macOS 14 or later · Apple Silicon and Intel · Notarized by Apple<br><code>brew install --cask coreyhaines31/tap/wifiorisp</code><br>Using Claude Code or Codex? <a href="/help#agent">Copy the install prompt</a></p>
+          <p class="fineprint">macOS 14 or later · Apple Silicon and Intel · Notarized by Apple<br><code>brew install --cask coreyhaines31/tap/wifiorisp</code><br>Using Claude Code or Codex? <a href="#agent">Copy the install prompt</a></p>
         </div>
 
         <div class="hero-demo" role="img" aria-label="The WiFi or ISP menu open, saying: Slow: ISP, not WiFi. Router fast at 4 ms, internet slow at 186 ms.">
@@ -220,6 +221,29 @@ Period: Oct 1 at 9:00 AM to Oct 8 at 9:00 AM
         <details><summary>Why does it ask for Location?</summary><p>Only to show your Wi-Fi network's name, which macOS treats as location data. The app never asks where you are. Say no and it shows “Unknown network”.</p></details>
         <details><summary>Does it work over Ethernet or a VPN?</summary><p>Yes. On a cable it skips the signal readings and still compares your router with the internet. With a VPN on, it still measures the Wi-Fi network underneath.</p></details>
         <details><summary>Is it really free?</summary><p>Yes. The source is on GitHub under the Functional Source License, which turns into the MIT license two years after each release.</p></details>
+      </div>
+    </section>
+
+    <section class="agent" id="agent">
+      <div class="wrap narrow">
+        <h2>Let your AI agent install it</h2>
+        <p class="section-lede">Using Claude Code, Codex, or another coding agent? Paste this in and it will install and open WiFi or ISP for you.</p>
+        <div class="prompt">
+          <button class="pill copy" type="button" data-copy-target="agent-install">Copy</button>
+          <pre id="agent-install">Install the macOS app "WiFi or ISP" for me.
+If Homebrew is installed (check with `command -v brew`), run:
+  brew install --cask coreyhaines31/tap/wifiorisp
+Otherwise, download and install the signed DMG:
+  curl -fL -o /tmp/WiFiOrISP.dmg https://github.com/coreyhaines31/wifiorisp/releases/latest/download/WiFiOrISP.dmg
+  hdiutil attach -nobrowse -quiet -mountpoint /tmp/wifiorisp-dmg /tmp/WiFiOrISP.dmg
+  ditto "/tmp/wifiorisp-dmg/WiFi or ISP.app" "/Applications/WiFi or ISP.app"
+  hdiutil detach -quiet /tmp/wifiorisp-dmg
+Then open it with: open -a "WiFi or ISP"
+It's a menu bar app with no Dock icon. Tell me to look for the small router
+icon near the clock, and that its welcome window asks about Location access
+(only used to show the Wi-Fi network name) and opening at login.</pre>
+        </div>
+        <p class="fineprint">Want to build it from source instead? <a href="/help#agent">There's a prompt for that too.</a></p>
       </div>
     </section>
 
