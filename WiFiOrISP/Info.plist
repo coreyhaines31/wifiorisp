@@ -26,6 +26,8 @@
 	<true/>
 	<key>NSHumanReadableCopyright</key>
 	<string>Copyright © 2026 Corey Haines. FSL-1.1-MIT.</string>
+	<key>NSLocalNetworkUsageDescription</key>
+	<string>WiFi or ISP times a round trip to your router to tell whether a slowdown is your Wi-Fi or your ISP. It doesn't look for or connect to any other devices.</string>
 	<key>NSLocationUsageDescription</key>
 	<string>macOS only shows apps the Wi-Fi network name (and which access point you're on) with Location access. WiFi or ISP uses it to label your history by network and to spot roaming. It never reads or stores where you are.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>

@@ -43,6 +43,7 @@ targets:
         NSHumanReadableCopyright: Copyright © 2026 Corey Haines. FSL-1.1-MIT.
         NSLocationUsageDescription: macOS only shows apps the Wi-Fi network name (and which access point you're on) with Location access. WiFi or ISP uses it to label your history by network and to spot roaming. It never reads or stores where you are.
         NSLocationWhenInUseUsageDescription: macOS only shows apps the Wi-Fi network name (and which access point you're on) with Location access. WiFi or ISP uses it to label your history by network and to spot roaming. It never reads or stores where you are.
+        NSLocalNetworkUsageDescription: WiFi or ISP times a round trip to your router to tell whether a slowdown is your Wi-Fi or your ISP. It doesn't look for or connect to any other devices.
         SUFeedURL: https://github.com/coreyhaines31/wifiorisp/releases/latest/download/appcast.xml
         SUPublicEDKey: 5MTMTktA0NUipG5n3iJy+27VbXN9uKgO2BbCgK8yUKU=
         SUEnableAutomaticChecks: true
