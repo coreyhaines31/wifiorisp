@@ -57,6 +57,7 @@ def head(title, description, path, scripts=""):
       <nav>
         <a href="/#how">How it works</a>
         <a href="/bufferbloat-test">Bufferbloat test</a>
+        <a href="/help">Help</a>
         <a href="{REPO}">GitHub</a>
         <a class="pill" href="{DOWNLOAD}">Download</a>
       </nav>
