@@ -350,3 +350,11 @@ section.article + .faq { padding-top: 40px; }
 @media (prefers-color-scheme: dark) { .prompt pre { background: #050914; border: 1px solid var(--line); } }
 .fineprint a { color: inherit; }
 .agent .prompt { margin-top: 24px; }
+
+.hero-prompt { margin-top: 18px; max-width: 520px; }
+.hero-prompt-label { display: block; font-size: 14px; color: var(--muted); margin-bottom: 8px; }
+.hero-prompt-box { display: flex; align-items: center; gap: 12px; background: var(--night); border-radius: var(--radius); padding: 10px 10px 10px 16px; }
+.hero-prompt-box code { flex: 1; min-width: 0; color: #dfe6ff; font: 13px/1.4 var(--mono); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; background: none; padding: 0; }
+.hero-prompt-box .copy { flex: none; padding: 6px 14px; font-size: 13px; border: 0; cursor: pointer; font-family: inherit; background: #fff; color: var(--night); }
+.hero-prompt-more { display: inline-block; margin-top: 8px; font-size: 13px; }
+@media (prefers-color-scheme: dark) { .hero-prompt-box { background: #050914; border: 1px solid var(--line); } }
