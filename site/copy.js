@@ -1,6 +1,7 @@
 // Copy buttons for blocks marked data-copy-target="<id>".
 (() => {
   document.querySelectorAll("[data-copy-target]").forEach((button) => {
+    const label = button.textContent;
     button.addEventListener("click", async () => {
       const text = document.getElementById(button.dataset.copyTarget).textContent;
       try {
@@ -13,7 +14,7 @@
         getSelection().addRange(range);
         button.textContent = "Press ⌘C";
       }
-      setTimeout(() => (button.textContent = "Copy"), 1800);
+      setTimeout(() => (button.textContent = label), 1800);
     });
   });
 })();
