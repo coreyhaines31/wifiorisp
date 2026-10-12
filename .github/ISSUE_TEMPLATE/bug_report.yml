@@ -1,0 +1,44 @@
+name: Bug report
+description: Something isn't working, or a verdict looks wrong.
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: Thanks for reporting. A few details help a lot. Please don't paste your network name, router address, or IP if you'd rather keep them private.
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened
+      description: What you saw, and what you expected instead.
+    validations:
+      required: true
+  - type: textarea
+    id: menu
+    attributes:
+      label: What the menu shows
+      description: The verdict line and the rows under it (a screenshot works too).
+  - type: input
+    id: version
+    attributes:
+      label: WiFi or ISP version
+      description: Menu → About WiFi or ISP.
+      placeholder: "1.1.0"
+    validations:
+      required: true
+  - type: input
+    id: macos
+    attributes:
+      label: macOS version and Mac
+      placeholder: "macOS 15.4, MacBook Air M3"
+    validations:
+      required: true
+  - type: dropdown
+    id: connection
+    attributes:
+      label: Connection
+      options: [Wi-Fi, Ethernet, Wi-Fi with a VPN, Other]
+  - type: input
+    id: provider
+    attributes:
+      label: Internet provider and router (optional)
+      placeholder: "Spectrum, eero Pro 6E"
