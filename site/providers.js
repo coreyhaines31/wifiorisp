@@ -67,14 +67,19 @@
   const shards = new Map();
   const shard = async (parent) => {
     if (!shards.has(parent)) {
-      shards.set(parent, fetch(`/data/providers/${parent}.json`).then((r) => (r.ok ? r.json() : {})).then(expand));
+      // A missing file is an area with no homes; a network failure is forgotten so the next search retries.
+      const loading = fetch(`/data/providers/${parent}.json`).then((r) => (r.ok ? r.json() : {})).then(expand);
+      loading.catch(() => shards.delete(parent));
+      shards.set(parent, loading);
     }
     return shards.get(parent);
   };
 
   // Offers in the location's cell. A cell with no homes (a park, an empty lot) borrows its neighbors'.
   const offersAt = async (h3, point) => {
-    meta = meta || await fetch("/data/providers/meta.json").then((r) => r.json());
+    meta = meta || await fetch("/data/providers/meta.json")
+      .then((r) => (r.ok ? r.json() : Promise.reject()))
+      .catch(() => { throw new Error("The provider data didn't load. Try again in a moment."); });
     const cell = h3.latLngToCell(point.lat, point.lon, meta.resolution);
     const own = (await shard(h3.cellToParent(cell, meta.parentResolution)))[cell];
     if (own) return { offers: own[1], homes: own[0], nearby: false };
