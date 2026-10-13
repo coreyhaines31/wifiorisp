@@ -381,7 +381,7 @@ section.article + .faq { padding-top: 40px; }
 .finder-status:empty { min-height: 0; }
 @media (max-width: 520px) {
   .finder-search { flex-wrap: wrap; border-radius: 18px; padding: 8px 8px 8px 14px; }
-  .finder-search .pill { width: 100%; }
+  .finder-search .pill { width: 100%; justify-content: center; text-align: center; }
 }
 
 .finder-example { margin: 0; display: grid; gap: 10px; padding: 18px; border-radius: 22px; background: var(--surface); border: 1px solid var(--line); box-shadow: var(--shadow); min-width: 0; }
