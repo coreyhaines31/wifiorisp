@@ -86,7 +86,10 @@ final class CLIServer: Sendable {
         }
         var timeout = timeval(tv_sec: 5, tv_usec: 0)
         setsockopt(client, SOL_SOCKET, SO_RCVTIMEO, &timeout, socklen_t(MemoryLayout<timeval>.size))
-        setsockopt(client, SOL_SOCKET, SO_SNDTIMEO, &timeout, socklen_t(MemoryLayout<timeval>.size))
+        // Messages go out from the main thread, so a command that stops reading (say, `watch` piped
+        // into something stuck) must not hold up the menu for long.
+        var sendTimeout = timeval(tv_sec: 1, tv_usec: 0)
+        setsockopt(client, SOL_SOCKET, SO_SNDTIMEO, &sendTimeout, socklen_t(MemoryLayout<timeval>.size))
         setsockopt(client, SOL_SOCKET, SO_NOSIGPIPE, [Int32(1)], socklen_t(MemoryLayout<Int32>.size))
         let connection = CLIConnection(client)
         guard let data = readRequest(client), !data.isEmpty else {
