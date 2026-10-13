@@ -16,6 +16,7 @@ cask "wifiorisp" do
   depends_on macos: ">= :sonoma"
 
   app "WiFi or ISP.app"
+  binary "#{appdir}/WiFi or ISP.app/Contents/MacOS/wifiorisp"
 
   zap trash: [
     "~/Library/Application Support/WiFi or ISP",
