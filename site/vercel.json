@@ -1,1 +1,7 @@
-{ "cleanUrls": true }
+{
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "redirects": [
+    { "source": "/providers", "destination": "/internet-providers", "permanent": true }
+  ]
+}
