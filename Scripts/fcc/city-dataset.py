@@ -38,6 +38,22 @@ SUFFIX = re.compile(
 )
 
 
+# Official names that people don't search for.
+COMMON = {
+    "Urban Honolulu": "Honolulu", "Nashville-Davidson": "Nashville", "Louisville/Jefferson County": "Louisville",
+    "Augusta-Richmond County": "Augusta", "Macon-Bibb County": "Macon", "Athens-Clarke County": "Athens",
+    "Butte-Silver Bow": "Butte", "Lexington-Fayette": "Lexington", "Indianapolis city": "Indianapolis",
+}
+
+
+def common_name(name):
+    name = name.replace(" (balance)", "")
+    # "San Buenaventura (Ventura)": the name in parentheses is the one people use.
+    if name.endswith(")") and " (" in name:
+        name = name[name.index(" (") + 2:-1]
+    return COMMON.get(name, name)
+
+
 def slugify(name):
     ascii_name = unicodedata.normalize("NFKD", name).encode("ascii", "ignore").decode()
     return re.sub(r"[^a-z0-9]+", "-", ascii_name.lower()).strip("-")
@@ -52,7 +68,7 @@ def gazetteer(path):
     for line in lines[1:]:
         row = dict(zip(header, (v.strip() for v in line.split("\t"))))
         places[row["GEOID"]] = {
-            "name": SUFFIX.sub("", row["NAME"]), "kind": row["NAME"].rsplit(" ", 1)[-1],
+            "name": common_name(SUFFIX.sub("", row["NAME"])), "kind": row["NAME"].rsplit(" ", 1)[-1],
             "lat": float(row["INTPTLAT"]), "lon": float(row["INTPTLONG"]),
         }
     return places
