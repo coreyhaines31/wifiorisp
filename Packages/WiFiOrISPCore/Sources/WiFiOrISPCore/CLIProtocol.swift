@@ -211,3 +211,41 @@ public struct CLILag: Codable, Equatable, Sendable {
         server = result.server
     }
 }
+
+/// `wifiorisp history --json`: the summary and events in plain words. Raw samples are in `--csv`.
+public struct CLIHistory: Codable, Equatable, Sendable {
+    public struct Event: Codable, Equatable, Sendable {
+        public var time: Date
+        public var text: String
+    }
+
+    public var start: Date
+    public var end: Date
+    public var measurements: Int
+    public var networks: [String]
+    public var routerMedianMs: Double?
+    public var internetMedianMs: Double?
+    public var internetP95Ms: Double?
+    /// Shares of the period, 0 to 1.
+    public var internetLoss: Double
+    public var ispSlow: Double
+    public var yourSideSlow: Double
+    public var events: [Event]
+
+    public init(log: Log, start: Date, end: Date) {
+        let summary = ReportSummary(log: log, start: start, end: end)
+        let round = { (value: Double) in (value * 10).rounded() / 10 }
+        let share = { (value: Double) in (value * 1000).rounded() / 1000 }
+        self.start = start
+        self.end = end
+        measurements = summary.sampleCount
+        networks = summary.networks
+        routerMedianMs = summary.routerMedianMs.map(round)
+        internetMedianMs = summary.internetMedianMs.map(round)
+        internetP95Ms = summary.internetP95Ms.map(round)
+        internetLoss = share(summary.internetLoss)
+        ispSlow = share(summary.ispSlowShare)
+        yourSideSlow = share(summary.yourSideSlowShare)
+        events = CLIText.events(log.events).map { Event(time: $0.time, text: $0.text) }
+    }
+}

@@ -110,6 +110,14 @@ struct CLITextTests {
         #expect(CLIText.history(log, start: now.addingTimeInterval(-3600), end: now).contains("What happened"))
     }
 
+    @Test func historyJSONSummarizes() {
+        let log = Log(samples: samples(internet: .reply(ms: 30)), events: [NetworkEvent(time: now, kind: .dropStarted)])
+        let history = CLIHistory(log: log, start: now.addingTimeInterval(-3600), end: now)
+        #expect(history.measurements == 6)
+        #expect(history.internetMedianMs == 30)
+        #expect(history.events.map(\.text) == ["Internet dropped, and hasn't come back yet"])
+    }
+
     @Test func emptyHistorySaysSo() {
         #expect(CLIText.history(Log(), start: now, end: now).hasPrefix("No measurements"))
     }

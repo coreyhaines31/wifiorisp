@@ -28,6 +28,11 @@ targets:
     dependencies:
       - package: WiFiOrISPCore
       - package: Sparkle
+      # The `wifiorisp` command; the Homebrew cask links it onto the PATH.
+      - target: WiFiOrISPCLI
+        copy:
+          destination: executables
+        codeSignOnCopy: true
     entitlements:
       path: WiFiOrISP/WiFiOrISP.entitlements
       properties:
@@ -53,6 +58,19 @@ targets:
         PRODUCT_MODULE_NAME: WiFiOrISP
         PRODUCT_BUNDLE_IDENTIFIER: app.wifiorisp.WiFiOrISP
         ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+  WiFiOrISPCLI:
+    type: tool
+    platform: macOS
+    sources: [WiFiOrISPCLI]
+    dependencies:
+      - package: WiFiOrISPCore
+    settings:
+      base:
+        PRODUCT_NAME: wifiorisp
+        PRODUCT_BUNDLE_IDENTIFIER: app.wifiorisp.WiFiOrISP.CLI
+        SKIP_INSTALL: YES
+        GENERATE_INFOPLIST_FILE: YES
+        CREATE_INFOPLIST_SECTION_IN_BINARY: YES
 schemes:
   WiFiOrISP:
     build:
