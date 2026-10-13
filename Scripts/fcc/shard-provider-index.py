@@ -51,8 +51,13 @@ def main():
     for parent, cells in shards.items():
         with open(os.path.join(args.out, f"{parent}.json"), "w") as handle:
             json.dump(cells, handle, separators=(",", ":"))
+    providers = {offer[0] for cells in shards.values() for _, offers in cells.values() for offer in offers}
+    homes = sum(total for cells in shards.values() for total, _ in cells.values())
+    meta = {"vintage": vintages.pop(), "parentResolution": PARENT_RESOLUTION, "resolution": 8,
+            "providers": len(providers), "homes": homes}
     with open(os.path.join(args.out, "meta.json"), "w") as handle:
-        json.dump({"vintage": vintages.pop(), "parentResolution": PARENT_RESOLUTION, "resolution": 8}, handle)
+        json.dump(meta, handle)
+    print(json.dumps(meta))
     size = sum(os.path.getsize(p) for p in glob.glob(os.path.join(args.out, "*.json")))
     print(f"{len(shards):,} files, {sum(len(c) for c in shards.values()):,} cells, {size / 1e6:.0f} MB")
 
