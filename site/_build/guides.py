@@ -560,6 +560,23 @@ NEEDS_WIDGET = '''    <section class="tool">
     </section>
 '''
 
+LOOKUP_WIDGET = '''    <section class="tool">
+      <div class="wrap narrow">
+        <div class="bb-card lookup">
+          <h2>Who serves your address?</h2>
+          <form class="lookup-form" id="lookup-form">
+            <label class="visually-hidden" for="lookup-address">Street address</label>
+            <input id="lookup-address" type="text" autocomplete="street-address" placeholder="Street address, city, state or ZIP" required>
+            <button class="pill" type="submit">Look up</button>
+          </form>
+          <button class="link-button" type="button" id="lookup-here">Use my location instead</button>
+          <p class="bb-note" id="lookup-status" aria-live="polite">Your address goes to the U.S. Census Bureau's geocoder to find where it is. With “Use my location,” only the broad area is requested from this site.</p>
+          <div id="lookup-results" hidden></div>
+        </div>
+      </div>
+    </section>
+'''
+
 GUIDES += [
     {
         "slug": "providers",
@@ -569,16 +586,12 @@ GUIDES += [
         "eyebrow": "Compare providers",
         "h1": "Compare internet providers at your address",
         "lede": "When your plan or provider is the ceiling, switching can fix what no router will. Start from what your home needs, then see who can deliver it where you live.",
-        "scripts": '\n  <script src="/needs.js" defer></script>',
-        "widget": NEEDS_WIDGET,
+        "scripts": '\n  <script src="/needs.js" defer></script>\n  <script src="/providers.js" defer></script>',
+        "widget": NEEDS_WIDGET + LOOKUP_WIDGET,
         "body": '''
-        <h2>See who serves your address</h2>
-        <ol class="steps">
-          <li><b>Open the FCC's National Broadband Map</b> at <a href="https://broadbandmap.fcc.gov">broadbandmap.fcc.gov</a> and enter your address.</li>
-          <li><b>Read the fixed providers list.</b> It shows each provider's technology (fiber, cable, DSL, fixed wireless, satellite) and its fastest advertised speeds.</li>
-          <li><b>Confirm with the provider.</b> A listing means the provider told the FCC it <em>can</em> serve your address, not that it already does. Check its site before you count on it.</li>
-        </ol>
-        <p>We're building a lookup right here that ranks the providers at your address by what your home needs.</p>
+        <h2>Where the lookup's data comes from</h2>
+        <p>Every internet provider in the US must tell the FCC which homes it can serve, with which technology and at what top speeds. The lookup above uses the FCC's public release of that data, for homes (not businesses), grouped into neighborhood-sized areas. It doesn't show prices, and a listing means the provider says it <em>can</em> serve the area, not that it serves every home in it.</p>
+        <p>To check one exact address, enter it on the FCC's <a href="https://broadbandmap.fcc.gov">National Broadband Map</a>, then confirm with the provider before you count on it.</p>
 
         <h2>What to compare</h2>
         <ul>

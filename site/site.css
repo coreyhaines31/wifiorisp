@@ -361,3 +361,16 @@ section.article + .faq { padding-top: 40px; }
 .hero-prompt-box .copy { flex: none; padding: 6px 14px; font-size: 13px; border: 0; cursor: pointer; font-family: inherit; background: #fff; color: var(--night); }
 .hero-prompt-more { display: inline-block; margin-top: 8px; font-size: 13px; }
 @media (prefers-color-scheme: dark) { .hero-prompt-box { background: #050914; border: 1px solid var(--line); } }
+
+/* Providers at your address */
+.lookup h2 { font-size: 22px; margin-bottom: 16px; }
+.lookup-form { display: flex; gap: 10px; flex-wrap: wrap; }
+.lookup-form input { flex: 1 1 260px; min-width: 0; font: inherit; font-size: 16px; padding: 10px 14px; border: 1px solid var(--line); border-radius: 999px; background: var(--bg); color: var(--ink); }
+.lookup-form .pill { border: 0; cursor: pointer; font-family: inherit; }
+.link-button { margin-top: 10px; padding: 0; border: 0; background: none; color: var(--ink); font: inherit; font-size: 14.5px; text-decoration: underline; cursor: pointer; }
+.lookup-summary { margin: 20px 0 8px; font-weight: 600; color: var(--ink); }
+.lookup-table td.fits { color: #14853b; font-weight: 600; }
+.lookup-table td.short { color: var(--muted); }
+@media (prefers-color-scheme: dark) { .lookup-table td.fits { color: #4ade80; } }
+.visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.lookup-table td.speeds { white-space: nowrap; }
