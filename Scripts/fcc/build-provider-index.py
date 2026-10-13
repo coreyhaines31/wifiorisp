@@ -3,8 +3,9 @@
 
 Downloads each state's fixed-broadband Location Coverage files through the FCC BDC Public Data
 API, streams them without unzipping to disk, and aggregates every location into its H3
-resolution-8 cell (about 0.7 km²): which providers offer which technology there, their top
-advertised speeds, and the share of the cell's locations each one covers. Each zip is deleted
+resolution-8 cell (about 0.7 km²) and into its census place (city, town, or CDP, via the Census
+Bureau's 2020 block assignment files): which providers offer which technology there, their top
+advertised speeds, and the share of the area's homes each one covers. Each zip is deleted
 once it's read, so the full run never needs more than one file's worth of disk.
 
 Satellite files are skipped: GSO and NGSO satellite cover nearly every location, so the site
@@ -74,10 +75,57 @@ def read_rows(zipped):
             yield from csv.DictReader(io.TextIOWrapper(raw, encoding="utf-8", newline=""))
 
 
-def build_state(files, username, token, log):
-    """cell → (provider, technology) → [locations, max down, max up]; plus locations per cell."""
-    offers = defaultdict(lambda: defaultdict(lambda: [0, 0, 0]))
-    locations = defaultdict(set)
+class Areas:
+    """area → (provider, technology) → [locations, max down, max up], plus the locations in each area."""
+
+    def __init__(self):
+        self.offers = defaultdict(lambda: defaultdict(lambda: [0, 0, 0]))
+        self.locations = defaultdict(set)
+
+    def add(self, area, provider, technology, location, down, up):
+        offer = self.offers[area][(provider, technology)]
+        offer[0] += 1
+        offer[1] = max(offer[1], down)
+        offer[2] = max(offer[2], up)
+        self.locations[area].add(location)
+
+    def listed(self):
+        """{area: [locations, [[provider, technology, share, down, up], ...]]}, fastest first."""
+        areas = {}
+        for area, by_offer in self.offers.items():
+            total = len(self.locations[area])
+            offers = sorted(
+                ([provider, technology, min(1, round(n / total, 2)), down, up]
+                 for (provider, technology), (n, down, up) in by_offer.items()),
+                key=lambda offer: (-offer[3], -offer[2]),
+            )
+            areas[area] = [total, offers]
+        return areas
+
+
+def block_places(fips, usps, cache):
+    """2020 census block → place (city, town, or CDP), from the Census Bureau's block assignment file."""
+    os.makedirs(cache, exist_ok=True)
+    path = os.path.join(cache, f"BlockAssign_ST{fips}_{usps}.zip")
+    if not os.path.exists(path):
+        url = f"https://www2.census.gov/geo/docs/maps-data/data/baf2020/BlockAssign_ST{fips}_{usps}.zip"
+        if subprocess.run(["curl", "-sS", "--fail", "-o", path, url], capture_output=True).returncode != 0:
+            return {}
+    with zipfile.ZipFile(path) as archive:
+        name = next((n for n in archive.namelist() if n.endswith("_INCPLACE_CDP.txt")), None)
+        if not name:
+            return {}
+        lines = io.TextIOWrapper(archive.open(name), encoding="utf-8").read().splitlines()[1:]
+    places = {}
+    for line in lines:
+        block, _, place = line.partition("|")
+        if place:
+            places[block] = fips + place
+    return places
+
+
+def build_state(files, places, username, token, log):
+    cells, cities = Areas(), Areas()
     for file in files:
         started = time.monotonic()
         zipped = call(f"downloads/downloadFile/availability/{file['file_id']}", username, token)
@@ -85,33 +133,23 @@ def build_state(files, username, token, log):
         for row in read_rows(zipped):
             if row["business_residential_code"] == "B":
                 continue
-            cell = row["h3_res8_id"]
-            offer = offers[cell][(row["brand_name"], TECHNOLOGY.get(row["technology"], "other"))]
-            offer[0] += 1
-            offer[1] = max(offer[1], int(row["max_advertised_download_speed"] or 0))
-            offer[2] = max(offer[2], int(row["max_advertised_upload_speed"] or 0))
-            locations[cell].add(int(row["location_id"]))
+            offer = (row["brand_name"], TECHNOLOGY.get(row["technology"], "other"), int(row["location_id"]),
+                     int(row["max_advertised_download_speed"] or 0), int(row["max_advertised_upload_speed"] or 0))
+            cells.add(row["h3_res8_id"], *offer)
+            place = places.get(row["block_geoid"])
+            if place:
+                cities.add(place, *offer)
             rows += 1
         log(f"  {file['technology_code_desc']}: {rows:,} rows, {len(zipped) / 1e6:.0f} MB, "
             f"{time.monotonic() - started:.0f}s")
-    return offers, {cell: len(ids) for cell, ids in locations.items()}
+    return cells.listed(), cities.listed()
 
 
-def write_state(state, vintage, offers, counts, out):
-    """One JSON file per state: {cell: [locations, [[provider, technology, share, down, up], ...]]}."""
-    cells = {}
-    for cell, by_offer in offers.items():
-        total = counts[cell]
-        listed = sorted(
-            ([provider, technology, round(n / total, 2), down, up]
-             for (provider, technology), (n, down, up) in by_offer.items()),
-            key=lambda offer: (-offer[3], -offer[2]),
-        )
-        cells[cell] = [total, listed]
-    path = os.path.join(out, f"{state}.json")
+def write_json(path, vintage, key, areas):
+    os.makedirs(os.path.dirname(path), exist_ok=True)
     with open(path, "w") as handle:
-        json.dump({"vintage": vintage, "cells": cells}, handle, separators=(",", ":"))
-    return path, len(cells)
+        json.dump({"vintage": vintage, key: areas}, handle, separators=(",", ":"))
+    return os.path.getsize(path) / 1e6
 
 
 def main():
@@ -142,9 +180,11 @@ def main():
         if wanted is not None and usps not in wanted:
             continue
         log(f"{names[fips]} ({usps}): {len(state_files)} files")
-        offers, counts = build_state(state_files, username, token, log)
-        path, cells = write_state(usps, vintage, offers, counts, args.out)
-        log(f"  → {path}: {cells:,} cells, {os.path.getsize(path) / 1e6:.1f} MB")
+        places = block_places(fips, usps, os.path.join(args.out, "census"))
+        cells, cities = build_state(state_files, places, username, token, log)
+        size = write_json(os.path.join(args.out, f"{usps}.json"), vintage, "cells", cells)
+        write_json(os.path.join(args.out, "places", f"{usps}.json"), vintage, "places", cities)
+        log(f"  → {usps}: {len(cells):,} cells ({size:.1f} MB), {len(cities):,} places")
 
 
 USPS = {
