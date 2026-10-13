@@ -539,75 +539,98 @@ GUIDES += [
     },
 ]
 
-NEEDS_WIDGET = '''    <section class="tool">
-      <div class="wrap narrow">
-        <form class="bb-card needs" id="needs-form" onsubmit="return false">
-          <h2>How much internet does your home need?</h2>
-          <div class="needs-grid">
-            <label>People at home <input id="n-people" type="number" min="1" max="12" value="2"></label>
-            <label>4K streams at once <input id="n-streams" type="number" min="0" max="8" value="1"></label>
-            <label class="check"><input id="n-calls" type="checkbox" checked> Video calls or remote work</label>
-            <label class="check"><input id="n-gaming" type="checkbox"> Online gaming</label>
-            <label class="check"><input id="n-uploads" type="checkbox"> Big uploads (backups, video, streaming)</label>
-          </div>
-          <dl class="bb-numbers needs-out">
-            <dt>Download</dt><dd id="n-down"></dd>
-            <dt>Upload</dt><dd id="n-up"></dd>
-          </dl>
-          <p class="bb-note" id="n-note"></p>
-        </form>
-      </div>
-    </section>
-'''
-
-LOOKUP_WIDGET = '''    <section class="tool">
-      <div class="wrap narrow">
-        <div class="bb-card lookup">
-          <h2>Who serves your address?</h2>
-          <form class="lookup-form" id="lookup-form">
-            <label class="visually-hidden" for="lookup-address">Street address</label>
-            <input id="lookup-address" type="text" autocomplete="street-address" placeholder="Street address, city, state or ZIP" required>
-            <button class="pill" type="submit">Look up</button>
+FINDER_HERO = """    <section class="finder-hero">
+      <div class="wrap finder-grid">
+        <div class="finder-copy">
+          <p class="eyebrow">Free · FCC data for 114 million homes · No sign-up</p>
+          <h1>Internet providers near you</h1>
+          <p class="lede">Enter your address to see every home internet provider that serves it, with the top speeds each one reports to the FCC, ranked by what your home needs.</p>
+          <form class="finder-search" id="lookup-form" role="search">
+            <label class="visually-hidden" for="lookup-address">Your address</label>
+            <svg class="finder-pin" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>
+            <input id="lookup-address" type="text" autocomplete="street-address" placeholder="Street address, city, state" required>
+            <button class="pill" type="submit">Find providers</button>
           </form>
-          <button class="link-button" type="button" id="lookup-here">Use my location instead</button>
-          <p class="bb-note" id="lookup-status" aria-live="polite">Your address goes to the U.S. Census Bureau's geocoder to find where it is. With “Use my location,” only the broad area is requested from this site.</p>
-          <div id="lookup-results" hidden></div>
+          <p class="finder-alt"><button class="link-button" type="button" id="lookup-here">Use my current location</button><span>Addresses go to the U.S. Census Bureau's geocoder. Nothing is stored.</span></p>
+          <p class="finder-status" id="lookup-status" aria-live="polite"></p>
         </div>
+        <figure class="finder-example" aria-label="Example result for Chula Vista, California">
+          <figcaption><span>Example</span> Chula Vista, CA · 8 options</figcaption>
+          <div class="offer fits"><div class="offer-top"><span class="tech tech-fiber">Fiber</span><span class="fit">Fits your home</span></div><h3>Pacific Wyyerd</h3><p class="offer-speeds"><span><b>8 Gbps</b> down</span> <span><b>8 Gbps</b> up</span></p><div class="coverage"><span style="width:47%"></span></div><p class="offer-share">Offered to 47% of homes nearby</p></div>
+          <div class="offer fits"><div class="offer-top"><span class="tech tech-fiber">Fiber</span><span class="fit">Fits your home</span></div><h3>AT&amp;T</h3><p class="offer-speeds"><span><b>5 Gbps</b> down</span> <span><b>5 Gbps</b> up</span></p><div class="coverage"><span style="width:35%"></span></div><p class="offer-share">Offered to 35% of homes nearby</p></div>
+          <div class="offer fits"><div class="offer-top"><span class="tech tech-cable">Cable</span><span class="fit">Fits your home</span></div><h3>Cox Communications</h3><p class="offer-speeds"><span><b>2 Gbps</b> down</span> <span><b>100 Mbps</b> up</span></p><div class="coverage"><span style="width:92%"></span></div><p class="offer-share">Offered to 92% of homes nearby</p></div>
+        </figure>
       </div>
     </section>
-'''
+"""
+
+FINDER_RESULTS = """    <section class="finder-results" id="finder-results" hidden>
+      <div class="wrap">
+        <form class="needs-bar" id="needs-form" onsubmit="return false">
+          <span class="needs-label">Sized for</span>
+          <label><input id="n-people" type="number" min="1" max="12" value="2"> people</label>
+          <label><input id="n-streams" type="number" min="0" max="8" value="1"> 4K streams</label>
+          <label class="chip"><input id="n-calls" type="checkbox" checked> Video calls</label>
+          <label class="chip"><input id="n-gaming" type="checkbox"> Gaming</label>
+          <label class="chip"><input id="n-uploads" type="checkbox"> Big uploads</label>
+          <span class="needs-out">Needs <b id="n-down"></b> down · <b id="n-up"></b> up</span>
+          <span class="visually-hidden" id="n-note"></span>
+        </form>
+        <div id="lookup-results"></div>
+      </div>
+    </section>
+"""
 
 GUIDES += [
     {
-        "slug": "providers",
-        "link": "Compare internet providers",
-        "title": "How to Compare Internet Providers at Your Address",
-        "description": "Work out the speeds your home actually needs, see which providers serve your address, and compare plans on what matters: upload, lag, and the real price.",
-        "eyebrow": "Compare providers",
-        "h1": "Compare internet providers at your address",
-        "lede": "When your plan or provider is the ceiling, switching can fix what no router will. Start from what your home needs, then see who can deliver it where you live.",
+        "slug": "internet-providers",
+        "link": "Internet providers near you",
+        "title": "Internet Providers Near Me: Every Provider at Your Address",
+        "description": "See every home internet provider at your address, from FCC data for 114 million homes: fiber, cable, and 5G home, with top speeds and what fits your home.",
+        "schema": "WebApplication",
         "scripts": '\n  <script src="/needs.js" defer></script>\n  <script src="/providers.js" defer></script>',
-        "widget": NEEDS_WIDGET + LOOKUP_WIDGET,
-        "body": '''
-        <h2>Where the lookup's data comes from</h2>
-        <p>Every internet provider in the US must tell the FCC which homes it can serve, with which technology and at what top speeds. The lookup above uses the FCC's public release of that data, for homes (not businesses), grouped into neighborhood-sized areas. It doesn't show prices, and a listing means the provider says it <em>can</em> serve the area, not that it serves every home in it.</p>
-        <p>To check one exact address, enter it on the FCC's <a href="https://broadbandmap.fcc.gov">National Broadband Map</a>, then confirm with the provider before you count on it.</p>
+        "hero": FINDER_HERO,
+        "widget": FINDER_RESULTS,
+        "body": """
+        <h2>How the lookup works</h2>
+        <p>Every internet provider in the US must tell the FCC which homes it can serve, with which technology, and at what top advertised speeds. The lookup uses the FCC's public release of that data for homes, not businesses. It finds the neighborhood your address is in (about a third of a square mile) and lists each provider that serves it, with the share of nearby homes it covers.</p>
+        <p>A listing means the provider says it <em>can</em> serve the area, not that it serves every home in it, and the data has no prices. To check one exact address, enter it on the FCC's <a href="https://broadbandmap.fcc.gov">National Broadband Map</a>, then confirm with the provider before you count on it.</p>
 
-        <h2>What to compare</h2>
-        <ul>
-          <li><strong>Technology first.</strong> Fiber is usually best: fast both ways, low lag, and steady in the evening. Cable is fast downstream but uploads are much slower. 5G home internet varies with the signal at your window. Satellite is the fallback where nothing else reaches.</li>
-          <li><strong>Upload speed.</strong> It's what video calls, backups, and livestreams use, and where many plans fall short.</li>
-          <li><strong>The real price.</strong> Look at the FCC broadband label every provider must show: the price after the promotion ends, equipment fees, and data caps.</li>
-          <li><strong>Lag under load.</strong> Plans don't list it, but it decides whether calls stutter. If a neighbor has the provider, ask them to run our <a href="/bufferbloat-test">bufferbloat test</a>.</li>
-        </ul>
+        <h2>How much internet speed do you need?</h2>
+        <p>Less than most plans sell you, unless you upload a lot. These are rough needs with room to spare, the same math the lookup uses to mark which plans fit.</p>
+        <div class="table-wrap"><table class="compare">
+          <thead><tr><th>Home</th><th>Download</th><th>Upload</th></tr></thead>
+          <tbody>
+            <tr><td>1 person, HD streaming and browsing</td><td>25 Mbps</td><td>5 Mbps</td></tr>
+            <tr><td>2 people, video calls, one 4K stream</td><td>50 Mbps</td><td>6 Mbps</td></tr>
+            <tr><td>4 people, calls, two 4K streams, gaming</td><td>110 Mbps</td><td>12 Mbps</td></tr>
+            <tr><td>1 person working from home, with big uploads (video, backups)</td><td>25 Mbps</td><td>23 Mbps</td></tr>
+          </tbody>
+        </table></div>
+        <p>Upload is where plans fall short. Cable plans often top out at 20 to 100 Mbps up while fiber is usually the same speed both ways.</p>
+
+        <h2>Fiber, cable, 5G home, or DSL?</h2>
+        <div class="table-wrap"><table class="compare">
+          <thead><tr><th>Type</th><th>Best for</th><th>Watch out for</th></tr></thead>
+          <tbody>
+            <tr><td>Fiber</td><td>Fast both ways, low and steady lag, calls and uploads</td><td>Not on every street yet</td></tr>
+            <tr><td>Cable</td><td>Fast downloads almost everywhere in towns and cities</td><td>Much slower uploads; can slow down in busy evenings</td></tr>
+            <tr><td>5G home (fixed wireless)</td><td>A cheap, quick switch with no installer</td><td>Speed depends on the signal at your window and on how busy the tower is</td></tr>
+            <tr><td>DSL</td><td>A fallback where nothing else reaches</td><td>Slow, especially uploads</td></tr>
+            <tr><td>Satellite</td><td>Rural homes with no wired option (Starlink is the fastest)</td><td>Higher lag and price; Starlink is available almost everywhere</td></tr>
+          </tbody>
+        </table></div>
 
         <h2>Before you switch</h2>
-        <p>Make sure the provider is the problem. If your router answers slowly, a new provider won't help. WiFi or ISP tells you which side it is, and if you're getting far less than you pay for, its report helps you get that fixed first.</p>
-''',
+        <p>Make sure the provider is the problem. If your router answers slowly, a new provider won't help. The <a href="/">WiFi or ISP app</a> tells you which side it is, and if you're getting far less than you pay for, its report helps you get that fixed first. Look up your current provider's problems in our <a href="/slow-internet">slow internet guides by provider</a>, and test for lag with the <a href="/bufferbloat-test">bufferbloat test</a>.</p>
+        <p>When you compare plans, read the FCC broadband label every provider must show: the price after the promotion ends, equipment fees, and data caps.</p>
+""",
         "faqs": [
-            ("How much internet speed do I need?", "A rough guide: 10 Mbps down per person, plus 25 Mbps for each 4K stream, and about 3 Mbps up for each person on a video call. Use the calculator above for your home."),
+            ("How do I find internet providers near me?", "Enter your address in the lookup at the top of this page. It lists every provider that reports serving your neighborhood to the FCC, with technology and top speeds, and marks which plans fit your home."),
+            ("Which internet providers are in my area?", "It depends on the street. Most US homes can get cable and a 5G home service, many can get fiber, and almost every home can get satellite. The lookup shows the ones at your address."),
+            ("How much internet speed do I need?", "A rough guide: 10 Mbps down per person, plus 25 Mbps for each 4K stream, and about 3 Mbps up for each person on a video call. Two people working from home need about 50 Mbps down and 6 Mbps up."),
             ("Is fiber better than cable?", "Usually. Fiber offers the same speed up and down and lower, steadier latency. Cable is fast downstream but uploads are much smaller, and it can slow down in busy evenings."),
-            ("What does the FCC map show?", "Which providers say they can serve each location, with technology and maximum advertised speeds. It doesn't show prices, and a listing isn't a guarantee of service."),
+            ("Where does this data come from?", "From the FCC's Broadband Data Collection, which every provider must file. The lookup uses the latest public release, covering homes as of December 31, 2025. It shows what providers say they offer, not prices."),
         ],
         "cta": "Know whether it's the provider before you switch.",
     },

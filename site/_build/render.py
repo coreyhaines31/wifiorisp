@@ -56,6 +56,7 @@ def head(title, description, path, scripts=""):
       <a class="brand" href="/"><img src="/images/icon.png" alt=""> WiFi or ISP</a>
       <nav>
         <a href="/#how">How it works</a>
+        <a href="/internet-providers">Providers near you</a>
         <a href="/bufferbloat-test">Bufferbloat test</a>
         <a href="/help">Help</a>
         <a href="{REPO}">GitHub</a>
