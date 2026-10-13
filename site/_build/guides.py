@@ -596,7 +596,7 @@ GUIDES += [
         <p>Every internet provider in the US must tell the FCC which homes it can serve, with which technology, and at what top advertised speeds. The lookup uses the FCC's public release of that data for homes, not businesses. It finds the neighborhood your address is in (about a third of a square mile) and lists each provider that serves it, with the share of nearby homes it covers.</p>
         <p>A listing means the provider says it <em>can</em> serve the area, not that it serves every home in it, and the data has no prices. To check one exact address, enter it on the FCC's <a href="https://broadbandmap.fcc.gov">National Broadband Map</a>, then confirm with the provider before you count on it.</p>
 
-        <h2>How much internet speed do you need?</h2>
+        <h2 id="how-much">How much internet speed do you need?</h2>
         <p>Less than most plans sell you, unless you upload a lot. These are rough needs with room to spare, the same math the lookup uses to mark which plans fit.</p>
         <div class="table-wrap"><table class="compare">
           <thead><tr><th>Home</th><th>Download</th><th>Upload</th></tr></thead>
@@ -621,6 +621,7 @@ GUIDES += [
           </tbody>
         </table></div>
 
+{{STATE_LINKS}}
         <h2>Before you switch</h2>
         <p>Make sure the provider is the problem. If your router answers slowly, a new provider won't help. The <a href="/">WiFi or ISP app</a> tells you which side it is, and if you're getting far less than you pay for, its report helps you get that fixed first. Look up your current provider's problems in our <a href="/slow-internet">slow internet guides by provider</a>, and test for lag with the <a href="/bufferbloat-test">bufferbloat test</a>.</p>
         <p>When you compare plans, read the FCC broadband label every provider must show: the price after the promotion ends, equipment fees, and data caps.</p>
