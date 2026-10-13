@@ -73,6 +73,17 @@ cd site && python3 -m http.server   # preview at localhost:8000 (add .html to pa
 
 The data files are researched from primary sources and every page lists its sources. Values the research couldn't confirm are marked `UNVERIFIED` and never rendered. When providers or routers change, re-run the research and re-render rather than editing pages by hand.
 
+The providers lookup (`site/providers.js`) reads `site/data/providers/`, which is generated from the FCC's broadband availability data and isn't committed. To build it you need a free FCC API token (sign in at broadbandmap.fcc.gov, click your username, then Manage API Access), and about an hour:
+
+```sh
+export FCC_BDC_USERNAME=you@example.com FCC_BDC_TOKEN=...
+Scripts/fcc/build-provider-index.py --states ALL --out build/fcc   # one JSON per state, from the latest vintage
+python3 -m pip install h3
+Scripts/fcc/shard-provider-index.py --index build/fcc --out site/data/providers
+```
+
+The FCC publishes a new vintage twice a year (data as of June 30 and December 31, released months later). Rebuild and redeploy when one appears.
+
 To refresh the router-maker table from the IEEE registry:
 
 ```sh

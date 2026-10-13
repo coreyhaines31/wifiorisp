@@ -224,7 +224,7 @@ public enum Advice {
             detail: "For how your household uses the internet, you need about \(Int(profile.targetDownMbps)) Mbps "
                 + "down and \(Int(profile.targetUpMbps)) up. Your plan's \(what) falls short, "
                 + "so no router will fix it.",
-            recommendation: "/providers"
+            recommendation: "/internet-providers"
         )
     }
 
@@ -240,7 +240,7 @@ public enum Advice {
             detail: "Your speed tests average \(Int(download)) Mbps against the \(Int(plan.downMbps)) you pay for. "
                 + "That's worth raising with \(context.providerName), and the report shows it. If they can't fix it, "
                 + "compare what else is available.",
-            recommendation: "/providers"
+            recommendation: "/internet-providers"
         )
     }
 }
