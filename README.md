@@ -17,6 +17,10 @@
 
 When the internet feels slow, WiFi or ISP measures both sides of the line at the same moment: the round trip to your router, and the round trip past it to the internet. If the router answers fast and the internet doesn't, it's your ISP. If even the router is slow, it's your Wi-Fi or your router. Then it tells you what to try, in order.
 
+<p align="center">
+  <img src="docs/images/menu.png" width="520" alt="The WiFi or ISP menu open, saying: Slow: ISP, not WiFi. Router fast at 4 ms, internet slow at 186 ms.">
+</p>
+
 ## Install
 
 Requires macOS 14 Sonoma or later, on Apple Silicon or Intel.
