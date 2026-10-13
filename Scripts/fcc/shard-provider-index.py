@@ -31,7 +31,11 @@ def main():
     for path in sorted(glob.glob(os.path.join(args.index, "*.json"))):
         state = json.load(open(path))
         vintages.add(state["vintage"])
-        for cell, entry in state["cells"].items():
+        for cell, (total, offers) in state["cells"].items():
+            # Some filings list 0 Mbps, which tells a reader nothing.
+            entry = [total, [offer for offer in offers if offer[3] >= 1]]
+            if not entry[1]:
+                continue
             shard = shards[h3.cell_to_parent(cell, PARENT_RESOLUTION)]
             if cell in shard:
                 # A cell on a state line: add up locations and keep every offer.
