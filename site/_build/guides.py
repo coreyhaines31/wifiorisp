@@ -629,7 +629,9 @@ Otherwise, download and install the signed DMG:
 Then open it with: open -a "WiFi or ISP"
 It's a menu bar app with no Dock icon. Tell me to look for the small router
 icon near the clock, and that its welcome window asks about Location access
-(only used to show the Wi-Fi network name) and opening at login.</pre>
+(only used to show the Wi-Fi network name) and opening at login.
+Finally, run `wifiorisp status` (Homebrew puts it on the PATH; otherwise it's
+"/Applications/WiFi or ISP.app/Contents/MacOS/wifiorisp") and tell me what it says.</pre>
         </div>
         <p>Want to build it from source instead?</p>
         <div class="prompt">
@@ -640,6 +642,26 @@ they're missing, then from the repo root run Scripts/run-local.sh, which builds
 the app signed to run locally (no Apple Developer account) and opens it.
 Then run the tests with: cd Packages/WiFiOrISPCore &amp;&amp; swift test
 Read CONTRIBUTING.md before changing any code.</pre>
+        </div>
+
+        <h2 id="command-line">Command line, for you and your AI agent</h2>
+        <p>The <code>wifiorisp</code> command asks the app from Terminal, so you, a script, or Claude Code or Codex can find out what's wrong with the internet without clicking anything. Homebrew puts it on your PATH. If you installed from the DMG, link it once: <code>sudo ln -sf "/Applications/WiFi or ISP.app/Contents/MacOS/wifiorisp" /usr/local/bin/wifiorisp</code></p>
+        <div class="prompt plain">
+          <pre>wifiorisp status              # the verdict, the numbers behind it, and what to do next
+wifiorisp watch               # a line after every measurement, until Ctrl-C
+wifiorisp lag                 # lag under load, and where it builds up
+wifiorisp speed               # download and upload speed, from M-Lab
+wifiorisp history --since 24h # timings, slow spells, drops, and tests from the log
+wifiorisp report --since 7d   # the report to send your ISP</pre>
+        </div>
+        <p>Add <code>--json</code> to any of them for output an agent can read: each next step comes with a link to a guide or a command to run. <code>status</code> exits with 2 when it finds a problem. The commands that ask the app open it in the background if it isn't running.</p>
+        <p>Ask your agent in plain words, like “My Zoom calls keep freezing. Use the wifiorisp command to find out whether it's my Wi-Fi or my ISP, and tell me what to fix.” Or add this to your <code>CLAUDE.md</code> or <code>AGENTS.md</code>:</p>
+        <div class="prompt">
+          <button class="pill copy" type="button" data-copy-target="agent-rule">Copy</button>
+          <pre id="agent-rule">When I say the internet is slow, laggy, or dropping, run `wifiorisp status --json`
+to see whether it's my Wi-Fi or my ISP, and follow its nextSteps. Run `wifiorisp lag`
+when calls or games stutter, `wifiorisp speed` to compare with my plan, and
+`wifiorisp report` when I need evidence for my ISP.</pre>
         </div>
 
         <h2 id="first-launch">Your first two minutes</h2>

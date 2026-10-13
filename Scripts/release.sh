@@ -123,6 +123,12 @@ CASK="$TAP/Casks/wifiorisp.rb"
 # The first release adds the cask from Scripts/homebrew.
 [ -f "$CASK" ] || cp Scripts/homebrew/wifiorisp.rb "$CASK"
 sed -i '' -e "s/^  version \".*\"/  version \"$VERSION\"/" -e "s/^  sha256 \".*\"/  sha256 \"$SHA\"/" "$CASK"
+# Releases from 1.2.0 on ship the `wifiorisp` command; link it onto the PATH.
+if ! grep -q '^  binary ' "$CASK"; then
+  sed -i '' '/^  app "WiFi or ISP.app"$/a\
+  binary "#{appdir}/WiFi or ISP.app/Contents/MacOS/wifiorisp"
+' "$CASK"
+fi
 git -C "$TAP" add Casks/wifiorisp.rb
 git -C "$TAP" commit -qm "wifiorisp $VERSION" && git -C "$TAP" push -q
 echo "✓ Released $APP_NAME $VERSION"

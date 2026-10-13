@@ -25,6 +25,8 @@ final class MonitorController: ObservableObject {
     private var providerLookedUp = Date.distantPast
 
     var onChange: (() -> Void)?
+    /// Called after each new sample, once the verdict is updated. For `wifiorisp status` and `watch`.
+    private var sampleObservers: [UUID: () -> Void] = [:]
 
     let store = LogStore(directory: LogStore.defaultDirectory)
     private let sampler = Sampler()
@@ -137,6 +139,16 @@ final class MonitorController: ObservableObject {
         }
     }
 
+    func observeSamples(_ observer: @escaping () -> Void) -> UUID {
+        let id = UUID()
+        sampleObservers[id] = observer
+        return id
+    }
+
+    func stopObserving(_ id: UUID) {
+        sampleObservers[id] = nil
+    }
+
     /// The router and the port the monitor found it answering on.
     var routerTarget: (address: String, port: UInt16)? { sampler.routerTarget }
 
@@ -201,6 +213,7 @@ final class MonitorController: ObservableObject {
         verdict = VerdictEngine.evaluate(recent, now: sample.time)
         identifyNetworkIfNeeded()
         onChange?()
+        sampleObservers.values.forEach { $0() }
     }
 
     // MARK: - System events

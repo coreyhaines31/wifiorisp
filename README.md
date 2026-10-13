@@ -50,6 +50,8 @@ Then open it with: open -a "WiFi or ISP"
 It's a menu bar app with no Dock icon. Tell me to look for the small router
 icon near the clock, and that its welcome window asks about Location access
 (only used to show the Wi-Fi network name) and opening at login.
+Finally, run `wifiorisp status` (Homebrew puts it on the PATH; otherwise it's
+"/Applications/WiFi or ISP.app/Contents/MacOS/wifiorisp") and tell me what it says.
 ```
 
 ## Your first two minutes
@@ -90,12 +92,45 @@ Under every verdict is **What to do**: a short list of next steps, tailored to y
 - **Lag under load:** the IETF responsiveness test (the method behind Apple's `networkQuality`), with router probes during the test to show whether the lag builds up in your Wi-Fi or past your router.
 - **Your Plan** (Settings): enter what you pay for and how your home uses the internet. The app compares your speed tests with your plan and tells you if the plan itself is too small.
 - **Alerts:** when the internet drops and comes back, when your Mac falls to 2.4 GHz, or when it roams to a weaker access point.
+- **Command line:** `wifiorisp status`, `lag`, `speed`, and more, so you or your AI agent can ask from the terminal ([details](#command-line)).
+
+## Command line
+
+The `wifiorisp` command asks the app from Terminal, so you, a script, or an AI agent like Claude Code or Codex can find out what's wrong with the internet without clicking anything.
+
+```sh
+wifiorisp status              # the verdict, the numbers behind it, and what to do next
+wifiorisp watch               # a line after every measurement, until Ctrl-C
+wifiorisp lag                 # lag under load, and whether it builds up in your Wi-Fi or past your router
+wifiorisp speed               # download and upload speed, from M-Lab
+wifiorisp history --since 24h # typical timings, slow spells, drops, and tests from the log
+wifiorisp report --since 7d   # the report to send your ISP
+```
+
+- **`--json`** on any of them prints JSON, with each next step as a link to a guide or a `wifiorisp` command to run. `watch --json` prints one object per line, and `history --csv` gives every measurement.
+- **Exit status:** 0 when all is well, 2 when `status` finds a problem, 1 on errors. Progress goes to stderr.
+- `status`, `watch`, `lag`, and `speed` ask the running app, so they share its history and test results, and open it in the background if it isn't running. `history` and `report` read the log directly.
+- The speed and lag tests take about 20 seconds each, and one runs at a time. The app pauses its measurements while they run, so their traffic isn't logged as slowness.
+
+**Installing the command:** Homebrew links it for you. If you installed from the DMG, link it once:
+
+```sh
+sudo mkdir -p /usr/local/bin
+sudo ln -sf "/Applications/WiFi or ISP.app/Contents/MacOS/wifiorisp" /usr/local/bin/wifiorisp
+```
+
+**For AI agents:** ask in plain words, like "My Zoom calls keep freezing. Use the wifiorisp command to find out whether it's my Wi-Fi or my ISP, and tell me what to fix." Or add a line like this to your `CLAUDE.md` or `AGENTS.md`:
+
+```text
+When I say the internet is slow, laggy, or dropping, run `wifiorisp status --json` to see whether it's my Wi-Fi or my ISP, and follow its nextSteps. Run `wifiorisp lag` when calls or games stutter, `wifiorisp speed` to compare with my plan, and `wifiorisp report` when I need evidence for my ISP.
+```
 
 ## Privacy
 
 - **No analytics, no account.** History stays on your Mac, in `~/Library/Application Support/WiFi or ISP/`.
 - **Background traffic is tiny:** a TCP handshake to your router and to 1.1.1.1 and 8.8.8.8 every 5 to 30 seconds (no data is sent in them), plus one request to Cloudflare per network to learn which provider you're on.
 - **Tests you start** talk to M-Lab (speed) and Cloudflare (lag under load).
+- **The `wifiorisp` command** talks to the app through a file in its Application Support folder that only your user account can open. Nothing listens on the network.
 - **Location access** is only used for the network name. The app never reads your location.
 
 How the measurements and verdicts work, in detail: [docs/how-it-works.md](docs/how-it-works.md).
@@ -123,6 +158,7 @@ brew uninstall --zap --cask wifiorisp   # if you installed with Homebrew
 # or by hand:
 rm -r ~/Library/Application\ Support/WiFi\ or\ ISP
 defaults delete app.wifiorisp.WiFiOrISP
+sudo rm -f /usr/local/bin/wifiorisp   # if you linked the command by hand
 ```
 
 If it opens at login, turn that off first in its Settings → General, or afterwards in System Settings → General → Login Items.

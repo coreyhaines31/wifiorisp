@@ -10,7 +10,7 @@ let package = Package(
     targets: [
         .target(name: "WiFiOrISPCore"),
         // Runs the probes and tests from a terminal, for development. Not shipped.
-        .executableTarget(name: "wifiorisp-cli", dependencies: ["WiFiOrISPCore"]),
+        .executableTarget(name: "wifiorisp-dev", dependencies: ["WiFiOrISPCore"]),
         .testTarget(name: "WiFiOrISPCoreTests", dependencies: ["WiFiOrISPCore"])
     ]
 )
