@@ -34,10 +34,17 @@ final class TestsModel: ObservableObject {
         }
     }
 
-    func runSpeedTest() {
-        guard running == nil else { return }
+    /// Starts a speed test, unless a test is already running. `progress` and `completion` are
+    /// for the `wifiorisp` command; the window follows `running` instead.
+    @discardableResult
+    func runSpeedTest(
+        progress: (@MainActor @Sendable (String) -> Void)? = nil,
+        completion: ((Result<SpeedTestResult, Error>) -> Void)? = nil
+    ) -> Bool {
+        guard running == nil else { return false }
         Preferences.acceptedMLabTerms = true
         start(.speed(phase: "Finding the nearest M-Lab server", mbps: 0))
+        progress?("Finding the nearest M-Lab server")
         let client = NDT7Client(clientVersion: Bundle.main.version)
         Task {
             do {
@@ -45,20 +52,30 @@ final class TestsModel: ObservableObject {
                     Task { @MainActor in
                         guard case .speed = self.running else { return }
                         self.running = .speed(phase: Self.label(phase), mbps: mbps)
+                        progress?(mbps > 0 ? "\(Self.label(phase)): \(Int(mbps.rounded())) Mbps" : Self.label(phase))
                     }
                 }
                 speed = result
                 monitor.record(NetworkEvent(time: result.time, kind: .speedTest(result)))
+                completion?(.success(result))
             } catch {
                 self.error = error.localizedDescription
+                completion?(.failure(error))
             }
             finish()
         }
+        return true
     }
 
-    func runLagTest() {
-        guard running == nil else { return }
+    /// Starts a lag test, unless a test is already running.
+    @discardableResult
+    func runLagTest(
+        progress: (@MainActor @Sendable (String) -> Void)? = nil,
+        completion: ((Result<ResponsivenessResult, Error>) -> Void)? = nil
+    ) -> Bool {
+        guard running == nil else { return false }
         start(.lag(phase: ResponsivenessPhase.idle.rawValue, fraction: 0))
+        progress?(ResponsivenessPhase.idle.rawValue)
         // Probe the router on the port the monitor found it answering on, so idle and loaded match.
         let router = monitor.routerTarget
         let test = ResponsivenessTest(configURL: Preferences.responsivenessServer) {
@@ -72,15 +89,19 @@ final class TestsModel: ObservableObject {
                     Task { @MainActor in
                         guard case .lag = self.running else { return }
                         self.running = .lag(phase: phase.rawValue, fraction: fraction)
+                        progress?("\(phase.rawValue): \(Int((fraction * 100).rounded()))%")
                     }
                 }
                 lag = result
                 monitor.record(NetworkEvent(time: result.time, kind: .responsiveness(result)))
+                completion?(.success(result))
             } catch {
                 self.error = error.localizedDescription
+                completion?(.failure(error))
             }
             finish()
         }
+        return true
     }
 
     private func start(_ state: Running) {
