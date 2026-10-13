@@ -35,9 +35,10 @@ CI runs both on every pull request.
 
 | Path | What's there |
 | --- | --- |
-| `Packages/WiFiOrISPCore/` | All the logic, with unit tests: sampling, the verdict, events, logging, the ISP report, the speed and lag tests, advice and ceilings, router-maker and provider lookup. No UI. |
+| `Packages/WiFiOrISPCore/` | All the logic, with unit tests: sampling, the verdict, events, logging, the ISP report, the speed and lag tests, advice and ceilings, router-maker and provider lookup, and the command line's protocol and output. No UI. |
 | `Packages/WiFiOrISPCore/Sources/wifiorisp-dev/` | A developer tool (not shipped) that runs the core code without the app. |
 | `WiFiOrISP/App/` | The menu bar item, the menu card, windows, the welcome window. |
+| `WiFiOrISPCLI/` | The `wifiorisp` command, shipped inside the app. It talks to the app over a socket; `WiFiOrISP/CLI/` answers. |
 | `WiFiOrISP/Monitor/` | The sampling loop, sleep and wake handling, alerts, Location access. |
 | `WiFiOrISP/History/`, `Tests/`, `Settings/` | The History window, the Tests window, Settings. |
 | `WiFiOrISP/Appearance/RouterIcon.swift` | The menu bar router and the app icon, drawn in code. |
@@ -46,6 +47,8 @@ CI runs both on every pull request.
 | `docs/how-it-works.md` | The measurement method and every threshold. Read this before changing a verdict. |
 
 Put new logic in the package with a test, and keep the app layer thin. Verdict thresholds, poll timing, and ceiling rules all live in the package as named constants.
+
+To try the `wifiorisp` command against your local build, run it from inside the app: `"build/LocalDerivedData/Build/Products/Debug/WiFi or ISP.app/Contents/MacOS/wifiorisp" status`.
 
 ## The developer CLI
 
