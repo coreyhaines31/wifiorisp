@@ -49,8 +49,16 @@ def main():
     shutil.rmtree(args.out, ignore_errors=True)
     os.makedirs(args.out)
     for parent, cells in shards.items():
+        # Provider names repeat in every cell, so each file lists them once and offers point at them:
+        # {"p": [names], "t": [technologies], "c": {cell: [homes, [[name, technology, share, down, up], ...]]}}
+        names, techs = {}, {}
+        compact = {
+            cell: [total, [[names.setdefault(o[0], len(names)), techs.setdefault(o[1], len(techs)), *o[2:]]
+                           for o in offers]]
+            for cell, (total, offers) in cells.items()
+        }
         with open(os.path.join(args.out, f"{parent}.json"), "w") as handle:
-            json.dump(cells, handle, separators=(",", ":"))
+            json.dump({"p": list(names), "t": list(techs), "c": compact}, handle, separators=(",", ":"))
     providers = {offer[0] for cells in shards.values() for _, offers in cells.values() for offer in offers}
     homes = sum(total for cells in shards.values() for total, _ in cells.values())
     meta = {"vintage": vintages.pop(), "parentResolution": PARENT_RESOLUTION, "resolution": 8,

@@ -56,10 +56,18 @@
     );
   });
 
+  // Each area file lists provider names and technologies once; offers refer to them by position.
+  const expand = (file) => {
+    const cells = {};
+    for (const [cell, [homes, offers]] of Object.entries(file.c || {})) {
+      cells[cell] = [homes, offers.map(([name, tech, ...rest]) => [file.p[name], file.t[tech], ...rest])];
+    }
+    return cells;
+  };
   const shards = new Map();
   const shard = async (parent) => {
     if (!shards.has(parent)) {
-      shards.set(parent, fetch(`/data/providers/${parent}.json`).then((r) => (r.ok ? r.json() : {})));
+      shards.set(parent, fetch(`/data/providers/${parent}.json`).then((r) => (r.ok ? r.json() : {})).then(expand));
     }
     return shards.get(parent);
   };
