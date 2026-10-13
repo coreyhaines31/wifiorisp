@@ -390,7 +390,7 @@ section.article + .faq { padding-top: 40px; }
 .finder-example .offer { box-shadow: none; }
 
 .offer { display: grid; gap: 6px; padding: 16px; border-radius: var(--radius); background: var(--surface); border: 1px solid var(--line); min-width: 0; }
-.offer-top { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+.offer-top { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 6px 8px; }
 .offer h3 { font-size: 18px; margin: 2px 0 0; overflow-wrap: anywhere; }
 .offer-speeds { font-size: 15px; color: var(--muted); font-variant-numeric: tabular-nums; }
 .offer-speeds b { color: var(--ink); font-size: 17px; }
@@ -398,7 +398,7 @@ section.article + .faq { padding-top: 40px; }
 .offer-share { font-size: 13.5px; color: var(--muted); }
 .coverage { height: 6px; border-radius: 99px; background: var(--line); overflow: hidden; margin-top: 4px; }
 .coverage span { display: block; height: 100%; border-radius: inherit; background: var(--yours); }
-.tech { font-size: 12px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; padding: 3px 8px; border-radius: 6px; color: var(--muted); background: var(--bg); border: 1px solid var(--line); }
+.tech { white-space: nowrap; font-size: 12px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; padding: 3px 8px; border-radius: 6px; color: var(--muted); background: var(--bg); border: 1px solid var(--line); }
 .tech-fiber { color: var(--good); border-color: currentColor; }
 .tech-cable { color: var(--yours); border-color: currentColor; }
 .tech-fixed-wireless { color: var(--amber-ink); border-color: currentColor; }
