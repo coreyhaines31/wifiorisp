@@ -50,9 +50,17 @@ def speed(mbps):
     return f"{mbps / 1000:g} Gbps" if mbps >= 1000 else f"{mbps:g} Mbps"
 
 
+# Below this share of homes, a provider's offer is a pilot or a few buildings, not a real option.
+MEANINGFUL = 0.05
+
+
 def pct(share):
-    value = round(share * 100)
-    return "under 1%" if share and value < 1 else f"{value}%"
+    """A share of homes. Shares are rounded to whole percents in the data, so 0 still means some homes."""
+    return "under 1%" if round(share * 100) < 1 else f"{round(share * 100)}%"
+
+
+def homes(share):
+    return "a few homes" if round(share * 100) < 1 else f"{pct(share)} of homes"
 
 
 def names(items):
@@ -73,9 +81,9 @@ def guide_for(provider, tech):
 
 
 def offers(city):
-    """One row per provider and technology, sorted by technology, then speed."""
+    """One row per provider and technology: real options first, then by technology and how many homes they reach."""
     rows = [{"provider": p, "tech": t, "share": s, "down": d, "up": u} for p, t, s, d, u in city["offers"]]
-    return sorted(rows, key=lambda r: (ORDER.get(r["tech"], 9), -r["down"], -r["share"]))
+    return sorted(rows, key=lambda r: (r["share"] < MEANINGFUL, ORDER.get(r["tech"], 9), -r["share"], -r["down"]))
 
 
 def summary(city, state):
@@ -83,7 +91,8 @@ def summary(city, state):
     fiber = [r for r in rows if r["tech"] == "fiber"]
     cable = [r for r in rows if r["tech"] == "cable"]
     wireless = [r for r in rows if r["tech"] == "fixed-wireless"]
-    fastest = max(rows, key=lambda r: (r["down"], r["up"]))
+    # The fastest plan most people could get, not one offered to a handful of buildings.
+    fastest = max([r for r in rows if r["share"] >= MEANINGFUL] or rows, key=lambda r: (r["down"], r["up"]))
     providers = sorted({r["provider"] for r in rows})
     return {"rows": rows, "fiber": fiber, "cable": cable, "wireless": wireless, "fastest": fastest,
             "providers": providers, "wired": sorted({r["provider"] for r in rows if r["tech"] in WIRED})}
@@ -93,13 +102,16 @@ def verdict(city, state, s):
     name = city["name"]
     parts = [f'{name} has {len(s["providers"])} home internet providers in the FCC\'s latest data, '
              f'{len(s["wired"])} of them wired.']
-    if s["fiber"]:
+    reach, statewide = city["fiberReach"], state["fiberReach"]
+    if s["fiber"] and reach >= MEANINGFUL:
         best = max(s["fiber"], key=lambda r: r["share"])
-        reach, statewide = city["fiberReach"], state["fiberReach"]
         compare = ("more than" if reach > statewide + 0.05 else "less than" if reach < statewide - 0.05
                    else "about the same as")
         parts.append(f'Fiber reaches at least {pct(reach)} of homes, {compare} {state["name"]} as a whole '
                      f'({pct(statewide)}), led by {best["provider"]} at up to {speed(best["down"])}.')
+    elif s["fiber"]:
+        parts.append(f'Fiber is only starting here: {names(sorted({r["provider"] for r in s["fiber"]}))} '
+                     f'report it to {homes(reach)}, against {pct(statewide)} of homes across {state["name"]}.')
     else:
         parts.append("No provider reports fiber here yet.")
     if s["cable"]:
@@ -128,13 +140,13 @@ def card(row):
             <h3>{esc(row["provider"])}</h3>
             <p class="offer-speeds"><span><b>{speed(row["down"])}</b> down</span> <span><b>{speed(row["up"])}</b> up</span></p>
             <div class="coverage"><span style="width:{width}%"></span></div>
-            <p class="offer-share">Offered to {pct(row["share"])} of homes</p>{link}
+            <p class="offer-share">Offered to {homes(row["share"])}</p>{link}
           </article>'''
 
 
 def faqs(city, state, s):
     name, items = f'{city["name"]}, {city["state"]}', []
-    if s["fiber"]:
+    if s["fiber"] and city["fiberReach"] >= MEANINGFUL:
         best = max(s["fiber"], key=lambda r: r["share"])
         items.append((f"What is the best internet provider in {name}?",
                       f'For most homes, fiber from {best["provider"]} if it reaches your street: up to '
@@ -146,16 +158,18 @@ def faqs(city, state, s):
     else:
         top = max(s["rows"], key=lambda r: (r["tech"] in WIRED, r["share"], r["down"]))
         items.append((f"What is the best internet provider in {name}?",
-                      f'With no fiber reported yet, {top["provider"]} ({TECH[top["tech"]].lower()}, up to '
+                      f'With {"little" if s["fiber"] else "no"} fiber reported yet, {top["provider"]} ({TECH[top["tech"]].lower()}, up to '
                       f'{speed(top["down"])}) covers the most homes. Compare upload speeds before you choose.'))
         items.append((f"Is fiber internet available in {name}?",
+                      f'Barely: {names(sorted({r["provider"] for r in s["fiber"]}))} report fiber to '
+                      f'{homes(city["fiberReach"])} in {city["name"]}. Check your address to see if yours is one.'
+                      if s["fiber"] else
                       f'Not yet: no provider reports fiber in {city["name"]} in the FCC data as of '
                       f'{as_of(DATA_VINTAGE)}.'))
     fastest = s["fastest"]
     items.append((f"What is the fastest internet in {name}?",
                   f'{fastest["provider"]} advertises up to {speed(fastest["down"])} down and '
-                  f'{speed(fastest["up"])} up ({TECH[fastest["tech"]].lower()}), offered to {pct(fastest["share"])} '
-                  f'of homes.'))
+                  f'{speed(fastest["up"])} up ({TECH[fastest["tech"]].lower()}), offered to {homes(fastest["share"])}.'))
     items.append((f"How many internet providers are in {name}?",
                   f'{len(s["providers"])}: {len(s["wired"])} wired (fiber, cable, or DSL) and '
                   f'{len({r["provider"] for r in s["wireless"]})} 5G or fixed wireless, plus satellite from '
@@ -174,7 +188,7 @@ def city_page(city, state, cities, vintage):
     if len(title) > 60:
         title = f"Internet Providers in {full}"
     fiber_note = (f'Fiber reaches {pct(city["fiberReach"])} of homes, up to {speed(max(r["down"] for r in s["fiber"]))}'
-                  if s["fiber"] else "No fiber yet")
+                  if s["fiber"] and city["fiberReach"] >= MEANINGFUL else "Little or no fiber yet")
     description = (f'{count} internet providers serve {name}, {state["name"]}. {fiber_note}. See each provider\'s '
                    f'top speeds and how many homes it reaches, from FCC data.')
     near = nearby(city, cities)
@@ -215,7 +229,7 @@ def city_page(city, state, cities, vintage):
         <p class="lede">{esc(verdict(city, state, s))}</p>
         <ul class="city-stats">
           <li><b>{count}</b><span>providers</span></li>
-          <li><b>{pct(city["fiberReach"]) if s["fiber"] else "None"}</b><span>of homes can get fiber</span></li>
+          <li><b>{(pct(city["fiberReach"]) if city["fiberReach"] >= 0.01 else "Under 1%") if s["fiber"] else "None"}</b><span>of homes can get fiber</span></li>
           <li><b>{speed(s["fastest"]["down"])}</b><span>fastest plan</span></li>
           <li><b>{city["homes"]:,}</b><span>homes in the data</span></li>
         </ul>
