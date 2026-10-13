@@ -1,7 +1,7 @@
 import Foundation
 import WiFiOrISPCore
 
-// Development tool: `swift run wifiorisp-cli [samples|speed|rpm|report|identify]`.
+// Development tool: `swift run wifiorisp-dev [samples|speed|rpm|report|identify]`.
 let command = CommandLine.arguments.dropFirst().first ?? "samples"
 
 @MainActor

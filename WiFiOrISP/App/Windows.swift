@@ -9,15 +9,16 @@ final class Windows {
     private let monitor: MonitorController
     private let location: LocationAccess
     private let updater: Updater
-    private lazy var tests = TestsModel(monitor: monitor)
+    private let tests: TestsModel
     private lazy var history = HistoryModel(store: monitor.store)
     private var testsWindow: NSWindow?
     private var historyWindow: NSWindow?
     private var settingsWindow: NSWindow?
     private var welcomeWindow: NSWindow?
 
-    init(monitor: MonitorController, location: LocationAccess, updater: Updater) {
+    init(monitor: MonitorController, tests: TestsModel, location: LocationAccess, updater: Updater) {
         self.monitor = monitor
+        self.tests = tests
         self.location = location
         self.updater = updater
     }

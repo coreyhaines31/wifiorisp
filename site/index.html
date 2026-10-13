@@ -249,9 +249,27 @@ Otherwise, download and install the signed DMG:
 Then open it with: open -a "WiFi or ISP"
 It's a menu bar app with no Dock icon. Tell me to look for the small router
 icon near the clock, and that its welcome window asks about Location access
-(only used to show the Wi-Fi network name) and opening at login.</pre>
+(only used to show the Wi-Fi network name) and opening at login.
+Finally, run `wifiorisp status` (Homebrew puts it on the PATH; otherwise it's
+"/Applications/WiFi or ISP.app/Contents/MacOS/wifiorisp") and tell me what it says.</pre>
         </div>
-        <p class="fineprint">Want to build it from source instead? <a href="/help#agent">There's a prompt for that too.</a></p>
+        <h3 class="agent-sub">Then let it figure out why the internet is slow</h3>
+        <p>The app comes with a <code>wifiorisp</code> command, so your agent can check for itself instead of guessing. Ask in plain words: “My Zoom calls keep freezing. Use the wifiorisp command to find out whether it's my Wi-Fi or my ISP, and tell me what to fix.”</p>
+        <div class="prompt plain">
+          <pre>wifiorisp status    # the verdict, the numbers behind it, and what to do next
+wifiorisp lag       # lag under load, and where it builds up
+wifiorisp speed     # download and upload speed
+wifiorisp report    # the report to send your ISP</pre>
+        </div>
+        <p>Every command takes <code>--json</code>. To make it automatic, add this to your <code>CLAUDE.md</code> or <code>AGENTS.md</code>:</p>
+        <div class="prompt">
+          <button class="pill copy" type="button" data-copy-target="agent-rule">Copy</button>
+          <pre id="agent-rule">When I say the internet is slow, laggy, or dropping, run `wifiorisp status --json`
+to see whether it's my Wi-Fi or my ISP, and follow its nextSteps. Run `wifiorisp lag`
+when calls or games stutter, `wifiorisp speed` to compare with my plan, and
+`wifiorisp report` when I need evidence for my ISP.</pre>
+        </div>
+        <p class="fineprint">All the commands and options are in <a href="/help#command-line">Help</a>. Want to build it from source instead? <a href="/help#agent">There's a prompt for that too.</a></p>
       </div>
     </section>
 
