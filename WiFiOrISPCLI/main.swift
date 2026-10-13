@@ -115,7 +115,7 @@ func connectLaunchingApp(_ request: CLIRequest) -> Int32 {
         Thread.sleep(forTimeInterval: 0.2)
         if let socket = connect(request) { return socket }
     }
-    fail("WiFi or ISP opened but didn't answer. Check that it's running in the menu bar.")
+    fail("WiFi or ISP didn't answer. If it was running before an update, quit it from the menu and open it again.")
 }
 
 /// Shows test progress on one line in a terminal. For scripts and agents, prints a line only
