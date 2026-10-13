@@ -118,15 +118,28 @@ def faq(items):
 
 def structured_data(page, path):
     """Article plus FAQ schema, as JSON-LD."""
-    graph = [{
-        "@type": "Article",
-        "headline": html.unescape(page["title"]),
-        "description": page["description"],
-        "url": f"{SITE}{path}",
-        "dateModified": UPDATED,
-        "author": AUTHOR,
-        "publisher": {"@type": "Organization", "name": "WiFi or ISP", "logo": f"{SITE}/images/icon.png"},
-    }]
+    if page.get("schema") == "WebApplication":
+        graph = [{
+            "@type": "WebApplication",
+            "name": html.unescape(page["title"]),
+            "description": page["description"],
+            "url": f"{SITE}{path}",
+            "applicationCategory": "UtilitiesApplication",
+            "operatingSystem": "Any",
+            "browserRequirements": "Requires JavaScript",
+            "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"},
+            "author": AUTHOR,
+        }]
+    else:
+        graph = [{
+            "@type": "Article",
+            "headline": html.unescape(page["title"]),
+            "description": page["description"],
+            "url": f"{SITE}{path}",
+            "dateModified": UPDATED,
+            "author": AUTHOR,
+            "publisher": {"@type": "Organization", "name": "WiFi or ISP", "logo": f"{SITE}/images/icon.png"},
+        }]
     if page.get("faqs"):
         graph.append({
             "@type": "FAQPage",
@@ -138,12 +151,8 @@ def structured_data(page, path):
     return f'\n  <script type="application/ld+json">{data}</script>'
 
 
-def article(page, path):
-    tldr = f'<div class="tldr"><h2>The short answer</h2><p>{page["tldr"]}</p></div>' if page.get("tldr") else ""
-    scripts = page.get("scripts", "") + structured_data(page, path)
-    return (head(page["title"], page["description"], path, scripts)
-            + f'''  <main>
-    <section class="sub-hero">
+def sub_hero(page, tldr):
+    return f'''    <section class="sub-hero">
       <div class="wrap narrow">
         <p class="eyebrow">{esc(page["eyebrow"])}</p>
         <h1>{page["h1"]}</h1>
@@ -152,7 +161,15 @@ def article(page, path):
         {tldr}
       </div>
     </section>
-{page.get("widget", "")}    <section class="article">
+'''
+
+
+def article(page, path):
+    tldr = f'<div class="tldr"><h2>The short answer</h2><p>{page["tldr"]}</p></div>' if page.get("tldr") else ""
+    scripts = page.get("scripts", "") + structured_data(page, path)
+    return (head(page["title"], page["description"], path, scripts)
+            + f'''  <main>
+{page.get("hero") or sub_hero(page, tldr)}{page.get("widget", "")}    <section class="article">
       <div class="wrap narrow prose">
 {page["body"]}
       </div>
