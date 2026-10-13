@@ -36,7 +36,7 @@ CI runs both on every pull request.
 | Path | What's there |
 | --- | --- |
 | `Packages/WiFiOrISPCore/` | All the logic, with unit tests: sampling, the verdict, events, logging, the ISP report, the speed and lag tests, advice and ceilings, router-maker and provider lookup. No UI. |
-| `Packages/WiFiOrISPCore/Sources/wifiorisp-cli/` | A developer CLI (not shipped) that runs the real code from a terminal. |
+| `Packages/WiFiOrISPCore/Sources/wifiorisp-dev/` | A developer tool (not shipped) that runs the core code without the app. |
 | `WiFiOrISP/App/` | The menu bar item, the menu card, windows, the welcome window. |
 | `WiFiOrISP/Monitor/` | The sampling loop, sleep and wake handling, alerts, Location access. |
 | `WiFiOrISP/History/`, `Tests/`, `Settings/` | The History window, the Tests window, Settings. |
@@ -52,11 +52,11 @@ Put new logic in the package with a test, and keep the app layer thin. Verdict t
 From `Packages/WiFiOrISPCore`:
 
 ```sh
-swift run wifiorisp-cli samples    # six live samples and the verdict
-swift run wifiorisp-cli identify   # router maker, Wi-Fi generation, provider ASN
-swift run wifiorisp-cli rpm        # the lag-under-load test
-swift run wifiorisp-cli speed      # the M-Lab speed test (results are published by M-Lab)
-swift run wifiorisp-cli report     # the last day's ISP report from your log
+swift run wifiorisp-dev samples    # six live samples and the verdict
+swift run wifiorisp-dev identify   # router maker, Wi-Fi generation, provider ASN
+swift run wifiorisp-dev rpm        # the lag-under-load test
+swift run wifiorisp-dev speed      # the M-Lab speed test (results are published by M-Lab)
+swift run wifiorisp-dev report     # the last day's ISP report from your log
 ```
 
 ## The website
