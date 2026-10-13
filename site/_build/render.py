@@ -7,11 +7,13 @@ plus sitemap.xml and the homepage footer links.
 import html
 import json
 import os
+import shutil
 import sys
 
 sys.path.insert(0, os.path.dirname(__file__))
 from alternatives import ALTERNATIVES, HUB  # noqa: E402
 from guides import GUIDES  # noqa: E402
+import cities  # noqa: E402
 import pseo  # noqa: E402
 
 ROOT = os.path.join(os.path.dirname(__file__), "..")
@@ -56,6 +58,7 @@ def head(title, description, path, scripts=""):
       <a class="brand" href="/"><img src="/images/icon.png" alt=""> WiFi or ISP</a>
       <nav>
         <a href="/#how">How it works</a>
+        <a href="/internet-providers">Providers near you</a>
         <a href="/bufferbloat-test">Bufferbloat test</a>
         <a href="/help">Help</a>
         <a href="{REPO}">GitHub</a>
@@ -103,12 +106,12 @@ def cta(text):
 '''
 
 
-def faq(items):
+def faq(items, width="narrow"):
     if not items:
         return ""
     rows = "\n".join(f"        <details><summary>{esc(q)}</summary><p>{a}</p></details>" for q, a in items)
     return f'''    <section class="faq">
-      <div class="wrap narrow">
+      <div class="wrap {width}">
         <h2>Questions</h2>
 {rows}
       </div>
@@ -118,15 +121,28 @@ def faq(items):
 
 def structured_data(page, path):
     """Article plus FAQ schema, as JSON-LD."""
-    graph = [{
-        "@type": "Article",
-        "headline": html.unescape(page["title"]),
-        "description": page["description"],
-        "url": f"{SITE}{path}",
-        "dateModified": UPDATED,
-        "author": AUTHOR,
-        "publisher": {"@type": "Organization", "name": "WiFi or ISP", "logo": f"{SITE}/images/icon.png"},
-    }]
+    if page.get("schema") == "WebApplication":
+        graph = [{
+            "@type": "WebApplication",
+            "name": html.unescape(page["title"]),
+            "description": page["description"],
+            "url": f"{SITE}{path}",
+            "applicationCategory": "UtilitiesApplication",
+            "operatingSystem": "Any",
+            "browserRequirements": "Requires JavaScript",
+            "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"},
+            "author": AUTHOR,
+        }]
+    else:
+        graph = [{
+            "@type": "Article",
+            "headline": html.unescape(page["title"]),
+            "description": page["description"],
+            "url": f"{SITE}{path}",
+            "dateModified": UPDATED,
+            "author": AUTHOR,
+            "publisher": {"@type": "Organization", "name": "WiFi or ISP", "logo": f"{SITE}/images/icon.png"},
+        }]
     if page.get("faqs"):
         graph.append({
             "@type": "FAQPage",
@@ -138,12 +154,8 @@ def structured_data(page, path):
     return f'\n  <script type="application/ld+json">{data}</script>'
 
 
-def article(page, path):
-    tldr = f'<div class="tldr"><h2>The short answer</h2><p>{page["tldr"]}</p></div>' if page.get("tldr") else ""
-    scripts = page.get("scripts", "") + structured_data(page, path)
-    return (head(page["title"], page["description"], path, scripts)
-            + f'''  <main>
-    <section class="sub-hero">
+def sub_hero(page, tldr):
+    return f'''    <section class="sub-hero">
       <div class="wrap narrow">
         <p class="eyebrow">{esc(page["eyebrow"])}</p>
         <h1>{page["h1"]}</h1>
@@ -152,13 +164,51 @@ def article(page, path):
         {tldr}
       </div>
     </section>
-{page.get("widget", "")}    <section class="article">
+'''
+
+
+def article(page, path):
+    tldr = f'<div class="tldr"><h2>The short answer</h2><p>{page["tldr"]}</p></div>' if page.get("tldr") else ""
+    scripts = page.get("scripts", "") + structured_data(page, path)
+    return (head(page["title"], page["description"], path, scripts)
+            + f'''  <main>
+{page.get("hero") or sub_hero(page, tldr)}{page.get("widget", "")}    <section class="article">
       <div class="wrap narrow prose">
 {page["body"]}
       </div>
     </section>
 {faq(page.get("faqs", []))}{cta(page["cta"])}  </main>
 ''' + footer())
+
+
+def data_page(page):
+    """A city or state page: breadcrumbs, FAQ, and the FCC data it's built from, in schema."""
+    path = page["path"]
+    graph = [{
+        "@type": "BreadcrumbList",
+        "itemListElement": [{"@type": "ListItem", "position": i + 1, "name": label, "item": f"{SITE}{href or path}"}
+                            for i, (label, href) in enumerate(page["crumbs"])],
+    }, {
+        "@type": "Dataset",
+        "name": html.unescape(page["title"]),
+        "description": page["description"],
+        "url": f"{SITE}{path}",
+        "temporalCoverage": page["vintage"],
+        "creator": {"@type": "Organization", "name": "Federal Communications Commission", "url": "https://broadbandmap.fcc.gov"},
+        "isAccessibleForFree": True,
+    }]
+    if page["faqs"]:
+        graph.append({
+            "@type": "FAQPage",
+            "mainEntity": [{"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}}
+                           for q, a in page["faqs"]],
+        })
+    data = json.dumps({"@context": "https://schema.org", "@graph": graph}, ensure_ascii=False).replace("</", "<\\/")
+    scripts = f'\n  <script type="application/ld+json">{data}</script>'
+    faq_html = faq([(q, esc(a)) for q, a in page["faqs"]], width="data-prose")
+    return (head(page["title"], page["description"], path, scripts)
+            + f"  <main>\n{page['main']}{faq_html}{cta('Know whether it’s the provider before you switch.')}  </main>\n"
+            + footer())
 
 
 def table(rows, competitor):
@@ -205,14 +255,21 @@ def update_homepage_footer():
         f.write(page[:i] + footer_links() + "      " + page[j:])
 
 
-def sitemap(paths):
-    urls = "\n".join(f"  <url><loc>{SITE}{p}</loc><lastmod>{UPDATED}</lastmod></url>" for p in paths)
+def sitemap(paths, lastmod=UPDATED):
+    urls = "\n".join(f"  <url><loc>{SITE}{p}</loc><lastmod>{lastmod}</lastmod></url>" for p in paths)
     return f'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n{urls}\n</urlset>\n'
+
+
+def sitemap_index(names):
+    maps = "\n".join(f"  <sitemap><loc>{SITE}/{name}</loc></sitemap>" for name in names)
+    return (f'<?xml version="1.0" encoding="UTF-8"?>\n<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
+            f'{maps}\n</sitemapindex>\n')
 
 
 def main():
     paths = ["/"]
-    fills = {"{{CHANNEL_BRANDS}}": pseo.channel_brands(), "{{RESTART_BRANDS}}": pseo.restart_brands()}
+    fills = {"{{CHANNEL_BRANDS}}": pseo.channel_brands(), "{{RESTART_BRANDS}}": pseo.restart_brands(),
+             "{{STATE_LINKS}}": cities.state_links()}
     for guide in GUIDES:
         page = dict(guide)
         for marker, content in fills.items():
@@ -227,7 +284,18 @@ def main():
         paths.append(f'/alternatives/{alt["slug"]}')
     write("alternatives/index.html", hub_page())
     paths.append("/alternatives/")
-    write("sitemap.xml", sitemap(paths))
+    # City and state pages are generated fresh each time, so stale ones never linger.
+    shutil.rmtree(os.path.join(ROOT, "internet-providers"), ignore_errors=True)
+    data_pages = cities.pages()
+    for page in data_pages:
+        write(f'{page["path"].lstrip("/")}.html', data_page(page))
+    write("sitemap-pages.xml", sitemap(paths))
+    names = ["sitemap-pages.xml"]
+    if data_pages:
+        write("sitemap-cities.xml", sitemap([p["path"] for p in data_pages], data_pages[0]["vintage"]))
+        names.append("sitemap-cities.xml")
+    write("sitemap.xml", sitemap_index(names))
+    paths += [p["path"] for p in data_pages]
     write("robots.txt", f"User-agent: *\nAllow: /\nSitemap: {SITE}/sitemap.xml\n")
     update_homepage_footer()
     print(f"Rendered {len(paths) - 1} pages")

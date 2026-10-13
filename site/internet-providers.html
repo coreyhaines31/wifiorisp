@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Internet Providers Near Me: Every Provider at Your Address</title>
+  <meta name="description" content="See every home internet provider at your address, from FCC data for 114 million homes: fiber, cable, and 5G home, with top speeds and what fits your home.">
+  <link rel="canonical" href="https://wifiorisp.com/internet-providers">
+  <meta property="og:title" content="Internet Providers Near Me: Every Provider at Your Address">
+  <meta property="og:description" content="See every home internet provider at your address, from FCC data for 114 million homes: fiber, cable, and 5G home, with top speeds and what fits your home.">
+  <meta property="og:image" content="https://wifiorisp.com/images/og.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta property="og:url" content="https://wifiorisp.com/internet-providers">
+  <meta name="theme-color" content="#0b1530">
+  <link rel="icon" href="/images/icon.png">
+  <link rel="apple-touch-icon" href="/images/icon.png">
+  <link rel="stylesheet" href="/site.css">
+  <script src="https://cdn.usefathom.com/script.js" data-site="CRTCSZKQ" defer></script>
+  <script src="/needs.js" defer></script>
+  <script src="/providers.js" defer></script>
+  <script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "WebApplication", "name": "Internet Providers Near Me: Every Provider at Your Address", "description": "See every home internet provider at your address, from FCC data for 114 million homes: fiber, cable, and 5G home, with top speeds and what fits your home.", "url": "https://wifiorisp.com/internet-providers", "applicationCategory": "UtilitiesApplication", "operatingSystem": "Any", "browserRequirements": "Requires JavaScript", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}, "author": {"@type": "Person", "name": "Corey Haines", "url": "https://corey.co"}}, {"@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "How do I find internet providers near me?", "acceptedAnswer": {"@type": "Answer", "text": "Enter your address in the lookup at the top of this page. It lists every provider that reports serving your neighborhood to the FCC, with technology and top speeds, and marks which plans fit your home."}}, {"@type": "Question", "name": "Which internet providers are in my area?", "acceptedAnswer": {"@type": "Answer", "text": "It depends on the street. Most US homes can get cable and a 5G home service, many can get fiber, and almost every home can get satellite. The lookup shows the ones at your address."}}, {"@type": "Question", "name": "How much internet speed do I need?", "acceptedAnswer": {"@type": "Answer", "text": "A rough guide: 10 Mbps down per person, plus 25 Mbps for each 4K stream, and about 3 Mbps up for each person on a video call. Two people working from home need about 50 Mbps down and 6 Mbps up."}}, {"@type": "Question", "name": "Is fiber better than cable?", "acceptedAnswer": {"@type": "Answer", "text": "Usually. Fiber offers the same speed up and down and lower, steadier latency. Cable is fast downstream but uploads are much smaller, and it can slow down in busy evenings."}}, {"@type": "Question", "name": "Where does this data come from?", "acceptedAnswer": {"@type": "Answer", "text": "From the FCC's Broadband Data Collection, which every provider must file. The lookup uses the latest public release, covering homes as of December 31, 2025. It shows what providers say they offer, not prices."}}]}]}</script>
+</head>
+<body>
+  <header class="nav">
+    <div class="wrap">
+      <a class="brand" href="/"><img src="/images/icon.png" alt=""> WiFi or ISP</a>
+      <nav>
+        <a href="/#how">How it works</a>
+        <a href="/internet-providers">Providers near you</a>
+        <a href="/bufferbloat-test">Bufferbloat test</a>
+        <a href="/help">Help</a>
+        <a href="https://github.com/coreyhaines31/wifiorisp">GitHub</a>
+        <a class="pill" href="https://github.com/coreyhaines31/wifiorisp/releases/latest">Download</a>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <section class="finder-hero">
+      <div class="wrap finder-grid">
+        <div class="finder-copy">
+          <p class="eyebrow">Free · FCC data for 114 million homes · No sign-up</p>
+          <h1>Internet providers near you</h1>
+          <p class="lede">Enter your address to see every home internet provider that serves it, with the top speeds each one reports to the FCC, ranked by what your home needs.</p>
+          <form class="finder-search" id="lookup-form" role="search">
+            <label class="visually-hidden" for="lookup-address">Your address</label>
+            <svg class="finder-pin" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>
+            <input id="lookup-address" type="text" autocomplete="street-address" placeholder="Street address, city, state" required>
+            <button class="pill" type="submit">Find providers</button>
+          </form>
+          <p class="finder-alt"><button class="link-button" type="button" id="lookup-here">Use my current location</button><span>Addresses go to the U.S. Census Bureau's geocoder. Nothing is stored.</span></p>
+          <p class="finder-status" id="lookup-status" aria-live="polite"></p>
+        </div>
+        <figure class="finder-example" aria-label="Example result for Chula Vista, California">
+          <figcaption><span>Example</span> Chula Vista, CA · 8 options</figcaption>
+          <div class="offer fits"><div class="offer-top"><span class="tech tech-fiber">Fiber</span><span class="fit">Fits your home</span></div><h3>Pacific Wyyerd</h3><p class="offer-speeds"><span><b>8 Gbps</b> down</span> <span><b>8 Gbps</b> up</span></p><div class="coverage"><span style="width:47%"></span></div><p class="offer-share">Offered to 47% of homes nearby</p></div>
+          <div class="offer fits"><div class="offer-top"><span class="tech tech-fiber">Fiber</span><span class="fit">Fits your home</span></div><h3>AT&amp;T</h3><p class="offer-speeds"><span><b>5 Gbps</b> down</span> <span><b>5 Gbps</b> up</span></p><div class="coverage"><span style="width:35%"></span></div><p class="offer-share">Offered to 35% of homes nearby</p></div>
+          <div class="offer fits"><div class="offer-top"><span class="tech tech-cable">Cable</span><span class="fit">Fits your home</span></div><h3>Cox Communications</h3><p class="offer-speeds"><span><b>2 Gbps</b> down</span> <span><b>100 Mbps</b> up</span></p><div class="coverage"><span style="width:92%"></span></div><p class="offer-share">Offered to 92% of homes nearby</p></div>
+        </figure>
+      </div>
+    </section>
+    <section class="finder-results" id="finder-results" hidden>
+      <div class="wrap">
+        <form class="needs-bar" id="needs-form" onsubmit="return false">
+          <span class="needs-label">Sized for</span>
+          <label><input id="n-people" type="number" min="1" max="12" value="2"> people</label>
+          <label><input id="n-streams" type="number" min="0" max="8" value="1"> 4K streams</label>
+          <label class="chip"><input id="n-calls" type="checkbox" checked> Video calls</label>
+          <label class="chip"><input id="n-gaming" type="checkbox"> Gaming</label>
+          <label class="chip"><input id="n-uploads" type="checkbox"> Big uploads</label>
+          <span class="needs-out">Needs <b id="n-down"></b> down · <b id="n-up"></b> up</span>
+          <span class="visually-hidden" id="n-note"></span>
+        </form>
+        <div id="lookup-results"></div>
+      </div>
+    </section>
+    <section class="article">
+      <div class="wrap narrow prose">
+
+        <h2>How the lookup works</h2>
+        <p>Every internet provider in the US must tell the FCC which homes it can serve, with which technology, and at what top advertised speeds. The lookup uses the FCC's public release of that data for homes, not businesses. It finds the neighborhood your address is in (about a third of a square mile) and lists each provider that serves it, with the share of nearby homes it covers.</p>
+        <p>A listing means the provider says it <em>can</em> serve the area, not that it serves every home in it, and the data has no prices. To check one exact address, enter it on the FCC's <a href="https://broadbandmap.fcc.gov">National Broadband Map</a>, then confirm with the provider before you count on it.</p>
+
+        <h2 id="how-much">How much internet speed do you need?</h2>
+        <p>Less than most plans sell you, unless you upload a lot. These are rough needs with room to spare, the same math the lookup uses to mark which plans fit.</p>
+        <div class="table-wrap"><table class="compare">
+          <thead><tr><th>Home</th><th>Download</th><th>Upload</th></tr></thead>
+          <tbody>
+            <tr><td>1 person, HD streaming and browsing</td><td>25 Mbps</td><td>5 Mbps</td></tr>
+            <tr><td>2 people, video calls, one 4K stream</td><td>50 Mbps</td><td>6 Mbps</td></tr>
+            <tr><td>4 people, calls, two 4K streams, gaming</td><td>110 Mbps</td><td>12 Mbps</td></tr>
+            <tr><td>1 person working from home, with big uploads (video, backups)</td><td>25 Mbps</td><td>23 Mbps</td></tr>
+          </tbody>
+        </table></div>
+        <p>Upload is where plans fall short. Cable plans often top out at 20 to 100 Mbps up while fiber is usually the same speed both ways.</p>
+
+        <h2>Fiber, cable, 5G home, or DSL?</h2>
+        <div class="table-wrap"><table class="compare">
+          <thead><tr><th>Type</th><th>Best for</th><th>Watch out for</th></tr></thead>
+          <tbody>
+            <tr><td>Fiber</td><td>Fast both ways, low and steady lag, calls and uploads</td><td>Not on every street yet</td></tr>
+            <tr><td>Cable</td><td>Fast downloads almost everywhere in towns and cities</td><td>Much slower uploads; can slow down in busy evenings</td></tr>
+            <tr><td>5G home (fixed wireless)</td><td>A cheap, quick switch with no installer</td><td>Speed depends on the signal at your window and on how busy the tower is</td></tr>
+            <tr><td>DSL</td><td>A fallback where nothing else reaches</td><td>Slow, especially uploads</td></tr>
+            <tr><td>Satellite</td><td>Rural homes with no wired option (Starlink is the fastest)</td><td>Higher lag and price; Starlink is available almost everywhere</td></tr>
+          </tbody>
+        </table></div>
+
+
+        <h2 id="by-state">Internet providers by state</h2>
+        <nav class="link-grid" aria-label="States"><a href="/internet-providers/al">Alabama</a><a href="/internet-providers/ak">Alaska</a><a href="/internet-providers/az">Arizona</a><a href="/internet-providers/ar">Arkansas</a><a href="/internet-providers/ca">California</a><a href="/internet-providers/co">Colorado</a><a href="/internet-providers/ct">Connecticut</a><a href="/internet-providers/de">Delaware</a><a href="/internet-providers/dc">District of Columbia</a><a href="/internet-providers/fl">Florida</a><a href="/internet-providers/ga">Georgia</a><a href="/internet-providers/hi">Hawaii</a><a href="/internet-providers/id">Idaho</a><a href="/internet-providers/il">Illinois</a><a href="/internet-providers/in">Indiana</a><a href="/internet-providers/ia">Iowa</a><a href="/internet-providers/ks">Kansas</a><a href="/internet-providers/ky">Kentucky</a><a href="/internet-providers/la">Louisiana</a><a href="/internet-providers/me">Maine</a><a href="/internet-providers/md">Maryland</a><a href="/internet-providers/ma">Massachusetts</a><a href="/internet-providers/mi">Michigan</a><a href="/internet-providers/mn">Minnesota</a><a href="/internet-providers/ms">Mississippi</a><a href="/internet-providers/mo">Missouri</a><a href="/internet-providers/mt">Montana</a><a href="/internet-providers/ne">Nebraska</a><a href="/internet-providers/nv">Nevada</a><a href="/internet-providers/nh">New Hampshire</a><a href="/internet-providers/nj">New Jersey</a><a href="/internet-providers/nm">New Mexico</a><a href="/internet-providers/ny">New York</a><a href="/internet-providers/nc">North Carolina</a><a href="/internet-providers/nd">North Dakota</a><a href="/internet-providers/oh">Ohio</a><a href="/internet-providers/ok">Oklahoma</a><a href="/internet-providers/or">Oregon</a><a href="/internet-providers/pa">Pennsylvania</a><a href="/internet-providers/pr">Puerto Rico</a><a href="/internet-providers/ri">Rhode Island</a><a href="/internet-providers/sc">South Carolina</a><a href="/internet-providers/sd">South Dakota</a><a href="/internet-providers/tn">Tennessee</a><a href="/internet-providers/tx">Texas</a><a href="/internet-providers/ut">Utah</a><a href="/internet-providers/va">Virginia</a><a href="/internet-providers/wa">Washington</a><a href="/internet-providers/wv">West Virginia</a><a href="/internet-providers/wi">Wisconsin</a><a href="/internet-providers/wy">Wyoming</a></nav>
+        <h2>Largest cities</h2>
+        <nav class="link-grid" aria-label="Largest cities"><a href="/internet-providers/ny/new-york">New York, NY</a><a href="/internet-providers/ca/los-angeles">Los Angeles, CA</a><a href="/internet-providers/tx/houston">Houston, TX</a><a href="/internet-providers/il/chicago">Chicago, IL</a><a href="/internet-providers/pa/philadelphia">Philadelphia, PA</a><a href="/internet-providers/az/phoenix">Phoenix, AZ</a><a href="/internet-providers/tx/san-antonio">San Antonio, TX</a><a href="/internet-providers/fl/jacksonville">Jacksonville, FL</a><a href="/internet-providers/tx/dallas">Dallas, TX</a><a href="/internet-providers/in/indianapolis">Indianapolis, IN</a><a href="/internet-providers/ca/san-diego">San Diego, CA</a><a href="/internet-providers/tx/fort-worth">Fort Worth, TX</a><a href="/internet-providers/ok/oklahoma-city">Oklahoma City, OK</a><a href="/internet-providers/nc/charlotte">Charlotte, NC</a><a href="/internet-providers/mi/detroit">Detroit, MI</a><a href="/internet-providers/tx/austin">Austin, TX</a><a href="/internet-providers/oh/columbus">Columbus, OH</a><a href="/internet-providers/ca/san-jose">San Jose, CA</a><a href="/internet-providers/tn/memphis">Memphis, TN</a><a href="/internet-providers/tx/el-paso">El Paso, TX</a><a href="/internet-providers/tn/nashville">Nashville, TN</a><a href="/internet-providers/md/baltimore">Baltimore, MD</a><a href="/internet-providers/nv/las-vegas">Las Vegas, NV</a><a href="/internet-providers/nm/albuquerque">Albuquerque, NM</a></nav>
+
+        <h2>Before you switch</h2>
+        <p>Make sure the provider is the problem. If your router answers slowly, a new provider won't help. The <a href="/">WiFi or ISP app</a> tells you which side it is, and if you're getting far less than you pay for, its report helps you get that fixed first. Look up your current provider's problems in our <a href="/slow-internet">slow internet guides by provider</a>, and test for lag with the <a href="/bufferbloat-test">bufferbloat test</a>.</p>
+        <p>When you compare plans, read the FCC broadband label every provider must show: the price after the promotion ends, equipment fees, and data caps.</p>
+
+      </div>
+    </section>
+    <section class="faq">
+      <div class="wrap narrow">
+        <h2>Questions</h2>
+        <details><summary>How do I find internet providers near me?</summary><p>Enter your address in the lookup at the top of this page. It lists every provider that reports serving your neighborhood to the FCC, with technology and top speeds, and marks which plans fit your home.</p></details>
+        <details><summary>Which internet providers are in my area?</summary><p>It depends on the street. Most US homes can get cable and a 5G home service, many can get fiber, and almost every home can get satellite. The lookup shows the ones at your address.</p></details>
+        <details><summary>How much internet speed do I need?</summary><p>A rough guide: 10 Mbps down per person, plus 25 Mbps for each 4K stream, and about 3 Mbps up for each person on a video call. Two people working from home need about 50 Mbps down and 6 Mbps up.</p></details>
+        <details><summary>Is fiber better than cable?</summary><p>Usually. Fiber offers the same speed up and down and lower, steadier latency. Cable is fast downstream but uploads are much smaller, and it can slow down in busy evenings.</p></details>
+        <details><summary>Where does this data come from?</summary><p>From the FCC's Broadband Data Collection, which every provider must file. The lookup uses the latest public release, covering homes as of December 31, 2025. It shows what providers say they offer, not prices.</p></details>
+      </div>
+    </section>
+    <section class="cta">
+      <div class="wrap">
+        <img src="/images/icon.png" alt="" width="96" height="96">
+        <h2>Know whether it's the provider before you switch.</h2>
+        <p class="cta-sub">WiFi or ISP is a free Mac menu bar app. It times your router and the internet at the same moment, says which side is slow, and keeps a log you can send your ISP.</p>
+        <div class="actions center">
+          <a class="pill big" href="https://github.com/coreyhaines31/wifiorisp/releases/latest"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11m-5-5 5 5 5-5M5 20h14"/></svg>Download free</a>
+        </div>
+        <p class="fineprint"><code>brew install --cask coreyhaines31/tap/wifiorisp</code></p>
+      </div>
+    </section>
+  </main>
+  <footer>
+    <div class="wrap">
+      <nav class="footer-links" aria-label="Guides"><a href="/bufferbloat-test">Bufferbloat test</a><a href="/why-is-my-wifi-so-slow">Why is my Wi-Fi so slow?</a><a href="/internet-keeps-dropping">Internet keeps dropping?</a><a href="/how-to-change-wifi-channel">How to change your Wi-Fi channel</a><a href="/how-to-restart-router">How to restart your router</a><a href="/why-does-my-wifi-keep-disconnecting">Why does my Wi-Fi keep disconnecting?</a><a href="/wifi-signal-strength">Wi-Fi signal strength chart</a><a href="/what-is-a-good-ping">What is a good ping?</a><a href="/mac-keeps-disconnecting-from-wifi">Mac keeps disconnecting from Wi-Fi</a><a href="/internet-slow-at-night">Internet slow at night?</a><a href="/ping-test">Ping and jitter test</a><a href="/internet-providers">Internet providers near you</a><a href="/help">Help and troubleshooting</a><a href="/slow-internet">Slow internet by provider</a><a href="/router-login">Router login guides</a><a href="/routers">Router picks by need</a><a href="/affiliate-disclosure">Affiliate disclosure</a></nav>
+      <nav class="footer-links" aria-label="Alternatives"><a href="/alternatives/">Alternatives</a><a href="/alternatives/netspot">NetSpot alternative</a><a href="/alternatives/pingkit">PingKit alternative</a><a href="/alternatives/istat-menus">iStat Menus alternative</a><a href="/alternatives/wifi-explorer">WiFi Explorer alternative</a><a href="/alternatives/wifi-signal">WiFi Signal alternative</a></nav>
+      <span>© 2026 Corey Haines · Source available under <a href="https://github.com/coreyhaines31/wifiorisp/blob/main/LICENSE">FSL-1.1-MIT</a></span>
+      <span><a href="https://github.com/coreyhaines31/wifiorisp">GitHub</a> · <a href="https://github.com/coreyhaines31/wifiorisp/issues">Report a bug</a> · Also by Corey: <a href="https://midnightoil.app">Midnight Oil</a></span>
+    </div>
+  </footer>
+</body>
+</html>
