@@ -18,9 +18,10 @@ jobs:
     env:
       GH_TOKEN: ${{ github.token }}
       GH_REPO: ${{ github.repository }}
+      TAG: ${{ github.event.release.tag_name }}
     steps:
       - name: Mark data release as pre-release
-        run: gh release edit "${{ github.event.release.tag_name }}" --prerelease --latest=false
+        run: gh release edit "$TAG" --prerelease --latest=false
       - name: Restore newest app release as latest
         run: |
           app_tag=$(gh release list --exclude-drafts --exclude-pre-releases --limit 100 --json tagName \
