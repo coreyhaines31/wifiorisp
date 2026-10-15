@@ -113,7 +113,7 @@ echo "▶ Publishing GitHub release v$VERSION"
 # for install scripts and AI agents.
 cp "$DMG" "$BUILD/WiFiOrISP.dmg"
 gh release create "v$VERSION" "$DMG" "$BUILD/WiFiOrISP.dmg" "$BUILD/appcast/appcast.xml" \
-  --repo "$REPO" --target main --title "$APP_NAME $VERSION" --generate-notes
+  --repo "$REPO" --target main --title "$APP_NAME $VERSION" --generate-notes --latest
 
 echo "▶ Updating the Homebrew cask"
 TAP="$BUILD/homebrew-tap"
