@@ -58,6 +58,12 @@ targets:
         PRODUCT_MODULE_NAME: WiFiOrISP
         PRODUCT_BUNDLE_IDENTIFIER: app.wifiorisp.WiFiOrISP
         ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+      configs:
+        # macOS ties Location access to the bundle ID and signature. A Debug build signed
+        # differently under the release ID takes over that grant, and the installed app
+        # loses the network name (#42). Debug builds get their own ID and permission.
+        Debug:
+          PRODUCT_BUNDLE_IDENTIFIER: app.wifiorisp.WiFiOrISP.dev
   WiFiOrISPCLI:
     type: tool
     platform: macOS

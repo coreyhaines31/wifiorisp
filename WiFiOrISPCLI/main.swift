@@ -206,7 +206,9 @@ func readLog(since: TimeInterval) -> (Log, Date, Date) {
 
 /// The plan entered in the app's Settings, for the report.
 var savedPlan: Plan? {
-    let defaults = UserDefaults(suiteName: CLIProtocol.bundleIdentifier)
+    // A Debug build has its own bundle ID, so read the settings of the app this command ships in.
+    let app = enclosingApp().flatMap { Bundle(url: $0)?.bundleIdentifier } ?? CLIProtocol.bundleIdentifier
+    let defaults = UserDefaults(suiteName: app)
     let down = defaults?.double(forKey: "planDownMbps") ?? 0
     let up = defaults?.double(forKey: "planUpMbps") ?? 0
     return down > 0 ? Plan(downMbps: down, upMbps: up) : nil

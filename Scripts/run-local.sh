@@ -4,7 +4,8 @@
 #   Scripts/run-local.sh
 #
 # The app is signed "to run locally" (ad-hoc), which keeps its Location entitlement so the
-# network name works. Quit any installed copy first: both share the same settings.
+# network name works. It has its own bundle ID, so it asks for Location access separately and
+# never takes it from an installed copy. It quits any running copy, since both use the same socket.
 set -euo pipefail
 cd "$(dirname "$0")/.."
 
