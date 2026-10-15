@@ -83,7 +83,7 @@ def footer():
     return f'''  <footer>
     <div class="wrap">
 {footer_links()}      <span>© 2026 Corey Haines · Source available under <a href="{REPO}/blob/main/LICENSE">FSL-1.1-MIT</a></span>
-      <span><a href="{REPO}">GitHub</a> · <a href="{REPO}/issues">Report a bug</a> · Also by Corey: <a href="https://midnightoil.app">Midnight Oil</a>, <a href="https://greenroomformac.com">Green Room</a></span>
+      <span><a href="{REPO}">GitHub</a> · <a href="{REPO}/issues">Report a bug</a> · Also by Corey: <a href="https://greenroomformac.com">Green Room</a>, <a href="https://midnightoil.app">Midnight Oil</a>, <a href="https://diskforecast.com">Disk Forecast</a>, <a href="https://spareformac.com">Spare</a>, <a href="https://onhandformac.com">On Hand</a></span>
     </div>
   </footer>
 </body>
