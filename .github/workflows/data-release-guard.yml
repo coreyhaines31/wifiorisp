@@ -1,0 +1,29 @@
+name: Keep data releases off "latest"
+
+# Data-only releases (tags data-*) must never become GitHub's "latest" release,
+# or https://github.com/coreyhaines31/wifiorisp/releases/latest/download/WiFiOrISP.dmg
+# 404s. Data releases are created by hand, so enforce it here: mark them
+# pre-release and hand "latest" back to the newest app (v*) release.
+on:
+  release:
+    types: [published]
+
+permissions:
+  contents: write
+
+jobs:
+  guard:
+    if: startsWith(github.event.release.tag_name, 'data-')
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ github.token }}
+      GH_REPO: ${{ github.repository }}
+      TAG: ${{ github.event.release.tag_name }}
+    steps:
+      - name: Mark data release as pre-release
+        run: gh release edit "$TAG" --prerelease --latest=false
+      - name: Restore newest app release as latest
+        run: |
+          app_tag=$(gh release list --exclude-drafts --exclude-pre-releases --limit 100 --json tagName \
+            --jq '[.[] | select(.tagName | startswith("v"))][0].tagName')
+          if [ -n "$app_tag" ]; then gh release edit "$app_tag" --latest; fi
