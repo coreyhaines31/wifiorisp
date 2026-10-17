@@ -1,4 +1,5 @@
 import AppKit
+import ServiceManagement
 
 @MainActor
 final class AppDelegate: NSObject, NSApplicationDelegate {
@@ -12,6 +13,13 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
     func applicationDidFinishLaunching(_ notification: Notification) {
         Preferences.registerDefaults()
+        #if !DEBUG
+        // Debug builds run from DerivedData; registering that copy would open it at every login.
+        if !Preferences.appliedLaunchAtLoginDefault {
+            Preferences.appliedLaunchAtLoginDefault = true
+            try? SMAppService.mainApp.register()
+        }
+        #endif
         let windows = Windows(monitor: monitor, tests: tests, location: location, updater: updater)
         self.windows = windows
         statusItemController = StatusItemController(
