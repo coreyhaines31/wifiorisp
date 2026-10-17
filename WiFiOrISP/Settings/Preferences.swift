@@ -15,6 +15,7 @@ enum Preferences {
         static let responsivenessServer = "responsivenessServer"
         static let acceptedMLabTerms = "acceptedMLabTerms"
         static let hasSeenWelcome = "hasSeenWelcome"
+        static let appliedLaunchAtLoginDefault = "appliedLaunchAtLoginDefault"
         static let planDown = "planDownMbps"
         static let planUp = "planUpMbps"
         static let people = "homePeople"
@@ -84,6 +85,12 @@ enum Preferences {
     static var hasSeenWelcome: Bool {
         get { defaults.bool(forKey: Key.hasSeenWelcome) }
         set { defaults.set(newValue, forKey: Key.hasSeenWelcome) }
+    }
+
+    /// Set once the app has turned on open-at-login by default, so a later opt-out sticks.
+    static var appliedLaunchAtLoginDefault: Bool {
+        get { defaults.bool(forKey: Key.appliedLaunchAtLoginDefault) }
+        set { defaults.set(newValue, forKey: Key.appliedLaunchAtLoginDefault) }
     }
 
     static var acceptedMLabTerms: Bool {
