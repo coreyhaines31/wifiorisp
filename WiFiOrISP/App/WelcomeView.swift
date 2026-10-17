@@ -58,6 +58,8 @@ struct WelcomeView: View {
                 Button("Done") {
                     if openAtLogin {
                         try? SMAppService.mainApp.register()
+                    } else {
+                        try? SMAppService.mainApp.unregister()
                     }
                     done()
                 }
