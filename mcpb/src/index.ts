@@ -18,7 +18,7 @@ const server = new McpServer(
     instructions:
       "WiFi or ISP times this Mac's router and the internet at the same moment, every 5 to 30 seconds, so it " +
       "can say whether slow or dropping internet is the Wi-Fi (or router) or the ISP. Start with " +
-      "connection_status. Timestamps are UTC. " +
+      "connection_status. Timestamps are UTC, except in isp_report, which uses local time and names the time zone. " +
       (testsAllowed
         ? "speed_test and lag_test each take about 20 seconds; run them only when the person asks for one or " +
           "agrees to it. "
@@ -116,8 +116,9 @@ server.registerTool(
     description:
       "The plain-text report to send the ISP: outages (and whether the router kept answering through them), " +
       "how much of the time was slow on the ISP's side versus the home network, speed against the plan, and " +
-      "how it was measured. Use for 'write up the outages for my ISP' or 'give me proof it's my ISP'. Pass " +
-      "the text on as is; it's written in the person's voice.",
+      "how it was measured, in the Mac's local time with its time zone named (like America/Los_Angeles) so " +
+      "the ISP can match it to their records. Use for 'write up the outages for my ISP' or 'give me proof " +
+      "it's my ISP'. Pass the text on as is; it's written in the person's voice.",
     inputSchema: { since: since("7d") },
     annotations: { ...readOnly, title: "Report for your ISP" },
   },

@@ -85,8 +85,8 @@ const fakeCalls = [
     (answer) => answer.events.length === 30 && answer.events[0][1] === "Drop 11" && answer.events.at(-1)[1] === "Drop 40" &&
       answer.eventsShown === "last 30 of 40",
   ],
-  ["ok", false, "isp_report", {}, ok, "report --since 7d", "Connection report\n=================\nPeriod: Oct 22 to Oct 29\n\n- Outages: none."],
-  ["ok", false, "isp_report", { since: "90m" }, ok, "report --since 90m", "Connection report\n=================\nPeriod: Oct 22 to Oct 29\n\n- Outages: none."],
+  ["ok", false, "isp_report", {}, ok, "report --since 7d", "Connection report\n=================\nPeriod: Oct 22 to Oct 29 (America/Los_Angeles)\n\n- Outages: none."],
+  ["ok", false, "isp_report", { since: "90m" }, ok, "report --since 90m", "Connection report\n=================\nPeriod: Oct 22 to Oct 29 (America/Los_Angeles)\n\n- Outages: none."],
   ["ok", false, "isp_report", { since: "45d" }, fails, null, null],
   ["ok", false, "speed_test", { publish_ip_to_mlab: true }, fails, null, null],
   ["ok", false, "lag_test", {}, fails, null, null],

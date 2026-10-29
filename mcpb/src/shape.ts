@@ -138,7 +138,8 @@ export function shapeHistory(stdout: string, since: string): Shaped {
 }
 
 // The report is the CLI's plain text, meant to be pasted into a message to the ISP, so it passes through
-// as text. It's built from the same summary as history, so it carries nothing history doesn't.
+// as text. It's built from the same summary as history, plus the Mac's time zone (like America/Los_Angeles),
+// which the report needs so its local times mean something to the ISP.
 export function shapeReport(stdout: string): Shaped {
   const text = stdout.replace(/[\u0000-\u0008\u000b-\u001f\u007f]/g, "").trim();
   if (!text) return { ok: false, text: "WiFi or ISP's report came back empty." };

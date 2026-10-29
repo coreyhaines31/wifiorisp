@@ -20,7 +20,7 @@ case "$FAKE_MODE:$1" in
       printf '{"time":"2026-10-29T10:%02d:00Z","text":"Drop %s"}' $i $i
       i=$((i + 1)); done
     echo ']}' ;;
-  ok:report) printf 'Connection report\n=================\nPeriod: Oct 22 to Oct 29\n\n- Outages: none.\n' ;;
+  ok:report) printf 'Connection report\n=================\nPeriod: Oct 22 to Oct 29 (America/Los_Angeles)\n\n- Outages: none.\n' ;;
   ok:speed)
     echo "Speed test by M-Lab, which publishes every result, including your IP address, as open data." >&2
     echo "Download: 300 Mbps" >&2
