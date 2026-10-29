@@ -43,6 +43,7 @@ CI runs both on every pull request.
 | `WiFiOrISP/History/`, `Tests/`, `Settings/` | The History window, the Tests window, Settings. |
 | `WiFiOrISP/Appearance/RouterIcon.swift` | The menu bar router and the app icon, drawn in code. |
 | `Scripts/` | `run-local.sh`, `release.sh`, the app icon renderer, the router-maker table generator, the Homebrew cask template. |
+| `mcpb/` | The Claude Desktop extension: an MCP server that runs the `wifiorisp` command. |
 | `site/` | wifiorisp.com: static HTML, plus the page generator in `site/_build/`. |
 | `docs/how-it-works.md` | The measurement method and every threshold. Read this before changing a verdict. |
 
@@ -105,7 +106,18 @@ From an up-to-date `main`, with signing, notarization, and Sparkle credentials s
 Scripts/release.sh 1.2.0
 ```
 
-It archives, signs with Developer ID, notarizes the app and the DMG, writes the Sparkle appcast, publishes the GitHub release, and updates the Homebrew cask. The website deploys separately from `main` with `vercel deploy --prod` in `site/`.
+It archives, signs with Developer ID, notarizes the app and the DMG, writes the Sparkle appcast, packs the Claude Desktop extension (`mcpb/dist/wifiorisp.mcpb`), publishes the GitHub release with the DMG, an unversioned `WiFiOrISP.dmg`, `appcast.xml`, and `wifiorisp.mcpb`, and updates the Homebrew cask. The website deploys separately from `main` with `vercel deploy --prod` in `site/`.
+
+### The Claude Desktop extension
+
+`mcpb/` is a small Node MCP server that runs the `wifiorisp` command (`status`, `history`, and `report`, plus `speed` and `lag` only when the user turns tests on in the extension's settings). The README and website link to `releases/latest/download/wifiorisp.mcpb`, so every release needs it. To check it: `cd mcpb && npm ci && npm run lint && npm test`. To attach it to an existing release without cutting a new one:
+
+```sh
+cd mcpb && npm ci && npm run pack
+gh release upload v<version> dist/wifiorisp.mcpb --repo coreyhaines31/wifiorisp --clobber
+```
+
+Bump `version` in `mcpb/manifest.json`, `mcpb/package.json`, and `mcpb/src/index.ts` when the extension changes.
 
 ## Pull requests
 
