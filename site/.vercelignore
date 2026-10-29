@@ -1,0 +1,6 @@
+# Not served: secrets the Vercel CLI writes, and the page generator.
+.env*
+.vercel
+.gitignore
+.vercelignore
+_build

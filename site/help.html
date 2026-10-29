@@ -71,6 +71,9 @@ icon near the clock, and that its welcome window asks about Location access
 Finally, run `wifiorisp status` (Homebrew puts it on the PATH; otherwise it's
 "/Applications/WiFi or ISP.app/Contents/MacOS/wifiorisp") and tell me what it says.</pre>
         </div>
+        <h2 id="claude-desktop">Use it from Claude Desktop</h2>
+        <p>Install the app first, then <a href="https://github.com/coreyhaines31/wifiorisp/releases/latest/download/wifiorisp.mcpb">download wifiorisp.mcpb</a> and double-click it (or drag it onto Claude Desktop) to add the WiFi or ISP extension. Ask Claude “is it my Wi-Fi or my ISP?”, “is my ISP down?”, or “write up last week's outages for my ISP”. It reads the verdict, the log, and the ISP report through the <code>wifiorisp</code> command, and never passes Claude your IP address, your router's hardware address, or where you are (the ISP report does name your time zone, so its times make sense). Speed and lag tests stay off unless you turn them on in the extension's settings, because M-Lab publishes every speed test result, including your IP address.</p>
+
         <p>Want to build it from source instead?</p>
         <div class="prompt">
           <button class="pill copy" type="button" data-copy-target="agent-build">Copy</button>
