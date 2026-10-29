@@ -54,6 +54,12 @@ Finally, run `wifiorisp status` (Homebrew puts it on the PATH; otherwise it's
 "/Applications/WiFi or ISP.app/Contents/MacOS/wifiorisp") and tell me what it says.
 ```
 
+### Or use it from Claude Desktop
+
+Install WiFi or ISP first, then download [`wifiorisp.mcpb`](https://github.com/coreyhaines31/wifiorisp/releases/latest/download/wifiorisp.mcpb) and double-click it (or drag it onto Claude Desktop) to add the WiFi or ISP extension. Ask Claude things like *is it my Wi-Fi or my ISP?*, *why is my internet slow?*, *is my ISP down?*, or *write up last week's outages for my ISP*.
+
+The extension runs the `wifiorisp` command from your installed app. It reads the verdict (`status`), the log (`history`), and the ISP report (`report`), and passes Claude only the fields it needs: never your IP address, your router's or access point's hardware address, or where you are. Speed and lag tests are off unless you turn them on in the extension's settings, because M-Lab publishes every speed test result, including your IP address. The source is in [`mcpb/`](mcpb/); `cd mcpb && npm install && npm run pack` builds `mcpb/dist/wifiorisp.mcpb`, and `npm test` calls every tool on your Mac.
+
 ## Your first two minutes
 
 1. **Open WiFi or ISP** from Applications. There's no Dock icon and no window to look for: it lives in the menu bar, as a small router icon near the clock.
