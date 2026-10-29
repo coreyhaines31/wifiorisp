@@ -11,6 +11,7 @@
 #     or APPLE_ID + APPLE_APP_PASSWORD (+ TEAM_ID) in the environment (CI)
 #   - the Sparkle EdDSA private key in the keychain, or SPARKLE_KEY_FILE pointing at it (CI)
 #   - gh authenticated with push access to coreyhaines31/wifiorisp and coreyhaines31/homebrew-tap
+#   - Node 20+ and npm, to pack the Claude Desktop extension in mcpb/
 set -euo pipefail
 
 VERSION="${1:?usage: Scripts/release.sh <version>}"
@@ -112,7 +113,10 @@ echo "▶ Publishing GitHub release v$VERSION"
 # A copy without the version in its name, so releases/latest/download/WiFiOrISP.dmg always works
 # for install scripts and AI agents.
 cp "$DMG" "$BUILD/WiFiOrISP.dmg"
-gh release create "v$VERSION" "$DMG" "$BUILD/WiFiOrISP.dmg" "$BUILD/appcast/appcast.xml" \
+(cd mcpb && npm ci --silent && npm run --silent pack >/dev/null)
+MCPB=mcpb/dist/wifiorisp.mcpb
+# Every release carries wifiorisp.mcpb so releases/latest/download/wifiorisp.mcpb keeps working.
+gh release create "v$VERSION" "$DMG" "$BUILD/WiFiOrISP.dmg" "$BUILD/appcast/appcast.xml" "$MCPB" \
   --repo "$REPO" --target main --title "$APP_NAME $VERSION" --generate-notes --latest
 
 echo "▶ Updating the Homebrew cask"
