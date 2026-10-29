@@ -56,7 +56,7 @@
               <code>Install the macOS app "WiFi or ISP" for me…</code>
               <button class="pill copy" type="button" data-copy-target="agent-install">Copy prompt</button>
             </div>
-            <a class="hero-prompt-more" href="#agent">See the full prompt</a>
+            <a class="hero-prompt-more" href="#agent">See the full prompt</a> · <a class="hero-prompt-more" href="#claude">Using Claude Desktop?</a>
           </div>
         </div>
 
@@ -234,6 +234,35 @@ Period: Oct 1 at 9:00 AM to Oct 8 at 9:00 AM
       </div>
     </section>
 
+    <section class="claude" id="claude">
+      <div class="wrap two">
+        <div>
+          <p class="eyebrow">Claude Desktop extension</p>
+          <h2>Ask Claude why the internet is slow.</h2>
+          <p>Add WiFi or ISP to Claude Desktop and ask in plain words: is it my Wi&#8209;Fi or my ISP, is my ISP down, was it slow last night. Claude reads the same verdict you see in the menu bar, and can write up the report for your ISP.</p>
+          <p>The extension only reads, and never passes Claude your IP address, your router&#8217;s hardware address, or where you are. Speed and lag tests stay off unless you turn them on.</p>
+          <div class="actions">
+            <a class="pill big" href="https://github.com/coreyhaines31/wifiorisp/releases/latest/download/wifiorisp.mcpb">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11m-5-5 5 5 5-5M5 20h14"/></svg>Download wifiorisp.mcpb</a>
+            <a class="pill big ghost" href="https://github.com/coreyhaines31/wifiorisp/tree/main/mcpb">View the source</a>
+          </div>
+          <p class="fineprint">Install WiFi or ISP first. Then double-click wifiorisp.mcpb, or drag it onto Claude Desktop, and choose Install.</p>
+        </div>
+        <div class="chat-mock" role="img" aria-label="An illustrative Claude Desktop chat. You ask whether your freezing Zoom call is your Wi-Fi or your ISP. Claude answers that it's your ISP: your router answers in 4 ms, but the internet takes 186 ms and is missing 17% of checks, so the delay is past your router. It offers to write up the report to send your ISP.">
+          <span class="chat-label">Claude Desktop</span>
+          <p class="chat-ask">My Zoom call keeps freezing. Is it my Wi&#8209;Fi or my ISP?</p>
+          <div class="chat-reply">
+            <p>It&#8217;s your ISP. Your router answers right away, but the internet is slow and missing checks, so the delay is past your router.</p>
+            <div class="chat-row"><span>Wi&#8209;Fi signal</span><b class="ok">Excellent</b></div>
+            <div class="chat-row"><span>Router</span><b class="ok">Fast · 4 ms</b></div>
+            <div class="chat-row"><span>Internet</span><b class="bad">Slow · 186 ms, 17% lost</b></div>
+            <p>Want me to write up the report to send them?</p>
+          </div>
+          <span class="chat-note">Illustrative chat · Sample data</span>
+        </div>
+      </div>
+    </section>
+
     <section class="agent" id="agent">
       <div class="wrap narrow">
         <h2>Let your AI agent install it</h2>
@@ -271,7 +300,7 @@ to see whether it's my Wi-Fi or my ISP, and follow its nextSteps. Run `wifiorisp
 when calls or games stutter, `wifiorisp speed` to compare with my plan, and
 `wifiorisp report` when I need evidence for my ISP.</pre>
         </div>
-        <p class="fineprint">All the commands and options are in <a href="/help#command-line">Help</a>. Want to build it from source instead? <a href="/help#agent">There's a prompt for that too.</a></p>
+        <p class="fineprint">Using Claude Desktop instead? <a href="#claude">Add the extension</a>. All the commands and options are in <a href="/help#command-line">Help</a>. Want to build it from source instead? <a href="/help#agent">There's a prompt for that too.</a></p>
       </div>
     </section>
 
