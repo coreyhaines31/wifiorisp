@@ -1,0 +1,61 @@
+{
+  "$schema": "https://raw.githubusercontent.com/anthropics/mcpb/main/schemas/mcpb-manifest-v0.4.schema.json",
+  "manifest_version": "0.4",
+  "name": "wifiorisp",
+  "display_name": "WiFi or ISP",
+  "version": "0.1.0",
+  "description": "Ask Claude whether slow internet is your Wi-Fi or your ISP, and get the report to send your ISP.",
+  "long_description": "WiFi or ISP is a free menu bar app that times your router and the internet at the same moment, so it can say whether slow or dropping internet is your Wi-Fi (or router) or your ISP. This extension lets Claude read the same verdict through WiFi or ISP's `wifiorisp` command line tool.\n\nAsk things like \"is it my Wi-Fi or my ISP?\", \"why is my internet slow?\", \"is my ISP down?\", or \"write up the outages to send my ISP\".\n\nRequires the WiFi or ISP app (https://wifiorisp.com). Everything is local and read-only. Speed and lag tests are off unless you turn them on in this extension's settings: the speed test is run by M-Lab, which publishes every result, including your IP address, as open data.",
+  "author": {
+    "name": "Corey Haines",
+    "url": "https://wifiorisp.com"
+  },
+  "homepage": "https://wifiorisp.com",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/coreyhaines31/wifiorisp"
+  },
+  "support": "https://github.com/coreyhaines31/wifiorisp/issues",
+  "license": "FSL-1.1-MIT",
+  "icon": "icon.png",
+  "keywords": ["mac", "macos", "wi-fi", "wifi", "isp", "internet", "slow internet", "outage", "network"],
+  "server": {
+    "type": "node",
+    "entry_point": "server/index.mjs",
+    "mcp_config": {
+      "command": "node",
+      "args": ["${__dirname}/server/index.mjs"],
+      "env": {
+        "WIFIORISP_CLI": "${user_config.wifiorisp_cli}",
+        "WIFIORISP_ALLOW_TESTS": "${user_config.allow_tests}"
+      }
+    }
+  },
+  "user_config": {
+    "allow_tests": {
+      "type": "boolean",
+      "title": "Let Claude run speed and lag tests",
+      "description": "Off by default. Each test takes about 20 seconds and can use a few hundred MB. The speed test is run by M-Lab, which publishes every result, including your IP address, as open data.",
+      "default": false,
+      "required": false
+    },
+    "wifiorisp_cli": {
+      "type": "file",
+      "title": "WiFi or ISP command line tool (optional)",
+      "description": "Leave empty to find WiFi or ISP automatically in Applications, Homebrew, or Spotlight.",
+      "required": false
+    }
+  },
+  "tools": [
+    { "name": "connection_status", "description": "Whether slow internet is your Wi-Fi or your ISP right now, and what to do next" },
+    { "name": "connection_history", "description": "Typical timings, slow spells, drops, and outages over a period" },
+    { "name": "isp_report", "description": "The plain-text report of outages and slowness to send your ISP" },
+    { "name": "speed_test", "description": "Download and upload speed from M-Lab (off unless turned on in settings; publishes your IP)" },
+    { "name": "lag_test", "description": "Lag under load and where it builds up (off unless turned on in settings)" }
+  ],
+  "compatibility": {
+    "claude_desktop": ">=0.10.0",
+    "platforms": ["darwin"],
+    "runtimes": { "node": ">=20.0.0" }
+  }
+}
