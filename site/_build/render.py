@@ -50,7 +50,6 @@ def head(title, description, path, scripts=""):
   <link rel="icon" href="/images/icon.png">
   <link rel="apple-touch-icon" href="/images/icon.png">
   <link rel="stylesheet" href="/site.css">
-  <script src="https://cdn.usefathom.com/script.js" data-site="CRTCSZKQ" defer></script>
   <script async src="https://tracerkit.com/t.js" data-key="tk_IQBbD-xkICMsq6qz"></script>
   <script src="https://ingest.getuserproof.com/sdk.js" data-site="85ab0b80-0bac-48ac-8103-d814a50d5ffc" defer></script>{scripts}
 </head>
