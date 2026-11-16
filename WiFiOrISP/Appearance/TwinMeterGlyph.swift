@@ -18,10 +18,11 @@ enum TwinMeterGlyph {
     /// The glyph's `offline` state.
     static let offline = Needles(router: 0, internet: 0, offline: true)
 
-    /// Where a needle sits for a reading. 0 ms is near the top, 200 ms or more near the bottom.
-    static func needle(_ probe: Probe?) -> Double {
+    /// Where a needle sits for a reading: the popover gauge's position (`GaugeScale`), kept off
+    /// the stops so the needle always shows.
+    static func needle(_ probe: Probe?, side: GaugeScale.Side) -> Double {
         switch probe {
-        case .reply(let ms): 0.85 - 0.75 * min(max(ms, 0), 200) / 200
+        case .reply(let ms): 0.05 + 0.8 * GaugeScale.position(ms, side: side)
         case .lost: 0.05
         case nil: 0.5
         }
@@ -34,8 +35,8 @@ enum TwinMeterGlyph {
     /// old router's LEDs went out, and the side the verdict blames always reads low.
     static func needles(for verdict: Verdict, latest: Sample?) -> Needles {
         if verdict.kind == .notConnected { return offline }
-        var router = needle(latest?.router)
-        var internet = needle(latest?.internet)
+        var router = needle(latest?.router, side: .router)
+        var internet = needle(latest?.internet, side: .internet)
         if latest?.link == .wifi, let wifi = latest?.wifi {
             router = min(router, 0.1 + 0.75 * PlainLanguage.signalStrength(rssi: wifi.rssi))
         }
