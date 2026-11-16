@@ -493,6 +493,35 @@ when calls or games stutter, `wifiorisp speed` to compare with my plan, and
           <div><h3>Never scans</h3><p>It reads your current connection without scanning for networks, and backs off if macOS's Wi-Fi service gets busy.</p></div>
           <div><h3>No admin rights</h3><p>Round trips are timed with ordinary connections, not ping, so there's nothing to install with a password.</p></div>
         </div>
+        <div class="perms">
+          <div>
+            <h3>What it asks macOS for, and why</h3>
+            <ul>
+              <li><b>Location:</b> only to read your Wi&#8209;Fi network's name. It never reads where you are.</li>
+              <li><b>Local network</b> (macOS 15 and later): to time your router. It doesn't look for or connect to anything else.</li>
+              <li><b>Notifications:</b> for the alerts you leave on.</li>
+              <li><b>Open at login:</b> a standard login item, so it keeps watching after a restart. Turn it off in Settings → General.</li>
+            </ul>
+          </div>
+          <div>
+            <h3>Everything it sends over the network</h3>
+            <ul>
+              <li>A TCP handshake to your router, 1.1.1.1, and 8.8.8.8 every 5 to 30 seconds, with no data in it.</li>
+              <li>One request to Cloudflare per network to learn your provider's name, skipped on a VPN.</li>
+              <li>Tests you start: M-Lab for speed (which publishes every result, including your IP address, and the app tells you before your first test) and Cloudflare for lag under load.</li>
+              <li>An update check, which you can turn off.</li>
+            </ul>
+          </div>
+          <div>
+            <h3>What it never does</h3>
+            <ul>
+              <li>No analytics, no account, no crash reporter.</li>
+              <li>No scanning for nearby networks, and no ping or admin rights.</li>
+              <li>Nothing listens on the network: the <code>wifiorisp</code> command talks to the app through a file only your user account can open.</li>
+              <li>History stays in <code>~/Library/Application Support/WiFi or ISP/</code> until you export it.</li>
+            </ul>
+          </div>
+        </div>
       </div>
     </section>
 
