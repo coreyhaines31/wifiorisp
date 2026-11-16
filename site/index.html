@@ -152,6 +152,26 @@
       </div>
     </section>
 
+    <section class="setup" id="setup">
+      <div class="wrap two">
+        <div>
+          <h2>Install it. Wait 30 seconds. Glance up.</h2>
+          <ol class="steps">
+            <li><b>Install it</b>Download the DMG and drag it to Applications, or run <code>brew install --cask coreyhaines31/tap/wifiorisp</code>. It's signed and notarized by Apple, so it opens without warnings.</li>
+            <li><b>Answer the welcome window once</b>It offers to show your Wi&#8209;Fi network's name (macOS counts that as location data) and to open at login, which is on by default. On macOS 15 and later, macOS also asks to let it find devices on your local network: say yes, because that's how it times your router.</li>
+            <li><b>Wait about 30 seconds</b>The first verdict needs at least three measurements. After that it keeps watching on its own, with no window to keep open.</li>
+            <li><b>Glance at the menu bar</b>Two small meters sit near the clock: your router on the left, the internet on the right. When something is slow, a word appears next to them, <b class="inline">WiFi</b>, <b class="inline">Router</b>, or <b class="inline">ISP</b>, so you know where to look before you click.</li>
+          </ol>
+        </div>
+        <div class="bars" role="img" aria-label="Three menu bars. When all is well, only the two meters show. When the internet past the router is slow, the word ISP appears next to them. When the Wi-Fi is slow, the word WiFi appears.">
+          <figure><div class="mbar-mock"><span class="mb-apps"></span><span class="mb-item"><svg viewBox="0 0 18 18"><use href="#g-wifi"/></svg></span><span class="mb-clock">Tue 7:52 PM</span></div><figcaption>All fine: just the meters.</figcaption></figure>
+          <figure><div class="mbar-mock"><span class="mb-apps"></span><span class="mb-item"><svg viewBox="0 0 18 18"><use href="#g-wifi"/></svg>ISP</span><span class="mb-clock">Tue 7:52 PM</span></div><figcaption>Past your router is slow: your ISP's side.</figcaption></figure>
+          <figure><div class="mbar-mock"><span class="mb-apps"></span><span class="mb-item"><svg viewBox="0 0 18 18"><use href="#g-wifi"/></svg>WiFi</span><span class="mb-clock">Tue 7:52 PM</span></div><figcaption>Your side is slow: the Wi&#8209;Fi or the router.</figcaption></figure>
+          <p class="bars-note">A slash through the meters means you're not connected to any network. Prefer the raw signal number? Settings can show it in dBm next to the meters.</p>
+        </div>
+      </div>
+    </section>
+
     <section class="recorder">
       <div class="wrap two">
         <div>
