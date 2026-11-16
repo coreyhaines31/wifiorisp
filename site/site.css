@@ -419,6 +419,9 @@ section.article + .faq { padding-top: 40px; }
 .faq .data-prose details, .faq .data-prose h2 { max-width: 760px; }
 
 /* Homepage long form */
+.home .wrap.narrow { max-width: var(--bx-max); }
+.home .wrap.narrow > * { max-width: 760px; }
+.home .wrap.narrow > .prompt { max-width: 860px; }
 .two > div > ul { color: var(--ink2); font-size: 17px; margin: 16px 0 0; padding-left: 22px; }
 .two > div > ul li { margin-bottom: 8px; }
 .two > div > ul b { color: var(--ink); }
