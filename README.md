@@ -47,8 +47,8 @@ Otherwise, download and install the signed DMG:
   ditto "/tmp/wifiorisp-dmg/WiFi or ISP.app" "/Applications/WiFi or ISP.app"
   hdiutil detach -quiet /tmp/wifiorisp-dmg
 Then open it with: open -a "WiFi or ISP"
-It's a menu bar app with no Dock icon. Tell me to look for the small router
-icon near the clock, and that its welcome window asks about Location access
+It's a menu bar app with no Dock icon. Tell me to look for the two small
+meters near the clock, and that its welcome window asks about Location access
 (only used to show the Wi-Fi network name) and opening at login.
 Finally, run `wifiorisp status` (Homebrew puts it on the PATH; otherwise it's
 "/Applications/WiFi or ISP.app/Contents/MacOS/wifiorisp") and tell me what it says.
@@ -62,7 +62,7 @@ The extension runs the `wifiorisp` command from your installed app. It reads the
 
 ## Your first two minutes
 
-1. **Open WiFi or ISP** from Applications. There's no Dock icon and no window to look for: it lives in the menu bar, as a small router icon near the clock.
+1. **Open WiFi or ISP** from Applications. There's no Dock icon and no window to look for: it lives in the menu bar, as two small meters near the clock.
 2. **A welcome window appears once.** It offers two things:
    - **Show your Wi-Fi network's name.** macOS treats network names as location data, so the app needs Location access to show yours. It never asks where you are, and everything else works without it ("Unknown network" is the only difference).
    - **Open at login,** so it keeps watching after a restart. On by default.
@@ -75,7 +75,7 @@ Can't see the icon? On MacBooks with a notch, a crowded menu bar hides icons beh
 
 ## Reading it
 
-**The menu bar icon** is a little router. Its three lights show your Wi-Fi signal. When something is slow, the lights go dark and a word appears next to it: **WiFi**, **Router**, or **ISP**, whichever side is at fault. A slash through the router means you're not connected to any network.
+**The menu bar icon** is two little meters: your router on the left, the internet on the right. A needle stands high when that side is quick and drops when it's slow; a weak Wi-Fi signal lowers the router needle too. When something is slow, a word appears next to them: **WiFi**, **Router**, or **ISP**, whichever side is at fault. A slash through the meters means you're not connected to any network.
 
 **Click it** for the verdict and the numbers behind it:
 
