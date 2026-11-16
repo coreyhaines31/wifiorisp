@@ -107,7 +107,7 @@
         <div class="tried">
           <p class="tried-head">What you've probably tried</p>
           <article><b>“The speed test says I'm fine.”</b><p>By the time you open it, the hiccup has passed. And a fast result doesn't say whether the slow part was your Wi&#8209;Fi or your provider.</p></article>
-          <article><b>“I've restarted the router three times.”</b><p>Sometimes that helps. When the problem is past your router, it just takes the whole house offline for five minutes.</p></article>
+          <article><b>“I've restarted the router three times.”</b><p>Sometimes that helps. When the problem is past your router, it only takes the whole house offline for five minutes.</p></article>
           <article><b>“My ISP says it's my Wi&#8209;Fi.”</b><p>Support can't see your living room, so they start with your router. You need a log that shows your router kept answering while the internet didn't.</p></article>
         </div>
       </div>
@@ -191,12 +191,12 @@
         <div>
           <h2>What to try first, second, and third.</h2>
           <p>Under every verdict is a short list called What to do: the next things to try, in the order worth trying them. Each one opens the right guide, starts a test, or exports your report.</p>
-          <p>The steps fit your setup. The app recognizes your router's maker and your provider, so “restart your router” links to the guide for that brand and “check the outage page” points at Spectrum's or Verizon's, not a search box. Twelve large US providers have their own guides; everyone else gets the general steps.</p>
+          <p>The steps fit your setup. The app recognizes your router's maker and your provider. So “restart your router” opens the guide for your brand, and “check the outage page” opens Spectrum's or Verizon's, not a search box. Twelve large US providers have their own guides; everyone else gets the general steps.</p>
           <p>Some limits no setting can fix, and the app says so plainly when it finds one. Your plan settings add two more: a plan too small for your home, and getting much less than you pay for.</p>
           <ul class="ceilings">
             <li><b>Your router is holding your Mac back:</b> your Mac supports Wi&#8209;Fi 6E, but your router tops out at Wi&#8209;Fi 5 or older.</li>
             <li><b>Your Wi&#8209;Fi is slower than your plan:</b> speed tests hit what your Wi&#8209;Fi link can carry, while you pay for a lot more.</li>
-            <li><b>Your router can't fix lag under load:</b> the lag builds up in your modem or at your ISP, and your router has no smart queueing (SQM) to keep it in check.</li>
+            <li><b>Your router can't fix lag under load:</b> the lag builds up in your modem or at your ISP. A router with smart queueing (SQM) could keep it in check; yours has none.</li>
           </ul>
         </div>
       </div>
@@ -245,7 +245,7 @@ Period: Oct 1 at 9:00 AM to Oct 8 at 9:00 AM
         </div>
         <div>
           <h2>Know the moment your internet drops.</h2>
-          <p>Get a heads-up when the internet drops (and when it's back, with how long it was gone), when your Mac quietly falls back to 2.4 GHz, or when it roams to an access point that's worse than the one it left.</p>
+          <p>Get a heads-up when the internet drops, and again when it's back, with how long it was gone. Hear when your Mac falls back to slower 2.4 GHz, or roams to an access point worse than the one it left.</p>
           <p>Turn each one off in Settings. Reconnecting after sleep never counts as a drop.</p>
         </div>
       </div>
@@ -274,7 +274,7 @@ Period: Oct 1 at 9:00 AM to Oct 8 at 9:00 AM
       <div class="wrap two">
         <div>
           <h2>Find out if you're getting the speed you pay for.</h2>
-          <p>Enter the download and upload speeds on your bill in Settings → Your Plan. The app compares them with your speed tests, adds them to the report for your provider, and tells you when you're getting much less than you pay for (two or more tests averaging under 60% of the plan).</p>
+          <p>Enter the download and upload speeds on your bill in Settings → Your Plan. The app compares them with your speed tests and adds them to the report for your provider. When two or more tests average under 60% of your plan, it tells you.</p>
           <p>It also works the other way. Tell it how your home uses the internet: people, 4K streams, gaming, calls, and big uploads. It estimates what you need, roughly 10 Mbps down per person, 25 per 4K stream, 15 more for gaming and 5 for calls. If your plan is too small, it says no router will fix that.</p>
           <div class="panes">
             <div><b>General</b><span>Open at login, what the menu bar shows (signal in dBm, and the WiFi, Router, or ISP word), and automatic updates.</span></div>
@@ -378,7 +378,7 @@ Period: Oct 1 at 9:00 AM to Oct 8 at 9:00 AM
           </article>
           <article>
             <h3>Before you buy a router</h3>
-            <p>Find out whether the router is actually the bottleneck, or whether the fix is moving closer or a bigger plan, before you spend money on new hardware.</p>
+            <p>Before you spend money on hardware, find out what's slowing you down: the router, the distance, or a plan that's too small.</p>
           </article>
         </div>
       </div>
@@ -476,7 +476,7 @@ when calls or games stutter, `wifiorisp speed` to compare with my plan, and
         <div class="better">
           <article><h3>Where speed tests win</h3><p>A trusted throughput number against a huge server network, and fast.com needs no install at all. Use one when you want to know how fast. Use WiFi or ISP when you want to know whose fault slow is. (It has a speed test too, against M-Lab.)</p></article>
           <article><h3>Where macOS's tools win</h3><p><code>networkQuality</code> uses the same IETF responsiveness method as the lag test here, with no install. Wireless Diagnostics shows far more radio detail than any menu bar app, with scans and a packet sniffer. Neither keeps watching after you close it.</p></article>
-          <article><h3>Where router apps win</h3><p>They test from the router itself, which separates your provider from your Wi&#8209;Fi better than any app on your Mac can, and they see every device on your network. They only work with their own brand, and the history is often a subscription.</p></article>
+          <article><h3>Where router apps win</h3><p>They test from the router itself, which separates your provider from your Wi&#8209;Fi better than any app on your Mac can. They also see every device on your network. They only work with their own brand, and the history is often a subscription.</p></article>
           <article><h3>Where iStat Menus wins</h3><p>Everything about your Mac: CPU, memory, disks, sensors, and per-app bandwidth. It can ping and tell you the internet is down; it doesn't say why. Run both: <a href="/alternatives/istat-menus">how they compare</a>.</p></article>
         </div>
         <p class="source-note">Checked November 16, 2026: Speedtest by Ookla 1.29 on the Mac App Store, <a href="https://fast.com/">fast.com</a>, Apple's <a href="https://support.apple.com/en-us/101942">networkQuality</a> and <a href="https://support.apple.com/guide/mac-help/mchlf4de377f/mac">Wireless Diagnostics</a> pages, <a href="https://eero.com/support/articles/how-do-i-run-a-speed-test-on-my-eero-network">eero speed test</a> and <a href="https://eero.com/eero-plus">eero Plus</a>, <a href="https://support.google.com/googlenest/answer/6246634">Google Nest Wifi</a>, <a href="https://kb.netgear.com/000053866/How-do-I-run-a-speed-test-on-my-Orbi-WiFi-System-using-the-Orbi-app">Netgear Orbi</a>, <a href="https://www.tp-link.com/us/support/faq/1462/">TP-Link Deco</a>, and <a href="https://bjango.com/mac/istatmenus/">iStat Menus 7.5</a>. More: <a href="/alternatives/">every comparison</a>.</p>
@@ -507,7 +507,7 @@ when calls or games stutter, `wifiorisp speed` to compare with my plan, and
             <ul>
               <li>A TCP handshake to your router, 1.1.1.1, and 8.8.8.8 every 5 to 30 seconds, with no data in it.</li>
               <li>One request to Cloudflare per network to learn your provider's name, skipped on a VPN.</li>
-              <li>Tests you start: M-Lab for speed (which publishes every result, including your IP address, and the app tells you before your first test) and Cloudflare for lag under load.</li>
+              <li>Tests you start: M-Lab for speed and Cloudflare for lag under load. M-Lab publishes every result, including your IP address, and the app tells you so before your first test.</li>
               <li>An update check, which you can turn off.</li>
             </ul>
           </div>
