@@ -75,19 +75,10 @@ def head(title, description, path, scripts=""):
 
 
 def header():
-    return f'''  <header class="nav">
-    <div class="wrap">
-      <a class="brand" href="/"><img src="/images/icon.png" alt=""> WiFi or ISP</a>
-      <nav>
-        <a href="/#how">How it works</a>
-        <a href="/internet-providers">Providers near you</a>
-        <a href="/bufferbloat-test">Bufferbloat test</a>
-        <a href="/help">Help</a>
-        <a href="{REPO}">GitHub</a>
-        <a class="pill" href="{DOWNLOAD}">Download</a>
-      </nav>
-    </div>
-  </header>
+    """Skip link and the brushed nav bar, shared by every page except the homepage hero."""
+    return f'''  <a class="skip" href="#main">Skip to content</a>
+  <header class="site-head bx-hero">
+{nav()}  </header>
 '''
 
 
@@ -225,7 +216,7 @@ def article(page, path):
     tldr = f'<div class="tldr"><h2>The short answer</h2><p>{page["tldr"]}</p></div>' if page.get("tldr") else ""
     scripts = page.get("scripts", "") + structured_data(page, path)
     return (head(page["title"], page["description"], path, scripts)
-            + f'''  <main>
+            + f'''  <main id="main">
 {page.get("hero") or sub_hero(page, tldr)}{page.get("widget", "")}    <section class="article">
       <div class="wrap narrow prose">
 {page["body"]}
@@ -261,7 +252,7 @@ def data_page(page):
     scripts = f'\n  <script type="application/ld+json">{data}</script>'
     faq_html = faq([(q, esc(a)) for q, a in page["faqs"]], width="data-prose")
     return (head(page["title"], page["description"], path, scripts)
-            + f"  <main>\n{page['main']}{faq_html}{cta('Know whether it’s the provider before you switch.')}  </main>\n"
+            + f"  <main id=\"main\">\n{page['main']}{faq_html}{cta('Know whether it’s the provider before you switch.')}  </main>\n"
             + footer())
 
 

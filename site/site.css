@@ -51,31 +51,20 @@ h2 { font-weight: 700; font-size: clamp(30px, 3.6vw, 44px); }
 h3 { font-weight: 600; font-size: 21px; }
 p { margin: 0; }
 
-.wrap { max-width: 1120px; margin: 0 auto; padding: 0 16px; }
-.wrap.narrow { max-width: 760px; }
+.wrap { max-width: var(--bx-max); margin: 0 auto; padding: 0 20px; }
+.wrap.narrow { max-width: 800px; }
 section { padding: 72px 0; }
 @media (min-width: 720px) {
-  .wrap { padding: 0 32px; }
-  section { padding: 104px 0; }
+  section { padding: 96px 0; }
 }
 
-/* Nav */
-.nav {
-  position: sticky; top: 0; z-index: 10;
-  background: color-mix(in srgb, var(--bg) 82%, transparent);
-  backdrop-filter: saturate(1.6) blur(16px);
-  -webkit-backdrop-filter: saturate(1.6) blur(16px);
-  border-bottom: 1px solid var(--line);
-}
-.nav .wrap { display: flex; align-items: center; justify-content: space-between; height: 60px; gap: 12px; }
-.brand { display: flex; align-items: center; gap: 10px; font-weight: 650; text-decoration: none; white-space: nowrap; }
-.brand img { width: 30px; height: 30px; }
-.nav nav { display: flex; align-items: center; gap: 22px; font-size: 15px; }
-.nav nav a { text-decoration: none; color: var(--muted); }
-.nav nav a:hover { color: var(--ink); }
-.nav nav a.pill { color: #fff; }
+/* Nav: the brushed bar from brushed.css (.bx-hero + .bx-nav) */
+.site-head .bx-nav { padding-block: 12px; }
+.bx-nav nav { gap: 8px 22px; }
+.bx-nav nav a.bx-btn { color: var(--bx-btn-ink); padding: 10px 16px; font-size: 15px; }
 @media (max-width: 640px) {
-  .nav nav a:not(.pill) { display: none; }
+  .bx-nav { flex-wrap: nowrap; }
+  .bx-nav nav a:not(.bx-btn) { display: none; }
 }
 
 /* Buttons */
