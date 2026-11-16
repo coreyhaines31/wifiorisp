@@ -304,6 +304,55 @@ Period: Oct 1 at 9:00 AM to Oct 8 at 9:00 AM
       </div>
     </section>
 
+    <section class="method" id="method">
+      <div class="wrap">
+        <h2>How to tell if it's your router or your ISP: exactly what it measures.</h2>
+        <p class="section-lede">No black box. Every number below is a constant in the app's source, and the full method is in <a href="https://github.com/coreyhaines31/wifiorisp/blob/main/docs/how-it-works.md">how it works</a> on GitHub.</p>
+        <div class="method-grid">
+          <article>
+            <h3>Three round trips at once</h3>
+            <p>Each check times a TCP handshake to your router (on port 53, 80, or 443, whichever it answers), and to 1.1.1.1 and 8.8.8.8 on port 443. The faster of the two internet replies counts, so one resolver having a bad moment isn't blamed on your ISP. A handshake is exactly one round trip and carries no data. No ping, no admin password.</p>
+          </article>
+          <article>
+            <h3>Wi&#8209;Fi, read but never scanned</h3>
+            <p>From macOS it reads signal and noise, transmit rate, channel, band, channel width, and Wi&#8209;Fi generation for the network you're on. It never scans for nearby networks, and if macOS's Wi&#8209;Fi service stops answering it backs off, from 10 seconds up to 5 minutes.</p>
+          </article>
+          <article>
+            <h3>A verdict from the last few minutes</h3>
+            <p>It looks at the last six checks from the last three minutes, and waits for at least three. Behind a VPN it still times the Wi&#8209;Fi router underneath. Over Ethernet it skips the signal and compares your router with the internet.</p>
+          </article>
+        </div>
+        <div class="method-tables">
+          <div class="table-wrap">
+            <table class="compare">
+              <caption>How often it checks</caption>
+              <thead><tr><th>Situation</th><th>Checks every</th></tr></thead>
+              <tbody>
+                <tr><td>Something is wrong</td><td>5 seconds</td></tr>
+                <tr><td>Fine for under 2 minutes</td><td>10 seconds</td></tr>
+                <tr><td>Fine for 2 to 10 minutes</td><td>20 seconds</td></tr>
+                <tr><td>Fine for longer</td><td>30 seconds</td></tr>
+                <tr><td>Mac asleep</td><td>Not at all, and no drops counted for 30 seconds after waking</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="table-wrap">
+            <table class="compare">
+              <caption>When it calls something slow</caption>
+              <thead><tr><th>Verdict</th><th>Threshold</th></tr></thead>
+              <tbody>
+                <tr><td>Router is slow</td><td>Typical round trip over 40 ms, or a quarter of checks lost</td></tr>
+                <tr><td>ISP side is slow</td><td>Internet more than 100 ms slower than the router, or a quarter lost</td></tr>
+                <tr><td>Signal is weak</td><td>−75 dBm or weaker, or under 15 dB above the noise</td></tr>
+                <tr><td>Offline</td><td>The last two internet checks both lost</td></tr>
+                <tr><td>A drop</td><td>Two lost internet checks in a row, until the first reply</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <section class="trust">
       <div class="wrap">
         <h2>Light on your Mac. Silent about you.</h2>
