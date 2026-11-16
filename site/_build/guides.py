@@ -664,8 +664,8 @@ Otherwise, download and install the signed DMG:
   ditto "/tmp/wifiorisp-dmg/WiFi or ISP.app" "/Applications/WiFi or ISP.app"
   hdiutil detach -quiet /tmp/wifiorisp-dmg
 Then open it with: open -a "WiFi or ISP"
-It's a menu bar app with no Dock icon. Tell me to look for the small router
-icon near the clock, and that its welcome window asks about Location access
+It's a menu bar app with no Dock icon. Tell me to look for the two small
+meters near the clock, and that its welcome window asks about Location access
 (only used to show the Wi-Fi network name) and opening at login.
 Finally, run `wifiorisp status` (Homebrew puts it on the PATH; otherwise it's
 "/Applications/WiFi or ISP.app/Contents/MacOS/wifiorisp") and tell me what it says.</pre>
@@ -706,7 +706,7 @@ when calls or games stutter, `wifiorisp speed` to compare with my plan, and
 
         <h2 id="first-launch">Your first two minutes</h2>
         <ol class="steps">
-          <li><b>Open it from Applications.</b> There's no Dock icon or main window. It lives in the menu bar, as a small router icon near the clock.</li>
+          <li><b>Open it from Applications.</b> There's no Dock icon or main window. It lives in the menu bar, as two small meters near the clock.</li>
           <li><b>Answer the welcome window.</b> Allow Location access if you want to see your Wi-Fi network's name (macOS treats it as location data; the app never reads your location). Leave “Open at login” on so it keeps watching.</li>
           <li><b>Allow local network access.</b> macOS 15 and later ask once; the app needs it to time your router.</li>
           <li><b>Allow notifications</b> if you want them. They tell you about drops and weak connections.</li>
@@ -715,7 +715,7 @@ when calls or games stutter, `wifiorisp speed` to compare with my plan, and
         <p>Can't see the icon? On MacBooks with a notch, a full menu bar hides icons behind it. Hold ⌘ and drag other icons aside, or quit a few menu bar apps.</p>
 
         <h2 id="reading">Reading the menu</h2>
-        <p>The router icon's three lights show your Wi-Fi signal. When something is slow, the lights go dark and a word appears beside it: <strong>WiFi</strong>, <strong>Router</strong>, or <strong>ISP</strong>. A slash means you're not connected to any network.</p>
+        <p>The two meters are your router (left) and the internet (right). A needle drops when that side is slow, and a weak Wi-Fi signal lowers the router needle. When something is slow, a word appears beside them: <strong>WiFi</strong>, <strong>Router</strong>, or <strong>ISP</strong>. A slash means you're not connected to any network.</p>
         <div class="table-wrap"><table class="compare">
           <thead><tr><th>You see</th><th>It means</th></tr></thead>
           <tbody>
