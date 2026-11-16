@@ -95,6 +95,7 @@ section { padding: 72px 0; }
 .hero-code { margin-top: 10px; display: flex; min-width: 0; }
 .hero-code .bx-code { min-width: 0; }
 @media (max-width: 880px) { .hero .bx-hero-grid { grid-template-columns: minmax(0, 1fr); } }
+.hero .bx-mount { grid-template-columns: minmax(0, 1fr); }
 .hero .bx-mount .pop { margin: 0; }
 /* site.css's numbered .steps must not reach the popover's own list */
 .pop .steps { counter-reset: none; list-style: decimal; margin: 0; padding: 0 14px 8px 32px; }
