@@ -124,16 +124,22 @@ def footer_links():
             f'      <nav class="footer-links" aria-label="Alternatives"><a href="/alternatives/">Alternatives</a>{alts}</nav>\n')
 
 
-def footer():
+def footer_body():
     return f'''  <footer>
-    <div class="wrap">
+{family()}    <div class="bx-footer">
+      <div class="bx-wrap">
 {footer_links()}      <span>© 2026 Corey Haines · Source available under <a href="{REPO}/blob/main/LICENSE">FSL-1.1-MIT</a></span>
-      <span><a href="{REPO}">GitHub</a> · <a href="{REPO}/issues">Report a bug</a> · Also by Corey: <a href="https://greenroomformac.com">Green Room</a>, <a href="https://midnightoil.app">Midnight Oil</a>, <a href="https://diskforecast.com">Disk Forecast</a>, <a href="https://spareformac.com">Spare</a>, <a href="https://onhandformac.com">On Hand</a>, <a href="https://coatcheckformac.com">Coat Check</a>, <a href="https://fuelgauge.app">Fuel Gauge</a></span>
+      <span><a href="{REPO}">GitHub</a> · <a href="{REPO}/issues">Report a bug</a></span>
+      </div>
     </div>
   </footer>
-</body>
-</html>
 '''
+
+
+def footer():
+    return footer_body() + """</body>
+</html>
+"""
 
 
 def cta(text):
@@ -143,7 +149,7 @@ def cta(text):
         <h2>{text}</h2>
         <p class="cta-sub">WiFi or ISP is a free Mac menu bar app. It times your router and the internet at the same moment, says which side is slow, and keeps a log you can send your ISP.</p>
         <div class="actions center">
-          <a class="pill big" href="{DOWNLOAD}">{DOWNLOAD_ICON}Download free</a>
+          <a class="bx-btn" href="{DOWNLOAD}">{DOWNLOAD_ICON}Download free</a>
         </div>
         <p class="fineprint"><code>brew install --cask coreyhaines31/tap/wifiorisp</code></p>
       </div>
