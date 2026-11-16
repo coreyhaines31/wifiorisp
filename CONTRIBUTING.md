@@ -42,7 +42,7 @@ CI runs both on every pull request.
 | `WiFiOrISP/Monitor/` | The sampling loop, sleep and wake handling, alerts, Location access. |
 | `WiFiOrISP/History/`, `Tests/`, `Settings/` | The History window, the Tests window, Settings. |
 | `WiFiOrISP/Appearance/TwinMeterGlyph.swift` | The menu bar twin-meter glyph, drawn in code. The app icon comes from mac-app-kit `icons/wifi`. |
-| `Scripts/` | `run-local.sh`, `release.sh`, the app icon renderer, the router-maker table generator, the Homebrew cask template. |
+| `Scripts/` | `run-local.sh`, `release.sh`, the router-maker table generator, the Homebrew cask template. |
 | `mcpb/` | The Claude Desktop extension: an MCP server that runs the `wifiorisp` command. |
 | `site/` | wifiorisp.com: static HTML, plus the page generator in `site/_build/`. |
 | `docs/how-it-works.md` | The measurement method and every threshold. Read this before changing a verdict. |
