@@ -1,20 +1,24 @@
 <!doctype html>
-<html><head><meta charset="utf-8">
+<html data-theme="light"><head><meta charset="utf-8">
 <!-- Share card. Regenerate: serve site/ and screenshot this page at 1200x630 into images/og.png. -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600&family=Barlow+Semi+Condensed:wght@300;600;700&display=swap">
+<link rel="stylesheet" href="/brushed.css">
 <style>
   html, body { margin: 0; width: 1200px; height: 630px; overflow: hidden; }
-  body { font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", sans-serif; color: #fff;
-    background: radial-gradient(120% 120% at 85% 0%, #2a4f9e 0%, #0b1530 60%); display: flex; align-items: center; padding: 0 84px; box-sizing: border-box; gap: 64px; }
-  img { width: 240px; height: 240px; flex: none; filter: drop-shadow(0 20px 40px rgba(0,0,0,.4)); }
-  h1 { font-size: 78px; line-height: 1.02; letter-spacing: -0.035em; margin: 0; font-weight: 800; }
-  em { font-style: normal; color: #f5a623; }
-  p { font-size: 30px; color: #c6d0ec; margin: 26px 0 0; }
-  b { color: #fff; }
+  body { font-family: var(--bx-body); color: #161616; background: var(--bx-brush); display: flex; align-items: center; padding: 0 84px; box-sizing: border-box; gap: 64px; border-bottom: 0; }
+  img { width: 260px; height: 260px; flex: none; filter: drop-shadow(0 14px 22px rgba(0,0,0,.28)); }
+  .bx-badge { --bx-plate: #1b1b1b; --bx-plate-ink: #d8d9da; --bx-accent: #0b8fb3; font-size: 15px; padding: 9px 14px 9px 12px; }
+  .bx-badge i { width: 9px; height: 9px; }
+  h1 { font: 600 92px/.95 var(--bx-display); margin: 22px 0 0; }
+  h1 span { font-weight: 300; }
+  p { font-size: 28px; color: #3d3f41; margin: 24px 0 0; }
+  b { color: #161616; font-weight: 600; }
 </style></head>
 <body>
   <img src="/images/icon.png" alt="">
   <div>
-    <h1>Is it your Wi&#8209;Fi<br>or <em>your ISP?</em></h1>
+    <span class="bx-badge"><i></i>WiFi or ISP · Free for Mac</span>
+    <h1>Is it your Wi&#8209;Fi<br>or <span>your ISP?</span></h1>
     <p>Free Mac menu bar app that tells you which side is slow. <b>wifiorisp.com</b></p>
   </div>
 </body></html>
