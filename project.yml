@@ -22,7 +22,7 @@ packages:
   # Shared Brushed components.
   PanelKit:
     url: https://github.com/coreyhaines31/panelkit
-    from: "0.2.0"
+    from: "0.2.1"
 targets:
   WiFiOrISP:
     type: application
