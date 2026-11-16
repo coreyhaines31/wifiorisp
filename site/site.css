@@ -449,7 +449,7 @@ section.article + .faq { padding-top: 40px; }
 .mb-item { display: inline-flex; align-items: center; gap: 5px; padding: 3px 6px; border-radius: 4px; background: rgba(0, 0, 0, 0.1); }
 .mb-item svg { width: 22px; height: 22px; }
 .mb-clock { white-space: nowrap; font-weight: 500; }
-.bars-note { color: #b9bbbd; font-size: 13.5px; }
+.two > .bars > .bars-note { color: #b9bbbd; font-size: 13.5px; margin: 0; }
 
 .ceilings li { margin-bottom: 10px; }
 
@@ -480,6 +480,8 @@ section.article + .faq { padding-top: 40px; }
 @media (min-width: 720px) { .who-grid, .better { grid-template-columns: 1fr 1fr; } }
 @media (min-width: 1040px) { .who-grid { grid-template-columns: repeat(3, 1fr); } .better { grid-template-columns: repeat(4, 1fr); } }
 
+.versus { background: var(--bx-card); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.versus .better article { background: var(--bg); }
 .versus .table-wrap { margin-top: 40px; }
 .compare.vs { min-width: 980px; font-size: 14.5px; }
 .compare.vs th { vertical-align: bottom; }
@@ -500,7 +502,9 @@ section.article + .faq { padding-top: 40px; }
 .perms code { overflow-wrap: anywhere; }
 
 .free { background: var(--bx-card); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
-.proof { display: grid; gap: 12px; margin-top: 40px; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); }
+.proof { display: grid; gap: 12px; margin-top: 40px; }
+@media (min-width: 560px) { .proof { grid-template-columns: 1fr 1fr; } }
+@media (min-width: 960px) { .proof { grid-template-columns: repeat(3, 1fr); } }
 .proof div { background: var(--bg); border: 1px solid var(--line); border-radius: var(--radius); padding: 18px; }
 .proof b { display: block; font: 600 30px/1.1 var(--display); margin-bottom: 6px; }
 .proof span { color: var(--ink2); font-size: 14.5px; }
@@ -514,3 +518,6 @@ section.article + .faq { padding-top: 40px; }
 .whatsnew li p { color: var(--ink2); font-size: 15.5px; }
 @media (max-width: 640px) { .whatsnew li { grid-template-columns: 1fr auto; } .whatsnew li p { grid-column: 1 / -1; } }
 .whatsnew .more { display: inline-block; margin-top: 12px; font-size: 15px; }
+.home .two { grid-template-columns: minmax(0, 1fr); }
+@media (min-width: 960px) { .home .two { grid-template-columns: 1fr 1.1fr; } .home .two.flip { grid-template-columns: 1.1fr 1fr; } }
+@media (max-width: 480px) { .home .two .bx-mount { padding: 28px 10px; } }
