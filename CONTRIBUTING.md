@@ -41,7 +41,7 @@ CI runs both on every pull request.
 | `WiFiOrISPCLI/` | The `wifiorisp` command, shipped inside the app. It talks to the app over a socket; `WiFiOrISP/CLI/` answers. |
 | `WiFiOrISP/Monitor/` | The sampling loop, sleep and wake handling, alerts, Location access. |
 | `WiFiOrISP/History/`, `Tests/`, `Settings/` | The History window, the Tests window, Settings. |
-| `WiFiOrISP/Appearance/RouterIcon.swift` | The menu bar router and the app icon, drawn in code. |
+| `WiFiOrISP/Appearance/TwinMeterGlyph.swift` | The menu bar twin-meter glyph, drawn in code. The app icon comes from mac-app-kit `icons/wifi`. |
 | `Scripts/` | `run-local.sh`, `release.sh`, the app icon renderer, the router-maker table generator, the Homebrew cask template. |
 | `mcpb/` | The Claude Desktop extension: an MCP server that runs the `wifiorisp` command. |
 | `site/` | wifiorisp.com: static HTML, plus the page generator in `site/_build/`. |
