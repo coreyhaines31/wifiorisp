@@ -127,7 +127,12 @@
         </div>
         <div class="sides" aria-hidden="true"><span class="yours">Your side</span><span class="theirs">Their side</span></div>
 
-        <div class="cases">
+        <div class="cases six">
+          <article class="case">
+            <div class="nums"><span class="good">Router 4 ms</span><span class="good">Internet 21 ms</span></div>
+            <h3><i class="led go"></i>Fine: WiFi and ISP both OK</h3>
+            <p>Both sides answer quickly. If calls still stutter, run the lag test once: it catches the slowdown that only shows up when the line is busy.</p>
+          </article>
           <article class="case">
             <div class="nums"><span class="good">Router 4 ms</span><span class="bad">Internet 186 ms</span></div>
             <h3><i class="led isp"></i>Slow: ISP, not WiFi</h3>
@@ -147,6 +152,11 @@
             <div class="nums"><span class="good">Router answers</span><span class="bad">Internet silent</span></div>
             <h3><i class="led isp"></i>Offline: ISP is down, WiFi is fine</h3>
             <p>Your home network works. The outage is upstream, and the app notes exactly when it started and ended.</p>
+          </article>
+          <article class="case">
+            <div class="nums"><span class="bad">Router silent</span><span class="bad">Internet silent</span></div>
+            <h3><i class="led yours"></i>Offline: can't reach your router</h3>
+            <p>Your Mac lost the router itself. Check that it's on and its lights look normal, then move closer. Your ISP may be fine.</p>
           </article>
         </div>
       </div>
