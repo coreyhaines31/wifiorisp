@@ -14,7 +14,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
     func applicationDidFinishLaunching(_ notification: Notification) {
         Preferences.registerDefaults()
-        PanelKit.registerFonts()
+        PanelFont.register()
         #if !DEBUG
         // Debug builds run from DerivedData; registering that copy would open it at every login.
         if !Preferences.appliedLaunchAtLoginDefault {
