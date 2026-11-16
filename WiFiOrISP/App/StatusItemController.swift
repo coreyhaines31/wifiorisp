@@ -36,7 +36,9 @@ final class StatusItemController: NSObject, NSMenuDelegate {
 
     private func refreshButton() {
         let verdict = monitor.verdict
-        statusItem.button?.image = RouterIcon.menuBarImage(Self.lights(for: verdict, latest: monitor.latest))
+        statusItem.button?.image = TwinMeterGlyph.menuBarImage(
+            TwinMeterGlyph.needles(for: verdict, latest: monitor.latest)
+        )
 
         var parts: [String] = []
         if Preferences.showsSignalInMenuBar, let rssi = monitor.latest?.wifi?.rssi {
@@ -51,14 +53,6 @@ final class StatusItemController: NSObject, NSMenuDelegate {
         }
         statusItem.button?.setAccessibilityLabel("WiFi or ISP: \(verdict.headline)")
         statusItem.button?.toolTip = verdict.headline
-    }
-
-    /// LEDs show signal strength while things are fine; they go dark when something's wrong.
-    static func lights(for verdict: Verdict, latest: Sample?) -> RouterIcon.Lights {
-        if verdict.kind == .notConnected { return .off }
-        if verdict.isProblem { return .dark }
-        guard let wifi = latest?.wifi else { return .bars(3) }
-        return .bars(RouterIcon.bars(strength: PlainLanguage.signalStrength(rssi: wifi.rssi)))
     }
 
     // MARK: - Next steps

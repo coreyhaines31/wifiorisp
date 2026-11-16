@@ -24,11 +24,12 @@ struct WelcomeView: View {
             }
 
             HStack(alignment: .top, spacing: 12) {
-                Image(nsImage: RouterIcon.menuBarImage(.bars(3)))
+                Image(nsImage: TwinMeterGlyph.menuBarImage(TwinMeterGlyph.good))
                     .frame(width: 24)
                     .accessibilityHidden(true)
-                Text("The lights on the little router show your Wi-Fi signal. When something's slow, a word appears "
-                    + "next to it, like **ISP** or **WiFi**. Click it for the details.")
+                Text("The two little meters are your router (left) and the internet (right). A needle drops "
+                    + "when that side is slow, and a word appears next to them, like **ISP** or **WiFi**. "
+                    + "Click it for the details.")
                     .fixedSize(horizontal: false, vertical: true)
             }
 
