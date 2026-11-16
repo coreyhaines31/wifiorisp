@@ -22,10 +22,17 @@ public enum PlainLanguage {
         min(1, max(0, Double(rssi + 90) / 40))
     }
 
+    /// A router answering this fast or faster reads as Fast.
+    public static let fastRouterMs = 15.0
+    /// An internet round trip this fast or faster reads as Fast.
+    public static let fastInternetMs = 60.0
+    /// An internet round trip slower than this reads as Slow.
+    public static let slowInternetMs = 120.0
+
     /// A router on the same network should answer in a few ms.
     public static func router(_ ms: Double) -> Speed {
         switch ms {
-        case ...15: .fast
+        case ...fastRouterMs: .fast
         case ...VerdictEngine.slowRouterMs: .okay
         default: .slow
         }
@@ -34,8 +41,8 @@ public enum PlainLanguage {
     /// The internet is farther away, so it gets more room.
     public static func internet(_ ms: Double) -> Speed {
         switch ms {
-        case ...60: .fast
-        case ...120: .okay
+        case ...fastInternetMs: .fast
+        case ...slowInternetMs: .okay
         default: .slow
         }
     }
