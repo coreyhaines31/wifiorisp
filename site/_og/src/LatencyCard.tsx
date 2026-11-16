@@ -1,14 +1,14 @@
 import {Easing, interpolate, interpolateColors, useCurrentFrame, useVideoConfig} from 'remotion';
-import {INK, INK_2} from './OgVideo';
+import {DISPLAY, INK, INK_2} from './OgVideo';
 
 // WiFi or ISP times the router and the internet together: the router stays at 7 ms while the internet climbs to 400 ms,
 // the verdict lands, then the internet settles back to where it starts, so the loop has no seam.
-const W = 372;
+const W = 360;
 const H = 56;
 const MAX = 440;
 const BASE = 24;
 const PEAK = 400;
-const GOOD = '#1f9d55';
+const GOOD = '#2f9e4f';
 
 const STANDARD = Easing.bezier(0.4, 0, 0.2, 1);
 const IN_OUT = Easing.bezier(0.65, 0, 0.35, 1);
@@ -62,13 +62,13 @@ export const LatencyCard = ({accentInk, accentFill}: {accentInk: string; accentF
   };
   const internetColor = interpolateColors(level, [0, 0.5, 1], [INK, accentInk, accentInk]);
 
-  const label = (text: string) => <div style={{fontSize: 22, fontWeight: 600, letterSpacing: '-0.015em', color: INK}}>{text}</div>;
+  const label = (text: string) => <div style={{fontFamily: DISPLAY, fontSize: 17, fontWeight: 600, letterSpacing: '0.24em', textTransform: 'uppercase', color: INK}}>{text}</div>;
   const pill = (text: string, color: string, opacity: number, y: number) => (
     <span style={{position: 'absolute', left: 0, top: 0, fontSize: 18, fontWeight: 600, color, opacity, transform: `translateY(${y}px)`}}>{text}</span>
   );
   const spark = (d: string, color: string) => (
     <svg width={W} height={H} viewBox={`0 0 ${W} ${H}`} style={{display: 'block', overflow: 'visible', marginTop: 6}}>
-      <line x1={0} y1={H - 3} x2={W} y2={H - 3} stroke="rgba(0,0,0,0.1)" strokeWidth={2} />
+      <line x1={0} y1={H - 3} x2={W} y2={H - 3} stroke="rgba(0,0,0,0.25)" strokeWidth={1.5} />
       <path d={`${d} V${H - 3} H0 Z`} fill={color} opacity={0.14} />
       <path d={d} fill="none" stroke={color} strokeWidth={3.5} strokeLinejoin="round" strokeLinecap="round" />
     </svg>
@@ -76,17 +76,24 @@ export const LatencyCard = ({accentInk, accentFill}: {accentInk: string; accentF
 
   return (
     <div
-      style={{width: '100%', height: '100%', boxSizing: 'border-box', padding: '28px 32px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', borderRadius: 30, background: 'rgba(251,251,253,0.9)',
-        boxShadow: '0 0 0 1px rgba(0,0,0,0.06), 0 2px 6px rgba(0,0,0,0.05), 0 16px 36px rgba(14,22,48,0.12)', fontVariantNumeric: 'tabular-nums'}}
+      style={{width: '100%', height: '100%', boxSizing: 'border-box', padding: 22, borderRadius: 12, position: 'relative',
+        background: '#1b1b1b radial-gradient(rgba(255,255,255,.045) 1px, transparent 1.3px) 0 0 / 5px 5px', boxShadow: '0 0 0 1px rgba(0,0,0,.5), 0 10px 24px rgba(0,0,0,.18)'}}
     >
-      <div style={{fontSize: 20, color: INK_2}}>Timing both sides at once</div>
+      {[{left: 8, top: 8}, {right: 8, top: 8}, {left: 8, bottom: 8}, {right: 8, bottom: 8}].map((pos, i) => (
+        <span key={i} style={{position: 'absolute', width: 8, height: 8, borderRadius: '50%', background: 'radial-gradient(circle at 40% 35%, #fff, #b9bbbd 45%, #77797b 80%)', ...pos}} />
+      ))}
+    <div
+      style={{width: '100%', height: '100%', boxSizing: 'border-box', padding: '22px 24px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', borderRadius: 6, background: 'radial-gradient(120% 140% at 50% 120%, #e2ddcf, #f4f2eb 70%)',
+        boxShadow: 'inset 0 0 0 1px rgba(0,0,0,0.12), inset 0 2px 6px rgba(0,0,0,0.12)', fontVariantNumeric: 'tabular-nums'}}
+    >
+      <div style={{alignSelf: 'flex-start', fontFamily: DISPLAY, fontSize: 14, fontWeight: 600, letterSpacing: '0.26em', textTransform: 'uppercase', background: '#1b1b1b', color: '#d8d9da', padding: '6px 10px', borderRadius: 2}}>Timing both sides at once</div>
       <div>
         <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end'}}>
           <div>
             {label('Router')}
             <div style={{position: 'relative', height: 24}}>{pill('Fast', GOOD, 1, 0)}</div>
           </div>
-          <div style={{fontSize: 44, fontWeight: 700, letterSpacing: '-0.035em', color: GOOD, lineHeight: 1}}>7 ms</div>
+          <div style={{fontFamily: DISPLAY, fontSize: 48, fontWeight: 600, color: GOOD, lineHeight: 1}}>7 ms</div>
         </div>
         {spark(line(router), GOOD)}
       </div>
@@ -99,19 +106,20 @@ export const LatencyCard = ({accentInk, accentFill}: {accentInk: string; accentF
               {pill('Slow', accentInk, slowOpacity, slowY)}
             </div>
           </div>
-          <div style={{fontSize: 44, fontWeight: 700, letterSpacing: '-0.035em', color: internetColor, lineHeight: 1}}>{Math.round(internet)} ms</div>
+          <div style={{fontFamily: DISPLAY, fontSize: 48, fontWeight: 600, color: internetColor, lineHeight: 1}}>{Math.round(internet)} ms</div>
         </div>
         {spark(line(net), accentFill)}
       </div>
       <div style={{position: 'relative', height: 74}}>
-        <div style={{position: 'absolute', left: 0, top: 8, fontSize: 30, fontWeight: 600, letterSpacing: '-0.02em', color: '#8e8e93', opacity: comparing}}>
+        <div style={{position: 'absolute', left: 0, top: 8, fontFamily: DISPLAY, fontSize: 32, fontWeight: 600, color: '#5b5d5e', opacity: comparing}}>
           Comparing…
         </div>
         <div style={{position: 'absolute', left: 0, top: 0, opacity: shown, transform: `translateY(${(1 - verdictIn) * 8}px)`}}>
-          <div style={{fontSize: 38, fontWeight: 700, letterSpacing: '-0.03em', color: accentInk, whiteSpace: 'nowrap'}}>It's your ISP</div>
+          <div style={{fontFamily: DISPLAY, fontSize: 40, fontWeight: 600, color: accentInk, whiteSpace: 'nowrap'}}>It's your ISP</div>
           <div style={{fontSize: 22, color: INK_2, marginTop: 2, whiteSpace: 'nowrap'}}>Your Wi‑Fi is fine</div>
         </div>
       </div>
+    </div>
     </div>
   );
 };

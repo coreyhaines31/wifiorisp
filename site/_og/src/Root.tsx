@@ -17,10 +17,9 @@ export const RemotionRoot = () => (
         headline: 'Is it your Wi\u2011Fi or',
         headlineAccent: 'your ISP?',
         sub: 'Free for macOS · wifiorisp.com',
-        accent: '#e8930c',
-        accentInk: '#a8650a',
-        accentFill: '#f5a623',
-        field: ['#ffd98a', '#ffeab8', '#c9dcff', '#ffe0b0'],
+        accent: '#0b8fb3',
+        accentInk: '#875b10',
+        accentFill: '#d9921a',
       } satisfies OgVideoProps
     }
   />
