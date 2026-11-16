@@ -455,6 +455,35 @@ when calls or games stutter, `wifiorisp speed` to compare with my plan, and
       </div>
     </section>
 
+    <section class="versus" id="compare">
+      <div class="wrap">
+        <h2>The other ways to find out, honestly compared.</h2>
+        <p class="section-lede">Speed tests, macOS's own tools, and your router's app are all free, and each is good at something. None of them times your router and the internet at the same moment, which is the one measurement that says whose side the slowdown is on.</p>
+        <div class="table-wrap">
+          <table class="compare vs">
+            <thead><tr><th></th><th class="us">WiFi or ISP</th><th>Speed tests<span class="note">Speedtest, fast.com</span></th><th><code>networkQuality</code><span class="note">built into macOS</span></th><th>Wireless Diagnostics<span class="note">built into macOS</span></th><th>Router apps<span class="note">eero, Google Home, Orbi, Deco</span></th><th><a href="/alternatives/istat-menus">iStat Menus</a></th></tr></thead>
+            <tbody>
+              <tr><td>Says whether it's your Wi&#8209;Fi or your ISP</td><td class="us">Yes, in plain words</td><td>No, one end-to-end result</td><td>No, one end-to-end result</td><td>No, it's about the radio</td><td>Partly: their speed test runs from the router, which leaves your Wi&#8209;Fi out</td><td>No</td></tr>
+              <tr><td>Watches in the background</td><td class="us">Yes, every 5 to 30 seconds</td><td>No, when you run one</td><td>No, when you run it</td><td>Only while its window is open</td><td>eero runs a speed test every 1 to 3 days</td><td>Yes</td></tr>
+              <tr><td>Wi&#8209;Fi signal</td><td class="us">Excellent to Weak, dBm if you want it</td><td>No</td><td>No</td><td>Yes, detailed graphs in dBm</td><td>Varies by brand</td><td>Yes, with signal-to-noise and link speed</td></tr>
+              <tr><td>Lag under load (bufferbloat)</td><td class="us">Yes, and whether it builds up before or past your router</td><td>fast.com shows loaded latency</td><td>Yes, responsiveness in RPM</td><td>No</td><td>Not that we found</td><td>No</td></tr>
+              <tr><td>History of drops</td><td class="us">Up to 90 days, each with whose side it was on</td><td>Speedtest keeps your past tests</td><td>No</td><td>No</td><td>eero Plus has activity history</td><td>Graphs up to 28 days, and internet-down alerts</td></tr>
+              <tr><td>Report for your ISP</td><td class="us">Yes</td><td>No</td><td>No</td><td>A diagnostics file for Apple</td><td>Not that we found</td><td>No</td></tr>
+              <tr><td>Works with any router</td><td class="us">Yes</td><td>Yes</td><td>Yes</td><td>Yes</td><td>Only their own brand</td><td>Yes</td></tr>
+              <tr><td>Price</td><td class="us">Free</td><td>Free</td><td>Built into macOS 12 and later</td><td>Built into macOS</td><td>The apps are free. eero Plus is $9.99 a month; Netgear Armor starts at $99.99 a year</td><td>$11.99 once, or with Setapp</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="better">
+          <article><h3>Where speed tests win</h3><p>A trusted throughput number against a huge server network, and fast.com needs no install at all. Use one when you want to know how fast. Use WiFi or ISP when you want to know whose fault slow is. (It has a speed test too, against M-Lab.)</p></article>
+          <article><h3>Where macOS's tools win</h3><p><code>networkQuality</code> uses the same IETF responsiveness method as the lag test here, with no install. Wireless Diagnostics shows far more radio detail than any menu bar app, with scans and a packet sniffer. Neither keeps watching after you close it.</p></article>
+          <article><h3>Where router apps win</h3><p>They test from the router itself, which separates your provider from your Wi&#8209;Fi better than any app on your Mac can, and they see every device on your network. They only work with their own brand, and the history is often a subscription.</p></article>
+          <article><h3>Where iStat Menus wins</h3><p>Everything about your Mac: CPU, memory, disks, sensors, and per-app bandwidth. It can ping and tell you the internet is down; it doesn't say why. Run both: <a href="/alternatives/istat-menus">how they compare</a>.</p></article>
+        </div>
+        <p class="source-note">Checked November 16, 2026: Speedtest by Ookla 1.29 on the Mac App Store, <a href="https://fast.com/">fast.com</a>, Apple's <a href="https://support.apple.com/en-us/101942">networkQuality</a> and <a href="https://support.apple.com/guide/mac-help/mchlf4de377f/mac">Wireless Diagnostics</a> pages, <a href="https://eero.com/support/articles/how-do-i-run-a-speed-test-on-my-eero-network">eero speed test</a> and <a href="https://eero.com/eero-plus">eero Plus</a>, <a href="https://support.google.com/googlenest/answer/6246634">Google Nest Wifi</a>, <a href="https://kb.netgear.com/000053866/How-do-I-run-a-speed-test-on-my-Orbi-WiFi-System-using-the-Orbi-app">Netgear Orbi</a> and <a href="https://www.netgear.com/home/services/armor/">Armor</a>, <a href="https://www.tp-link.com/us/support/faq/1462/">TP-Link Deco</a>, and <a href="https://bjango.com/mac/istatmenus/">iStat Menus 7.5</a>. More: <a href="/alternatives/">every comparison</a>.</p>
+      </div>
+    </section>
+
     <section class="trust">
       <div class="wrap">
         <h2>Light on your Mac. Silent about you.</h2>
