@@ -132,7 +132,7 @@ ALTERNATIVES = [
         <p>Diagnosis. iStat Menus can ping an address and tell you the internet is down. WiFi or ISP times your router and the internet at the same moment, so it can tell you <em>why</em>: weak signal, a struggling router, or your ISP. It keeps a history of drops with that answer attached, exports it as a report for your ISP, and tests for bufferbloat.</p>
 
         <h2>Run both</h2>
-        <p>They're complementary. iStat Menus for the Mac, WiFi or ISP for the connection. WiFi or ISP takes up one small router icon in the menu bar, and shows a word only when something is wrong.</p>
+        <p>They're complementary. iStat Menus for the Mac, WiFi or ISP for the connection. WiFi or ISP takes up one small icon in the menu bar, and shows a word only when something is wrong.</p>
 ''',
         faqs=[
             ("Does iStat Menus show Wi-Fi signal strength?", "It shows Wi-Fi connection details in its network menu. WiFi or ISP shows signal in plain words (Excellent to Weak) with the raw dBm a glance away, and logs it over time."),
