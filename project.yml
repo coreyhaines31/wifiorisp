@@ -19,6 +19,10 @@ packages:
   Sparkle:
     url: https://github.com/sparkle-project/Sparkle
     exactVersion: "2.10.0"
+  # Shared Brushed components. Tracks development until PanelKit 0.2.0 is tagged, then pin from: 0.2.0.
+  PanelKit:
+    url: https://github.com/coreyhaines31/panelkit
+    branch: development
 targets:
   WiFiOrISP:
     type: application
@@ -28,6 +32,7 @@ targets:
     dependencies:
       - package: WiFiOrISPCore
       - package: Sparkle
+      - package: PanelKit
       # The `wifiorisp` command; the Homebrew cask links it onto the PATH.
       - target: WiFiOrISPCLI
         copy:
