@@ -31,7 +31,7 @@
   <link rel="stylesheet" href="/popover.css">
   <link rel="stylesheet" href="/site.css">
   <script src="/copy.js" defer></script>
-  <script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "SoftwareApplication", "name": "WiFi or ISP", "operatingSystem": "macOS 14 or later", "applicationCategory": "UtilitiesApplication", "description": "A free Mac menu bar app that times your router and the internet at the same moment and tells you whether slow internet is your Wi-Fi or your ISP.", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}, "downloadUrl": "https://github.com/coreyhaines31/wifiorisp/releases/latest", "url": "https://wifiorisp.com", "image": "https://wifiorisp.com/images/icon.png", "author": {"@type": "Person", "name": "Corey Haines", "url": "https://corey.co"}}, {"@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Why is my Wi-Fi so slow?", "acceptedAnswer": {"@type": "Answer", "text": "Usually one of three things: a weak signal (too far from the router, or walls in the way), a crowded channel or overloaded router, or a problem past your router at your ISP. Each one looks the same from your browser. WiFi or ISP tells them apart by timing your router and the internet together."}}, {"@type": "Question", "name": "What does “WiFi” mean in the verdict?", "acceptedAnswer": {"@type": "Answer", "text": "Your side of the line: your Mac's radio, the air, and your router. “ISP” means everything past the router, including your modem and the line to your provider. If your router is slow, that's on your side, even with a strong signal."}}, {"@type": "Question", "name": "What is bufferbloat?", "acceptedAnswer": {"@type": "Answer", "text": "When an upload or download fills your connection, packets pile up in a queue and every round trip slows down. That's why video calls stutter while a backup runs. The lag-under-load test measures it and says whether the queue is in your Wi-Fi or router, or past it. Turning on Smart Queue Management (SQM) on your router usually fixes it."}}, {"@type": "Question", "name": "What do dBm and ms mean?", "acceptedAnswer": {"@type": "Answer", "text": "You don't need to know: the app says Excellent, Fast, or Slow. If you're curious, dBm is radio signal strength (−30 is as strong as it gets, −80 barely works) and ms is milliseconds, how long a reply takes (your router should answer in a few). Turn on the number in the menu bar in Settings if you like it."}}, {"@type": "Question", "name": "Does it run speed tests all the time?", "acceptedAnswer": {"@type": "Answer", "text": "No. The background checks are single tiny round trips, every 5 to 30 seconds. Speed and lag tests only run when you click them."}}, {"@type": "Question", "name": "Why does it ask for Location?", "acceptedAnswer": {"@type": "Answer", "text": "Only to show your Wi-Fi network's name, which macOS treats as location data. The app never asks where you are. Say no and it shows “Unknown network”."}}, {"@type": "Question", "name": "Does it work over Ethernet or a VPN?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. On a cable it skips the signal readings and still compares your router with the internet. With a VPN on, it still measures the Wi-Fi network underneath."}}, {"@type": "Question", "name": "Is it really free?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. The source is on GitHub under the Functional Source License, which turns into the MIT license two years after each release."}}]}]}</script>
+  <script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "SoftwareApplication", "name": "WiFi or ISP", "operatingSystem": "macOS 14 or later", "applicationCategory": "UtilitiesApplication", "description": "A free Mac menu bar app that times your router and the internet at the same moment and tells you whether slow internet is your Wi-Fi or your ISP.", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}, "downloadUrl": "https://github.com/coreyhaines31/wifiorisp/releases/latest", "url": "https://wifiorisp.com", "image": "https://wifiorisp.com/images/icon.png", "author": {"@type": "Person", "name": "Corey Haines", "url": "https://corey.co"}}, {"@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Why is my Wi-Fi so slow?", "acceptedAnswer": {"@type": "Answer", "text": "Usually one of three things: a weak signal (too far from the router, or walls in the way), a crowded channel or overloaded router, or a problem past your router at your ISP. Each one looks the same from your browser. WiFi or ISP tells them apart by timing your router and the internet together."}}, {"@type": "Question", "name": "What does “WiFi” mean in the verdict?", "acceptedAnswer": {"@type": "Answer", "text": "Your side of the line: your Mac's radio, the air, and your router. “ISP” means everything past the router, including your modem and the line to your provider. If your router is slow, that's on your side, even with a strong signal."}}, {"@type": "Question", "name": "What is bufferbloat?", "acceptedAnswer": {"@type": "Answer", "text": "When an upload or download fills your connection, packets pile up in a queue and every round trip slows down. That's why video calls stutter while a backup runs. The lag-under-load test measures it and says whether the queue is in your Wi-Fi or router, or past it. Turning on Smart Queue Management (SQM) on your router usually fixes it."}}, {"@type": "Question", "name": "What do dBm and ms mean?", "acceptedAnswer": {"@type": "Answer", "text": "You don't need to know: the app says Excellent, Fast, or Slow. If you're curious, dBm is radio signal strength (−30 is as strong as it gets, −80 barely works) and ms is milliseconds, how long a reply takes (your router should answer in a few). Turn on the number in the menu bar in Settings if you like it."}}, {"@type": "Question", "name": "Does it run speed tests all the time?", "acceptedAnswer": {"@type": "Answer", "text": "No. The background checks are single tiny round trips, every 5 to 30 seconds. Speed and lag tests only run when you click them."}}, {"@type": "Question", "name": "Why does it ask for Location?", "acceptedAnswer": {"@type": "Answer", "text": "Only to show your Wi-Fi network's name, which macOS treats as location data. The app never asks where you are. Say no and it shows “Unknown network”."}}, {"@type": "Question", "name": "Does it work over Ethernet or a VPN?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. On a cable it skips the signal readings and still compares your router with the internet. With a VPN on, it still measures the Wi-Fi network underneath."}}, {"@type": "Question", "name": "How is this different from a speed test?", "acceptedAnswer": {"@type": "Answer", "text": "A speed test measures how much your connection carries, end to end, at the moment you run it. WiFi or ISP times your router and the internet at the same moment, all day, so it can say which side is slow, including the times you weren't watching. It has a speed test too, for checking what you get against your plan."}}, {"@type": "Question", "name": "Does it use much battery?", "acceptedAnswer": {"@type": "Answer", "text": "No. The background checks are three tiny connections every 5 to 30 seconds, it never scans for networks, and it stops while your Mac sleeps. When I measured it in November 2026, it used under 0.15% of one CPU core."}}, {"@type": "Question", "name": "Which Macs does it run on?", "acceptedAnswer": {"@type": "Answer", "text": "macOS 14 Sonoma or later, on Apple silicon and Intel. It's signed and notarized by Apple, and it updates itself with Sparkle; if you installed it with Homebrew, brew upgrades it."}}, {"@type": "Question", "name": "How do I uninstall it?", "acceptedAnswer": {"@type": "Answer", "text": "Turn off Open at login in Settings, quit it from its menu, and drag it from Applications to the Trash. To remove its history and settings too, run brew uninstall --zap --cask wifiorisp, or delete the WiFi or ISP folder in ~/Library/Application Support."}}, {"@type": "Question", "name": "Is it really free?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. The source is on GitHub under the Functional Source License, which turns into the MIT license two years after each release."}}]}]}</script>
   <script async src="https://tracerkit.com/t.js" data-key="tk_IQBbD-xkICMsq6qz"></script>
   <script src="https://ingest.getuserproof.com/sdk.js" data-site="85ab0b80-0bac-48ac-8103-d814a50d5ffc" defer></script>
 </head>
@@ -96,6 +96,23 @@
       </div>
     </section>
 
+    <section class="story" id="story">
+      <div class="wrap two">
+        <div>
+          <p class="eyebrow">Tuesday, 7:52 PM</p>
+          <h2>Your call freezes mid-sentence. Again.</h2>
+          <p>Your face is stuck on everyone else's screen. The Wi&#8209;Fi icon shows full bars. Someone in the next room says the TV is buffering too. Is it the Wi&#8209;Fi, the router, or your internet provider?</p>
+          <p>From your browser, all three look exactly the same: pages hang, calls stutter, uploads crawl. From your Mac, the way to tell them apart is to time your router and the internet at the same moment, while it's happening. That's the whole idea behind WiFi or ISP.</p>
+        </div>
+        <div class="tried">
+          <p class="tried-head">What you've probably tried</p>
+          <article><b>“The speed test says I'm fine.”</b><p>By the time you open it, the hiccup has passed. And a fast result doesn't say whether the slow part was your Wi&#8209;Fi or your provider.</p></article>
+          <article><b>“I've restarted the router three times.”</b><p>Sometimes that helps. When the problem is past your router, it just takes the whole house offline for five minutes.</p></article>
+          <article><b>“My ISP says it's my Wi&#8209;Fi.”</b><p>Support can't see your living room, so they start with your router. You need a log that shows your router kept answering while the internet didn't.</p></article>
+        </div>
+      </div>
+    </section>
+
     <section class="how" id="how">
       <div class="wrap">
         <h2>One question, answered with two numbers.</h2>
@@ -110,7 +127,12 @@
         </div>
         <div class="sides" aria-hidden="true"><span class="yours">Your side</span><span class="theirs">Their side</span></div>
 
-        <div class="cases">
+        <div class="cases six">
+          <article class="case">
+            <div class="nums"><span class="good">Router 4 ms</span><span class="good">Internet 21 ms</span></div>
+            <h3><i class="led go"></i>Fine: WiFi and ISP both OK</h3>
+            <p>Both sides answer quickly. If calls still stutter, run the lag test once: it catches the slowdown that only shows up when the line is busy.</p>
+          </article>
           <article class="case">
             <div class="nums"><span class="good">Router 4 ms</span><span class="bad">Internet 186 ms</span></div>
             <h3><i class="led isp"></i>Slow: ISP, not WiFi</h3>
@@ -131,6 +153,51 @@
             <h3><i class="led isp"></i>Offline: ISP is down, WiFi is fine</h3>
             <p>Your home network works. The outage is upstream, and the app notes exactly when it started and ended.</p>
           </article>
+          <article class="case">
+            <div class="nums"><span class="bad">Router silent</span><span class="bad">Internet silent</span></div>
+            <h3><i class="led yours"></i>Offline: can't reach your router</h3>
+            <p>Your Mac lost the router itself. Check that it's on and its lights look normal, then move closer. Your ISP may be fine.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="setup" id="setup">
+      <div class="wrap two">
+        <div>
+          <h2>Install it. Wait 30 seconds. Glance up.</h2>
+          <ol class="steps">
+            <li><b>Install it</b>Download the DMG and drag it to Applications, or run <code>brew install --cask coreyhaines31/tap/wifiorisp</code>. It's signed and notarized by Apple, so it opens without warnings.</li>
+            <li><b>Answer the welcome window once</b>It offers to show your Wi&#8209;Fi network's name (macOS counts that as location data) and to open at login, which is on by default. On macOS 15 and later, allow Local Network access when asked: that's how it times your router.</li>
+            <li><b>Wait about 30 seconds</b>The first verdict needs at least three measurements. After that it keeps watching on its own, with no window to keep open.</li>
+            <li><b>Glance at the menu bar</b>Two small meters sit near the clock: your router on the left, the internet on the right. When something is slow, a word appears next to them, <b class="inline">WiFi</b>, <b class="inline">Router</b>, or <b class="inline">ISP</b>, so you know where to look before you click.</li>
+          </ol>
+        </div>
+        <div class="bars" role="img" aria-label="Three menu bars. When all is well, only the two meters show. When the internet past the router is slow, the word ISP appears next to them. When the Wi-Fi is slow, the word WiFi appears.">
+          <figure><div class="mbar-mock"><span class="mb-apps"></span><span class="mb-item"><svg viewBox="0 0 18 18"><use href="#g-wifi"/></svg></span><span class="mb-clock">Tue 7:52 PM</span></div><figcaption>All fine: just the meters.</figcaption></figure>
+          <figure><div class="mbar-mock"><span class="mb-apps"></span><span class="mb-item"><svg viewBox="0 0 18 18"><use href="#g-wifi"/></svg>ISP</span><span class="mb-clock">Tue 7:52 PM</span></div><figcaption>Past your router is slow: your ISP's side.</figcaption></figure>
+          <figure><div class="mbar-mock"><span class="mb-apps"></span><span class="mb-item"><svg viewBox="0 0 18 18"><use href="#g-wifi"/></svg>WiFi</span><span class="mb-clock">Tue 7:52 PM</span></div><figcaption>Your side is slow: the Wi&#8209;Fi or the router.</figcaption></figure>
+          <p class="bars-note">A slash through the meters means you're not connected to any network.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="advice" id="what-to-do">
+      <div class="wrap two flip">
+        <div class="bx-mount" role="img" aria-label="The WiFi or ISP menu saying: Slow: WiFi or router, not ISP. Router slow at 88 ms with an excellent signal. What to do: restart your TP-Link router, switch to a quieter Wi-Fi channel, and check for a firmware update. A notice says the router is holding the Mac back.">
+          <span class="bx-screw"></span><span class="bx-screw"></span><span class="bx-screw"></span><span class="bx-screw"></span>
+          <div class="pop light" style="--acc:#0b8fb3"><div class="menuwrap"><div class="mcard"><div class="fas"><div class="fh"><span class="np"><i></i>LINK</span><span class="ts">Home</span></div><div class="mw"><svg viewBox="0 0 152 92" role="img" aria-label="Router meter, 88 milliseconds"><defs><clipPath id="m6"><rect x="3" y="3" width="146" height="86" rx="4"></rect></clipPath></defs><rect x="1.5" y="1.5" width="149" height="89" rx="5.5" fill="url(#chrome)"></rect><rect x="3" y="3" width="146" height="86" rx="4" fill="url(#face)"></rect><g clip-path="url(#m6)"><path d="M33.28 40.4A63.839999999999996 63.839999999999996 0 0 1 118.72 40.4" fill="none" stroke="#1d1d1d" stroke-width="1"></path><path d="M76 22A65.84 65.84 0 0 1 120.06 38.91" fill="none" stroke="#d1381f" stroke-width="3.2"></path><line x1="33.28" y1="40.4" x2="28.6" y2="35.2" stroke="#1d1d1d" stroke-width="1.4"></line><line x1="37.8" y1="36.69" x2="35.41" y2="33.48" stroke="#1d1d1d" stroke-width="0.8"></line><line x1="42.64" y1="33.41" x2="40.55" y2="30" stroke="#1d1d1d" stroke-width="0.8"></line><line x1="47.76" y1="30.58" x2="46" y2="27" stroke="#1d1d1d" stroke-width="0.8"></line><line x1="53.12" y1="28.24" x2="50.61" y2="21.71" stroke="#1d1d1d" stroke-width="1.4"></line><line x1="58.67" y1="26.4" x2="57.59" y2="22.55" stroke="#1d1d1d" stroke-width="0.8"></line><line x1="64.37" y1="25.07" x2="63.64" y2="21.14" stroke="#1d1d1d" stroke-width="0.8"></line><line x1="70.16" y1="24.27" x2="69.79" y2="20.28" stroke="#1d1d1d" stroke-width="0.8"></line><line x1="76" y1="24" x2="76" y2="17" stroke="#d1381f" stroke-width="1.4"></line><line x1="81.84" y1="24.27" x2="82.21" y2="20.28" stroke="#d1381f" stroke-width="0.8"></line><line x1="87.63" y1="25.07" x2="88.36" y2="21.14" stroke="#d1381f" stroke-width="0.8"></line><line x1="93.33" y1="26.4" x2="94.41" y2="22.55" stroke="#d1381f" stroke-width="0.8"></line><line x1="98.88" y1="28.24" x2="101.39" y2="21.71" stroke="#d1381f" stroke-width="1.4"></line><line x1="104.24" y1="30.58" x2="106" y2="27" stroke="#d1381f" stroke-width="0.8"></line><line x1="109.36" y1="33.41" x2="111.45" y2="30" stroke="#d1381f" stroke-width="0.8"></line><line x1="114.2" y1="36.69" x2="116.59" y2="33.48" stroke="#d1381f" stroke-width="0.8"></line><line x1="118.72" y1="40.4" x2="123.4" y2="35.2" stroke="#d1381f" stroke-width="1.4"></line><text x="23.25" y="32.65" text-anchor="middle" font-family="Barlow Semi Condensed, sans-serif" font-weight="600" font-size="9.5" fill="#1d1d1d">0</text><text x="47.75" y="17.64" text-anchor="middle" font-family="Barlow Semi Condensed, sans-serif" font-weight="600" font-size="9.5" fill="#1d1d1d">50</text><text x="76" y="12.4" text-anchor="middle" font-family="Barlow Semi Condensed, sans-serif" font-weight="600" font-size="9.5" fill="#d1381f">100</text><text x="128.75" y="32.65" text-anchor="middle" font-family="Barlow Semi Condensed, sans-serif" font-weight="600" font-size="9.5" fill="#d1381f">200</text><text x="76" y="70" text-anchor="middle" font-family="Barlow Semi Condensed, sans-serif" font-weight="300" font-size="16" letter-spacing="3" fill="#1d1d1d" opacity=".85">MS</text><line x1="76" y1="87.84" x2="69.6" y2="15.28" stroke="#1d1d1d" stroke-width="1.5" stroke-linecap="round"></line><ellipse cx="76" cy="94" rx="24.32" ry="14" fill="#1b1b1b" opacity="0.8"></ellipse><rect x="3" y="3" width="146" height="14" fill="#fff" opacity="0.18"></rect></g><circle cx="11" cy="11" r="3" fill="#1b1b1b" opacity=".75"></circle></svg><svg viewBox="0 0 152 92" role="img" aria-label="Internet meter, 97 milliseconds"><defs><clipPath id="m7"><rect x="3" y="3" width="146" height="86" rx="4"></rect></clipPath></defs><rect x="1.5" y="1.5" width="149" height="89" rx="5.5" fill="url(#chrome)"></rect><rect x="3" y="3" width="146" height="86" rx="4" fill="url(#face)"></rect><g clip-path="url(#m7)"><path d="M33.28 40.4A63.839999999999996 63.839999999999996 0 0 1 118.72 40.4" fill="none" stroke="#1d1d1d" stroke-width="1"></path><path d="M76 22A65.84 65.84 0 0 1 120.06 38.91" fill="none" stroke="#d1381f" stroke-width="3.2"></path><line x1="33.28" y1="40.4" x2="28.6" y2="35.2" stroke="#1d1d1d" stroke-width="1.4"></line><line x1="37.8" y1="36.69" x2="35.41" y2="33.48" stroke="#1d1d1d" stroke-width="0.8"></line><line x1="42.64" y1="33.41" x2="40.55" y2="30" stroke="#1d1d1d" stroke-width="0.8"></line><line x1="47.76" y1="30.58" x2="46" y2="27" stroke="#1d1d1d" stroke-width="0.8"></line><line x1="53.12" y1="28.24" x2="50.61" y2="21.71" stroke="#1d1d1d" stroke-width="1.4"></line><line x1="58.67" y1="26.4" x2="57.59" y2="22.55" stroke="#1d1d1d" stroke-width="0.8"></line><line x1="64.37" y1="25.07" x2="63.64" y2="21.14" stroke="#1d1d1d" stroke-width="0.8"></line><line x1="70.16" y1="24.27" x2="69.79" y2="20.28" stroke="#1d1d1d" stroke-width="0.8"></line><line x1="76" y1="24" x2="76" y2="17" stroke="#d1381f" stroke-width="1.4"></line><line x1="81.84" y1="24.27" x2="82.21" y2="20.28" stroke="#d1381f" stroke-width="0.8"></line><line x1="87.63" y1="25.07" x2="88.36" y2="21.14" stroke="#d1381f" stroke-width="0.8"></line><line x1="93.33" y1="26.4" x2="94.41" y2="22.55" stroke="#d1381f" stroke-width="0.8"></line><line x1="98.88" y1="28.24" x2="101.39" y2="21.71" stroke="#d1381f" stroke-width="1.4"></line><line x1="104.24" y1="30.58" x2="106" y2="27" stroke="#d1381f" stroke-width="0.8"></line><line x1="109.36" y1="33.41" x2="111.45" y2="30" stroke="#d1381f" stroke-width="0.8"></line><line x1="114.2" y1="36.69" x2="116.59" y2="33.48" stroke="#d1381f" stroke-width="0.8"></line><line x1="118.72" y1="40.4" x2="123.4" y2="35.2" stroke="#d1381f" stroke-width="1.4"></line><text x="23.25" y="32.65" text-anchor="middle" font-family="Barlow Semi Condensed, sans-serif" font-weight="600" font-size="9.5" fill="#1d1d1d">0</text><text x="47.75" y="17.64" text-anchor="middle" font-family="Barlow Semi Condensed, sans-serif" font-weight="600" font-size="9.5" fill="#1d1d1d">50</text><text x="76" y="12.4" text-anchor="middle" font-family="Barlow Semi Condensed, sans-serif" font-weight="600" font-size="9.5" fill="#d1381f">100</text><text x="128.75" y="32.65" text-anchor="middle" font-family="Barlow Semi Condensed, sans-serif" font-weight="600" font-size="9.5" fill="#d1381f">200</text><text x="76" y="70" text-anchor="middle" font-family="Barlow Semi Condensed, sans-serif" font-weight="300" font-size="16" letter-spacing="3" fill="#1d1d1d" opacity=".85">MS</text><line x1="76" y1="87.84" x2="74.4" y2="15.02" stroke="#1d1d1d" stroke-width="1.5" stroke-linecap="round"></line><ellipse cx="76" cy="94" rx="24.32" ry="14" fill="#1b1b1b" opacity="0.8"></ellipse><rect x="3" y="3" width="146" height="14" fill="#fff" opacity="0.18"></rect></g><circle cx="11" cy="11" r="3" fill="#1b1b1b" opacity=".75"></circle></svg></div><div class="twinlabs"><div class="labs"><span class="lo">Your side</span><span class="ls">Router</span></div><div class="labs"><span class="lo">Their side</span><span class="ls">Internet</span></div></div></div><div class="verdict"><span class="led-l st">WiFi</span><b>Slow: WiFi or router, not ISP</b><p>Your router takes 88 ms to answer, when it should take a few. Your signal is excellent, so it's a busy channel, interference, or an overloaded router. Try restarting the router or changing its channel.</p></div><div class="grid2"><span>Wi-Fi signal</span><b>Excellent</b><span>Network</span><b>Home</b><span>Router</span><b class="hotc">Slow · 88 ms</b><span>Provider</span><b>Spectrum</b><span>Internet</span><b class="hotc">Slow · 97 ms</b></div><div class="sect"><span>What to do</span><span></span></div><ol class="steps"><li><span class="acc">Restart your TP-Link router ↗</span></li><li><span class="acc">Switch to a quieter Wi-Fi channel ↗</span></li><li><span class="acc">Check for a router firmware update ↗</span></li></ol><div class="notice"><b>Your router is holding your Mac back</b><p>Your Mac supports Wi-Fi 6E, but it's connected with Wi-Fi 5, the newest your router offers.</p><span class="acc">See what fixes this ›</span></div><p class="ln cap">Signal −49 dBm · noise −92 dBm · Wi-Fi 5 · TP-Link router · 5 GHz channel 44 · link rate 866 Mbps</p></div></div></div>
+        </div>
+        <div>
+          <h2>What to do next, in order.</h2>
+          <p>Under every verdict is a short list called What to do: the next things to try, in the order worth trying them. Each one opens the right guide, starts a test, or exports your report.</p>
+          <p>The steps fit your setup. The app recognizes your router's maker and your provider, so “restart your router” links to the guide for that brand and “check the outage page” points at Spectrum's or Verizon's, not a search box. Twelve large US providers have their own guides; everyone else gets the general steps.</p>
+          <p>Some limits no setting can fix, and the app says so plainly when it finds one. Your plan settings add two more: a plan too small for your home, and getting much less than you pay for.</p>
+          <ul class="ceilings">
+            <li><b>Your router is holding your Mac back:</b> your Mac supports Wi&#8209;Fi 6E, but your router tops out at Wi&#8209;Fi 5 or older.</li>
+            <li><b>Your Wi&#8209;Fi is slower than your plan:</b> speed tests hit what your Wi&#8209;Fi link can carry, while you pay for a lot more.</li>
+            <li><b>Your router can't fix lag under load:</b> the lag builds up in your modem or at your ISP, and your router has no smart queueing (SQM) to keep it in check.</li>
+          </ul>
         </div>
       </div>
     </section>
@@ -141,6 +208,7 @@
           <h2>A flight recorder for your connection.</h2>
           <p>Slow internet never happens while the support rep is on the phone. So WiFi or ISP logs it in the background: signal, noise, transmit rate, roaming, router and internet round trips, and every drop. Look back an hour or a month.</p>
           <p>When you're ready to complain, export a plain-text report. It lists each outage and whether your router kept answering through it, which is the part that makes an ISP stop telling you to restart your router.</p>
+          <p>Open History (⌘H) to see 1 hour, 6 hours, 24 hours, 7 days, or 30 days, with every drop marked and whose side it was on. Keep 7, 30, or 90 days of log, and export everything as CSV if you'd rather make your own charts.</p>
         </div>
         <div class="stack">
           <figure class="chart" role="img" aria-label="A 24-hour chart: router latency flat near 4 ms, internet latency spiking past 200 ms in the evening, with two outages shaded red.">
@@ -202,57 +270,117 @@ Period: Oct 1 at 9:00 AM to Oct 8 at 9:00 AM
       </div>
     </section>
 
-    <section class="trust">
-      <div class="wrap">
-        <h2>Light on your Mac. Silent about you.</h2>
-        <div class="trust-grid">
-          <div><h3>No tracking</h3><p>The app has no analytics and no account, and your history stays on your Mac. It asks Cloudflare once per network which provider you&#8217;re on, to tailor its advice; otherwise it only talks to the internet for the tests you start.</p></div>
-          <div><h3>Location, only for a name</h3><p>macOS treats your Wi-Fi network's name as location data. Allow it and your history is labeled by network. Skip it and everything else still works.</p></div>
-          <div><h3>Never scans</h3><p>It reads your current connection without scanning for networks, and backs off if macOS's Wi-Fi service gets busy.</p></div>
-          <div><h3>No admin rights</h3><p>Round trips are timed with ordinary connections, not ping, so there's nothing to install with a password.</p></div>
+    <section class="settings" id="settings">
+      <div class="wrap two">
+        <div>
+          <h2>Check your speed against the plan on your bill.</h2>
+          <p>Enter the download and upload speeds on your bill in Settings → Your Plan. The app compares them with your speed tests, adds them to the report for your provider, and tells you when you're getting much less than you pay for (two or more tests averaging under 60% of the plan).</p>
+          <p>It also works the other way. Tell it how your home uses the internet: people, 4K streams, gaming, calls, and big uploads. It estimates what you need, roughly 10 Mbps down per person, 25 per 4K stream, 15 more for gaming and 5 for calls. If your plan is too small, it says no router will fix that.</p>
+          <div class="panes">
+            <div><b>General</b><span>Open at login, what the menu bar shows (signal in dBm, and the WiFi, Router, or ISP word), and automatic updates.</span></div>
+            <div><b>Alerts</b><span>Drops and recoveries, falling back to 2.4 GHz, roaming to a weaker access point. Each one on or off.</span></div>
+            <div><b>Privacy</b><span>Show the network name, and keep history for 7, 30, or 90 days.</span></div>
+            <div><b>Advanced</b><span>Point the lag test at another responsiveness server, including one you host yourself.</span></div>
+          </div>
         </div>
-      </div>
-    </section>
-
-    <section class="resources">
-      <div class="wrap">
-        <h2>Free tests and guides</h2>
-        <p class="section-lede">Try it in your browser first, or read up on what's slowing you down.</p>
-        <div class="related">
-          <a href="/bufferbloat-test"><b>Bufferbloat test</b><span>How laggy your connection gets while it's busy.</span></a>
-          <a href="/ping-test"><b>Ping and jitter test</b><span>Your latency, and how steady it is.</span></a>
-          <a href="/why-is-my-wifi-so-slow"><b>Why is my Wi-Fi so slow?</b><span>Tell your Wi-Fi from your ISP in two minutes.</span></a>
-          <a href="/internet-keeps-dropping"><b>Internet keeps dropping?</b><span>Find out whose fault it is.</span></a>
-          <a href="/how-to-change-wifi-channel"><b>Change your Wi-Fi channel</b><span>Find a quieter one, router by router.</span></a>
-          <a href="/slow-internet"><b>Slow internet by provider</b><span>Spectrum, Xfinity, AT&amp;T, Verizon, and more.</span></a>
-        </div>
-      </div>
-    </section>
-
-    <section class="bx-section" id="why">
-      <div class="bx-wrap">
-        <div class="bx-maker">
-          <img src="/images/corey.jpg" alt="Corey Haines" width="76" height="76">
-          <div>
-            <span class="bx-strip">Why it exists</span>
-            <p>When my internet got slow, I never knew who to blame. Speed tests gave me one number, and network tools talked in dBm and milliseconds that meant nothing to me. I just wanted to know whether to restart my router or call my ISP. So I built the app I wanted: it watches both sides all the time and tells me in plain words which one is slow. And it&#39;s free.</p>
-            <cite>Corey Haines, maker of WiFi or ISP and <a href="#apps">more free Mac apps</a></cite>
+        <div class="bx-mount" role="img" aria-label="The Your Plan settings pane: 300 Mbps down and 35 up. Three people at home, video calls on, online gaming off, one 4K stream, big uploads on. Your home needs about 60 Mbps down and 29 Mbps up.">
+          <span class="bx-screw"></span><span class="bx-screw"></span><span class="bx-screw"></span><span class="bx-screw"></span>
+          <div class="pop light plan-pane" style="--acc:#0b8fb3">
+            <div class="fas"><div class="fh"><span class="np"><i></i>SETTINGS</span><span class="ts">Your Plan</span></div></div>
+            <div class="tabs"><span>General</span><span class="on">Your Plan</span><span>Alerts</span><span>Privacy</span><span>Advanced</span></div>
+            <div class="sect"><span>What you pay for</span><span></span></div>
+            <div class="field">Download (Mbps)<span class="kb">300</span></div>
+            <div class="field">Upload (Mbps)<span class="kb">35</span></div>
+            <div class="sect"><span>How your home uses the internet</span><span></span></div>
+            <div class="setrow"><span>People at home: 3</span><span class="stepper">− +</span></div>
+            <div class="setrow"><span>Video calls or remote work</span><span class="tog on"></span></div>
+            <div class="setrow"><span>Online gaming</span><span class="tog"></span></div>
+            <div class="setrow"><span>4K streams at once: 1</span><span class="stepper">− +</span></div>
+            <div class="setrow"><span>Big uploads (backups, video, livestreams)</span><span class="tog on"></span></div>
+            <p class="ln cap">Your home needs about 60 Mbps down and 29 Mbps up. If your plan falls short, the app will say so.</p>
           </div>
         </div>
       </div>
     </section>
 
-    <section class="faq" id="faq">
-      <div class="wrap narrow">
-        <h2>Questions</h2>
-        <details><summary>Why is my Wi-Fi so slow?</summary><p>Usually one of three things: a weak signal (too far from the router, or walls in the way), a crowded channel or overloaded router, or a problem past your router at your ISP. Each one looks the same from your browser. WiFi or ISP tells them apart by timing your router and the internet together.</p></details>
-        <details><summary>What does “WiFi” mean in the verdict?</summary><p>Your side of the line: your Mac's radio, the air, and your router. “ISP” means everything past the router, including your modem and the line to your provider. If your router is slow, that's on your side, even with a strong signal.</p></details>
-        <details><summary>What is bufferbloat?</summary><p>When an upload or download fills your connection, packets pile up in a queue and every round trip slows down. That's why video calls stutter while a backup runs. The lag-under-load test measures it and says whether the queue is in your Wi-Fi or router, or past it. Turning on Smart Queue Management (SQM) on your router usually fixes it.</p></details>
-        <details><summary>What do dBm and ms mean?</summary><p>You don't need to know: the app says Excellent, Fast, or Slow. If you're curious, dBm is radio signal strength (−30 is as strong as it gets, −80 barely works) and ms is milliseconds, how long a reply takes (your router should answer in a few). Turn on the number in the menu bar in Settings if you like it.</p></details>
-        <details><summary>Does it run speed tests all the time?</summary><p>No. The background checks are single tiny round trips, every 5 to 30 seconds. Speed and lag tests only run when you click them.</p></details>
-        <details><summary>Why does it ask for Location?</summary><p>Only to show your Wi-Fi network's name, which macOS treats as location data. The app never asks where you are. Say no and it shows “Unknown network”.</p></details>
-        <details><summary>Does it work over Ethernet or a VPN?</summary><p>Yes. On a cable it skips the signal readings and still compares your router with the internet. With a VPN on, it still measures the Wi-Fi network underneath.</p></details>
-        <details><summary>Is it really free?</summary><p>Yes. The source is on GitHub under the Functional Source License, which turns into the MIT license two years after each release.</p></details>
+    <section class="method" id="method">
+      <div class="wrap">
+        <h2>How to tell if it's your router or your ISP</h2>
+        <p class="section-lede">No black box. Every number below is a constant in the app's source, and the full method is in <a href="https://github.com/coreyhaines31/wifiorisp/blob/main/docs/how-it-works.md">how it works</a> on GitHub.</p>
+        <div class="method-grid">
+          <article>
+            <h3>Three round trips at once</h3>
+            <p>Each check times a TCP handshake to your router (on port 53, 80, or 443, whichever it answers), and to 1.1.1.1 and 8.8.8.8 on port 443. The faster of the two internet replies counts, so one resolver having a bad moment isn't blamed on your ISP. A handshake is exactly one round trip and carries no data. No ping, no admin password.</p>
+          </article>
+          <article>
+            <h3>Wi&#8209;Fi readings, never a scan</h3>
+            <p>From macOS it reads signal and noise, transmit rate, channel, band, channel width, and Wi&#8209;Fi generation for the network you're on. It never scans for nearby networks.</p>
+          </article>
+          <article>
+            <h3>A verdict from the last few minutes</h3>
+            <p>It looks at the last six checks from the last three minutes, and waits for at least three. Behind a VPN it still times the Wi&#8209;Fi router underneath. Over Ethernet it skips the signal and compares your router with the internet.</p>
+          </article>
+        </div>
+        <div class="method-tables">
+          <div class="table-wrap">
+            <table class="compare">
+              <caption>How often it checks</caption>
+              <thead><tr><th>Situation</th><th>Checks every</th></tr></thead>
+              <tbody>
+                <tr><td>Something is wrong</td><td>5 seconds</td></tr>
+                <tr><td>Fine for under 2 minutes</td><td>10 seconds</td></tr>
+                <tr><td>Fine for 2 to 10 minutes</td><td>20 seconds</td></tr>
+                <tr><td>Fine for longer</td><td>30 seconds</td></tr>
+                <tr><td>Mac asleep</td><td>Not at all, and no drops counted for 30 seconds after waking</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="table-wrap">
+            <table class="compare">
+              <caption>When it calls something slow</caption>
+              <thead><tr><th>Verdict</th><th>Threshold</th></tr></thead>
+              <tbody>
+                <tr><td>Router is slow</td><td>Typical round trip over 40 ms, or a quarter of checks lost</td></tr>
+                <tr><td>ISP side is slow</td><td>Internet more than 100 ms slower than the router, or a quarter lost</td></tr>
+                <tr><td>Signal is weak</td><td>−75 dBm or weaker, or under 15 dB above the noise</td></tr>
+                <tr><td>Offline</td><td>The last two internet checks both lost</td></tr>
+                <tr><td>A drop</td><td>Two lost internet checks in a row, until the first reply</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="who" id="who">
+      <div class="wrap">
+        <h2>Built for calls, games, and arguments with your ISP.</h2>
+        <div class="who-grid">
+          <article>
+            <h3>On calls all day</h3>
+            <p>When Zoom or Meet freezes, glance at the menu bar instead of guessing. If calls only stutter while a backup or upload runs, the lag-under-load test shows whether the queue builds up in your Wi&#8209;Fi or past your router, and what to change.</p>
+          </article>
+          <article>
+            <h3>Online gaming</h3>
+            <p>Lag spikes are rarely about raw speed. The app watches round trips, not megabits, and the lag test scores responsiveness the same way Apple's <code>networkQuality</code> does.</p>
+          </article>
+          <article>
+            <h3>Fighting with your provider</h3>
+            <p>The log runs in the background, so the evidence exists before you call. Export the report: each outage, how long it lasted, and whether your router kept answering through it. Add your plan, and it shows what you're getting against what you pay for.</p>
+          </article>
+          <article>
+            <h3>The family's IT person</h3>
+            <p>“The Wi&#8209;Fi is down” turns into a one-word answer. Check the history for last night, see if the Mac fell back to 2.4 GHz or roamed to a weaker access point, and fix the right thing the first time.</p>
+          </article>
+          <article>
+            <h3>Working with AI agents</h3>
+            <p>The <code>wifiorisp</code> command gives Claude Code, Codex, or a script the same verdict in JSON, with exit code 2 when something is wrong. The Claude Desktop extension answers in plain words.</p>
+          </article>
+          <article>
+            <h3>Before you buy a router</h3>
+            <p>Find out whether the router is actually the bottleneck, or whether the fix is moving closer or a bigger plan, before you spend money on new hardware.</p>
+          </article>
+        </div>
       </div>
     </section>
 
@@ -326,6 +454,134 @@ when calls or games stutter, `wifiorisp speed` to compare with my plan, and
       </div>
     </section>
 
+    <section class="versus" id="compare">
+      <div class="wrap">
+        <h2>The other ways to find out, honestly compared.</h2>
+        <p class="section-lede">Speed tests, macOS's own tools, and your router's app are all free, and each is good at something. None of them puts your router's timing next to the internet's every few seconds and turns that into a plain answer about whose side the slowdown is on.</p>
+        <div class="table-wrap">
+          <table class="compare vs">
+            <thead><tr><th></th><th class="us">WiFi or ISP</th><th>Speed tests<span class="note">Speedtest, fast.com</span></th><th><code>networkQuality</code><span class="note">built into macOS</span></th><th>Wireless Diagnostics<span class="note">built into macOS</span></th><th>Router apps<span class="note">eero, Google Home, Orbi, Deco</span></th><th><a href="/alternatives/istat-menus">iStat Menus</a></th></tr></thead>
+            <tbody>
+              <tr><td>Says whether it's your Wi&#8209;Fi or your ISP</td><td class="us">Yes, in plain words</td><td>No, one end-to-end result</td><td>No, one end-to-end result</td><td>No, it's about the radio</td><td>Partly: their speed test runs from the router, which leaves your Wi&#8209;Fi out</td><td>No</td></tr>
+              <tr><td>Watches in the background</td><td class="us">Yes, every 5 to 30 seconds</td><td>No, when you run one</td><td>No, when you run it</td><td>Only while its window is open</td><td>eero runs a speed test every 1 to 3 days</td><td>Yes</td></tr>
+              <tr><td>Wi&#8209;Fi signal</td><td class="us">Excellent to Weak, dBm if you want it</td><td>No</td><td>No</td><td>Yes, detailed graphs in dBm</td><td>Varies by brand</td><td>Yes, with signal-to-noise and link speed</td></tr>
+              <tr><td>Lag under load (bufferbloat)</td><td class="us">Yes, and whether it builds up before or past your router</td><td>fast.com shows loaded latency</td><td>Yes, responsiveness in RPM</td><td>No</td><td>Not that we found</td><td>No</td></tr>
+              <tr><td>History of drops</td><td class="us">Up to 90 days, each with whose side it was on</td><td>Speedtest keeps your past tests</td><td>No</td><td>No</td><td>eero Plus has activity history</td><td>Graphs up to 28 days, and internet-down alerts</td></tr>
+              <tr><td>Report for your ISP</td><td class="us">Yes</td><td>No</td><td>No</td><td>A diagnostics file for Apple</td><td>Not that we found</td><td>No</td></tr>
+              <tr><td>Works with any router</td><td class="us">Yes</td><td>Yes</td><td>Yes</td><td>Yes</td><td>Only their own brand</td><td>Yes</td></tr>
+              <tr><td>Price</td><td class="us">Free</td><td>Free</td><td>Built into macOS 12 and later</td><td>Built into macOS</td><td>Free with the router; eero Plus, which adds activity history, is $9.99 a month</td><td>$11.99 once, or with Setapp</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="better">
+          <article><h3>Where speed tests win</h3><p>A trusted throughput number against a huge server network, and fast.com needs no install at all. Use one when you want to know how fast. Use WiFi or ISP when you want to know whose fault slow is. (It has a speed test too, against M-Lab.)</p></article>
+          <article><h3>Where macOS's tools win</h3><p><code>networkQuality</code> uses the same IETF responsiveness method as the lag test here, with no install. Wireless Diagnostics shows far more radio detail than any menu bar app, with scans and a packet sniffer. Neither keeps watching after you close it.</p></article>
+          <article><h3>Where router apps win</h3><p>They test from the router itself, which separates your provider from your Wi&#8209;Fi better than any app on your Mac can, and they see every device on your network. They only work with their own brand, and the history is often a subscription.</p></article>
+          <article><h3>Where iStat Menus wins</h3><p>Everything about your Mac: CPU, memory, disks, sensors, and per-app bandwidth. It can ping and tell you the internet is down; it doesn't say why. Run both: <a href="/alternatives/istat-menus">how they compare</a>.</p></article>
+        </div>
+        <p class="source-note">Checked November 16, 2026: Speedtest by Ookla 1.29 on the Mac App Store, <a href="https://fast.com/">fast.com</a>, Apple's <a href="https://support.apple.com/en-us/101942">networkQuality</a> and <a href="https://support.apple.com/guide/mac-help/mchlf4de377f/mac">Wireless Diagnostics</a> pages, <a href="https://eero.com/support/articles/how-do-i-run-a-speed-test-on-my-eero-network">eero speed test</a> and <a href="https://eero.com/eero-plus">eero Plus</a>, <a href="https://support.google.com/googlenest/answer/6246634">Google Nest Wifi</a>, <a href="https://kb.netgear.com/000053866/How-do-I-run-a-speed-test-on-my-Orbi-WiFi-System-using-the-Orbi-app">Netgear Orbi</a>, <a href="https://www.tp-link.com/us/support/faq/1462/">TP-Link Deco</a>, and <a href="https://bjango.com/mac/istatmenus/">iStat Menus 7.5</a>. More: <a href="/alternatives/">every comparison</a>.</p>
+      </div>
+    </section>
+
+    <section class="trust">
+      <div class="wrap">
+        <h2>Light on your Mac. Silent about you.</h2>
+        <div class="trust-grid">
+          <div><h3>No tracking</h3><p>The app has no analytics and no account, and your history stays on your Mac. It asks Cloudflare once per network which provider you&#8217;re on, to tailor its advice; otherwise it only talks to the internet for the tests you start.</p></div>
+          <div><h3>Location, only for a name</h3><p>macOS treats your Wi-Fi network's name as location data. Allow it and your history is labeled by network. Skip it and everything else still works.</p></div>
+          <div><h3>Never scans</h3><p>It reads your current connection without scanning for networks, and backs off if macOS's Wi-Fi service gets busy.</p></div>
+          <div><h3>No admin rights</h3><p>Round trips are timed with ordinary connections, not ping, so there's nothing to install with a password.</p></div>
+        </div>
+        <div class="perms">
+          <div>
+            <h3>Every permission it asks for</h3>
+            <ul>
+              <li><b>Location:</b> only to read your Wi&#8209;Fi network's name. It never reads where you are.</li>
+              <li><b>Local network</b> (macOS 15 and later): to time your router. It doesn't look for or connect to anything else.</li>
+              <li><b>Notifications:</b> for the alerts you leave on.</li>
+              <li><b>Open at login:</b> a standard login item, so it keeps watching after a restart. Turn it off in Settings → General.</li>
+            </ul>
+          </div>
+          <div>
+            <h3>Everything it sends over the network</h3>
+            <ul>
+              <li>A TCP handshake to your router, 1.1.1.1, and 8.8.8.8 every 5 to 30 seconds, with no data in it.</li>
+              <li>One request to Cloudflare per network to learn your provider's name, skipped on a VPN.</li>
+              <li>Tests you start: M-Lab for speed (which publishes every result, including your IP address, and the app tells you before your first test) and Cloudflare for lag under load.</li>
+              <li>An update check, which you can turn off.</li>
+            </ul>
+          </div>
+          <div>
+            <h3>What it never does</h3>
+            <ul>
+              <li>No analytics, no account, no crash reporter.</li>
+              <li>No scanning for nearby networks, and no ping or admin rights.</li>
+              <li>Nothing listens on the network: the <code>wifiorisp</code> command talks to the app through a file only your user account can open.</li>
+              <li>History stays in <code>~/Library/Application Support/WiFi or ISP/</code> until you export it.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="free" id="free">
+      <div class="wrap">
+        <h2>Free. Source available. No account.</h2>
+        <p class="section-lede">No subscription, no trial, no ads, no telemetry. Use it at home or at work, and read every line of how it decides.</p>
+        <div class="proof">
+          <div><b>$0</b><span>Nothing to sign up for, nothing to cancel.</span></div>
+          <div><b>Source available</b><span>On <a href="https://github.com/coreyhaines31/wifiorisp">GitHub</a> under FSL-1.1-MIT. Each release becomes MIT two years after it ships.</span></div>
+          <div><b>4 MB</b><span>The whole download. Native Swift, no Electron.</span></div>
+          <div><b>macOS 14+</b><span>Sonoma or later, on Apple silicon and Intel Macs.</span></div>
+          <div><b>Notarized</b><span>Signed with Developer ID and checked by Apple, every release.</span></div>
+          <div><b>Updates itself</b><span>With Sparkle, or through Homebrew if you installed it that way.</span></div>
+        </div>
+        <div class="whatsnew">
+          <h3>What's new</h3>
+          <ul>
+            <li><b>1.3.0</b><span>Nov 16, 2026</span><p>A new look: the twin-meter icon and menu bar meters, and a rebuilt menu with the verdict, the readings, and What to do.</p></li>
+            <li><b>Claude Desktop</b><span>Oct 29, 2026</span><p>The <a href="#claude">extension</a>: ask Claude whether it's your Wi&#8209;Fi or your ISP.</p></li>
+            <li><b>1.2.1</b><span>Oct 17, 2026</span><p>Opens at login by default, so it's watching after a restart.</p></li>
+            <li><b>1.2.0</b><span>Oct 13, 2026</span><p>The <a href="#agent"><code>wifiorisp</code> command</a> for Terminal, scripts, and AI agents.</p></li>
+          </ul>
+          <a class="more" href="https://github.com/coreyhaines31/wifiorisp/releases">Every release</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="faq" id="faq">
+      <div class="wrap narrow">
+        <h2>Questions</h2>
+        <details><summary>Why is my Wi-Fi so slow?</summary><p>Usually one of three things: a weak signal (too far from the router, or walls in the way), a crowded channel or overloaded router, or a problem past your router at your ISP. Each one looks the same from your browser. WiFi or ISP tells them apart by timing your router and the internet together.</p></details>
+        <details><summary>What does “WiFi” mean in the verdict?</summary><p>Your side of the line: your Mac's radio, the air, and your router. “ISP” means everything past the router, including your modem and the line to your provider. If your router is slow, that's on your side, even with a strong signal.</p></details>
+        <details><summary>What is bufferbloat?</summary><p>When an upload or download fills your connection, packets pile up in a queue and every round trip slows down. That's why video calls stutter while a backup runs. The lag-under-load test measures it and says whether the queue is in your Wi-Fi or router, or past it. Turning on Smart Queue Management (SQM) on your router usually fixes it.</p></details>
+        <details><summary>What do dBm and ms mean?</summary><p>You don't need to know: the app says Excellent, Fast, or Slow. If you're curious, dBm is radio signal strength (−30 is as strong as it gets, −80 barely works) and ms is milliseconds, how long a reply takes (your router should answer in a few). Turn on the number in the menu bar in Settings if you like it.</p></details>
+        <details><summary>Does it run speed tests all the time?</summary><p>No. The background checks are single tiny round trips, every 5 to 30 seconds. Speed and lag tests only run when you click them.</p></details>
+        <details><summary>Why does it ask for Location?</summary><p>Only to show your Wi-Fi network's name, which macOS treats as location data. The app never asks where you are. Say no and it shows “Unknown network”.</p></details>
+        <details><summary>Does it work over Ethernet or a VPN?</summary><p>Yes. On a cable it skips the signal readings and still compares your router with the internet. With a VPN on, it still measures the Wi-Fi network underneath.</p></details>
+        <details><summary>How is this different from a speed test?</summary><p>A speed test measures how much your connection carries, end to end, at the moment you run it. WiFi or ISP times your router and the internet at the same moment, all day, so it can say which side is slow, including the times you weren't watching. It has a speed test too, for checking what you get against your plan.</p></details>
+        <details><summary>Does it use much battery?</summary><p>No. The background checks are three tiny connections every 5 to 30 seconds, it never scans for networks, and it stops while your Mac sleeps. When I measured it in November 2026, it used under 0.15% of one CPU core.</p></details>
+        <details><summary>Which Macs does it run on?</summary><p>macOS 14 Sonoma or later, on Apple silicon and Intel. It's signed and notarized by Apple, and it updates itself with Sparkle; if you installed it with Homebrew, brew upgrades it.</p></details>
+        <details><summary>How do I uninstall it?</summary><p>Turn off Open at login in Settings, quit it from its menu, and drag it from Applications to the Trash. To remove its history and settings too, run <code>brew uninstall --zap --cask wifiorisp</code>, or delete the WiFi or ISP folder in <code>~/Library/Application Support</code>.</p></details>
+        <details><summary>Is it really free?</summary><p>Yes. The source is on GitHub under the Functional Source License, which turns into the MIT license two years after each release.</p></details>
+      </div>
+    </section>
+
+    <section class="resources">
+      <div class="wrap">
+        <h2>Free tests and guides</h2>
+        <p class="section-lede">Try it in your browser first, or read up on what's slowing you down.</p>
+        <div class="related">
+          <a href="/bufferbloat-test"><b>Bufferbloat test</b><span>How laggy your connection gets while it's busy.</span></a>
+          <a href="/ping-test"><b>Ping and jitter test</b><span>Your latency, and how steady it is.</span></a>
+          <a href="/why-is-my-wifi-so-slow"><b>Why is my Wi-Fi so slow?</b><span>Tell your Wi-Fi from your ISP in two minutes.</span></a>
+          <a href="/internet-keeps-dropping"><b>Internet keeps dropping?</b><span>Find out whose fault it is.</span></a>
+          <a href="/how-to-change-wifi-channel"><b>Change your Wi-Fi channel</b><span>Find a quieter one, router by router.</span></a>
+          <a href="/slow-internet"><b>Slow internet by provider</b><span>Spectrum, Xfinity, AT&amp;T, Verizon, and more.</span></a>
+        </div>
+      </div>
+    </section>
+
     <section class="cta">
       <div class="wrap">
         <img src="/images/icon.png" alt="" width="96" height="96">
@@ -335,6 +591,19 @@ when calls or games stutter, `wifiorisp speed` to compare with my plan, and
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11m-5-5 5 5 5-5M5 20h14"/></svg>Download free</a>
         </div>
         <p class="fineprint"><code>brew install --cask coreyhaines31/tap/wifiorisp</code></p>
+      </div>
+    </section>
+
+    <section class="bx-section" id="why">
+      <div class="bx-wrap">
+        <div class="bx-maker">
+          <img src="/images/corey.jpg" alt="Corey Haines" width="76" height="76">
+          <div>
+            <span class="bx-strip">Why it exists</span>
+            <p>When my internet got slow, I never knew who to blame. Speed tests gave me one number, and network tools talked in dBm and milliseconds that meant nothing to me. I just wanted to know whether to restart my router or call my ISP. So I built the app I wanted: it watches both sides all the time and tells me in plain words which one is slow. And it&#39;s free.</p>
+            <cite>Corey Haines, maker of WiFi or ISP and <a href="#apps">more free Mac apps</a></cite>
+          </div>
+        </div>
       </div>
     </section>
 
