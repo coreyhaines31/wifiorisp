@@ -23,6 +23,26 @@ REPO = "https://github.com/coreyhaines31/wifiorisp"
 UPDATED = "2026-10-06"
 UPDATED_TEXT = "October 6, 2026"
 AUTHOR = {"@type": "Person", "name": "Corey Haines", "url": "https://corey.co"}
+HEAD_ASSETS = '''  <meta name="theme-color" content="#e2e3e2" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#131314" media="(prefers-color-scheme: dark)">
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600&family=Barlow+Semi+Condensed:wght@300;600;700&display=swap">
+  <link rel="stylesheet" href="/brushed.css">
+  <link rel="stylesheet" href="/site.css">'''
+FAMILY = [
+    ("fuel", "Fuel Gauge", "https://fuelgauge.app"),
+    ("spare", "Spare", "https://spareformac.com"),
+    ("disk", "Disk Forecast", "https://diskforecast.com"),
+    ("oil", "Midnight Oil", "https://midnightoil.app"),
+    ("wifi", "WiFi or ISP", "https://wifiorisp.com"),
+    ("green", "Green Room", "https://greenroomformac.com"),
+    ("hand", "On Hand", "https://onhandformac.com"),
+    ("coat", "Coat Check", "https://coatcheckformac.com"),
+]
 DOWNLOAD_ICON = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11m-5-5 5 5 5-5M5 20h14"/></svg>'
 
 
@@ -46,15 +66,16 @@ def head(title, description, path, scripts=""):
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
   <meta property="og:url" content="{SITE}{path}">
-  <meta name="theme-color" content="#0b1530">
-  <link rel="icon" href="/images/icon.png">
-  <link rel="apple-touch-icon" href="/images/icon.png">
-  <link rel="stylesheet" href="/site.css">
+{HEAD_ASSETS}
   <script async src="https://tracerkit.com/t.js" data-key="tk_IQBbD-xkICMsq6qz"></script>
   <script src="https://ingest.getuserproof.com/sdk.js" data-site="85ab0b80-0bac-48ac-8103-d814a50d5ffc" defer></script>{scripts}
 </head>
-<body>
-  <header class="nav">
+<body class="bx">
+{header()}'''
+
+
+def header():
+    return f'''  <header class="nav">
     <div class="wrap">
       <a class="brand" href="/"><img src="/images/icon.png" alt=""> WiFi or ISP</a>
       <nav>
@@ -67,6 +88,38 @@ def head(title, description, path, scripts=""):
       </nav>
     </div>
   </header>
+'''
+
+
+def nav(home=False):
+    how = "#how" if home else "/#how"
+    return f'''    <div class="bx-wrap bx-nav">
+      <a class="bx-brand" href="/"><img src="/images/icon.png" alt="" width="32" height="32"> WiFi or ISP</a>
+      <nav aria-label="Main">
+        <a href="{how}">How it works</a>
+        <a href="/internet-providers">Providers near you</a>
+        <a href="/bufferbloat-test">Bufferbloat test</a>
+        <a href="/help">Help</a>
+        <a href="{REPO}">GitHub</a>
+        <a class="bx-btn" href="{DOWNLOAD}">Download</a>
+      </nav>
+    </div>
+'''
+
+
+def family():
+    """The family footer: all eight free Mac apps, this one marked current."""
+    current = ' aria-current="page"'
+    items = "".join(
+        f'<li><a href="{url}"{current if key == "wifi" else ""}>'
+        f'<img src="/images/family/{key}.png" alt="" width="56" height="56" loading="lazy">{name}</a></li>'
+        for key, name, url in FAMILY)
+    return f'''    <div class="bx-family">
+      <div class="bx-wrap">
+        <p class="bx-eyebrow">More free Mac apps by Corey</p>
+        <ul>{items}</ul>
+      </div>
+    </div>
 '''
 
 

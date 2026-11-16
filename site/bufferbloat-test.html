@@ -13,9 +13,15 @@
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
   <meta property="og:url" content="https://wifiorisp.com/bufferbloat-test">
-  <meta name="theme-color" content="#0b1530">
-  <link rel="icon" href="/images/icon.png">
-  <link rel="apple-touch-icon" href="/images/icon.png">
+  <meta name="theme-color" content="#e2e3e2" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#131314" media="(prefers-color-scheme: dark)">
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600&family=Barlow+Semi+Condensed:wght@300;600;700&display=swap">
+  <link rel="stylesheet" href="/brushed.css">
   <link rel="stylesheet" href="/site.css">
   <script async src="https://tracerkit.com/t.js" data-key="tk_IQBbD-xkICMsq6qz"></script>
   <script src="https://ingest.getuserproof.com/sdk.js" data-site="85ab0b80-0bac-48ac-8103-d814a50d5ffc" defer></script>
@@ -23,7 +29,7 @@
   <script src="/bufferbloat.js" defer></script>
   <script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "Article", "headline": "Bufferbloat Test — Free, in Your Browser", "description": "Test your connection for bufferbloat: how much lag builds up while it's busy. Free, runs in your browser in 25 seconds, with a grade and how to fix it.", "url": "https://wifiorisp.com/bufferbloat-test", "dateModified": "2026-10-06", "author": {"@type": "Person", "name": "Corey Haines", "url": "https://corey.co"}, "publisher": {"@type": "Organization", "name": "WiFi or ISP", "logo": "https://wifiorisp.com/images/icon.png"}}, {"@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Is this a speed test?", "acceptedAnswer": {"@type": "Answer", "text": "Partly. It reports the speeds it reached while loading the connection, but the point is the lag under load. A connection can be fast and still badly bloated."}}, {"@type": "Question", "name": "Why is my upload grade worse than my download?", "acceptedAnswer": {"@type": "Answer", "text": "Upload is usually the smaller pipe, so its queue fills sooner. It's also where your own devices queue packets before they reach the router."}}, {"@type": "Question", "name": "Does Wi-Fi cause bufferbloat?", "acceptedAnswer": {"@type": "Answer", "text": "It can. A busy Wi-Fi channel or a weak signal adds its own queue between your device and the router. Test on a cable to compare, or use WiFi or ISP, which checks the router and the internet separately."}}, {"@type": "Question", "name": "How is this different from Apple's networkQuality?", "acceptedAnswer": {"@type": "Answer", "text": "Both measure responsiveness under load. Apple's tool reports round trips per minute (RPM), and this page reports added milliseconds. WiFi or ISP uses the same IETF method as Apple and adds router probes to show where the queue is."}}]}]}</script>
 </head>
-<body>
+<body class="bx">
   <header class="nav">
     <div class="wrap">
       <a class="brand" href="/"><img src="/images/icon.png" alt=""> WiFi or ISP</a>
