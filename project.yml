@@ -21,8 +21,8 @@ packages:
     exactVersion: "2.10.0"
   # Shared Brushed components for the menu card. Move to main once PanelKit merges there.
   PanelKit:
-    url: https://github.com/coreyhaines31/mac-app-kit
-    branch: feature/2-panelkit
+    url: https://github.com/coreyhaines31/panelkit
+    from: 0.1.0
 targets:
   WiFiOrISP:
     type: application
