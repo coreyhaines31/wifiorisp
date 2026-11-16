@@ -42,6 +42,7 @@ FAMILY = [
     ("green", "Green Room", "https://greenroomformac.com"),
     ("hand", "On Hand", "https://onhandformac.com"),
     ("coat", "Coat Check", "https://coatcheckformac.com"),
+    ("kill", "Kill Cord", "https://killcord.app"),
 ]
 DOWNLOAD_ICON = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11m-5-5 5 5 5-5M5 20h14"/></svg>'
 
@@ -99,14 +100,12 @@ def nav(home=False):
 
 
 def family():
-    """The family footer: the eight free Mac apps, this one marked current, then Kill Cord as coming soon."""
+    """The family footer: the nine free Mac apps, this one marked current."""
     current = ' aria-current="page"'
     items = "".join(
         f'<li><a href="{url}"{current if key == "wifi" else ""}>'
         f'<img src="/images/family/{key}.png" alt="" width="56" height="56" loading="lazy">{name}</a></li>'
         for key, name, url in FAMILY)
-    items += ('<li><span class="soon"><img src="/images/family/kill.png" alt="" width="56" height="56">'
-              'Kill Cord<small>Coming soon</small></span></li>')
     return f'''    <div class="bx-family">
       <div class="bx-wrap">
         <p class="bx-eyebrow">More free Mac apps by Corey</p>
