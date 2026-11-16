@@ -55,55 +55,63 @@ struct BrushedCard: View {
     let snapshot: CardSnapshot
     let perform: (NextStep.Action) -> Void
 
-    /// Menu width; the card sits inside it with the menu's own inset.
-    static let width: CGFloat = 340
-    static let inset: CGFloat = 5
+    var body: some View {
+        MenuCard(accent: PanelAccent.wifiOrISP) {
+            CardBody(snapshot: snapshot, perform: perform)
+        }
+    }
+}
 
-    @Environment(\.colorScheme) private var colorScheme
+/// The card's contents, drawn with the theme `MenuCard` sets.
+private struct CardBody: View {
+    let snapshot: CardSnapshot
+    let perform: (NextStep.Action) -> Void
+
+    @Environment(\.panelTheme) private var theme
 
     var body: some View {
-        let theme = PanelTheme.resolve(colorScheme)
-        VStack(alignment: .leading, spacing: 0) {
-            Fascia(nameplate: "Link", timestamp: snapshot.networkName) {
-                TwinMeters(left: Self.channel(.router, snapshot.latest?.router),
-                           right: Self.channel(.internet, snapshot.latest?.internet))
+        Fascia(nameplate: "Link", timestamp: snapshot.networkName) {
+            TwinMeters(left: Self.channel(.router, snapshot.latest?.router),
+                       right: Self.channel(.internet, snapshot.latest?.internet))
+        }
+        VerdictView(
+            snapshot.verdict.headline,
+            message: snapshot.isPaused ? "Paused while a test runs." : snapshot.verdict.detail,
+            status: CardStatus.status(for: snapshot.verdict),
+            statusLabel: CardStatus.word(for: snapshot.verdict)
+        )
+        Readings(rows: readings)
+        if !snapshot.isPaused {
+            if !snapshot.steps.isEmpty {
+                SectionHeader("What to do")
+                NumberedSteps(snapshot.steps.map(numberedStep))
             }
-            BrushedVerdict(
-                snapshot.verdict.headline,
-                message: snapshot.isPaused ? "Paused while a test runs." : snapshot.verdict.detail,
-                status: CardStatus.status(for: snapshot.verdict),
-                statusLabel: CardStatus.word(for: snapshot.verdict)
-            )
-            Readings(rows: readings, theme: theme)
-            if !snapshot.isPaused {
-                if !snapshot.steps.isEmpty {
-                    SectionHeader("What to do")
-                    NextSteps(steps: snapshot.steps, theme: theme, perform: perform)
+            ForEach(snapshot.ceilings, id: \.kind) { ceiling in
+                Notice(ceiling.headline, message: ceiling.detail) {
+                    Button("See what fixes this ›") { perform(.page(ceiling.recommendation)) }
+                        .accessibilityHint("Opens a guide on wifiorisp.com")
                 }
-                ForEach(snapshot.ceilings, id: \.kind) { ceiling in
-                    CeilingNotice(ceiling: ceiling, theme: theme, perform: perform)
-                }
-            }
-            if let details {
-                Text(details)
-                    .font(PanelFont.body(10.5))
-                    .monospacedDigit()
-                    .foregroundStyle(theme.sub)
-                    .fixedSize(horizontal: false, vertical: true)
-                    .padding(EdgeInsets(top: 6, leading: 14, bottom: 12, trailing: 14))
             }
         }
-        .frame(width: Self.width - Self.inset * 2, alignment: .leading)
-        .background(theme.background)
-        .foregroundStyle(theme.ink)
-        .clipShape(RoundedRectangle(cornerRadius: 7, style: .continuous))
-        .overlay(
-            RoundedRectangle(cornerRadius: 7, style: .continuous)
-                .strokeBorder(Color.black.opacity(theme.isDark ? 0.5 : 0.12), lineWidth: 1)
-        )
-        .panelAccent(PanelAccent.wifiOrISP)
-        .padding(.horizontal, Self.inset)
-        .padding(.bottom, Self.inset)
+        if let details {
+            Text(details)
+                .font(PanelFont.body(10.5))
+                .monospacedDigit()
+                .foregroundStyle(theme.sub)
+                .fixedSize(horizontal: false, vertical: true)
+                .padding(EdgeInsets(top: 6, leading: 14, bottom: 12, trailing: 14))
+        }
+    }
+
+    private func numberedStep(_ step: NextStep) -> NumberedStep {
+        guard let action = step.action else { return NumberedStep(step.title) }
+        let opensPage = if case .page = action { true } else { false }
+        let hint = switch action {
+        case .page: "Opens a guide on wifiorisp.com"
+        case .runSpeedTest, .runLagTest: "Opens the Tests window"
+        case .exportReport: "Exports a report for your ISP"
+        }
+        return NumberedStep(step.title, opensPage: opensPage, hint: hint) { perform(action) }
     }
 
     // MARK: - Meters
@@ -224,7 +232,8 @@ private struct Reading {
 /// Label and value pairs, two columns.
 private struct Readings: View {
     let rows: [Reading]
-    let theme: PanelTheme
+
+    @Environment(\.panelTheme) private var theme
 
     var body: some View {
         if !rows.isEmpty {
@@ -243,92 +252,6 @@ private struct Readings: View {
             .padding(EdgeInsets(top: 2, leading: 14, bottom: 10, trailing: 14))
             .frame(maxWidth: .infinity, alignment: .leading)
         }
-    }
-}
-
-/// Blue for things you can click, as on the approved card.
-private func linkColor(_ theme: PanelTheme) -> Color {
-    theme.isDark ? Color(red: 0.56, green: 0.69, blue: 1) : Color(red: 0.18, green: 0.39, blue: 0.83)
-}
-
-/// "What to do": numbered next steps; the ones with an action are links.
-private struct NextSteps: View {
-    let steps: [NextStep]
-    let theme: PanelTheme
-    let perform: (NextStep.Action) -> Void
-
-    var body: some View {
-        VStack(alignment: .leading, spacing: 4) {
-            ForEach(Array(steps.enumerated()), id: \.offset) { index, step in
-                if let action = step.action {
-                    Button { perform(action) } label: { row(index, step, action: action) }
-                        .buttonStyle(.plain)
-                        .accessibilityHint(Self.hint(for: action))
-                } else {
-                    row(index, step, action: nil)
-                }
-            }
-        }
-        .font(PanelFont.body(12))
-        .padding(EdgeInsets(top: 0, leading: 14, bottom: 8, trailing: 14))
-        .frame(maxWidth: .infinity, alignment: .leading)
-    }
-
-    private func row(_ index: Int, _ step: NextStep, action: NextStep.Action?) -> some View {
-        HStack(alignment: .firstTextBaseline, spacing: 6) {
-            Text("\(index + 1).")
-                .monospacedDigit()
-                .foregroundStyle(theme.sub)
-                .frame(width: 12, alignment: .trailing)
-            Text(step.title + (Self.opensPage(action) ? " ↗" : ""))
-                .foregroundStyle(action == nil ? theme.ink : linkColor(theme))
-                .fixedSize(horizontal: false, vertical: true)
-        }
-        .contentShape(Rectangle())
-    }
-
-    private static func opensPage(_ action: NextStep.Action?) -> Bool {
-        if case .page = action { true } else { false }
-    }
-
-    private static func hint(for action: NextStep.Action) -> String {
-        switch action {
-        case .page: "Opens a guide on wifiorisp.com"
-        case .runSpeedTest, .runLagTest: "Opens the Tests window"
-        case .exportReport: "Exports a report for your ISP"
-        }
-    }
-}
-
-/// A limit no setting fixes, with a link to what would.
-private struct CeilingNotice: View {
-    let ceiling: Ceiling
-    let theme: PanelTheme
-    let perform: (NextStep.Action) -> Void
-
-    var body: some View {
-        VStack(alignment: .leading, spacing: 4) {
-            Text(ceiling.headline)
-                .font(PanelFont.body(12, .semibold))
-                .fixedSize(horizontal: false, vertical: true)
-            Text(ceiling.detail)
-                .font(PanelFont.body(11.5))
-                .foregroundStyle(theme.ink2)
-                .fixedSize(horizontal: false, vertical: true)
-            Button { perform(.page(ceiling.recommendation)) } label: {
-                Text("See what fixes this ›")
-                    .font(PanelFont.body(12))
-                    .foregroundStyle(linkColor(theme))
-            }
-            .buttonStyle(.plain)
-            .accessibilityHint("Opens a guide on wifiorisp.com")
-        }
-        .padding(.vertical, 9)
-        .padding(.horizontal, 11)
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .background(theme.caution.opacity(0.13), in: RoundedRectangle(cornerRadius: 6))
-        .overlay(RoundedRectangle(cornerRadius: 6).strokeBorder(theme.caution.opacity(0.35), lineWidth: 1))
-        .padding(EdgeInsets(top: 4, leading: 14, bottom: 10, trailing: 14))
     }
 }
 
