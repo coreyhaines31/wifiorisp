@@ -1,4 +1,5 @@
 import AppKit
+import PanelKit
 import SwiftUI
 import WiFiOrISPCore
 
@@ -79,14 +80,10 @@ final class StatusItemController: NSObject, NSMenuDelegate {
     func menuNeedsUpdate(_ menu: NSMenu) {
         menu.removeAllItems()
 
-        let card = NSHostingView(rootView: VerdictCard(monitor: monitor, location: location) { [weak self] action in
+        menu.addItem(.panelCard(VerdictCard(monitor: monitor, location: location) { [weak self] action in
             menu.cancelTracking()
             self?.perform(action)
-        })
-        card.frame.size = card.fittingSize
-        let cardItem = NSMenuItem()
-        cardItem.view = card
-        menu.addItem(cardItem)
+        }))
         menu.addItem(.separator())
 
         menu.addItem(ClosureMenuItem("Run Speed Test…") { [weak self] in self?.windows.showTests() })
