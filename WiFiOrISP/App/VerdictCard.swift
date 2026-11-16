@@ -71,8 +71,12 @@ private struct CardBody: View {
 
     var body: some View {
         Fascia(nameplate: "Link", timestamp: snapshot.networkName) {
-            TwinMeters(left: Self.channel(.router, snapshot.latest?.router),
-                       right: Self.channel(.internet, snapshot.latest?.internet))
+            HStack(alignment: .top, spacing: 8) {
+                GaugeChannel(channel: Self.channel(.router, snapshot.latest?.router),
+                             readout: Self.readout(snapshot.latest?.router))
+                GaugeChannel(channel: Self.channel(.internet, snapshot.latest?.internet),
+                             readout: Self.readout(snapshot.latest?.internet))
+            }
         }
         VerdictView(
             snapshot.verdict.headline,
@@ -116,39 +120,41 @@ private struct CardBody: View {
 
     // MARK: - Meters
 
-    private enum Side {
-        case router, internet
-    }
+    /// SLOW · OK · FAST, red over SLOW, a printed band over FAST. The zone edges are the readings'
+    /// Fast/OK/Slow thresholds (see `GaugeScale`), so a quick connection swings the needle high.
+    private static let scale: MeterConfig = {
+        var config = MeterConfig.twin(
+            zones: [0...GaugeScale.slowEdge],
+            labels: [.init(GaugeScale.slowEdge / 2, "SLOW"),
+                     .init((GaugeScale.slowEdge + GaugeScale.fastEdge) / 2, "OK"),
+                     .init((GaugeScale.fastEdge + 1) / 2, "FAST")],
+            accessibilityLabel: "Response time"
+        )
+        config.bands = [MeterBand(GaugeScale.fastEdge...1, width: 3)]
+        return config
+    }()
 
-    /// 0 to 200 ms across the scale, red from 100 ms. No answer pins the needle past the end.
-    private static let scale = MeterConfig.twin(
-        zones: [0.5...1],
-        labels: [.init(0, "0"), .init(0.25, "50"), .init(0.5, "100"), .init(1, "200")],
-        word: "MS",
-        accessibilityLabel: "Response time"
-    )
-
-    private static func channel(_ side: Side, _ probe: Probe?) -> MeterChannel {
+    private static func channel(_ side: GaugeScale.Side, _ probe: Probe?) -> MeterChannel {
         var config = scale
         config.accessibilityLabel = side == .router ? "Router meter" : "Internet meter"
-        let value: Double
-        let spoken: String
-        switch probe {
-        case .reply(let ms):
-            value = ms / 200
-            spoken = "\(Int(ms.rounded())) milliseconds"
-        case .lost:
-            value = 1.02
-            spoken = "No answer"
-        case nil:
-            value = 0
-            spoken = "Not measured"
+        let rate = side == .router ? PlainLanguage.router : PlainLanguage.internet
+        let spoken = switch probe {
+        case .reply(let ms): "\(rate(ms).rawValue), \(Int(ms.rounded())) milliseconds"
+        case .lost: "No answer"
+        case nil: "Not measured"
         }
         return MeterChannel(
-            config, value: value, accessibilityValue: spoken,
+            config, value: GaugeScale.position(probe, side: side), accessibilityValue: spoken,
             label: side == .router ? "Router" : "Internet",
             detail: side == .router ? "Your side" : "Their side"
         )
+    }
+
+    /// The small number on the pivot housing, "4 ms". The needle past the stop and the readings
+    /// say when there was no answer; the housing is too narrow to.
+    private static func readout(_ probe: Probe?) -> String {
+        guard let ms = probe?.ms else { return "– –" }
+        return "\(Int(ms.rounded())) ms"
     }
 
     // MARK: - Readings
@@ -193,6 +199,33 @@ private struct CardBody: View {
         parts.append("link rate \(Int(wifi.txRate.rounded())) Mbps")
         // Keep numbers with their units when the caption wraps.
         return parts.joined(separator: " · ").replacingOccurrences(of: " GHz", with: "\u{00A0}GHz")
+    }
+}
+
+/// One meter and its label strips, laid out like `TwinMeters`, with the reading printed on the
+/// black pivot housing where the needle never crosses it.
+private struct GaugeChannel: View {
+    let channel: MeterChannel
+    let readout: String
+
+    var body: some View {
+        VStack(spacing: 10) {
+            Meter(channel.config, value: channel.value, accessibilityValue: channel.accessibilityValue)
+                .overlay {
+                    GeometryReader { proxy in
+                        let scale = proxy.size.width / channel.config.size.width
+                        Text(readout.uppercased())
+                            .font(PanelFont.condensed(8 * scale, .semibold))
+                            .tracking(1 * scale)
+                            .monospacedDigit()
+                            .foregroundStyle(Color(white: 0.93))
+                            .position(x: proxy.size.width / 2, y: 84.8 * scale)
+                    }
+                    .accessibilityHidden(true)
+                }
+            LabelStrips(channel.label, detail: channel.detail)
+        }
+        .frame(maxWidth: .infinity)
     }
 }
 
