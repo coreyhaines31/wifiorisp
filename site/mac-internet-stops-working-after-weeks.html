@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mac Internet Stops Working After Weeks Without a Restart? (macOS 26)</title>
+  <meta name="description" content="On macOS 26, a Mac awake for about 49.7 days without a restart can stop opening new connections while ping still works. Here&#x27;s why, who it affects, and the fix.">
+  <link rel="canonical" href="https://wifiorisp.com/mac-internet-stops-working-after-weeks">
+  <meta property="og:title" content="Mac Internet Stops Working After Weeks Without a Restart? (macOS 26)">
+  <meta property="og:description" content="On macOS 26, a Mac awake for about 49.7 days without a restart can stop opening new connections while ping still works. Here&#x27;s why, who it affects, and the fix.">
+  <meta property="og:image" content="https://wifiorisp.com/images/og.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta property="og:url" content="https://wifiorisp.com/mac-internet-stops-working-after-weeks">
+  <meta name="theme-color" content="#e2e3e2" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#131314" media="(prefers-color-scheme: dark)">
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600&family=Barlow+Semi+Condensed:wght@300;600;700&display=swap">
+  <link rel="stylesheet" href="/brushed.css">
+  <link rel="stylesheet" href="/site.css">
+  <script async src="https://tracerkit.com/t.js" data-key="tk_IQBbD-xkICMsq6qz"></script>
+  <script src="https://ingest.getuserproof.com/sdk.js" data-site="85ab0b80-0bac-48ac-8103-d814a50d5ffc" defer></script>
+  <script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "Article", "headline": "Mac Internet Stops Working After Weeks Without a Restart? (macOS 26)", "description": "On macOS 26, a Mac awake for about 49.7 days without a restart can stop opening new connections while ping still works. Here's why, who it affects, and the fix.", "url": "https://wifiorisp.com/mac-internet-stops-working-after-weeks", "dateModified": "2026-11-17", "author": {"@type": "Person", "name": "Corey Haines", "url": "https://corey.co"}, "publisher": {"@type": "Organization", "name": "WiFi or ISP", "logo": "https://wifiorisp.com/images/icon.png"}}, {"@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Why does my Mac's internet stop working after about 49 days?", "acceptedAnswer": {"@type": "Answer", "text": "On macOS 26, the kernel's network clock counts milliseconds in a 32-bit number, which rolls over after 49.7 days awake. The clock then stops, closed connections never clear, and the Mac runs out of ports for new ones. A restart fixes it."}}, {"@type": "Question", "name": "Does sleep count toward the 49.7 days?", "acceptedAnswer": {"@type": "Answer", "text": "No. The clock only counts time the Mac is awake, so a Mac that sleeps every night takes much longer to reach the limit."}}, {"@type": "Question", "name": "Will restarting my router fix it?", "acceptedAnswer": {"@type": "Answer", "text": "No. The problem is inside the Mac. Your router and your ISP are fine, and other devices keep working. Restart the Mac."}}, {"@type": "Question", "name": "Is it fixed in the latest macOS?", "acceptedAnswer": {"@type": "Answer", "text": "Apple hasn't said. As of November 17, 2026, the newest kernel source Apple has published still has the code that stops the clock."}}]}]}</script>
+</head>
+<body class="bx">
+  <a class="skip" href="#main">Skip to content</a>
+  <header class="site-head bx-hero">
+    <div class="bx-wrap bx-nav">
+      <a class="bx-brand" href="/"><img src="/images/icon.png" alt="" width="32" height="32"> WiFi or ISP</a>
+      <nav aria-label="Main">
+        <a href="/#how">How it works</a>
+        <a href="/internet-providers">Providers near you</a>
+        <a href="/bufferbloat-test">Bufferbloat test</a>
+        <a href="/help">Help</a>
+        <a href="https://github.com/coreyhaines31/wifiorisp">GitHub</a>
+        <a class="bx-btn" href="https://github.com/coreyhaines31/wifiorisp/releases/latest">Download</a>
+      </nav>
+    </div>
+  </header>
+  <main id="main">
+    <section class="sub-hero">
+      <div class="wrap narrow">
+        <p class="eyebrow">Guide</p>
+        <h1>Mac internet stops working after weeks without a restart?</h1>
+        <p class="lede">If your Mac has been on for about seven weeks and pages, apps, and uploads start timing out while ping still answers, it may not be your Wi-Fi or your ISP. On macOS 26, a Mac awake for about 49.7 days without a restart can stop opening new network connections.</p>
+        <p class="byline">By <a href="https://corey.co">Corey Haines</a>, maker of WiFi or ISP · Updated November 17, 2026</p>
+        <div class="tldr"><h2>The short answer</h2><p>Restart your Mac before you restart the router or call your ISP. Restarting is the only fix, and it resets the clock for another 49.7 days. Sleep doesn't count toward the limit, so it mostly hits Macs that stay awake: desktops, servers, and Macs set never to sleep.</p></div>
+      </div>
+    </section>
+    <section class="article">
+      <div class="wrap narrow prose">
+
+        <h2>What it looks like</h2>
+        <ul>
+          <li>Websites, apps, and uploads time out, at random at first, then more often.</li>
+          <li>Connections that were already open keep working.</li>
+          <li>Ping still answers, so network tools say you're fine.</li>
+          <li>Nothing crashes and nothing shows up in a log.</li>
+          <li>Restarting the router doesn't help. Restarting the Mac does.</li>
+        </ul>
+
+        <h2>Why it happens</h2>
+        <p>macOS keeps a clock for its network connections: a count of milliseconds since the Mac started, stored in a 32-bit number. That number runs out at 4,294,967,296 milliseconds, which is 49 days, 17 hours, and 2 minutes.</p>
+        <p>In macOS 26, the kernel code that updates this clock only lets it move forward. When the count rolls over to zero, the new value looks older than the old one, so the clock stops. With the clock stopped, connections your Mac has closed never finish closing. They pile up until the Mac runs out of ports for new ones, and every new connection fails.</p>
+        <p>The engineers at Photon found it on their always-on Macs, watched it happen on two machines as they crossed the limit, and traced it to Apple's published kernel source. <a href="https://photon.codes/blog/we-found-a-ticking-time-bomb-in-macos-tcp-networking">Read their write-up.</a></p>
+
+        <h2>Who it affects</h2>
+        <ul>
+          <li><strong>macOS 26.</strong> I compared the clock code in every kernel version Apple has published. In macOS 15 and earlier it counts up a different way and keeps going after it rolls over. Every macOS 26 version published so far has the code that stops. Some reports say Catalina and later are affected; the source doesn't back that up.</li>
+          <li><strong>Macs that stay awake.</strong> The clock only counts awake time. A laptop that sleeps every night can go far longer than 50 days between restarts. A Mac mini running as a server, or any Mac set never to sleep, reaches the limit in seven weeks.</li>
+        </ul>
+        <p>Apple hasn't said whether a later update fixes it. As of November 17, 2026, the newest published kernel source still has it.</p>
+
+        <h2>How to check, and what to do</h2>
+        <ol class="steps">
+          <li><b>See how long your Mac has been on.</b> Type <code>uptime</code> in Terminal. That count includes sleep, so it's the most your Mac could have been awake: if it says less than 49 days, this isn't your problem.</li>
+          <li><b>Restart your Mac.</b> Apple menu → Restart. That resets the clock.</li>
+          <li><b>If your Mac stays on for weeks,</b> restart it at least every six weeks. A calendar reminder works, or let WiFi or ISP remind you.</li>
+          <li><b>Still slow after a restart?</b> Then it's your Wi-Fi or your ISP. <a href="/why-is-my-wifi-so-slow">Find out which.</a></li>
+        </ol>
+
+        <h2>How WiFi or ISP handles it</h2>
+        <p>On macOS 26, WiFi or ISP tracks how long your Mac has been awake since its last restart. Five days before the limit, it shows a heads-up. Past the limit, if its checks to your router and the internet start failing, it tells you to restart your Mac before it blames your Wi-Fi or your ISP. You get one notification for each, and you can turn them off in Settings. Agents can see it too: <code>wifiorisp status</code> reports your uptime.</p>
+
+      </div>
+    </section>
+    <section class="faq">
+      <div class="wrap narrow">
+        <h2>Questions</h2>
+        <details><summary>Why does my Mac&#x27;s internet stop working after about 49 days?</summary><p>On macOS 26, the kernel's network clock counts milliseconds in a 32-bit number, which rolls over after 49.7 days awake. The clock then stops, closed connections never clear, and the Mac runs out of ports for new ones. A restart fixes it.</p></details>
+        <details><summary>Does sleep count toward the 49.7 days?</summary><p>No. The clock only counts time the Mac is awake, so a Mac that sleeps every night takes much longer to reach the limit.</p></details>
+        <details><summary>Will restarting my router fix it?</summary><p>No. The problem is inside the Mac. Your router and your ISP are fine, and other devices keep working. Restart the Mac.</p></details>
+        <details><summary>Is it fixed in the latest macOS?</summary><p>Apple hasn't said. As of November 17, 2026, the newest kernel source Apple has published still has the code that stops the clock.</p></details>
+      </div>
+    </section>
+    <section class="cta">
+      <div class="wrap">
+        <img src="/images/icon.png" alt="" width="96" height="96">
+        <h2>Know whether it's your Mac, your Wi-Fi, or your ISP.</h2>
+        <p class="cta-sub">WiFi or ISP is a free Mac menu bar app. It times your router and the internet at the same moment, says which side is slow, and keeps a log you can send your ISP.</p>
+        <div class="actions center">
+          <a class="bx-btn" href="https://github.com/coreyhaines31/wifiorisp/releases/latest"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11m-5-5 5 5 5-5M5 20h14"/></svg>Download free</a>
+        </div>
+        <p class="fineprint"><code>brew install --cask coreyhaines31/tap/wifiorisp</code></p>
+      </div>
+    </section>
+  </main>
+  <footer>
+    <div class="bx-family">
+      <div class="bx-wrap">
+        <p class="bx-eyebrow">More free Mac apps by Corey</p>
+        <ul><li><a href="https://fuelgauge.app"><img src="/images/family/fuel.png" alt="" width="56" height="56" loading="lazy">Fuel Gauge</a></li><li><a href="https://spareformac.com"><img src="/images/family/spare.png" alt="" width="56" height="56" loading="lazy">Spare</a></li><li><a href="https://diskforecast.com"><img src="/images/family/disk.png" alt="" width="56" height="56" loading="lazy">Disk Forecast</a></li><li><a href="https://midnightoil.app"><img src="/images/family/oil.png" alt="" width="56" height="56" loading="lazy">Midnight Oil</a></li><li><a href="https://wifiorisp.com" aria-current="page"><img src="/images/family/wifi.png" alt="" width="56" height="56" loading="lazy">WiFi or ISP</a></li><li><a href="https://greenroomformac.com"><img src="/images/family/green.png" alt="" width="56" height="56" loading="lazy">Green Room</a></li><li><a href="https://onhandformac.com"><img src="/images/family/hand.png" alt="" width="56" height="56" loading="lazy">On Hand</a></li><li><a href="https://coatcheckformac.com"><img src="/images/family/coat.png" alt="" width="56" height="56" loading="lazy">Coat Check</a></li><li><a href="https://killcord.app"><img src="/images/family/kill.png" alt="" width="56" height="56" loading="lazy">Kill Cord</a></li></ul>
+      </div>
+    </div>
+    <div class="bx-footer">
+      <div class="bx-wrap">
+      <nav class="footer-links" aria-label="Guides"><a href="/bufferbloat-test">Bufferbloat test</a><a href="/why-is-my-wifi-so-slow">Why is my Wi-Fi so slow?</a><a href="/internet-keeps-dropping">Internet keeps dropping?</a><a href="/how-to-change-wifi-channel">How to change your Wi-Fi channel</a><a href="/how-to-restart-router">How to restart your router</a><a href="/why-does-my-wifi-keep-disconnecting">Why does my Wi-Fi keep disconnecting?</a><a href="/wifi-signal-strength">Wi-Fi signal strength chart</a><a href="/what-is-a-good-ping">What is a good ping?</a><a href="/mac-keeps-disconnecting-from-wifi">Mac keeps disconnecting from Wi-Fi</a><a href="/internet-slow-at-night">Internet slow at night?</a><a href="/mac-internet-stops-working-after-weeks">Mac internet stops after weeks without a restart?</a><a href="/ping-test">Ping and jitter test</a><a href="/internet-providers">Internet providers near you</a><a href="/help">Help and troubleshooting</a><a href="/slow-internet">Slow internet by provider</a><a href="/router-login">Router login guides</a><a href="/routers">Router picks by need</a><a href="/affiliate-disclosure">Affiliate disclosure</a></nav>
+      <nav class="footer-links" aria-label="Alternatives"><a href="/alternatives/">Alternatives</a><a href="/alternatives/netspot">NetSpot alternative</a><a href="/alternatives/pingkit">PingKit alternative</a><a href="/alternatives/istat-menus">iStat Menus alternative</a><a href="/alternatives/wifi-explorer">WiFi Explorer alternative</a><a href="/alternatives/wifi-signal">WiFi Signal alternative</a></nav>
+      <span>© 2026 Corey Haines · Source available under <a href="https://github.com/coreyhaines31/wifiorisp/blob/main/LICENSE">FSL-1.1-MIT</a></span>
+      <span><a href="https://github.com/coreyhaines31/wifiorisp">GitHub</a> · <a href="https://github.com/coreyhaines31/wifiorisp/issues">Report a bug</a></span>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

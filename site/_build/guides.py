@@ -472,6 +472,59 @@ GUIDES += [
         ],
         "cta": "Catch the evening slowdowns as they happen.",
     },
+    # ------------------------------------------------------------------ macOS 26 uptime
+    {
+        "slug": "mac-internet-stops-working-after-weeks",
+        "link": "Mac internet stops after weeks without a restart?",
+        "title": "Mac Internet Stops Working After Weeks Without a Restart? (macOS 26)",
+        "description": "On macOS 26, a Mac awake for about 49.7 days without a restart can stop opening new connections while ping still works. Here's why, who it affects, and the fix.",
+        "updated": "2026-11-17",
+        "updated_text": "November 17, 2026",
+        "eyebrow": "Guide",
+        "h1": "Mac internet stops working after weeks without a restart?",
+        "lede": "If your Mac has been on for about seven weeks and pages, apps, and uploads start timing out while ping still answers, it may not be your Wi-Fi or your ISP. On macOS 26, a Mac awake for about 49.7 days without a restart can stop opening new network connections.",
+        "tldr": "Restart your Mac before you restart the router or call your ISP. Restarting is the only fix, and it resets the clock for another 49.7 days. Sleep doesn't count toward the limit, so it mostly hits Macs that stay awake: desktops, servers, and Macs set never to sleep.",
+        "body": '''
+        <h2>What it looks like</h2>
+        <ul>
+          <li>Websites, apps, and uploads time out, at random at first, then more often.</li>
+          <li>Connections that were already open keep working.</li>
+          <li>Ping still answers, so network tools say you're fine.</li>
+          <li>Nothing crashes and nothing shows up in a log.</li>
+          <li>Restarting the router doesn't help. Restarting the Mac does.</li>
+        </ul>
+
+        <h2>Why it happens</h2>
+        <p>macOS keeps a clock for its network connections: a count of milliseconds since the Mac started, stored in a 32-bit number. That number runs out at 4,294,967,296 milliseconds, which is 49 days, 17 hours, and 2 minutes.</p>
+        <p>In macOS 26, the kernel code that updates this clock only lets it move forward. When the count rolls over to zero, the new value looks older than the old one, so the clock stops. With the clock stopped, connections your Mac has closed never finish closing. They pile up until the Mac runs out of ports for new ones, and every new connection fails.</p>
+        <p>The engineers at Photon found it on their always-on Macs, watched it happen on two machines as they crossed the limit, and traced it to Apple's published kernel source. <a href="https://photon.codes/blog/we-found-a-ticking-time-bomb-in-macos-tcp-networking">Read their write-up.</a></p>
+
+        <h2>Who it affects</h2>
+        <ul>
+          <li><strong>macOS 26.</strong> I compared the clock code in every kernel version Apple has published. In macOS 15 and earlier it counts up a different way and keeps going after it rolls over. Every macOS 26 version published so far has the code that stops. Some reports say Catalina and later are affected; the source doesn't back that up.</li>
+          <li><strong>Macs that stay awake.</strong> The clock only counts awake time. A laptop that sleeps every night can go far longer than 50 days between restarts. A Mac mini running as a server, or any Mac set never to sleep, reaches the limit in seven weeks.</li>
+        </ul>
+        <p>Apple hasn't said whether a later update fixes it. As of November 17, 2026, the newest published kernel source still has it.</p>
+
+        <h2>How to check, and what to do</h2>
+        <ol class="steps">
+          <li><b>See how long your Mac has been on.</b> Type <code>uptime</code> in Terminal. That count includes sleep, so it's the most your Mac could have been awake: if it says less than 49 days, this isn't your problem.</li>
+          <li><b>Restart your Mac.</b> Apple menu → Restart. That resets the clock.</li>
+          <li><b>If your Mac stays on for weeks,</b> restart it at least every six weeks. A calendar reminder works, or let WiFi or ISP remind you.</li>
+          <li><b>Still slow after a restart?</b> Then it's your Wi-Fi or your ISP. <a href="/why-is-my-wifi-so-slow">Find out which.</a></li>
+        </ol>
+
+        <h2>How WiFi or ISP handles it</h2>
+        <p>On macOS 26, WiFi or ISP tracks how long your Mac has been awake since its last restart. Five days before the limit, it shows a heads-up. Past the limit, if its checks to your router and the internet start failing, it tells you to restart your Mac before it blames your Wi-Fi or your ISP. You get one notification for each, and you can turn them off in Settings. Agents can see it too: <code>wifiorisp status</code> reports your uptime.</p>
+''',
+        "faqs": [
+            ("Why does my Mac's internet stop working after about 49 days?", "On macOS 26, the kernel's network clock counts milliseconds in a 32-bit number, which rolls over after 49.7 days awake. The clock then stops, closed connections never clear, and the Mac runs out of ports for new ones. A restart fixes it."),
+            ("Does sleep count toward the 49.7 days?", "No. The clock only counts time the Mac is awake, so a Mac that sleeps every night takes much longer to reach the limit."),
+            ("Will restarting my router fix it?", "No. The problem is inside the Mac. Your router and your ISP are fine, and other devices keep working. Restart the Mac."),
+            ("Is it fixed in the latest macOS?", "Apple hasn't said. As of November 17, 2026, the newest kernel source Apple has published still has the code that stops the clock."),
+        ],
+        "cta": "Know whether it's your Mac, your Wi-Fi, or your ISP.",
+    },
 ]
 
 PING_WIDGET = '''    <section class="tool">
