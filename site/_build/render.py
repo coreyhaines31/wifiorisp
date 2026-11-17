@@ -191,7 +191,7 @@ def structured_data(page, path):
             "headline": html.unescape(page["title"]),
             "description": page["description"],
             "url": f"{SITE}{path}",
-            "dateModified": UPDATED,
+            "dateModified": page.get("updated", UPDATED),
             "author": AUTHOR,
             "publisher": {"@type": "Organization", "name": "WiFi or ISP", "logo": f"{SITE}/images/icon.png"},
         }]
@@ -212,7 +212,7 @@ def sub_hero(page, tldr):
         <p class="eyebrow">{esc(page["eyebrow"])}</p>
         <h1>{page["h1"]}</h1>
         <p class="lede">{page["lede"]}</p>
-        <p class="byline">By <a href="https://corey.co">Corey Haines</a>, maker of WiFi or ISP · Updated {UPDATED_TEXT}</p>
+        <p class="byline">By <a href="https://corey.co">Corey Haines</a>, maker of WiFi or ISP · Updated {page.get("updated_text", UPDATED_TEXT)}</p>
         {tldr}
       </div>
     </section>
