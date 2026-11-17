@@ -19,8 +19,10 @@ public enum CLIText {
             if let provider = status.provider { rows.append(("Provider", provider)) }
             rows.append(("Internet", timing(status.internet)))
         }
+        rows += uptimeRow(status.uptime)
         let width = rows.map(\.0.count).max() ?? 0
         lines += rows.map { $0.0.padding(toLength: width + 2, withPad: " ", startingAt: 0) + $0.1 }
+        lines += uptimeNotice(status.uptime)
 
         if !status.nextSteps.isEmpty {
             lines += ["", "What to do"]
@@ -122,6 +124,21 @@ public enum CLIText {
         case .responsiveness(let result): "Lag test: \(result.headline), \(result.rpm) RPM"
         case .dropStarted, .dropEnded: nil
         }
+    }
+
+    private static func uptimeRow(_ uptime: CLIStatus.Uptime?) -> [(String, String)] {
+        guard let uptime else { return [] }
+        let days = switch Int(uptime.awakeDays) {
+        case 0: "Less than a day"
+        case 1: "1 day"
+        case let whole: "\(whole) days"
+        }
+        return [("Uptime", "\(days) since the last restart, not counting sleep")]
+    }
+
+    private static func uptimeNotice(_ uptime: CLIStatus.Uptime?) -> [String] {
+        guard let uptime, let headline = uptime.headline, let detail = uptime.detail else { return [] }
+        return ["", headline, "  \(detail)"] + (uptime.url.map { ["  → \($0)"] } ?? [])
     }
 
     static func timing(_ timing: CLIStatus.Timing) -> String {

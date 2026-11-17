@@ -138,6 +138,8 @@ public enum AlertKind: String, CaseIterable, Sendable {
     case drop
     case fellTo24GHz
     case roamedWeaker
+    /// The Mac nears or passes the macOS 26 TCP clock limit. Not tied to an event.
+    case longUptime
 }
 
 extension NetworkEvent {

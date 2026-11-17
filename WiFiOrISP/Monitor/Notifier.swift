@@ -2,7 +2,7 @@ import Foundation
 import UserNotifications
 import WiFiOrISPCore
 
-/// Posts alerts for drops, falling to 2.4 GHz, and roaming to a weaker access point.
+/// Posts alerts for drops, falling to 2.4 GHz, roaming to a weaker access point, and long uptime.
 @MainActor
 final class Notifier {
     /// Don't repeat the same kind of alert more often than this.
@@ -57,6 +57,34 @@ final class Notifier {
             .formatted(.units(allowed: [.hours, .minutes, .seconds], width: .wide, maximumUnitCount: 2))
         let side = routerAnswered == true ? " Your router answered throughout, so it was the ISP." : ""
         post(title: "Back online", body: "The internet was down for \(duration).\(side)")
+    }
+
+    /// Once when the Mac nears the macOS 26 TCP clock limit and once when it passes it, per restart.
+    func handleUptime(_ uptime: UptimeCheck) {
+        guard uptime.stage != .fine, Preferences.alerts(for: .longUptime) else { return }
+        let mark = "\(Self.bootTime()):\(uptime.stage.rawValue)"
+        guard Preferences.uptimeAlerted != mark else { return }
+        Preferences.uptimeAlerted = mark
+        let limit = "After about 49.7 days without a restart, macOS 26 can stop opening new connections"
+        if uptime.stage == .past {
+            post(
+                title: "Restart your Mac",
+                body: "It's been on \(uptime.daysText). \(limit), which looks like bad Wi-Fi. A restart fixes it."
+            )
+        } else {
+            post(
+                title: "Restart your Mac this week",
+                body: "It's been on \(uptime.daysText). \(limit) until you restart."
+            )
+        }
+    }
+
+    /// Seconds since 1970 when the Mac last started, which tells one restart from the next.
+    private static func bootTime() -> Int {
+        var boot = timeval()
+        var size = MemoryLayout<timeval>.size
+        guard sysctlbyname("kern.boottime", &boot, &size, nil, 0) == 0 else { return 0 }
+        return boot.tv_sec
     }
 
     /// Roams don't carry noise readings, so judge the words on signal alone.

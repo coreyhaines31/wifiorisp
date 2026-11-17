@@ -61,6 +61,7 @@ function parse(stdout: string): Json | null {
 const VERDICT_FIELDS = ["kind", "side", "problem", "headline", "detail"] as const;
 const WIFI_FIELDS = ["signal", "network", "band", "channel", "generation", "linkRateMbps", "rssiDBm", "noiseDBm"] as const;
 const TIMING_FIELDS = ["ms", "rating"] as const;
+const UPTIME_FIELDS = ["awakeDays", "stage", "headline", "detail"] as const;
 
 export function shapeStatus(stdout: string, code: 0 | 2): Shaped {
   const status = parse(stdout);
@@ -97,6 +98,13 @@ export function shapeStatus(stdout: string, code: 0 | 2): Shaped {
     if (url) out.url = url;
     return out;
   });
+  // Awake days since the last restart: macOS 26 can stop opening connections after about 49.7.
+  const uptime = pick(status.uptime, UPTIME_FIELDS);
+  if (uptime) {
+    const url = isObject(status.uptime) ? siteUrl(status.uptime.url) : undefined;
+    if (url) uptime.url = url;
+    answer.uptime = uptime;
+  }
   return { ok: true, text: JSON.stringify(answer) };
 }
 

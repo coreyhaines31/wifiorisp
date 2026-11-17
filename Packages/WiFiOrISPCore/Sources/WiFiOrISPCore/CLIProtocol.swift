@@ -108,6 +108,18 @@ public struct CLIStatus: Codable, Equatable, Sendable {
         public var url: String
     }
 
+    /// Time awake since the last restart. macOS 26 can stop opening connections after about 49.7 days of it.
+    public struct Uptime: Codable, Equatable, Sendable {
+        /// Awake days since the last restart, not counting sleep.
+        public var awakeDays: Double
+        /// "fine", "approaching", or "past" the macOS 26 TCP clock limit.
+        public var stage: String
+        /// Set when there's something to say, as in the menu.
+        public var headline: String?
+        public var detail: String?
+        public var url: String?
+    }
+
     public var time: Date?
     /// "wifi", "wired", or "none".
     public var link: String
@@ -122,6 +134,8 @@ public struct CLIStatus: Codable, Equatable, Sendable {
     public var nextSteps: [Step]
     /// Limits no setting fixes: the router, the Wi-Fi link, or the plan itself.
     public var limits: [Limit]
+    /// Nil from an app too old to send it.
+    public var uptime: Uptime?
 
     public static let site = "https://wifiorisp.com"
 
@@ -149,6 +163,14 @@ public struct CLIStatus: Codable, Equatable, Sendable {
         nextSteps = paused ? [] : Advice.steps(context).map(Self.step)
         limits = paused ? [] : Advice.ceilings(context).map {
             Limit(headline: $0.headline, detail: $0.detail, url: Self.site + $0.recommendation)
+        }
+        if let check = context.uptime {
+            let notice = Advice.uptimeNotice(context)
+            uptime = Uptime(
+                awakeDays: (check.awake / 86400 * 10).rounded() / 10, stage: check.stage.rawValue,
+                headline: notice?.headline, detail: notice?.detail,
+                url: notice.map { _ in Self.site + UptimeNotice.guide }
+            )
         }
     }
 
