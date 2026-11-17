@@ -21,7 +21,8 @@ struct VerdictCard: View {
                 locationAuthorized: location.isAuthorized,
                 steps: Array(Advice.steps(context).prefix(4)),
                 ceilings: Array(Advice.ceilings(context).prefix(2)),
-                uptime: Advice.uptimeNotice(context)
+                uptime: Advice.uptimeNotice(context),
+                detail: Advice.verdictDetail(context)
             ),
             perform: perform
         )
@@ -40,6 +41,8 @@ struct CardSnapshot {
     var ceilings: [Ceiling]
     /// Long enough without a restart that macOS networking may misbehave.
     var uptime: UptimeNotice?
+    /// The verdict's explanation, deferring to the uptime notice when that's the likely cause.
+    var detail: String
 
     /// "Office-5G", "Wired", or why there's no name.
     var networkName: String? {
@@ -83,7 +86,7 @@ private struct CardBody: View {
         }
         VerdictView(
             snapshot.verdict.headline,
-            message: snapshot.isPaused ? "Paused while a test runs." : snapshot.verdict.detail,
+            message: snapshot.isPaused ? "Paused while a test runs." : snapshot.detail,
             status: CardStatus.status(for: snapshot.verdict),
             statusLabel: CardStatus.word(for: snapshot.verdict)
         )

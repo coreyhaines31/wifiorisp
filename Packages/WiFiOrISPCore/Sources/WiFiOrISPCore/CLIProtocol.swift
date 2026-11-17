@@ -146,7 +146,7 @@ public struct CLIStatus: Codable, Equatable, Sendable {
         link = sample?.link.rawValue ?? Link.none.rawValue
         self.verdict = Judgment(
             kind: verdict.kind.rawValue, side: verdict.side?.rawValue, problem: verdict.isProblem,
-            headline: verdict.headline, detail: verdict.detail
+            headline: verdict.headline, detail: Advice.verdictDetail(context)
         )
         self.paused = paused
         if sample?.link == .wifi, let reading = sample?.wifi {
