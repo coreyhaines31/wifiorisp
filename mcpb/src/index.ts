@@ -78,7 +78,10 @@ server.registerTool(
       "kind, side ('yours' or 'isp' when one is at fault), a headline, and detail; problem is true when " +
       "something is wrong. router and internet are the latest round trips with a rating. wifi has the signal, " +
       "network name, band, and Wi-Fi generation. nextSteps say what to do (a wifiorisp.com guide, or a tool " +
-      "to run), and limits are ceilings no setting fixes. Use for 'is it my Wi-Fi or my ISP?', 'why is my " +
+      "to run), and limits are ceilings no setting fixes. uptime is how long the Mac has been awake since its " +
+      "last restart (awakeDays) and whether it's near or past ('approaching', 'past') the ~49.7 days after " +
+      "which macOS 26 can stop opening new connections; when past and the connection is failing, restarting " +
+      "the Mac comes first. Use for 'is it my Wi-Fi or my ISP?', 'why is my " +
       "internet slow?', 'is my ISP down?', or 'is my Wi-Fi bad?'. Opens WiFi or ISP in the background if it " +
       `isn't running. ${OTHER_APPS}`,
     inputSchema: {},
