@@ -100,7 +100,9 @@ final class Windows {
         let plan = Preferences.plan
         Task {
             let text = await Task.detached {
-                ISPReport.text(log: store.load(from: start, to: end), start: start, end: end, plan: plan)
+                ISPReport.text(
+                    log: store.load(from: start, to: end), start: start, end: end, plan: plan, uptime: .current()
+                )
             }.value
             write(text, to: url)
         }

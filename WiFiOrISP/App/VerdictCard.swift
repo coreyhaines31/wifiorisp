@@ -20,7 +20,8 @@ struct VerdictCard: View {
                 maker: monitor.maker,
                 locationAuthorized: location.isAuthorized,
                 steps: Array(Advice.steps(context).prefix(4)),
-                ceilings: Array(Advice.ceilings(context).prefix(2))
+                ceilings: Array(Advice.ceilings(context).prefix(2)),
+                uptime: Advice.uptimeNotice(context)
             ),
             perform: perform
         )
@@ -37,6 +38,8 @@ struct CardSnapshot {
     var locationAuthorized: Bool
     var steps: [NextStep]
     var ceilings: [Ceiling]
+    /// Long enough without a restart that macOS networking may misbehave.
+    var uptime: UptimeNotice?
 
     /// "Office-5G", "Wired", or why there's no name.
     var networkName: String? {
@@ -84,6 +87,9 @@ private struct CardBody: View {
             status: CardStatus.status(for: snapshot.verdict),
             statusLabel: CardStatus.word(for: snapshot.verdict)
         )
+        if let uptime = snapshot.uptime, uptime.tone == .cause {
+            uptimeNotice(uptime)
+        }
         Readings(rows: readings)
         if !snapshot.isPaused {
             if !snapshot.steps.isEmpty {
@@ -97,6 +103,9 @@ private struct CardBody: View {
                 }
             }
         }
+        if let uptime = snapshot.uptime, uptime.tone != .cause {
+            uptimeNotice(uptime)
+        }
         if let details {
             Text(details)
                 .font(PanelFont.body(10.5))
@@ -104,6 +113,19 @@ private struct CardBody: View {
                 .foregroundStyle(theme.sub)
                 .fixedSize(horizontal: false, vertical: true)
                 .padding(EdgeInsets(top: 6, leading: 14, bottom: 12, trailing: 14))
+        }
+    }
+
+    /// Right under the verdict when it's the likely cause; below the steps as a heads-up otherwise.
+    private func uptimeNotice(_ notice: UptimeNotice) -> some View {
+        let status: PanelStatus = switch notice.tone {
+        case .cause: .stop
+        case .warning: .caution
+        case .headsUp: .off
+        }
+        return Notice(notice.headline, message: notice.detail, status: status) {
+            Button("Why this happens ›") { perform(.page(UptimeNotice.guide)) }
+                .accessibilityHint("Opens a guide on wifiorisp.com")
         }
     }
 

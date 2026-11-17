@@ -59,7 +59,7 @@ final class MonitorController: ObservableObject {
         AdviceContext(
             verdict: verdict, latest: latest, macSupports6GHz: macSupports6GHz, maker: maker, provider: provider,
             plan: Preferences.plan, profile: Preferences.plan == nil ? nil : Preferences.profile,
-            speedTests: speedTests, lag: lag
+            speedTests: speedTests, lag: lag, uptime: .current()
         )
     }
 
