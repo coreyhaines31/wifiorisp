@@ -51,11 +51,13 @@ public struct AdviceContext: Sendable {
     public var profile: HomeProfile?
     public var speedTests: [SpeedTestResult]
     public var lag: ResponsivenessResult?
+    /// Nil where uptime isn't known, as in tests and replays of the log.
+    public var uptime: UptimeCheck?
 
     public init(
         verdict: Verdict, latest: Sample?, macSupports6GHz: Bool = false, maker: RouterMaker? = nil,
         provider: Provider? = nil, plan: Plan? = nil, profile: HomeProfile? = nil,
-        speedTests: [SpeedTestResult] = [], lag: ResponsivenessResult? = nil
+        speedTests: [SpeedTestResult] = [], lag: ResponsivenessResult? = nil, uptime: UptimeCheck? = nil
     ) {
         self.verdict = verdict
         self.latest = latest
@@ -66,6 +68,7 @@ public struct AdviceContext: Sendable {
         self.profile = profile
         self.speedTests = speedTests
         self.lag = lag
+        self.uptime = uptime
     }
 
     var providerName: String { provider?.name ?? "your provider" }
@@ -108,6 +111,17 @@ public enum Advice {
     // MARK: - Next steps
 
     public static func steps(_ context: AdviceContext) -> [NextStep] {
+        let steps = verdictSteps(context)
+        guard let uptime = context.uptime, uptime.stage == .past, uptimeCouldExplain(context.verdict) else {
+            return steps
+        }
+        let restart = NextStep(
+            "Restart your Mac: it's been on \(uptime.daysText)", .page(UptimeNotice.guide)
+        )
+        return [restart] + steps
+    }
+
+    private static func verdictSteps(_ context: AdviceContext) -> [NextStep] {
         switch context.verdict.kind {
         case .weakSignal, .goodWeakSignal: weakSignalSteps(context)
         case .localNetwork, .routerUnreachable, .offline: routerSteps(context)
