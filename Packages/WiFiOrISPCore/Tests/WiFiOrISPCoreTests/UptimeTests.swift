@@ -71,6 +71,25 @@ struct UptimeTests {
         #expect(Advice.uptimeNotice(context(samples(router: .lost, internet: .lost), awakeDays: 3)) == nil)
     }
 
+    @Test func verdictDetailDefersToTheRestartNotice() {
+        let failing = context(samples(router: .lost, internet: .lost), awakeDays: 52)
+        #expect(Advice.verdictDetail(failing) == "Your router stopped answering over Wi-Fi. Restart your Mac first "
+            + "(see below); if that doesn't fix it, move closer or restart the router.")
+        let slowISP = context(samples(internet: .reply(ms: 300)), awakeDays: 52)
+        #expect(Advice.verdictDetail(slowISP).hasSuffix(
+            "Restart your Mac first (see below); if that doesn't fix it, the delay is past your router: your ISP, "
+                + "or your modem."))
+    }
+
+    @Test func verdictDetailUnchangedOtherwise() {
+        for awake in [3.0, 46] {
+            let failing = context(samples(router: .lost, internet: .lost), awakeDays: awake)
+            #expect(Advice.verdictDetail(failing) == failing.verdict.detail)
+        }
+        let fine = context(samples(), awakeDays: 52)
+        #expect(Advice.verdictDetail(fine) == fine.verdict.detail)
+    }
+
     @Test func statusCarriesUptimeForAgents() throws {
         let status = CLIStatus(context: context(samples(router: .lost, internet: .lost), awakeDays: 52.34),
                                networkName: "Home", paused: false)

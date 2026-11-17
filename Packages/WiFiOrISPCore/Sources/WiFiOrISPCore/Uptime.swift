@@ -88,6 +88,31 @@ extension Advice {
         }
     }
 
+    /// The verdict's explanation. Past the uptime limit, when uptime could explain it, it defers to the
+    /// restart notice and keeps its own fix as the fallback, so the two don't compete.
+    public static func verdictDetail(_ context: AdviceContext) -> String {
+        let verdict = context.verdict
+        guard context.uptime?.stage == .past, uptimeCouldExplain(verdict) else { return verdict.detail }
+        let wired = context.latest?.link == .wired
+        let observation = firstSentence(verdict.detail)
+        let fallback = switch verdict.kind {
+        case .routerUnreachable:
+            wired ? "check the cable and that the router is on" : "move closer or restart the router"
+        case .localNetwork: wired ? "restart the router" : "restart the router or change its channel"
+        case .ispDown: "the outage is on your ISP's side, or between your router and modem"
+        case .isp: "the delay is past your router: your ISP, or your modem"
+        default: "check your router, then your ISP"
+        }
+        let seen = verdict.kind == .offline ? "Neither the internet nor your router is answering." : observation
+        return "\(seen) Restart your Mac first (see below); if that doesn't fix it, \(fallback)."
+    }
+
+    /// "Your router stopped answering." from "Your router stopped answering. Move closer..."
+    static func firstSentence(_ text: String) -> String {
+        guard let end = text.range(of: ". ") else { return text }
+        return String(text[..<end.lowerBound]) + "."
+    }
+
     public static func uptimeNotice(_ context: AdviceContext) -> UptimeNotice? {
         guard let uptime = context.uptime else { return nil }
         let running = "Your Mac has been on for \(uptime.daysText) without a restart (sleep doesn't count)."
