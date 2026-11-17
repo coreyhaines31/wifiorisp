@@ -70,4 +70,31 @@ struct UptimeTests {
     @Test func freshRestartSaysNothing() {
         #expect(Advice.uptimeNotice(context(samples(router: .lost, internet: .lost), awakeDays: 3)) == nil)
     }
+
+    @Test func statusCarriesUptimeForAgents() throws {
+        let status = CLIStatus(context: context(samples(router: .lost, internet: .lost), awakeDays: 52.34),
+                               networkName: "Home", paused: false)
+        #expect(status.uptime?.awakeDays == 52.3)
+        #expect(status.uptime?.stage == "past")
+        #expect(status.uptime?.url == "https://wifiorisp.com" + UptimeNotice.guide)
+        #expect(status.nextSteps.first?.url == "https://wifiorisp.com" + UptimeNotice.guide)
+        let text = CLIText.status(status)
+        #expect(text.contains("Uptime"))
+        #expect(text.contains("52 days since the last restart"))
+        #expect(text.contains("Restart your Mac first"))
+
+        let fresh = CLIStatus(context: context(samples(), awakeDays: 3), networkName: nil, paused: false)
+        #expect(fresh.uptime?.stage == "fine")
+        #expect(fresh.uptime?.headline == nil)
+        let json = try #require(String(bytes: CLIProtocol.encoder().encode(fresh), encoding: .utf8))
+        #expect(json.contains("\"uptime\":{\"awakeDays\":3,\"stage\":\"fine\"}"))
+    }
+
+    @Test func reportNotesUptime() {
+        let report = ISPReport.text(
+            log: Log(samples: samples(), events: []), start: now.addingTimeInterval(-3600), end: now,
+            uptime: UptimeCheck(awake: 52 * day, osMajor: 26)
+        )
+        #expect(report.contains("Mac running since its last restart: 52 days, not counting sleep"))
+    }
 }
