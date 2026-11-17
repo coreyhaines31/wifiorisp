@@ -9,6 +9,9 @@ enum Preferences {
         static let alertsOnDrop = "alertsOnDrop"
         static let alertsOn24GHz = "alertsOn24GHz"
         static let alertsOnWeakerRoam = "alertsOnWeakerRoam"
+        static let alertsOnLongUptime = "alertsOnLongUptime"
+        /// "<boot time>:<stage>" of the last uptime alert, so each stage alerts once per restart.
+        static let uptimeAlerted = "uptimeAlerted"
         static let showsVerdictInMenuBar = "showsVerdictInMenuBar"
         static let showsSignalInMenuBar = "showsSignalInMenuBar"
         static let keepDays = "keepDays"
@@ -30,6 +33,7 @@ enum Preferences {
             Key.alertsOnDrop: true,
             Key.alertsOn24GHz: true,
             Key.alertsOnWeakerRoam: true,
+            Key.alertsOnLongUptime: true,
             Key.showsVerdictInMenuBar: true,
             Key.showsSignalInMenuBar: false,
             Key.keepDays: LogStore.defaultKeepDays,
@@ -45,6 +49,7 @@ enum Preferences {
         case .drop: defaults.bool(forKey: Key.alertsOnDrop)
         case .fellTo24GHz: defaults.bool(forKey: Key.alertsOn24GHz)
         case .roamedWeaker: defaults.bool(forKey: Key.alertsOnWeakerRoam)
+        case .longUptime: defaults.bool(forKey: Key.alertsOnLongUptime)
         }
     }
 
@@ -53,7 +58,13 @@ enum Preferences {
         case .drop: Key.alertsOnDrop
         case .fellTo24GHz: Key.alertsOn24GHz
         case .roamedWeaker: Key.alertsOnWeakerRoam
+        case .longUptime: Key.alertsOnLongUptime
         }
+    }
+
+    static var uptimeAlerted: String? {
+        get { defaults.string(forKey: Key.uptimeAlerted) }
+        set { defaults.set(newValue, forKey: Key.uptimeAlerted) }
     }
 
     static var showsVerdictInMenuBar: Bool { defaults.bool(forKey: Key.showsVerdictInMenuBar) }

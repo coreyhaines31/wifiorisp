@@ -46,6 +46,7 @@ struct AlertsSettingsView: View {
     @AppStorage(Preferences.key(for: .drop)) private var drop = true
     @AppStorage(Preferences.key(for: .fellTo24GHz)) private var band = true
     @AppStorage(Preferences.key(for: .roamedWeaker)) private var roam = true
+    @AppStorage(Preferences.key(for: .longUptime)) private var uptime = true
 
     var body: some View {
         Form {
@@ -53,11 +54,13 @@ struct AlertsSettingsView: View {
                 Toggle("The internet drops, and when it's back", isOn: $drop)
                 Toggle("Your Mac falls back to 2.4 GHz", isOn: $band)
                 Toggle("Your Mac roams to a weaker access point", isOn: $roam)
+                Toggle("Your Mac needs a restart to keep its connections working", isOn: $uptime)
             } header: {
                 Text("Notify me when")
             } footer: {
                 Text("Alerts repeat at most every five minutes. "
-                    + "Drops while your Mac reconnects after sleep don't count.")
+                    + "Drops while your Mac reconnects after sleep don't count. "
+                    + "Restart reminders come once a few days before macOS 26's 49.7-day limit, and once after it.")
                     .foregroundStyle(.secondary)
             }
         }

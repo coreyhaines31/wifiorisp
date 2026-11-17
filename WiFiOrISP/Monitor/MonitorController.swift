@@ -211,6 +211,7 @@ final class MonitorController: ObservableObject {
             detector = EventDetector()
         }
         verdict = VerdictEngine.evaluate(recent, now: sample.time)
+        notifier.handleUptime(.current())
         identifyNetworkIfNeeded()
         onChange?()
         sampleObservers.values.forEach { $0() }
