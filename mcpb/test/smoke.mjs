@@ -50,6 +50,7 @@ const fakeCalls = [
       router: { ms: 8.6, rating: "Fast" }, internet: { ms: 15, rating: "Fast" },
       nextSteps: [{ title: "Run a speed test", tool: "speed_test" }, { title: "Read this" }],
       limits: [],
+      uptime: { awakeDays: 12.1, stage: "fine" },
     },
   ],
   [
@@ -63,6 +64,10 @@ const fakeCalls = [
         { title: "Send your ISP a report", tool: "isp_report" },
       ],
       limits: [{ headline: "Plan ceiling", detail: "Your plan tops out.", url: "https://wifiorisp.com/routers" }],
+      uptime: {
+        awakeDays: 52.3, stage: "past", headline: "Restart your Mac first", detail: "It has been running 52 days.",
+        url: "https://wifiorisp.com/mac-internet-stops-working-after-weeks",
+      },
     },
   ],
   [

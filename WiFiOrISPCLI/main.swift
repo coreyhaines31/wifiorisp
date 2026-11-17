@@ -238,7 +238,7 @@ case .history(let since, let format):
     }
 case .report(let since):
     let (log, start, end) = readLog(since: since)
-    print(ISPReport.text(log: log, start: start, end: end, plan: savedPlan))
+    print(ISPReport.text(log: log, start: start, end: end, plan: savedPlan, uptime: .current()))
 case .app(let action, let json):
     if action == .speed {
         note("Speed test by M-Lab, which publishes every result, including your IP address, as open data.")
