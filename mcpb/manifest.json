@@ -3,7 +3,7 @@
   "manifest_version": "0.4",
   "name": "wifiorisp",
   "display_name": "WiFi or ISP",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Ask Claude whether slow internet is your Wi-Fi or your ISP, and get the report to send your ISP.",
   "long_description": "WiFi or ISP is a free menu bar app that times your router and the internet at the same moment, so it can say whether slow or dropping internet is your Wi-Fi (or router) or your ISP. This extension lets Claude read the same verdict through WiFi or ISP's `wifiorisp` command line tool.\n\nAsk things like \"is it my Wi-Fi or my ISP?\", \"why is my internet slow?\", \"is my ISP down?\", or \"write up the outages to send my ISP\".\n\nRequires the WiFi or ISP app (https://wifiorisp.com). Everything is local and read-only. Speed and lag tests are off unless you turn them on in this extension's settings: the speed test is run by M-Lab, which publishes every result, including your IP address, as open data.",
   "author": {

@@ -5,7 +5,7 @@ import { runWiFiOrISP, sinceSeconds } from "./cli.js";
 import { registerFeedbackTool } from "./feedback.js";
 import { shapeHistory, shapeLag, shapeReport, shapeSpeed, shapeStatus } from "./shape.js";
 
-const VERSION = "0.1.0";
+const VERSION = "0.1.1";
 // The manifest's allow_tests setting. Speed and lag tests aren't even registered without it.
 const testsAllowed = process.env.WIFIORISP_ALLOW_TESTS === "true";
 
