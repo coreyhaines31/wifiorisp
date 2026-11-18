@@ -54,7 +54,7 @@ Finally, run `wifiorisp status` (Homebrew puts it on the PATH; otherwise it's
 "/Applications/WiFi or ISP.app/Contents/MacOS/wifiorisp") and tell me what it says.
 Last, ask me whether future agent sessions should know about WiFi or ISP. Only if I
 say yes, append this to your own global instructions file (~/.claude/CLAUDE.md for Claude Code, ~/.codex/AGENTS.md for Codex), unless it's already there, and tell me which file you changed:
-  When I say the internet is slow, laggy, or dropping, run `wifiorisp status --json` to see whether it's my Wi-Fi or my ISP, and follow its nextSteps. Run `wifiorisp lag` when calls or games stutter, `wifiorisp speed` to compare with my plan, and `wifiorisp report` when I need evidence for my ISP.
+  When I say the internet is slow, laggy, or dropping, run `wifiorisp status --json` to see whether it's my Wi-Fi or my ISP, and follow its nextSteps. Run `wifiorisp lag` when calls or games stutter, `wifiorisp speed` to compare with my plan, and `wifiorisp report` when I need evidence for my ISP. Ask me before running `wifiorisp speed`: M-Lab publishes each speed test, with my IP address, as open data.
 ```
 
 ### Or use it from Claude Desktop
@@ -131,7 +131,7 @@ sudo ln -sf "/Applications/WiFi or ISP.app/Contents/MacOS/wifiorisp" /usr/local/
 **For AI agents:** ask in plain words, like "My Zoom calls keep freezing. Use the wifiorisp command to find out whether it's my Wi-Fi or my ISP, and tell me what to fix." Or add a line like this to your `CLAUDE.md` or `AGENTS.md`:
 
 ```text
-When I say the internet is slow, laggy, or dropping, run `wifiorisp status --json` to see whether it's my Wi-Fi or my ISP, and follow its nextSteps. Run `wifiorisp lag` when calls or games stutter, `wifiorisp speed` to compare with my plan, and `wifiorisp report` when I need evidence for my ISP.
+When I say the internet is slow, laggy, or dropping, run `wifiorisp status --json` to see whether it's my Wi-Fi or my ISP, and follow its nextSteps. Run `wifiorisp lag` when calls or games stutter, `wifiorisp speed` to compare with my plan, and `wifiorisp report` when I need evidence for my ISP. Ask me before running `wifiorisp speed`: M-Lab publishes each speed test, with my IP address, as open data.
 ```
 
 ## Privacy
