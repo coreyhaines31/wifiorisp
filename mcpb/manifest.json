@@ -51,7 +51,8 @@
     { "name": "connection_history", "description": "Typical timings, slow spells, drops, and outages over a period" },
     { "name": "isp_report", "description": "The plain-text report of outages and slowness to send your ISP" },
     { "name": "speed_test", "description": "Download and upload speed from M-Lab (off unless turned on in settings; publishes your IP)" },
-    { "name": "lag_test", "description": "Lag under load and where it builds up (off unless turned on in settings)" }
+    { "name": "lag_test", "description": "Lag under load and where it builds up (off unless turned on in settings)" },
+    { "name": "submit_feedback", "description": "Drafts a GitHub issue link about a missing or broken tool for you to review and submit; sends nothing" }
   ],
   "compatibility": {
     "claude_desktop": ">=0.10.0",

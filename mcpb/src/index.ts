@@ -2,6 +2,7 @@ import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { z } from "zod";
 import { runWiFiOrISP, sinceSeconds } from "./cli.js";
+import { registerFeedbackTool } from "./feedback.js";
 import { shapeHistory, shapeLag, shapeReport, shapeSpeed, shapeStatus } from "./shape.js";
 
 const VERSION = "0.1.0";
@@ -172,5 +173,7 @@ if (testsAllowed) {
     },
   );
 }
+
+registerFeedbackTool(server, VERSION);
 
 await server.connect(new StdioServerTransport());

@@ -117,7 +117,7 @@ const fakeCalls = [
   ["stderr", false, "isp_report", { since: "3d" }, fails, "report --since 3d", "fake stderr error"],
   ["stderr", true, "lag_test", {}, fails, "lag --json", "fake stderr error"],
 ];
-const alwaysOn = ["connection_history", "connection_status", "isp_report"];
+const alwaysOn = ["connection_history", "connection_status", "isp_report", "submit_feedback"];
 const withTests = [...alwaysOn, "lag_test", "speed_test"].sort();
 const server = process.env.SERVER ?? new URL("../server/index.mjs", import.meta.url).pathname;
 const fakeCli = new URL("./fake-cli.sh", import.meta.url).pathname;
