@@ -432,7 +432,10 @@ It's a menu bar app with no Dock icon. Tell me to look for the two small
 meters near the clock, and that its welcome window asks about Location access
 (only used to show the Wi-Fi network name) and opening at login.
 Finally, run `wifiorisp status` (Homebrew puts it on the PATH; otherwise it's
-"/Applications/WiFi or ISP.app/Contents/MacOS/wifiorisp") and tell me what it says.</pre>
+"/Applications/WiFi or ISP.app/Contents/MacOS/wifiorisp") and tell me what it says.
+Last, ask me whether future agent sessions should know about WiFi or ISP. Only if I
+say yes, append this to your own global instructions file (~/.claude/CLAUDE.md for Claude Code, ~/.codex/AGENTS.md for Codex), unless it's already there, and tell me which file you changed:
+  When I say the internet is slow, laggy, or dropping, run `wifiorisp status --json` to see whether it's my Wi-Fi or my ISP, and follow its nextSteps. Run `wifiorisp lag` when calls or games stutter, `wifiorisp speed` to compare with my plan, and `wifiorisp report` when I need evidence for my ISP.</pre>
         </div>
         <h3 class="agent-sub">Then let it figure out why the internet is slow</h3>
         <p>The app comes with a <code>wifiorisp</code> command, so your agent can check for itself instead of guessing. Ask in plain words: “My Zoom calls keep freezing. Use the wifiorisp command to find out whether it's my Wi-Fi or my ISP, and tell me what to fix.”</p>

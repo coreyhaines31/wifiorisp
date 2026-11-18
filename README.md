@@ -52,6 +52,9 @@ meters near the clock, and that its welcome window asks about Location access
 (only used to show the Wi-Fi network name) and opening at login.
 Finally, run `wifiorisp status` (Homebrew puts it on the PATH; otherwise it's
 "/Applications/WiFi or ISP.app/Contents/MacOS/wifiorisp") and tell me what it says.
+Last, ask me whether future agent sessions should know about WiFi or ISP. Only if I
+say yes, append this to your own global instructions file (~/.claude/CLAUDE.md for Claude Code, ~/.codex/AGENTS.md for Codex), unless it's already there, and tell me which file you changed:
+  When I say the internet is slow, laggy, or dropping, run `wifiorisp status --json` to see whether it's my Wi-Fi or my ISP, and follow its nextSteps. Run `wifiorisp lag` when calls or games stutter, `wifiorisp speed` to compare with my plan, and `wifiorisp report` when I need evidence for my ISP.
 ```
 
 ### Or use it from Claude Desktop
