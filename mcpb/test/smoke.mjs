@@ -10,6 +10,8 @@ import { join } from "node:path";
 import { Client } from "@modelcontextprotocol/sdk/client/index.js";
 import { StdioClientTransport } from "@modelcontextprotocol/sdk/client/stdio.js";
 
+// Appended to failures the person can't fix, like a crash or output the server can't read.
+const hint = " If this looks like a bug in WiFi or ISP, report it with `submit_feedback`.";
 const ok = true;
 const fails = false;
 // [tool, arguments, should work, what a working answer must contain]
@@ -109,10 +111,10 @@ const fakeCalls = [
       routerAddedMs: 1, internetAddedMs: 3, queue: "pastRouter", downloadMbps: 300, uploadMbps: 40,
     },
   ],
-  ["garbage", false, "connection_status", {}, fails, "status --json", "Couldn't read WiFi or ISP's verdict."],
-  ["garbage", false, "connection_history", {}, fails, "history --since 24h --json", "Couldn't read WiFi or ISP's history."],
-  ["garbage", true, "speed_test", { publish_ip_to_mlab: true }, fails, "speed --json", "Couldn't read the speed test result."],
-  ["garbage", true, "lag_test", {}, fails, "lag --json", "Couldn't read the lag test result."],
+  ["garbage", false, "connection_status", {}, fails, "status --json", `Couldn't read WiFi or ISP's verdict.${hint}`],
+  ["garbage", false, "connection_history", {}, fails, "history --since 24h --json", `Couldn't read WiFi or ISP's history.${hint}`],
+  ["garbage", true, "speed_test", { publish_ip_to_mlab: true }, fails, "speed --json", `Couldn't read the speed test result.${hint}`],
+  ["garbage", true, "lag_test", {}, fails, "lag --json", `Couldn't read the lag test result.${hint}`],
   ["stderr", false, "connection_status", {}, fails, "status --json", "fake stderr error"],
   ["stderr", false, "isp_report", { since: "3d" }, fails, "report --since 3d", "fake stderr error"],
   ["stderr", true, "lag_test", {}, fails, "lag --json", "fake stderr error"],

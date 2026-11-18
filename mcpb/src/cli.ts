@@ -2,6 +2,7 @@ import { execFile } from "node:child_process";
 import { accessSync, constants } from "node:fs";
 import { homedir } from "node:os";
 import { join } from "node:path";
+import { withBugHint } from "./feedback.js";
 
 export const INSTALL_MESSAGE =
   "WiFi or ISP isn't installed on this Mac, so there's nothing to read yet. " +
@@ -131,11 +132,11 @@ export async function runWiFiOrISP(
         if (code === 0 || code === 2) return resolve({ ok: true, code, stdout });
 
         if (error?.killed) {
-          return resolve({ ok: false, text: `WiFi or ISP didn't answer within ${timeout / 1000} seconds.` });
+          return resolve({ ok: false, text: withBugHint(`WiFi or ISP didn't answer within ${timeout / 1000} seconds.`) });
         }
         const message = errorMessage(stderr);
         if (message) return resolve({ ok: false, text: message });
-        resolve({ ok: false, text: `WiFi or ISP's command line tool failed: ${error?.message ?? "unknown error"}` });
+        resolve({ ok: false, text: withBugHint(`WiFi or ISP's command line tool failed: ${error?.message ?? "unknown error"}`) });
       });
       // Without a terminal, the CLI prints a line on stderr each time a test changes phase.
       if (options.onProgress) {
@@ -146,7 +147,7 @@ export async function runWiFiOrISP(
         });
       }
     } catch (error) {
-      resolve({ ok: false, text: `Couldn't start WiFi or ISP's command line tool at ${cli}: ${(error as Error).message}` });
+      resolve({ ok: false, text: withBugHint(`Couldn't start WiFi or ISP's command line tool at ${cli}: ${(error as Error).message}`) });
     }
   });
 }

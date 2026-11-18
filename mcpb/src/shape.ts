@@ -4,6 +4,7 @@
 // What the CLI's JSON never carries, and this keeps out: the public IP, the access point's MAC address
 // (BSSID), the router's MAC address, and where the Mac is. Kept on purpose: the network name (it answers
 // "which network was that?"), the router's maker, and the provider, which the CLI already reduces to names.
+import { withBugHint } from "./feedback.js";
 
 type Shaped = { ok: true; text: string } | { ok: false; text: string };
 type Json = Record<string, unknown>;
@@ -65,7 +66,7 @@ const UPTIME_FIELDS = ["awakeDays", "stage", "headline", "detail"] as const;
 
 export function shapeStatus(stdout: string, code: 0 | 2): Shaped {
   const status = parse(stdout);
-  if (!status || !isObject(status.verdict)) return { ok: false, text: "Couldn't read WiFi or ISP's verdict." };
+  if (!status || !isObject(status.verdict)) return { ok: false, text: withBugHint("Couldn't read WiFi or ISP's verdict.") };
 
   const answer: Json = { problem: code === 2 };
   for (const field of ["time", "link", "paused", "routerMaker", "provider"] as const) {
@@ -125,7 +126,7 @@ export const NO_MEASUREMENTS =
 
 export function shapeHistory(stdout: string, since: string): Shaped {
   const history = parse(stdout);
-  if (!history) return { ok: false, text: "Couldn't read WiFi or ISP's history." };
+  if (!history) return { ok: false, text: withBugHint("Couldn't read WiFi or ISP's history.") };
 
   const answer: Json = { since, ...pick(history, HISTORY_FIELDS) };
   const networks = Array.isArray(history.networks) ? history.networks : [];
@@ -150,7 +151,7 @@ export function shapeHistory(stdout: string, since: string): Shaped {
 // which the report needs so its local times mean something to the ISP.
 export function shapeReport(stdout: string): Shaped {
   const text = stdout.replace(/[\u0000-\u0008\u000b-\u001f\u007f]/g, "").trim();
-  if (!text) return { ok: false, text: "WiFi or ISP's report came back empty." };
+  if (!text) return { ok: false, text: withBugHint("WiFi or ISP's report came back empty.") };
   if (text.length <= MAX_REPORT_CHARS) return { ok: true, text };
   return { ok: true, text: `${text.slice(0, MAX_REPORT_CHARS)}\n… (report cut short; use a shorter since)` };
 }
@@ -173,12 +174,12 @@ const LAG_FIELDS = [
 
 export function shapeSpeed(stdout: string): Shaped {
   const speed = parse(stdout);
-  if (!speed || typeof speed.downloadMbps !== "number") return { ok: false, text: "Couldn't read the speed test result." };
+  if (!speed || typeof speed.downloadMbps !== "number") return { ok: false, text: withBugHint("Couldn't read the speed test result.") };
   return { ok: true, text: JSON.stringify({ ...pick(speed, SPEED_FIELDS), measuredBy: "M-Lab NDT7" }) };
 }
 
 export function shapeLag(stdout: string): Shaped {
   const lag = parse(stdout);
-  if (!lag || typeof lag.rpm !== "number") return { ok: false, text: "Couldn't read the lag test result." };
+  if (!lag || typeof lag.rpm !== "number") return { ok: false, text: withBugHint("Couldn't read the lag test result.") };
   return { ok: true, text: JSON.stringify(pick(lag, LAG_FIELDS)) };
 }
