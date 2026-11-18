@@ -18,9 +18,17 @@
   <link rel="icon" href="/favicon.ico" sizes="any">
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600&family=Barlow+Semi+Condensed:wght@300;600;700&display=swap">
+  <link rel="preload" href="/fonts/barlow-400.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/fonts/barlow-semi-condensed-600.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/fonts/barlow-semi-condensed-300.woff2" as="font" type="font/woff2" crossorigin>
+  <style>
+    @font-face {font-family: "Barlow"; font-style: normal; font-weight: 400; font-display: optional; src: url(/fonts/barlow-400.woff2) format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;}
+    @font-face {font-family: "Barlow"; font-style: normal; font-weight: 500; font-display: optional; src: url(/fonts/barlow-500.woff2) format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;}
+    @font-face {font-family: "Barlow"; font-style: normal; font-weight: 600; font-display: optional; src: url(/fonts/barlow-600.woff2) format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;}
+    @font-face {font-family: "Barlow Semi Condensed"; font-style: normal; font-weight: 300; font-display: optional; src: url(/fonts/barlow-semi-condensed-300.woff2) format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;}
+    @font-face {font-family: "Barlow Semi Condensed"; font-style: normal; font-weight: 600; font-display: optional; src: url(/fonts/barlow-semi-condensed-600.woff2) format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;}
+    @font-face {font-family: "Barlow Semi Condensed"; font-style: normal; font-weight: 700; font-display: optional; src: url(/fonts/barlow-semi-condensed-700.woff2) format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;}
+  </style>
   <link rel="stylesheet" href="/brushed.css">
   <link rel="stylesheet" href="/site.css">
   <script async src="https://tracerkit.com/t.js" data-key="tk_IQBbD-xkICMsq6qz"></script>
@@ -32,7 +40,7 @@
   <a class="skip" href="#main">Skip to content</a>
   <header class="site-head bx-hero">
     <div class="bx-wrap bx-nav">
-      <a class="bx-brand" href="/"><img src="/images/icon.png" alt="" width="32" height="32"> WiFi or ISP</a>
+      <a class="bx-brand" href="/"><img src="/images/icon-64.webp" srcset="/images/icon-32.webp 1x, /images/icon-64.webp 2x, /images/icon-96.webp 3x" alt="" width="32" height="32"> WiFi or ISP</a>
       <nav aria-label="Main">
         <a href="/#how">How it works</a>
         <a href="/internet-providers">Providers near you</a>
@@ -76,7 +84,10 @@ It's a menu bar app with no Dock icon. Tell me to look for the two small
 meters near the clock, and that its welcome window asks about Location access
 (only used to show the Wi-Fi network name) and opening at login.
 Finally, run `wifiorisp status` (Homebrew puts it on the PATH; otherwise it's
-"/Applications/WiFi or ISP.app/Contents/MacOS/wifiorisp") and tell me what it says.</pre>
+"/Applications/WiFi or ISP.app/Contents/MacOS/wifiorisp") and tell me what it says.
+Last, ask me whether future agent sessions should know about WiFi or ISP. Only if I
+say yes, append this to your own global instructions file (~/.claude/CLAUDE.md for Claude Code, ~/.codex/AGENTS.md for Codex), unless it's already there, and tell me which file you changed:
+  When I say the internet is slow, laggy, or dropping, run `wifiorisp status --json` to see whether it's my Wi-Fi or my ISP, and follow its nextSteps. Run `wifiorisp lag` when calls or games stutter, `wifiorisp speed` to compare with my plan, and `wifiorisp report` when I need evidence for my ISP. Ask me before running `wifiorisp speed`: M-Lab publishes each speed test, with my IP address, as open data.</pre>
         </div>
         <h2 id="claude-desktop">Use it from Claude Desktop</h2>
         <p>Install the app first, then <a href="https://github.com/coreyhaines31/wifiorisp/releases/latest/download/wifiorisp.mcpb">download wifiorisp.mcpb</a> and double-click it (or drag it onto Claude Desktop) to add the WiFi or ISP extension. Ask Claude “is it my Wi-Fi or my ISP?”, “is my ISP down?”, or “write up last week's outages for my ISP”. It reads the verdict, the log, and the ISP report through the <code>wifiorisp</code> command, and never passes Claude your IP address, your router's hardware address, or where you are (the ISP report does name your time zone, so its times make sense). Speed and lag tests stay off unless you turn them on in the extension's settings, because M-Lab publishes every speed test result, including your IP address.</p>
@@ -109,7 +120,9 @@ wifiorisp report --since 7d   # the report to send your ISP</pre>
           <pre id="agent-rule">When I say the internet is slow, laggy, or dropping, run `wifiorisp status --json`
 to see whether it's my Wi-Fi or my ISP, and follow its nextSteps. Run `wifiorisp lag`
 when calls or games stutter, `wifiorisp speed` to compare with my plan, and
-`wifiorisp report` when I need evidence for my ISP.</pre>
+`wifiorisp report` when I need evidence for my ISP.
+Ask me before running `wifiorisp speed`: M-Lab publishes each speed test, with my
+IP address, as open data.</pre>
         </div>
 
         <h2 id="first-launch">Your first two minutes</h2>
@@ -162,7 +175,7 @@ when calls or games stutter, `wifiorisp speed` to compare with my plan, and
     </section>
     <section class="cta">
       <div class="wrap">
-        <img src="/images/icon.png" alt="" width="96" height="96">
+        <img src="/images/icon-192.webp" srcset="/images/icon-96.webp 1x, /images/icon-192.webp 2x, /images/icon-288.webp 3x" alt="" width="96" height="96">
         <h2>Ready when you are.</h2>
         <p class="cta-sub">WiFi or ISP is a free Mac menu bar app. It times your router and the internet at the same moment, says which side is slow, and keeps a log you can send your ISP.</p>
         <div class="actions center">
@@ -176,7 +189,7 @@ when calls or games stutter, `wifiorisp speed` to compare with my plan, and
     <div class="bx-family">
       <div class="bx-wrap">
         <p class="bx-eyebrow">More free Mac apps by Corey</p>
-        <ul><li><a href="https://fuelgauge.app"><img src="/images/family/fuel.png" alt="" width="56" height="56" loading="lazy">Fuel Gauge</a></li><li><a href="https://spareformac.com"><img src="/images/family/spare.png" alt="" width="56" height="56" loading="lazy">Spare</a></li><li><a href="https://diskforecast.com"><img src="/images/family/disk.png" alt="" width="56" height="56" loading="lazy">Disk Forecast</a></li><li><a href="https://midnightoil.app"><img src="/images/family/oil.png" alt="" width="56" height="56" loading="lazy">Midnight Oil</a></li><li><a href="https://wifiorisp.com" aria-current="page"><img src="/images/family/wifi.png" alt="" width="56" height="56" loading="lazy">WiFi or ISP</a></li><li><a href="https://greenroomformac.com"><img src="/images/family/green.png" alt="" width="56" height="56" loading="lazy">Green Room</a></li><li><a href="https://onhandformac.com"><img src="/images/family/hand.png" alt="" width="56" height="56" loading="lazy">On Hand</a></li><li><a href="https://coatcheckformac.com"><img src="/images/family/coat.png" alt="" width="56" height="56" loading="lazy">Coat Check</a></li><li><a href="https://killcord.app"><img src="/images/family/kill.png" alt="" width="56" height="56" loading="lazy">Kill Cord</a></li></ul>
+        <ul><li><a href="https://fuelgauge.app"><img src="/images/family/fuel.webp" alt="" width="56" height="56" loading="lazy">Fuel Gauge</a></li><li><a href="https://spareformac.com"><img src="/images/family/spare.webp" alt="" width="56" height="56" loading="lazy">Spare</a></li><li><a href="https://diskforecast.com"><img src="/images/family/disk.webp" alt="" width="56" height="56" loading="lazy">Disk Forecast</a></li><li><a href="https://midnightoil.app"><img src="/images/family/oil.webp" alt="" width="56" height="56" loading="lazy">Midnight Oil</a></li><li><a href="https://wifiorisp.com" aria-current="page"><img src="/images/family/wifi.webp" alt="" width="56" height="56" loading="lazy">WiFi or ISP</a></li><li><a href="https://greenroomformac.com"><img src="/images/family/green.webp" alt="" width="56" height="56" loading="lazy">Green Room</a></li><li><a href="https://onhandformac.com"><img src="/images/family/hand.webp" alt="" width="56" height="56" loading="lazy">On Hand</a></li><li><a href="https://coatcheckformac.com"><img src="/images/family/coat.webp" alt="" width="56" height="56" loading="lazy">Coat Check</a></li><li><a href="https://killcord.app"><img src="/images/family/kill.webp" alt="" width="56" height="56" loading="lazy">Kill Cord</a></li></ul>
       </div>
     </div>
     <div class="bx-footer">
