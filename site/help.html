@@ -76,7 +76,10 @@ It's a menu bar app with no Dock icon. Tell me to look for the two small
 meters near the clock, and that its welcome window asks about Location access
 (only used to show the Wi-Fi network name) and opening at login.
 Finally, run `wifiorisp status` (Homebrew puts it on the PATH; otherwise it's
-"/Applications/WiFi or ISP.app/Contents/MacOS/wifiorisp") and tell me what it says.</pre>
+"/Applications/WiFi or ISP.app/Contents/MacOS/wifiorisp") and tell me what it says.
+Last, ask me whether future agent sessions should know about WiFi or ISP. Only if I
+say yes, append this to your own global instructions file (~/.claude/CLAUDE.md for Claude Code, ~/.codex/AGENTS.md for Codex), unless it's already there, and tell me which file you changed:
+  When I say the internet is slow, laggy, or dropping, run `wifiorisp status --json` to see whether it's my Wi-Fi or my ISP, and follow its nextSteps. Run `wifiorisp lag` when calls or games stutter, `wifiorisp speed` to compare with my plan, and `wifiorisp report` when I need evidence for my ISP.</pre>
         </div>
         <h2 id="claude-desktop">Use it from Claude Desktop</h2>
         <p>Install the app first, then <a href="https://github.com/coreyhaines31/wifiorisp/releases/latest/download/wifiorisp.mcpb">download wifiorisp.mcpb</a> and double-click it (or drag it onto Claude Desktop) to add the WiFi or ISP extension. Ask Claude “is it my Wi-Fi or my ISP?”, “is my ISP down?”, or “write up last week's outages for my ISP”. It reads the verdict, the log, and the ISP report through the <code>wifiorisp</code> command, and never passes Claude your IP address, your router's hardware address, or where you are (the ISP report does name your time zone, so its times make sense). Speed and lag tests stay off unless you turn them on in the extension's settings, because M-Lab publishes every speed test result, including your IP address.</p>
