@@ -111,7 +111,7 @@ def family():
     current = ' aria-current="page"'
     items = "".join(
         f'<li><a href="{url}"{current if key == "wifi" else ""}>'
-        f'<img src="/images/family/{key}.png" alt="" width="56" height="56" loading="lazy">{name}</a></li>'
+        f'<img src="/images/family/{key}.webp" alt="" width="56" height="56" loading="lazy">{name}</a></li>'
         for key, name, url in FAMILY)
     return f'''    <div class="bx-family">
       <div class="bx-wrap">
