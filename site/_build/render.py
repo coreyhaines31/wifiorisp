@@ -51,6 +51,7 @@ FAMILY = [
     ("hand", "On Hand", "https://onhandformac.com"),
     ("coat", "Coat Check", "https://coatcheckformac.com"),
     ("kill", "Kill Cord", "https://killcord.app"),
+    ("exhibit", "Exhibit A", "https://exhibitaformac.com"),
 ]
 DOWNLOAD_ICON = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11m-5-5 5 5 5-5M5 20h14"/></svg>'
 
@@ -108,7 +109,7 @@ def nav(home=False):
 
 
 def family():
-    """The family footer: the nine free Mac apps, this one marked current."""
+    """The family footer: the ten free Mac apps, this one marked current."""
     current = ' aria-current="page"'
     items = "".join(
         f'<li><a href="{url}"{current if key == "wifi" else ""}>'
