@@ -521,3 +521,6 @@ section.article + .faq { padding-top: 40px; }
 .home .two { grid-template-columns: minmax(0, 1fr); }
 @media (min-width: 960px) { .home .two { grid-template-columns: 1fr 1.1fr; } .home .two.flip { grid-template-columns: 1.1fr 1fr; } }
 @media (max-width: 480px) { .home .two .bx-mount { padding: 28px 10px; } }
+
+/* Nine siblings: three rows of three */
+@media (min-width: 881px) { #apps .bx-apps { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
