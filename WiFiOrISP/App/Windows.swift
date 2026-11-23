@@ -11,7 +11,9 @@ final class Windows {
     private let updater: Updater
     private let tests: TestsModel
     private lazy var history = HistoryModel(store: monitor.store)
+    private lazy var survey = SurveyModel()
     private var testsWindow: NSWindow?
+    private var surveyWindow: NSWindow?
     private var historyWindow: NSWindow?
     private var settingsWindow: NSWindow?
     private var welcomeWindow: NSWindow?
@@ -26,6 +28,15 @@ final class Windows {
     func showTests() {
         testsWindow = testsWindow ?? makeWindow("Tests", view: TestsView(model: tests))
         show(testsWindow)
+    }
+
+    func showSurvey() {
+        if surveyWindow == nil {
+            surveyWindow = makeWindow("Survey Rooms", view: SurveyView(model: survey))
+        } else {
+            survey.reload()
+        }
+        show(surveyWindow)
     }
 
     func showHistory() {

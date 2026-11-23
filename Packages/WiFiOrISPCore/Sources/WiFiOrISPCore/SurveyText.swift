@@ -4,11 +4,12 @@ import Foundation
 public enum SurveyText {
     /// The signal has to move this many dB to count as stronger or weaker. It wobbles by a dB or
     /// two with the Mac sitting still.
-    static let meaningfulChange = 3
+    public static let meaningfulChange = 3
 
     /// Link rate hops between fixed steps from second to second, so it's shown but not judged.
-    static let linkRateNote = "Judge by signal: it holds steady. Link rate is the speed of the Wi-Fi link between "
-        + "this Mac and the router (not your internet speed), and it jumps between steps even when nothing changes."
+    public static let linkRateNote = "Judge by signal: it holds steady. Link rate is the speed of the Wi-Fi link "
+        + "between this Mac and the router (not your internet speed), and it jumps between steps even when "
+        + "nothing changes."
 
     /// One line for a reading just taken.
     public static func reading(_ reading: SurveyReading) -> String {
@@ -58,7 +59,7 @@ public enum SurveyText {
     }
 
     /// "Stronger signal in 3 of 5 rooms. Weaker in: Hallway."
-    static func summary(_ rows: [SurveyRow]) -> String? {
+    public static func summary(_ rows: [SurveyRow]) -> String? {
         let changes = rows.compactMap { row in row.signalChange.map { (row.room, $0) } }
         guard !changes.isEmpty else { return nil }
         let stronger = changes.filter { $0.1 >= meaningfulChange }.count
@@ -69,7 +70,7 @@ public enum SurveyText {
     }
 
     /// The room with the weakest signal, when one stands out from the strongest.
-    static func weakest(_ readings: [SurveyReading]) -> String? {
+    public static func weakest(_ readings: [SurveyReading]) -> String? {
         guard let weakest = readings.min(by: { $0.rssi < $1.rssi }), let strongest = readings.map(\.rssi).max(),
               strongest - weakest.rssi >= meaningfulChange
         else { return nil }
