@@ -2,11 +2,13 @@ import Foundation
 
 /// What `wifiorisp survey` prints when it isn't asked for JSON.
 public enum SurveyText {
-    /// A link rate has to move this much, as a share, to count as faster or slower.
-    static let meaningfulChange = 0.05
+    /// The signal has to move this many dB to count as stronger or weaker. It wobbles by a dB or
+    /// two with the Mac sitting still.
+    static let meaningfulChange = 3
 
-    static let linkRateNote =
-        "Link rate is the speed of the Wi-Fi link between this Mac and the router, not your internet speed."
+    /// Link rate hops between fixed steps from second to second, so it's shown but not judged.
+    static let linkRateNote = "Judge by signal: it holds steady. Link rate is the speed of the Wi-Fi link between "
+        + "this Mac and the router (not your internet speed), and it jumps between steps even when nothing changes."
 
     /// One line for a reading just taken.
     public static func reading(_ reading: SurveyReading) -> String {
@@ -33,9 +35,7 @@ public enum SurveyText {
         var lines = columns([["Room", "Signal", "Link rate", "Router"]] + readings.map {
             [$0.room, "\($0.signal) (\($0.rssi) dBm)", mbps($0.linkRateMbps), router($0.routerMs)]
         })
-        if readings.count > 1, let weakest = readings.min(by: { $0.rssi < $1.rssi }) {
-            lines += ["", "Weakest signal: \(weakest.room)."]
-        }
+        if let weakest = weakest(readings) { lines += ["", "Weakest signal: \(weakest)."] }
         return lines
     }
 
@@ -43,10 +43,11 @@ public enum SurveyText {
         var lines = columns([["Room", "Signal", "Link rate", "Router"]] + rows.map { row in
             [
                 row.room,
-                pair(row.previous.map { "\($0.rssi)" }, row.reading.map { "\($0.rssi)" }, unit: "dBm"),
+                pair(row.previous.map { "\($0.rssi)" }, row.reading.map { "\($0.rssi)" }, unit: "dBm")
+                    + (row.signalChange.map { " (\(signed($0)))" } ?? ""),
                 pair(
                     row.previous.map { rate($0.linkRateMbps) }, row.reading.map { rate($0.linkRateMbps) }, unit: "Mbps"
-                ) + (row.linkRateChange.map { " (\(percent($0)))" } ?? ""),
+                ),
                 pair(row.previous.map { ms($0.routerMs) }, row.reading.map { ms($0.routerMs) }, unit: "ms")
             ]
         })
@@ -56,15 +57,23 @@ public enum SurveyText {
         return lines
     }
 
-    /// "Faster link in 3 of 5 rooms. Slower in: Hallway."
+    /// "Stronger signal in 3 of 5 rooms. Weaker in: Hallway."
     static func summary(_ rows: [SurveyRow]) -> String? {
-        let changes = rows.compactMap { row in row.linkRateChange.map { (row.room, $0) } }
+        let changes = rows.compactMap { row in row.signalChange.map { (row.room, $0) } }
         guard !changes.isEmpty else { return nil }
-        let faster = changes.filter { $0.1 > meaningfulChange }.count
-        let slower = changes.filter { $0.1 < -meaningfulChange }.map(\.0)
-        var text = "Faster link in \(faster) of \(changes.count) \(changes.count == 1 ? "room" : "rooms")."
-        if !slower.isEmpty { text += " Slower in: \(slower.joined(separator: ", "))." }
+        let stronger = changes.filter { $0.1 >= meaningfulChange }.count
+        let weaker = changes.filter { $0.1 <= -meaningfulChange }.map(\.0)
+        var text = "Stronger signal in \(stronger) of \(changes.count) \(changes.count == 1 ? "room" : "rooms")."
+        if !weaker.isEmpty { text += " Weaker in: \(weaker.joined(separator: ", "))." }
         return text
+    }
+
+    /// The room with the weakest signal, when one stands out from the strongest.
+    static func weakest(_ readings: [SurveyReading]) -> String? {
+        guard let weakest = readings.min(by: { $0.rssi < $1.rssi }), let strongest = readings.map(\.rssi).max(),
+              strongest - weakest.rssi >= meaningfulChange
+        else { return nil }
+        return weakest.room
     }
 
     /// "408 → 720 Mbps", with a dash for a side that wasn't measured.
@@ -93,9 +102,8 @@ public enum SurveyText {
         value.map { "\(PlainLanguage.router($0).rawValue) · \(Int($0.rounded())) ms" } ?? "No answer"
     }
 
-    private static func percent(_ change: Double) -> String {
-        let whole = Int((change * 100).rounded())
-        return (whole > 0 ? "+" : "") + "\(whole)%"
+    private static func signed(_ change: Int) -> String {
+        (change > 0 ? "+" : "") + "\(change)"
     }
 }
 
@@ -132,14 +140,14 @@ public struct CLISurvey: Codable, Equatable, Sendable {
         public var reading: Reading?
         /// The pass before, when there is one.
         public var previous: Reading?
-        /// The change in link rate between the passes, as a share: 0.76 is 76% faster.
-        public var linkRateChange: Double?
+        /// How many dB the signal moved between the passes. Positive is stronger; under 3 is noise.
+        public var signalChangeDB: Int?
     }
 
     /// How many passes have readings: 2 or more means `previous` is filled in.
     public var passes: Int
     public var rooms: [Room]
-    /// The room with the weakest signal in the latest pass.
+    /// The room with the weakest signal in the latest pass, when one stands out.
     public var weakest: String?
 
     public init(_ survey: Survey) {
@@ -147,9 +155,9 @@ public struct CLISurvey: Codable, Equatable, Sendable {
         rooms = survey.rows.map { row in
             Room(
                 room: row.room, reading: row.reading.map(Reading.init), previous: row.previous.map(Reading.init),
-                linkRateChange: row.linkRateChange.map { ($0 * 1000).rounded() / 1000 }
+                signalChangeDB: row.signalChange
             )
         }
-        weakest = survey.rows.compactMap(\.reading).min { $0.rssi < $1.rssi }?.room
+        weakest = SurveyText.weakest(survey.rows.compactMap(\.reading))
     }
 }

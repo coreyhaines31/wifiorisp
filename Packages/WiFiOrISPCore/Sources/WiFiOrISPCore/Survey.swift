@@ -57,10 +57,10 @@ public struct SurveyRow: Equatable, Sendable {
     public var reading: SurveyReading?
     public var previous: SurveyReading?
 
-    /// How much the link rate changed between the passes, as a share of the earlier one.
-    public var linkRateChange: Double? {
-        guard let reading, let previous, previous.linkRateMbps > 0 else { return nil }
-        return (reading.linkRateMbps - previous.linkRateMbps) / previous.linkRateMbps
+    /// How many dB the signal moved between the passes. Positive is stronger.
+    public var signalChange: Int? {
+        guard let reading, let previous else { return nil }
+        return reading.rssi - previous.rssi
     }
 }
 
@@ -76,8 +76,14 @@ public struct Survey: Codable, Equatable, Sendable {
 
     public var isEmpty: Bool { passes.allSatisfy(\.isEmpty) }
 
-    /// Files a reading in the latest pass, replacing an earlier one for the same room.
-    public mutating func record(_ reading: SurveyReading) {
+    /// Files a reading in the latest pass, replacing an earlier one for the same room. A room keeps
+    /// the spelling it was first given; the reading is returned as filed.
+    @discardableResult
+    public mutating func record(_ reading: SurveyReading) -> SurveyReading {
+        var reading = reading
+        if let known = passes.joined().first(where: { Self.same($0.room, reading.room) }) {
+            reading.room = known.room
+        }
         var pass = passes.popLast() ?? []
         if let index = pass.firstIndex(where: { Self.same($0.room, reading.room) }) {
             pass[index] = reading
@@ -85,6 +91,7 @@ public struct Survey: Codable, Equatable, Sendable {
             pass.append(reading)
         }
         passes.append(pass)
+        return reading
     }
 
     /// Starts the next pass. False when the latest one has no readings yet.

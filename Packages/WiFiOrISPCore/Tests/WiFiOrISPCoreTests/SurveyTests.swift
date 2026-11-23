@@ -50,25 +50,25 @@ struct SurveyTests {
         survey.record(surveyReading("Kitchen", rate: 100))
         survey.record(surveyReading("Office"))
         survey.record(surveyReading("kitchen", rate: 300))
-        #expect(survey.rows.map(\.room) == ["kitchen", "Office"])
+        #expect(survey.rows.map(\.room) == ["Kitchen", "Office"])
         #expect(survey.rows[0].reading?.linkRateMbps == 300)
         #expect(survey.rows[0].previous == nil)
     }
 
     @Test func theNextPassIsComparedWithTheOneBefore() {
         var survey = Survey()
-        survey.record(surveyReading("Kitchen", rate: 400))
-        survey.record(surveyReading("Hallway", rate: 400))
+        survey.record(surveyReading("Kitchen", rssi: -70))
+        survey.record(surveyReading("Hallway"))
         let started = survey.startNextPass()
         #expect(started)
-        survey.record(surveyReading("Kitchen", rate: 700))
+        survey.record(surveyReading("kitchen", rssi: -58))
         survey.record(surveyReading("Garage", rate: 50))
 
         let rows = survey.rows
         #expect(rows.map(\.room) == ["Kitchen", "Hallway", "Garage"])
-        #expect(rows[0].linkRateChange == 0.75)
+        #expect(rows[0].signalChange == 12)
         #expect(rows[1].reading == nil)
-        #expect(rows[1].linkRateChange == nil)
+        #expect(rows[1].signalChange == nil)
         #expect(rows[2].previous == nil)
     }
 
@@ -127,12 +127,22 @@ struct SurveyTextTests {
 
     @Test func twoPassesShowBeforeAndAfter() {
         let lines = SurveyText.table(twoPasses()).components(separatedBy: "\n")
-        #expect(lines[1] == "Kitchen   -70 → -58 dBm   408 → 720 Mbps (+76%)   9 → 4 ms")
-        #expect(lines[2] == "Hallway   -60 → -72 dBm   433 → 229 Mbps (-47%)   4 → – ms")
-        #expect(lines[3] == "Office    -50 → – dBm     816 → – Mbps            3 → – ms")
-        #expect(lines.contains("Faster link in 1 of 2 rooms. Slower in: Hallway."))
+        #expect(lines[1] == "Kitchen   -70 → -58 dBm (+12)   408 → 720 Mbps   9 → 4 ms")
+        #expect(lines[2] == "Hallway   -60 → -72 dBm (-12)   433 → 229 Mbps   4 → – ms")
+        #expect(lines[3] == "Office    -50 → – dBm           816 → – Mbps     3 → – ms")
+        #expect(lines.contains("Stronger signal in 1 of 2 rooms. Weaker in: Hallway."))
         #expect(lines.contains("Not measured again yet: Office."))
         #expect(!lines.contains { $0.contains("wifiorisp survey again") })
+    }
+
+    @Test func aWobbleOfADecibelOrTwoIsNotAChange() {
+        var survey = Survey()
+        survey.record(surveyReading("Kitchen", rssi: -58, rate: 1152))
+        survey.record(surveyReading("Office", rssi: -59, rate: 864))
+        #expect(!SurveyText.table(survey).contains("Weakest"))
+        _ = survey.startNextPass()
+        survey.record(surveyReading("Kitchen", rssi: -60, rate: 864))
+        #expect(SurveyText.table(survey).contains("Stronger signal in 0 of 1 room.\n"))
     }
 
     @Test func readingIsOneLine() {
@@ -144,7 +154,7 @@ struct SurveyTextTests {
         let json = CLISurvey(twoPasses())
         #expect(json.passes == 2)
         #expect(json.rooms.map(\.room) == ["Kitchen", "Hallway", "Office"])
-        #expect(json.rooms[0].linkRateChange == 0.765)
+        #expect(json.rooms[0].signalChangeDB == 12)
         #expect(json.rooms[0].previous?.linkRateMbps == 408)
         #expect(json.rooms[2].reading == nil)
         #expect(json.weakest == "Hallway")

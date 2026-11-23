@@ -272,9 +272,8 @@ func runSurvey(_ action: CLICommand.SurveyAction, json: Bool) {
         note("Survey cleared.")
     case .room(let room):
         Task { @MainActor in
-            let reading = await measureRoom(room)
             var updated = survey
-            updated.record(reading)
+            let reading = updated.record(await measureRoom(room))
             save(updated)
             if json {
                 printJSON(CLISurvey(updated))
