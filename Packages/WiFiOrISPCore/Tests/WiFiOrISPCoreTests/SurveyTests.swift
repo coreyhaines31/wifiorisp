@@ -96,3 +96,57 @@ struct SurveyTests {
         try? FileManager.default.removeItem(at: url.deletingLastPathComponent())
     }
 }
+
+struct SurveyTextTests {
+    func twoPasses() -> Survey {
+        var survey = Survey()
+        survey.record(surveyReading("Kitchen", rssi: -70, rate: 408, routerMs: 9))
+        survey.record(surveyReading("Hallway", rssi: -60, rate: 433, routerMs: 4))
+        survey.record(surveyReading("Office", rssi: -50, rate: 816))
+        _ = survey.startNextPass()
+        survey.record(surveyReading("Kitchen", rssi: -58, rate: 720, routerMs: 4))
+        survey.record(surveyReading("Hallway", rssi: -72, rate: 229, routerMs: nil))
+        return survey
+    }
+
+    @Test func anEmptySurveySaysHowToStart() {
+        #expect(SurveyText.table(Survey()).contains("wifiorisp survey room"))
+    }
+
+    @Test func onePassListsEveryRoomAndTheWeakest() {
+        var survey = Survey()
+        survey.record(surveyReading("Kitchen", rssi: -58, rate: 720, routerMs: 4))
+        survey.record(surveyReading("Hallway", rssi: -79, rate: 229, routerMs: nil))
+        let lines = SurveyText.table(survey).components(separatedBy: "\n")
+        #expect(lines[0] == "Room      Signal           Link rate   Router")
+        #expect(lines[1] == "Kitchen   Good (-58 dBm)   720 Mbps    Fast · 4 ms")
+        #expect(lines[2] == "Hallway   Weak (-79 dBm)   229 Mbps    No answer")
+        #expect(lines.contains("Weakest signal: Hallway."))
+        #expect(lines.last?.contains("wifiorisp survey again") == true)
+    }
+
+    @Test func twoPassesShowBeforeAndAfter() {
+        let lines = SurveyText.table(twoPasses()).components(separatedBy: "\n")
+        #expect(lines[1] == "Kitchen   -70 → -58 dBm   408 → 720 Mbps (+76%)   9 → 4 ms")
+        #expect(lines[2] == "Hallway   -60 → -72 dBm   433 → 229 Mbps (-47%)   4 → – ms")
+        #expect(lines[3] == "Office    -50 → – dBm     816 → – Mbps            3 → – ms")
+        #expect(lines.contains("Faster link in 1 of 2 rooms. Slower in: Hallway."))
+        #expect(lines.contains("Not measured again yet: Office."))
+        #expect(!lines.contains { $0.contains("wifiorisp survey again") })
+    }
+
+    @Test func readingIsOneLine() {
+        #expect(SurveyText.reading(surveyReading("Kitchen", rssi: -58, rate: 720, routerMs: 4))
+            == "Kitchen: Good signal (-58 dBm), link rate 720 Mbps, router Fast · 4 ms")
+    }
+
+    @Test func jsonCarriesBothPasses() {
+        let json = CLISurvey(twoPasses())
+        #expect(json.passes == 2)
+        #expect(json.rooms.map(\.room) == ["Kitchen", "Hallway", "Office"])
+        #expect(json.rooms[0].linkRateChange == 0.765)
+        #expect(json.rooms[0].previous?.linkRateMbps == 408)
+        #expect(json.rooms[2].reading == nil)
+        #expect(json.weakest == "Hallway")
+    }
+}
