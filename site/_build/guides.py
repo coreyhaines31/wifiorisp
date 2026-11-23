@@ -728,6 +728,7 @@ Bedroom       Weak (-79 dBm)        144 Mbps    OK · 18 ms
 
 Weakest signal: Bedroom.</pre>
         </div>
+        <p>Not a Terminal person? Choose <b>Survey Rooms…</b> from the app's menu, type the room's name, and press Measure Here. It fills in the same table.</p>
         <p>Without the app, hold Option and click the Wi-Fi icon in the menu bar, read RSSI under your network, and write it down for each room. It's the same number.</p>
 
         <h2>How to read the table</h2>
@@ -863,6 +864,7 @@ IP address, as open data.</pre>
         <p>Carry the Mac to a room and run <code>wifiorisp survey room Kitchen</code>. It takes a few seconds and files the signal, link rate, and router timing under that room. Do the same in each room, then run <code>wifiorisp survey</code> for the table.</p>
         <p>After you change something (move the router, change the channel, add a mesh point), run <code>wifiorisp survey again</code> and take the readings again. The table then shows before and after for every room.</p>
         <p>Judge by signal. It holds steady within a decibel or two, so a move of 3 dB or more is real. Link rate jumps between steps from second to second even when nothing changes, so the table shows it but doesn't score it. <code>wifiorisp survey reset</code> starts over.</p>
+        <p>Prefer clicking? Choose <b>Survey Rooms…</b> from the menu. It's the same survey and the same table, so you can start in one and finish in the other.</p>
 
         <h2 id="first-launch">Your first two minutes</h2>
         <ol class="steps">
