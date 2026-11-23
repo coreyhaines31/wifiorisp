@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Wi-Fi Site Survey on a Mac: Test Signal Strength and Find Dead Zones</title>
+  <meta name="description" content="Run a free Wi-Fi site survey on your Mac. Test Wi-Fi signal strength in every room, find dead zones, and check your fix with a before and after table.">
+  <link rel="canonical" href="https://wifiorisp.com/wifi-site-survey">
+  <meta property="og:title" content="Wi-Fi Site Survey on a Mac: Test Signal Strength and Find Dead Zones">
+  <meta property="og:description" content="Run a free Wi-Fi site survey on your Mac. Test Wi-Fi signal strength in every room, find dead zones, and check your fix with a before and after table.">
+  <meta property="og:image" content="https://wifiorisp.com/images/og.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta property="og:url" content="https://wifiorisp.com/wifi-site-survey">
+  <meta name="theme-color" content="#e2e3e2" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#131314" media="(prefers-color-scheme: dark)">
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="preload" href="/fonts/barlow-400.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/fonts/barlow-semi-condensed-600.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/fonts/barlow-semi-condensed-300.woff2" as="font" type="font/woff2" crossorigin>
+  <style>
+    @font-face {font-family: "Barlow"; font-style: normal; font-weight: 400; font-display: optional; src: url(/fonts/barlow-400.woff2) format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;}
+    @font-face {font-family: "Barlow"; font-style: normal; font-weight: 500; font-display: optional; src: url(/fonts/barlow-500.woff2) format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;}
+    @font-face {font-family: "Barlow"; font-style: normal; font-weight: 600; font-display: optional; src: url(/fonts/barlow-600.woff2) format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;}
+    @font-face {font-family: "Barlow Semi Condensed"; font-style: normal; font-weight: 300; font-display: optional; src: url(/fonts/barlow-semi-condensed-300.woff2) format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;}
+    @font-face {font-family: "Barlow Semi Condensed"; font-style: normal; font-weight: 600; font-display: optional; src: url(/fonts/barlow-semi-condensed-600.woff2) format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;}
+    @font-face {font-family: "Barlow Semi Condensed"; font-style: normal; font-weight: 700; font-display: optional; src: url(/fonts/barlow-semi-condensed-700.woff2) format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;}
+  </style>
+  <link rel="stylesheet" href="/brushed.css">
+  <link rel="stylesheet" href="/site.css">
+  <script async src="https://tracerkit.com/t.js" data-key="tk_IQBbD-xkICMsq6qz"></script>
+  <script src="https://ingest.getuserproof.com/sdk.js" data-site="85ab0b80-0bac-48ac-8103-d814a50d5ffc" defer></script>
+  <script src="/copy.js" defer></script>
+  <script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "Article", "headline": "Wi-Fi Site Survey on a Mac: Test Signal Strength and Find Dead Zones", "description": "Run a free Wi-Fi site survey on your Mac. Test Wi-Fi signal strength in every room, find dead zones, and check your fix with a before and after table.", "url": "https://wifiorisp.com/wifi-site-survey", "dateModified": "2026-11-23", "author": {"@type": "Person", "name": "Corey Haines", "url": "https://corey.co"}, "publisher": {"@type": "Organization", "name": "WiFi or ISP", "logo": "https://wifiorisp.com/images/icon.png"}}, {"@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "What is a Wi-Fi dead zone?", "acceptedAnswer": {"@type": "Answer", "text": "A spot where the signal is too weak to use. Below −75 dBm is weak enough that calls drop and pages stall, and below −85 dBm a device barely connects at all."}}, {"@type": "Question", "name": "Do I need a heat map?", "acceptedAnswer": {"@type": "Answer", "text": "Not at home. A heat map helps when you're placing many access points across an office. For a house or apartment, one reading per room tells you where it's weak and whether a change helped."}}, {"@type": "Question", "name": "How many readings do I need?", "acceptedAnswer": {"@type": "Answer", "text": "One per room you use, taken where you actually sit. Take them again after each change, in the same spots."}}, {"@type": "Question", "name": "Is link rate my internet speed?", "acceptedAnswer": {"@type": "Answer", "text": "No. It's the speed of the Wi-Fi link between your device and the router. Your internet speed is set by your plan and your ISP, and it can be far lower than the link rate."}}, {"@type": "Question", "name": "Can I survey with an iPhone?", "acceptedAnswer": {"@type": "Answer", "text": "Not with this command, which runs on a Mac. An iPhone only shows signal in dBm through Apple's free AirPort Utility app, with its Wi-Fi Scanner turned on in Settings, so a Mac laptop is the easier way to walk the rooms."}}]}]}</script>
+</head>
+<body class="bx">
+  <a class="skip" href="#main">Skip to content</a>
+  <header class="site-head bx-hero">
+    <div class="bx-wrap bx-nav">
+      <a class="bx-brand" href="/"><img src="/images/icon-64.webp" srcset="/images/icon-32.webp 1x, /images/icon-64.webp 2x, /images/icon-96.webp 3x" alt="" width="32" height="32"> WiFi or ISP</a>
+      <nav aria-label="Main">
+        <a href="/#how">How it works</a>
+        <a href="/internet-providers">Providers near you</a>
+        <a href="/bufferbloat-test">Bufferbloat test</a>
+        <a href="/help">Help</a>
+        <a href="https://github.com/coreyhaines31/wifiorisp">GitHub</a>
+        <a class="bx-btn" href="https://github.com/coreyhaines31/wifiorisp/releases/latest">Download</a>
+      </nav>
+    </div>
+  </header>
+  <main id="main">
+    <section class="sub-hero">
+      <div class="wrap narrow">
+        <p class="eyebrow">Guide</p>
+        <h1>Wi-Fi site survey on a Mac: find the dead zones room by room</h1>
+        <p class="lede">Wi-Fi that's fine by the router and useless in the back bedroom is a coverage problem, and you can't fix what you haven't measured. Here's how to measure every room with a Mac in a few minutes, and how to tell whether a change helped.</p>
+        <p class="byline">By <a href="https://corey.co">Corey Haines</a>, maker of WiFi or ISP · Updated November 23, 2026</p>
+        <div class="tldr"><h2>The short answer</h2><p>Carry your Mac to each room and write down the signal in dBm: Option-click the Wi-Fi icon, or let the free <code>wifiorisp survey</code> command keep the table for you. Below −75 dBm is weak, and below −85 dBm is a dead zone. Change one thing, measure again, and count a room as better only when its signal moved by 3 dB or more.</p></div>
+      </div>
+    </section>
+    <section class="article">
+      <div class="wrap narrow prose">
+
+        <h2>What a Wi-Fi site survey is</h2>
+        <p>A site survey measures Wi-Fi where you use it, not where the router sits. Professional tools draw a heat map over a floor plan, which is right for an office with twenty access points. At home you need two answers: which rooms are weak, and whether the thing you just changed made them better.</p>
+        <p>A table with one row per room gives you both.</p>
+
+        <h2>Survey your home in a few minutes</h2>
+        <p>The <code>wifiorisp</code> command comes with <a href="/">WiFi or ISP</a>, a free Mac app. Open the Terminal app (press Command-Space and type Terminal) and install it with <code>brew install --cask coreyhaines31/tap/wifiorisp</code>, or <a href="/help#command-line">download the app and link the command</a>.</p>
+        <ol class="steps">
+          <li><b>Carry the Mac to a room.</b> Sit where you'd use it.</li>
+          <li><b>Take a reading.</b> In Terminal, run <code>wifiorisp survey room Kitchen</code>, with the room's name. It takes a few seconds.</li>
+          <li><b>Do the same in every room.</b> Include the one that's always bad.</li>
+          <li><b>Print the table.</b> Run <code>wifiorisp survey</code>.</li>
+        </ol>
+        <p>An example of what you get:</p>
+        <div class="prompt plain">
+          <pre>Room          Signal                Link rate   Router
+Living room   Excellent (-48 dBm)   1201 Mbps   Fast · 3 ms
+Kitchen       Good (-61 dBm)        720 Mbps    Fast · 4 ms
+Office        Good (-64 dBm)        576 Mbps    Fast · 5 ms
+Guest room    Fair (-72 dBm)        287 Mbps    Fast · 9 ms
+Bedroom       Weak (-79 dBm)        144 Mbps    OK · 18 ms
+
+Weakest signal: Bedroom.</pre>
+        </div>
+        <p>Without the app, hold Option and click the Wi-Fi icon in the menu bar, read RSSI under your network, and write it down for each room. It's the same number.</p>
+
+        <h2>How to read the table</h2>
+        <ul>
+          <li><strong>Signal</strong> is the one to judge by. Closer to zero is stronger: −55 dBm or better is excellent, down to −67 is good, down to −75 is fair, and below −75 is weak enough that calls drop and pages stall. Below −85 is a dead zone. <a href="/wifi-signal-strength">The full dBm chart is here.</a></li>
+          <li><strong>Link rate</strong> is the speed of the Wi-Fi link between your Mac and the router. It isn't your internet speed, and it falls as the signal does.</li>
+          <li><strong>Router</strong> is how long the router takes to answer. A few milliseconds is normal. A slow answer in a room with a good signal points at a crowded channel or a struggling router, not at distance.</li>
+        </ul>
+
+        <h2>Fix the weak rooms</h2>
+        <p>Change one thing at a time, so you know what worked.</p>
+        <ul>
+          <li><strong>Move the router</strong> up high and toward the middle of the home, out of cabinets and away from metal, mirrors, and fish tanks. It's free and often worth the most.</li>
+          <li><strong>Change the channel</strong> when the signal is good but the router answers slowly. <a href="/how-to-change-wifi-channel">Here's how.</a></li>
+          <li><strong>Add a mesh point</strong> halfway between the router and the dead zone, not inside the dead zone, where it would have nothing to repeat.</li>
+          <li><strong>Replace an old router</strong> if every room is weak. <a href="/routers">Here's what to look for.</a></li>
+        </ul>
+
+        <h2>Check that it worked</h2>
+        <p>Run <code>wifiorisp survey again</code>, then go back to each room and take the readings again. The table now shows before and after:</p>
+        <div class="prompt plain">
+          <pre>Room          Signal               Link rate          Router
+Living room   -48 → -50 dBm (-2)   1201 → 1201 Mbps   3 → 3 ms
+Kitchen       -61 → -58 dBm (+3)   720 → 864 Mbps     4 → 4 ms
+Office        -64 → -60 dBm (+4)   576 → 720 Mbps     5 → 4 ms
+Guest room    -72 → -66 dBm (+6)   287 → 432 Mbps     9 → 6 ms
+Bedroom       -79 → -70 dBm (+9)   144 → 287 Mbps     18 → 8 ms
+
+Stronger signal in 4 of 5 rooms.</pre>
+        </div>
+        <p>Count a room as better only when its signal moved by 3 dB or more. Signal wobbles by a decibel or two with the Mac sitting still, so the living room's −2 above is noise, and 3 dB is double the power.</p>
+        <p>Don't score the change by link rate. It hops between fixed steps from second to second. On our test Mac, eight readings in the same spot bounced between 864 and 1152 Mbps while the signal stayed within 1 dB. A before and after built on link rate can show a big gain that never happened.</p>
+
+        <h2>Let your AI agent run it</h2>
+        <p>The survey prints JSON with <code>--json</code>, so Claude Code or Codex can keep the table and read the result for you. Paste this:</p>
+        <div class="prompt">
+          <button class="pill copy" type="button" data-copy-target="agent-survey">Copy</button>
+          <pre id="agent-survey">Help me find the weak Wi-Fi rooms in this house with the `wifiorisp` command.
+If it isn't installed, install it: brew install --cask coreyhaines31/tap/wifiorisp
+Ask me which room I'm in, then run `wifiorisp survey room NAME --json`.
+Tell me to carry the Mac to the next room, and repeat until I say that's all of them.
+Then run `wifiorisp survey --json` and tell me which rooms are weak and the one
+change most likely to help. After I make the change, run `wifiorisp survey again`,
+ask me for each room again, and tell me which rooms improved by 3 dB or more.
+Judge by signal, not link rate.</pre>
+        </div>
+
+      </div>
+    </section>
+    <section class="faq">
+      <div class="wrap narrow">
+        <h2>Questions</h2>
+        <details><summary>What is a Wi-Fi dead zone?</summary><p>A spot where the signal is too weak to use. Below −75 dBm is weak enough that calls drop and pages stall, and below −85 dBm a device barely connects at all.</p></details>
+        <details><summary>Do I need a heat map?</summary><p>Not at home. A heat map helps when you're placing many access points across an office. For a house or apartment, one reading per room tells you where it's weak and whether a change helped.</p></details>
+        <details><summary>How many readings do I need?</summary><p>One per room you use, taken where you actually sit. Take them again after each change, in the same spots.</p></details>
+        <details><summary>Is link rate my internet speed?</summary><p>No. It's the speed of the Wi-Fi link between your device and the router. Your internet speed is set by your plan and your ISP, and it can be far lower than the link rate.</p></details>
+        <details><summary>Can I survey with an iPhone?</summary><p>Not with this command, which runs on a Mac. An iPhone only shows signal in dBm through Apple's free AirPort Utility app, with its Wi-Fi Scanner turned on in Settings, so a Mac laptop is the easier way to walk the rooms.</p></details>
+      </div>
+    </section>
+    <section class="cta">
+      <div class="wrap">
+        <img src="/images/icon-192.webp" srcset="/images/icon-96.webp 1x, /images/icon-192.webp 2x, /images/icon-288.webp 3x" alt="" width="96" height="96">
+        <h2>Know which rooms are weak, and when a fix worked.</h2>
+        <p class="cta-sub">WiFi or ISP is a free Mac menu bar app. It times your router and the internet at the same moment, says which side is slow, and keeps a log you can send your ISP.</p>
+        <div class="actions center">
+          <a class="bx-btn" href="https://github.com/coreyhaines31/wifiorisp/releases/latest"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11m-5-5 5 5 5-5M5 20h14"/></svg>Download free</a>
+        </div>
+        <p class="fineprint"><code>brew install --cask coreyhaines31/tap/wifiorisp</code></p>
+      </div>
+    </section>
+  </main>
+  <footer>
+    <div class="bx-family">
+      <div class="bx-wrap">
+        <p class="bx-eyebrow">More free Mac apps by Corey</p>
+        <ul><li><a href="https://fuelgauge.app"><img src="/images/family/fuel.webp" alt="" width="56" height="56" loading="lazy">Fuel Gauge</a></li><li><a href="https://spareformac.com"><img src="/images/family/spare.webp" alt="" width="56" height="56" loading="lazy">Spare</a></li><li><a href="https://diskforecast.com"><img src="/images/family/disk.webp" alt="" width="56" height="56" loading="lazy">Disk Forecast</a></li><li><a href="https://midnightoil.app"><img src="/images/family/oil.webp" alt="" width="56" height="56" loading="lazy">Midnight Oil</a></li><li><a href="https://wifiorisp.com" aria-current="page"><img src="/images/family/wifi.webp" alt="" width="56" height="56" loading="lazy">WiFi or ISP</a></li><li><a href="https://greenroomformac.com"><img src="/images/family/green.webp" alt="" width="56" height="56" loading="lazy">Green Room</a></li><li><a href="https://onhandformac.com"><img src="/images/family/hand.webp" alt="" width="56" height="56" loading="lazy">On Hand</a></li><li><a href="https://coatcheckformac.com"><img src="/images/family/coat.webp" alt="" width="56" height="56" loading="lazy">Coat Check</a></li><li><a href="https://killcord.app"><img src="/images/family/kill.webp" alt="" width="56" height="56" loading="lazy">Kill Cord</a></li><li><a href="https://exhibitaformac.com"><img src="/images/family/exhibit.webp" alt="" width="56" height="56" loading="lazy">Exhibit A</a></li></ul>
+      </div>
+    </div>
+    <div class="bx-footer">
+      <div class="bx-wrap">
+      <nav class="footer-links" aria-label="Guides"><a href="/bufferbloat-test">Bufferbloat test</a><a href="/why-is-my-wifi-so-slow">Why is my Wi-Fi so slow?</a><a href="/internet-keeps-dropping">Internet keeps dropping?</a><a href="/how-to-change-wifi-channel">How to change your Wi-Fi channel</a><a href="/how-to-restart-router">How to restart your router</a><a href="/why-does-my-wifi-keep-disconnecting">Why does my Wi-Fi keep disconnecting?</a><a href="/wifi-signal-strength">Wi-Fi signal strength chart</a><a href="/what-is-a-good-ping">What is a good ping?</a><a href="/mac-keeps-disconnecting-from-wifi">Mac keeps disconnecting from Wi-Fi</a><a href="/internet-slow-at-night">Internet slow at night?</a><a href="/mac-internet-stops-working-after-weeks">Mac internet stops after weeks without a restart?</a><a href="/ping-test">Ping and jitter test</a><a href="/internet-providers">Internet providers near you</a><a href="/wifi-site-survey">Wi-Fi site survey on a Mac</a><a href="/help">Help and troubleshooting</a><a href="/slow-internet">Slow internet by provider</a><a href="/router-login">Router login guides</a><a href="/routers">Router picks by need</a><a href="/affiliate-disclosure">Affiliate disclosure</a></nav>
+      <nav class="footer-links" aria-label="Alternatives"><a href="/alternatives/">Alternatives</a><a href="/alternatives/netspot">NetSpot alternative</a><a href="/alternatives/pingkit">PingKit alternative</a><a href="/alternatives/istat-menus">iStat Menus alternative</a><a href="/alternatives/wifi-explorer">WiFi Explorer alternative</a><a href="/alternatives/wifi-signal">WiFi Signal alternative</a></nav>
+      <span>© 2026 Corey Haines · Source available under <a href="https://github.com/coreyhaines31/wifiorisp/blob/main/LICENSE">FSL-1.1-MIT</a></span>
+      <span><a href="https://github.com/coreyhaines31/wifiorisp">GitHub</a> · <a href="https://github.com/coreyhaines31/wifiorisp/issues">Report a bug</a></span>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
