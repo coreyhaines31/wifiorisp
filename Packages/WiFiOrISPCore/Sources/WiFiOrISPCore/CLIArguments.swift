@@ -6,6 +6,16 @@ public enum CLICommand: Equatable, Sendable {
         case text, json, csv
     }
 
+    public enum SurveyAction: Equatable, Sendable {
+        /// The table so far.
+        case show
+        /// Take a reading here and file it under this room.
+        case room(String)
+        /// Start the next pass, to compare with this one.
+        case again
+        case reset
+    }
+
     case help
     case version
     /// Asks the running app.
@@ -13,6 +23,8 @@ public enum CLICommand: Equatable, Sendable {
     /// Read straight from the log on disk.
     case history(since: TimeInterval, format: HistoryFormat)
     case report(since: TimeInterval)
+    /// Measured by the command itself, room by room.
+    case survey(SurveyAction, json: Bool)
 }
 
 public struct CLIArgumentError: Error, Equatable {
@@ -43,6 +55,10 @@ public enum CLIArguments {
             command = .history(since: since, format: json ? .json : (csv ? .csv : .text))
         case "report":
             command = .report(since: try takeDuration(from: &options) ?? defaultReport)
+        case "survey":
+            let json = take("--json", from: &options)
+            command = .survey(try surveyAction(options), json: json)
+            options = []
         default:
             throw CLIArgumentError(message: "Unknown command: \(first)")
         }
@@ -50,6 +66,25 @@ public enum CLIArguments {
             throw CLIArgumentError(message: "Unknown option for \(first): \(extra)")
         }
         return command
+    }
+
+    private static func surveyAction(_ words: [String]) throws -> CLICommand.SurveyAction {
+        switch words.first {
+        case nil:
+            return .show
+        case "room":
+            let name = words.dropFirst().joined(separator: " ").trimmingCharacters(in: .whitespaces)
+            guard !name.isEmpty, !name.hasPrefix("-") else {
+                throw CLIArgumentError(message: "survey room needs a name, like: wifiorisp survey room Kitchen")
+            }
+            return .room(name)
+        case "again" where words.count == 1:
+            return .again
+        case "reset" where words.count == 1:
+            return .reset
+        default:
+            throw CLIArgumentError(message: "Unknown option for survey: \(words.joined(separator: " "))")
+        }
     }
 
     private static func take(_ flag: String, from options: inout [String]) -> Bool {
