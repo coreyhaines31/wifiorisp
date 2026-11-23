@@ -134,10 +134,11 @@ public struct SurveyStore: Sendable {
             .appending(path: "WiFi or ISP/survey.json")
     }
 
-    /// An empty survey when there's no file yet, or it can't be read.
-    public func load() -> Survey {
-        guard let data = try? Data(contentsOf: url) else { return Survey() }
-        return (try? CLIProtocol.decoder().decode(Survey.self, from: data)) ?? Survey()
+    /// An empty survey when there's no file yet. Throws when there is one that can't be read, so
+    /// it isn't mistaken for empty and overwritten.
+    public func load() throws -> Survey {
+        guard FileManager.default.fileExists(atPath: url.path) else { return Survey() }
+        return try CLIProtocol.decoder().decode(Survey.self, from: Data(contentsOf: url))
     }
 
     public func save(_ survey: Survey) throws {

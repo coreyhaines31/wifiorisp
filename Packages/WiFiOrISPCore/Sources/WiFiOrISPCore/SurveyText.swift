@@ -86,7 +86,7 @@ public enum SurveyText {
         let widths = (0..<(rows.first?.count ?? 0)).map { column in rows.map { $0[column].count }.max() ?? 0 }
         return rows.map { row in
             row.enumerated()
-                .map { $0.element.padding(toLength: widths[$0.offset] + 3, withPad: " ", startingAt: 0) }
+                .map { $0.element + String(repeating: " ", count: widths[$0.offset] - $0.element.count + 3) }
                 .joined()
                 .replacing(/\s+$/, with: "")
         }
@@ -144,14 +144,14 @@ public struct CLISurvey: Codable, Equatable, Sendable {
         public var signalChangeDB: Int?
     }
 
-    /// How many passes have readings: 2 or more means `previous` is filled in.
+    /// How many passes were started: 2 or more means a comparison is under way and `previous` is filled in.
     public var passes: Int
     public var rooms: [Room]
     /// The room with the weakest signal in the latest pass, when one stands out.
     public var weakest: String?
 
     public init(_ survey: Survey) {
-        passes = survey.passes.filter { !$0.isEmpty }.count
+        passes = survey.passes.count
         rooms = survey.rows.map { row in
             Room(
                 room: row.room, reading: row.reading.map(Reading.init), previous: row.previous.map(Reading.init),

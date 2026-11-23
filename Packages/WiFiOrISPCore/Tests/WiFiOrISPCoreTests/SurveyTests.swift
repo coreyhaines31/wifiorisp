@@ -84,16 +84,23 @@ struct SurveyTests {
     @Test func savesAndLoads() throws {
         let url = FileManager.default.temporaryDirectory.appending(path: "survey-\(UUID().uuidString)/survey.json")
         let store = SurveyStore(url: url)
-        #expect(store.load().isEmpty)
+        #expect(try store.load().isEmpty)
 
         var survey = Survey()
         survey.record(surveyReading("Kitchen"))
         try store.save(survey)
-        #expect(store.load() == survey)
+        #expect(try store.load() == survey)
 
         try store.reset()
-        #expect(store.load().isEmpty)
+        #expect(try store.load().isEmpty)
         try? FileManager.default.removeItem(at: url.deletingLastPathComponent())
+    }
+
+    @Test func aFileThatCannotBeReadIsNotTreatedAsEmpty() throws {
+        let url = FileManager.default.temporaryDirectory.appending(path: "survey-\(UUID().uuidString).json")
+        try Data("{ not a survey".utf8).write(to: url)
+        #expect(throws: (any Error).self) { try SurveyStore(url: url).load() }
+        try? FileManager.default.removeItem(at: url)
     }
 }
 
@@ -143,6 +150,25 @@ struct SurveyTextTests {
         _ = survey.startNextPass()
         survey.record(surveyReading("Kitchen", rssi: -60, rate: 864))
         #expect(SurveyText.table(survey).contains("Stronger signal in 0 of 1 room.\n"))
+    }
+
+    @Test func roomNamesWithEmojiKeepTheirWholeName() {
+        var survey = Survey()
+        survey.record(surveyReading("👨‍👩‍👧 den", rssi: -58, rate: 720, routerMs: 4))
+        survey.record(surveyReading("Hall", rssi: -58, rate: 720, routerMs: 4))
+        let lines = SurveyText.table(survey).components(separatedBy: "\n")
+        #expect(lines[1].hasPrefix("👨‍👩‍👧 den   Good"))
+        #expect(lines[2].hasPrefix("Hall    Good"))
+    }
+
+    @Test func aPassJustStartedCountsInTheJSON() {
+        var survey = Survey()
+        survey.record(surveyReading("Kitchen"))
+        _ = survey.startNextPass()
+        let json = CLISurvey(survey)
+        #expect(json.passes == 2)
+        #expect(json.rooms[0].previous != nil)
+        #expect(json.rooms[0].reading == nil)
     }
 
     @Test func readingIsOneLine() {

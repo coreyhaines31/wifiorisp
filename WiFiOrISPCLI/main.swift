@@ -23,7 +23,7 @@ Commands:
   history   What the background log saw: typical timings, slow spells, drops, and tests.
   report    The plain-text report to send your ISP.
   survey    Wi-Fi room by room. Carry the Mac to a room and run `survey room Kitchen`
-            (about 10 seconds); `survey` shows the table. After changing something, run
+            (a few seconds); `survey` shows the table. After changing something, run
             `survey again` and take the readings again to see before and after.
 
 Options:
@@ -250,14 +250,20 @@ func measureRoom(_ room: String) async -> SurveyReading {
 
 func runSurvey(_ action: CLICommand.SurveyAction, json: Bool) {
     let store = SurveyStore(url: SurveyStore.defaultURL)
-    var survey = store.load()
+    let load = { () -> Survey in
+        do { return try store.load() } catch {
+            fail("Couldn't read the saved survey at \(store.url.path). Run `wifiorisp survey reset` to start over.")
+        }
+    }
     let save = { (survey: Survey) in
         do { try store.save(survey) } catch { fail("Couldn't save the survey: \(error.localizedDescription)") }
     }
     switch action {
     case .show:
+        let survey = load()
         json ? printJSON(CLISurvey(survey)) : print(SurveyText.table(survey))
     case .again:
+        var survey = load()
         guard survey.startNextPass() else {
             fail("Nothing to compare with yet. Take a reading first: wifiorisp survey room Kitchen")
         }
@@ -271,12 +277,15 @@ func runSurvey(_ action: CLICommand.SurveyAction, json: Bool) {
         do { try store.reset() } catch { fail("Couldn't clear the survey: \(error.localizedDescription)") }
         note("Survey cleared.")
     case .room(let room):
+        _ = load()
         Task { @MainActor in
-            var updated = survey
-            let reading = updated.record(await measureRoom(room))
-            save(updated)
+            let measured = await measureRoom(room)
+            // Read again: another reading, pass or reset may have been saved while this one measured.
+            var survey = load()
+            let reading = survey.record(measured)
+            save(survey)
             if json {
-                printJSON(CLISurvey(updated))
+                printJSON(CLISurvey(survey))
             } else {
                 print(SurveyText.reading(reading))
                 note("Next room: wifiorisp survey room NAME. The table so far: wifiorisp survey")
