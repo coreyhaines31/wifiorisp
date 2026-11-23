@@ -114,12 +114,15 @@ wifiorisp lag                 # lag under load, and whether it builds up in your
 wifiorisp speed               # download and upload speed, from M-Lab
 wifiorisp history --since 24h # typical timings, slow spells, drops, and tests from the log
 wifiorisp report --since 7d   # the report to send your ISP
+wifiorisp survey              # Wi-Fi room by room, with before and after
 ```
 
 - **`--json`** on any of them prints JSON, with each next step as a link to a guide or a `wifiorisp` command to run. `watch --json` prints one object per line, and `history --csv` gives every measurement.
 - **Exit status:** 0 when all is well, 2 when `status` finds a problem, 1 on errors. Progress goes to stderr.
 - `status`, `watch`, `lag`, and `speed` ask the running app, so they share its history and test results, and open it in the background if it isn't running. `history` and `report` read the log directly.
 - The speed and lag tests take about 20 seconds each, and one runs at a time. The app pauses its measurements while they run, so their traffic isn't logged as slowness.
+
+**Room by room:** carry the Mac to a room and run `wifiorisp survey room Kitchen` (a few seconds). Do the same in each room, then `wifiorisp survey` prints the table. After you change something, such as moving the router or changing the channel, run `wifiorisp survey again` and take the readings again to see before and after. Judge by signal: a move of 3 dB or more is real, while link rate jumps between steps even when nothing changes. The survey measures by itself, so it works while the app is closed, and `wifiorisp survey reset` starts over.
 
 **Installing the command:** Homebrew links it for you. If you installed from the DMG, link it once:
 
