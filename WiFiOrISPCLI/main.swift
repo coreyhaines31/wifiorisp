@@ -11,6 +11,7 @@ Usage:
   wifiorisp lag [--json]
   wifiorisp history [--since 24h] [--json | --csv]
   wifiorisp report [--since 7d]
+  wifiorisp survey [room NAME | again | reset] [--json]
 
 Commands:
   status    The verdict right now, the numbers behind it, and what to do next.
@@ -21,6 +22,9 @@ Commands:
             (about 20 seconds, a few hundred MB on a fast connection).
   history   What the background log saw: typical timings, slow spells, drops, and tests.
   report    The plain-text report to send your ISP.
+  survey    Wi-Fi room by room. Carry the Mac to a room and run `survey room Kitchen`
+            (a few seconds); `survey` shows the table. After changing something, run
+            `survey again` and take the readings again to see before and after.
 
 Options:
   --json         Print JSON. `watch --json` prints one object per line.
@@ -214,6 +218,84 @@ var savedPlan: Plan? {
     return down > 0 ? Plan(downMbps: down, upMbps: up) : nil
 }
 
+// MARK: - Survey
+
+/// How many samples make one room's reading, a second apart.
+let surveySamples = 5
+
+/// Measures where the Mac is now. The command samples by itself, so it works while the app is closed.
+@MainActor
+func measureRoom(_ room: String) async -> SurveyReading {
+    let sampler = Sampler()
+    var samples: [Sample] = []
+    var progress = ProgressLine()
+    for index in 0..<surveySamples {
+        progress.show("Measuring \(room): \(index + 1) of \(surveySamples)")
+        let sample = await sampler.sample().sample
+        guard sample.link == .wifi else {
+            progress.clear()
+            fail(sample.link == .wired
+                ? "This Mac is on a wired connection. Unplug it and join Wi-Fi to survey rooms."
+                : "This Mac isn't on Wi-Fi. Join the network, then try again.")
+        }
+        samples.append(sample)
+        if index < surveySamples - 1 { try? await Task.sleep(for: .seconds(1)) }
+    }
+    progress.clear()
+    guard let reading = SurveyReading(room: room, samples: samples) else {
+        fail("Couldn't read the Wi-Fi signal. Try again.")
+    }
+    return reading
+}
+
+func runSurvey(_ action: CLICommand.SurveyAction, json: Bool) {
+    let store = SurveyStore(url: SurveyStore.defaultURL)
+    let load = { () -> Survey in
+        do { return try store.load() } catch {
+            fail("Couldn't read the saved survey at \(store.url.path). Run `wifiorisp survey reset` to start over.")
+        }
+    }
+    let save = { (survey: Survey) in
+        do { try store.save(survey) } catch { fail("Couldn't save the survey: \(error.localizedDescription)") }
+    }
+    switch action {
+    case .show:
+        let survey = load()
+        json ? printJSON(CLISurvey(survey)) : print(SurveyText.table(survey))
+    case .again:
+        var survey = load()
+        guard survey.startNextPass() else {
+            fail("Nothing to compare with yet. Take a reading first: wifiorisp survey room Kitchen")
+        }
+        save(survey)
+        if json {
+            printJSON(CLISurvey(survey))
+        } else {
+            print("Started the next pass. Go back to each room and run `wifiorisp survey room NAME` again.")
+        }
+    case .reset:
+        do { try store.reset() } catch { fail("Couldn't clear the survey: \(error.localizedDescription)") }
+        note("Survey cleared.")
+    case .room(let room):
+        _ = load()
+        Task { @MainActor in
+            let measured = await measureRoom(room)
+            // Read again: another reading, pass or reset may have been saved while this one measured.
+            var survey = load()
+            let reading = survey.record(measured)
+            save(survey)
+            if json {
+                printJSON(CLISurvey(survey))
+            } else {
+                print(SurveyText.reading(reading))
+                note("Next room: wifiorisp survey room NAME. The table so far: wifiorisp survey")
+            }
+            exit(0)
+        }
+        dispatchMain()
+    }
+}
+
 // MARK: - Main
 
 let command: CLICommand
@@ -239,6 +321,8 @@ case .history(let since, let format):
 case .report(let since):
     let (log, start, end) = readLog(since: since)
     print(ISPReport.text(log: log, start: start, end: end, plan: savedPlan, uptime: .current()))
+case .survey(let action, let json):
+    runSurvey(action, json: json)
 case .app(let action, let json):
     if action == .speed {
         note("Speed test by M-Lab, which publishes every result, including your IP address, as open data.")
