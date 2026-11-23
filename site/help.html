@@ -111,7 +111,8 @@ wifiorisp watch               # a line after every measurement, until Ctrl-C
 wifiorisp lag                 # lag under load, and where it builds up
 wifiorisp speed               # download and upload speed, from M-Lab
 wifiorisp history --since 24h # timings, slow spells, drops, and tests from the log
-wifiorisp report --since 7d   # the report to send your ISP</pre>
+wifiorisp report --since 7d   # the report to send your ISP
+wifiorisp survey              # Wi-Fi room by room, with before and after</pre>
         </div>
         <p>Add <code>--json</code> to any of them for output an agent can read: each next step comes with a link to a guide or a command to run. <code>status</code> exits with 2 when it finds a problem. The commands that ask the app open it in the background if it isn't running.</p>
         <p>Ask your agent in plain words, like “My Zoom calls keep freezing. Use the wifiorisp command to find out whether it's my Wi-Fi or my ISP, and tell me what to fix.” Or add this to your <code>CLAUDE.md</code> or <code>AGENTS.md</code>:</p>
@@ -124,6 +125,11 @@ when calls or games stutter, `wifiorisp speed` to compare with my plan, and
 Ask me before running `wifiorisp speed`: M-Lab publishes each speed test, with my
 IP address, as open data.</pre>
         </div>
+
+        <h3 id="survey">Find the weak rooms, and check that a change helped</h3>
+        <p>Carry the Mac to a room and run <code>wifiorisp survey room Kitchen</code>. It takes a few seconds and files the signal, link rate, and router timing under that room. Do the same in each room, then run <code>wifiorisp survey</code> for the table.</p>
+        <p>After you change something (move the router, change the channel, add a mesh point), run <code>wifiorisp survey again</code> and take the readings again. The table then shows before and after for every room.</p>
+        <p>Judge by signal. It holds steady within a decibel or two, so a move of 3 dB or more is real. Link rate jumps between steps from second to second even when nothing changes, so the table shows it but doesn't score it. <code>wifiorisp survey reset</code> starts over.</p>
 
         <h2 id="first-launch">Your first two minutes</h2>
         <ol class="steps">

@@ -23,6 +23,20 @@ struct CLIArgumentsTests {
         #expect(try CLIArguments.parse(["report", "--since", "30d"]) == .report(since: 30 * 86_400))
     }
 
+    @Test func surveyTakesARoomOrAnAction() throws {
+        #expect(try CLIArguments.parse(["survey"]) == .survey(.show, json: false))
+        #expect(try CLIArguments.parse(["survey", "--json"]) == .survey(.show, json: true))
+        let living = try CLIArguments.parse(["survey", "room", "Living", "room"])
+        #expect(living == .survey(.room("Living room"), json: false))
+        let kitchen = try CLIArguments.parse(["survey", "room", "Kitchen", "--json"])
+        #expect(kitchen == .survey(.room("Kitchen"), json: true))
+        #expect(try CLIArguments.parse(["survey", "again"]) == .survey(.again, json: false))
+        #expect(try CLIArguments.parse(["survey", "reset"]) == .survey(.reset, json: false))
+        #expect(throws: CLIArgumentError.self) { try CLIArguments.parse(["survey", "room"]) }
+        #expect(throws: CLIArgumentError.self) { try CLIArguments.parse(["survey", "Kitchen"]) }
+        #expect(throws: CLIArgumentError.self) { try CLIArguments.parse(["survey", "again", "now"]) }
+    }
+
     @Test func rejectsWhatItDoesNotKnow() {
         #expect(throws: CLIArgumentError.self) { try CLIArguments.parse(["fix-it"]) }
         #expect(throws: CLIArgumentError.self) { try CLIArguments.parse(["status", "--since", "1h"]) }
