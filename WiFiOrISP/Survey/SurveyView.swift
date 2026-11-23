@@ -83,6 +83,7 @@ final class SurveyModel: ObservableObject {
 struct SurveyView: View {
     @ObservedObject var model: SurveyModel
     @State private var room = ""
+    @State private var confirmsStartOver = false
 
     private var rows: [SurveyRow] { model.survey.rows }
     private var compares: Bool { rows.contains { $0.previous != nil } }
@@ -190,12 +191,17 @@ struct SurveyView: View {
 
     private var actions: some View {
         HStack {
-            Button("Start Second Pass") { model.startNextPass() }
+            Button(model.survey.passes.count > 1 ? "Start Another Pass" : "Start Second Pass") {
+                model.startNextPass()
+            }
                 .disabled(!model.canStartNextPass || model.measuring != nil)
                 .help("After you change something, take every room's reading again to compare.")
             Spacer()
-            Button("Start Over", role: .destructive) { model.startOver() }
+            Button("Start Over", role: .destructive) { confirmsStartOver = true }
                 .disabled(model.measuring != nil)
+                .confirmationDialog("Clear every room's readings?", isPresented: $confirmsStartOver) {
+                    Button("Start Over", role: .destructive) { model.startOver() }
+                }
         }
     }
 
