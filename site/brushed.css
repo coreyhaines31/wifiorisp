@@ -4,17 +4,18 @@
 
 /* Local fallbacks sized to Barlow Semi Condensed, so headings wrap the same before and after it arrives and the swap
    doesn't shift the page on a slow connection (Green Room's hero went from four lines to two: mobile CLS 0.084).
-   size-adjust = Barlow width / Helvetica Neue width over the sites' own text; the overrides put Barlow's ascent (1.0)
-   and descent (0.2) back after that scaling. Uppercase letter-spaced labels run narrower than mixed case, so they use
+   size-adjust is Barlow's width over Helvetica Neue's, midway between Green Room's ratios and the average over all
+   ten sites' text: that set moved the least across 20 pages at 412 and 1440 (2026-11-24). The overrides put Barlow's
+   ascent (1.0) and descent (0.2) back after that scaling. Uppercase letter-spaced labels run narrower, so they use
    --bx-display-caps and its Caps face. Body Barlow runs about 6% narrower than Helvetica Neue, so it gets its own faces.
    Once Barlow loads these faces are never used, so the look is unchanged. */
-@font-face { font-family: "Barlow Semi Condensed Fallback"; font-weight: 300; src: local("Helvetica Neue Light"), local("HelveticaNeue-Light"), local("Arial"), local("ArialMT"); size-adjust: 86.4%; ascent-override: 115.7%; descent-override: 23.1%; line-gap-override: 0%; }
-@font-face { font-family: "Barlow Semi Condensed Fallback"; font-weight: 600; src: local("Helvetica Neue Bold"), local("HelveticaNeue-Bold"), local("Arial Bold"), local("Arial-BoldMT"); size-adjust: 79%; ascent-override: 126.6%; descent-override: 25.3%; line-gap-override: 0%; }
-@font-face { font-family: "Barlow Semi Condensed Fallback"; font-weight: 700; src: local("Helvetica Neue Bold"), local("HelveticaNeue-Bold"), local("Arial Bold"), local("Arial-BoldMT"); size-adjust: 83%; ascent-override: 120.5%; descent-override: 24.1%; line-gap-override: 0%; }
-@font-face { font-family: "Barlow Semi Condensed Caps Fallback"; font-weight: 600; src: local("Helvetica Neue Bold"), local("HelveticaNeue-Bold"), local("Arial Bold"), local("Arial-BoldMT"); size-adjust: 75%; ascent-override: 133.3%; descent-override: 26.7%; line-gap-override: 0%; }
-@font-face { font-family: "Barlow Fallback"; font-weight: 400; src: local("Helvetica Neue"), local("HelveticaNeue"), local("Arial"), local("ArialMT"); size-adjust: 94.4%; ascent-override: 105.9%; descent-override: 21.2%; line-gap-override: 0%; }
-@font-face { font-family: "Barlow Fallback"; font-weight: 500; src: local("Helvetica Neue Medium"), local("HelveticaNeue-Medium"), local("Arial"), local("ArialMT"); size-adjust: 92.5%; ascent-override: 108.1%; descent-override: 21.6%; line-gap-override: 0%; }
-@font-face { font-family: "Barlow Fallback"; font-weight: 600; src: local("Helvetica Neue Bold"), local("HelveticaNeue-Bold"), local("Arial Bold"), local("Arial-BoldMT"); size-adjust: 90.5%; ascent-override: 110.5%; descent-override: 22.1%; line-gap-override: 0%; }
+@font-face { font-family: "Barlow Semi Condensed Fallback"; font-weight: 300; src: local("Helvetica Neue Light"), local("HelveticaNeue-Light"), local("Arial"), local("ArialMT"); size-adjust: 88.3%; ascent-override: 113.3%; descent-override: 22.7%; line-gap-override: 0%; }
+@font-face { font-family: "Barlow Semi Condensed Fallback"; font-weight: 600; src: local("Helvetica Neue Bold"), local("HelveticaNeue-Bold"), local("Arial Bold"), local("Arial-BoldMT"); size-adjust: 80.5%; ascent-override: 124.2%; descent-override: 24.8%; line-gap-override: 0%; }
+@font-face { font-family: "Barlow Semi Condensed Fallback"; font-weight: 700; src: local("Helvetica Neue Bold"), local("HelveticaNeue-Bold"), local("Arial Bold"), local("Arial-BoldMT"); size-adjust: 83.3%; ascent-override: 120.0%; descent-override: 24.0%; line-gap-override: 0%; }
+@font-face { font-family: "Barlow Semi Condensed Caps Fallback"; font-weight: 600; src: local("Helvetica Neue Bold"), local("HelveticaNeue-Bold"), local("Arial Bold"), local("Arial-BoldMT"); size-adjust: 75.9%; ascent-override: 131.8%; descent-override: 26.4%; line-gap-override: 0%; }
+@font-face { font-family: "Barlow Fallback"; font-weight: 400; src: local("Helvetica Neue"), local("HelveticaNeue"), local("Arial"), local("ArialMT"); size-adjust: 94.5%; ascent-override: 105.8%; descent-override: 21.2%; line-gap-override: 0%; }
+@font-face { font-family: "Barlow Fallback"; font-weight: 500; src: local("Helvetica Neue Medium"), local("HelveticaNeue-Medium"), local("Arial"), local("ArialMT"); size-adjust: 92.6%; ascent-override: 108.0%; descent-override: 21.6%; line-gap-override: 0%; }
+@font-face { font-family: "Barlow Fallback"; font-weight: 600; src: local("Helvetica Neue Bold"), local("HelveticaNeue-Bold"), local("Arial Bold"), local("Arial-BoldMT"); size-adjust: 90.7%; ascent-override: 110.3%; descent-override: 22.1%; line-gap-override: 0%; }
 
 :root {
   --bx-accent: #2f63d3;
