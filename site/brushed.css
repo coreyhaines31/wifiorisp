@@ -2,13 +2,28 @@
    Load Barlow + Barlow Semi Condensed from Google Fonts, then this file, then popover.css for app mockups.
    Each site sets one variable: --bx-accent (its pilot light). Colour appears only in lights and readings. */
 
+/* Local fallbacks sized to Barlow Semi Condensed, so headings wrap the same before and after it arrives and the swap
+   doesn't shift the page on a slow connection (Green Room's hero went from four lines to two: mobile CLS 0.084).
+   size-adjust = Barlow width / Helvetica Neue width over the sites' own text; the overrides put Barlow's ascent (1.0)
+   and descent (0.2) back after that scaling. Uppercase letter-spaced labels run narrower than mixed case, so they use
+   --bx-display-caps and its Caps face. Body Barlow runs about 6% narrower than Helvetica Neue, so it gets its own faces.
+   Once Barlow loads these faces are never used, so the look is unchanged. */
+@font-face { font-family: "Barlow Semi Condensed Fallback"; font-weight: 300; src: local("Helvetica Neue Light"), local("HelveticaNeue-Light"), local("Arial"), local("ArialMT"); size-adjust: 86.4%; ascent-override: 115.7%; descent-override: 23.1%; line-gap-override: 0%; }
+@font-face { font-family: "Barlow Semi Condensed Fallback"; font-weight: 600; src: local("Helvetica Neue Bold"), local("HelveticaNeue-Bold"), local("Arial Bold"), local("Arial-BoldMT"); size-adjust: 79%; ascent-override: 126.6%; descent-override: 25.3%; line-gap-override: 0%; }
+@font-face { font-family: "Barlow Semi Condensed Fallback"; font-weight: 700; src: local("Helvetica Neue Bold"), local("HelveticaNeue-Bold"), local("Arial Bold"), local("Arial-BoldMT"); size-adjust: 83%; ascent-override: 120.5%; descent-override: 24.1%; line-gap-override: 0%; }
+@font-face { font-family: "Barlow Semi Condensed Caps Fallback"; font-weight: 600; src: local("Helvetica Neue Bold"), local("HelveticaNeue-Bold"), local("Arial Bold"), local("Arial-BoldMT"); size-adjust: 75%; ascent-override: 133.3%; descent-override: 26.7%; line-gap-override: 0%; }
+@font-face { font-family: "Barlow Fallback"; font-weight: 400; src: local("Helvetica Neue"), local("HelveticaNeue"), local("Arial"), local("ArialMT"); size-adjust: 94.4%; ascent-override: 105.9%; descent-override: 21.2%; line-gap-override: 0%; }
+@font-face { font-family: "Barlow Fallback"; font-weight: 500; src: local("Helvetica Neue Medium"), local("HelveticaNeue-Medium"), local("Arial"), local("ArialMT"); size-adjust: 92.5%; ascent-override: 108.1%; descent-override: 21.6%; line-gap-override: 0%; }
+@font-face { font-family: "Barlow Fallback"; font-weight: 600; src: local("Helvetica Neue Bold"), local("HelveticaNeue-Bold"), local("Arial Bold"), local("Arial-BoldMT"); size-adjust: 90.5%; ascent-override: 110.5%; descent-override: 22.1%; line-gap-override: 0%; }
+
 :root {
   --bx-accent: #2f63d3;
   --bx-page: #e2e3e2; --bx-card: #ecedec; --bx-bay: #cdcecd; --bx-ink: #161616; --bx-ink2: #3d3f41; --bx-muted: #5b5d5e;
   --bx-rule: #b4b6b6; --bx-plate: #1b1b1b; --bx-plate-ink: #d8d9da; --bx-btn: #1b1b1b; --bx-btn-ink: #e9eaea; --bx-field: #f4f4f3;
   --bx-go: #2f9e4f; --bx-ca: #d9921a; --bx-st: #e0452b;
-  --bx-display: "Barlow Semi Condensed", "Helvetica Neue", system-ui, sans-serif;
-  --bx-body: "Barlow", "Helvetica Neue", system-ui, sans-serif;
+  --bx-display: "Barlow Semi Condensed", "Barlow Semi Condensed Fallback", "Helvetica Neue", system-ui, sans-serif;
+  --bx-display-caps: "Barlow Semi Condensed", "Barlow Semi Condensed Caps Fallback", "Helvetica Neue", system-ui, sans-serif;
+  --bx-body: "Barlow", "Barlow Fallback", "Helvetica Neue", system-ui, sans-serif;
   --bx-mono: ui-monospace, "SF Mono", Menlo, monospace;
   --bx-brush: repeating-linear-gradient(0deg, rgba(255,255,255,.22) 0 1px, rgba(0,0,0,.035) 1px 2px, transparent 2px 3px), repeating-linear-gradient(0deg, rgba(0,0,0,.035) 0 1px, transparent 1px 7px), linear-gradient(100deg, rgba(255,255,255,0) 18%, rgba(255,255,255,.5) 40%, rgba(255,255,255,0) 64%), linear-gradient(180deg, #e7e8e9, #c3c5c7);
   --bx-max: 1160px;
@@ -45,7 +60,7 @@
 .bx-hero { background: var(--bx-brush); border-bottom: 1px solid rgba(0,0,0,.25); }
 .bx-hero-grid { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, .95fr); gap: 40px; align-items: center; padding-block: 28px 56px; }
 @media (max-width: 880px) { .bx-hero-grid { grid-template-columns: 1fr; } }
-.bx-badge { width: fit-content; display: inline-flex; gap: 10px; align-items: center; font: 600 12px/1 var(--bx-display); letter-spacing: .26em; text-transform: uppercase; background: var(--bx-plate); color: var(--bx-plate-ink); padding: 7px 12px 7px 10px; border-radius: 2px; }
+.bx-badge { width: fit-content; display: inline-flex; gap: 10px; align-items: center; font: 600 12px/1 var(--bx-display-caps); letter-spacing: .26em; text-transform: uppercase; background: var(--bx-plate); color: var(--bx-plate-ink); padding: 7px 12px 7px 10px; border-radius: 2px; }
 .bx-badge i { width: 7px; height: 7px; border-radius: 50%; background: var(--bx-accent); box-shadow: 0 0 6px var(--bx-accent); }
 .bx-hero h1 { font-weight: 600; font-size: clamp(40px, 6vw, 72px); line-height: .97; margin-top: 18px; }
 .bx-hero h1 span { font-weight: 300; }
@@ -64,16 +79,16 @@
 
 /* Sections */
 .bx-section { padding-block: 72px; border-top: 1px solid var(--bx-rule); }
-.bx-eyebrow { font: 600 12px/1 var(--bx-display); letter-spacing: .2em; text-transform: uppercase; color: var(--bx-muted); }
+.bx-eyebrow { font: 600 12px/1 var(--bx-display-caps); letter-spacing: .2em; text-transform: uppercase; color: var(--bx-muted); }
 .bx-section h2 { font-weight: 700; font-size: clamp(30px, 3.6vw, 44px); line-height: 1.04; margin-top: 10px; }
 .bx-section .bx-intro { color: var(--bx-ink2); max-width: 62ch; margin-top: 14px; }
 .bx-grid { display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); margin-top: 30px; }
 .bx-card { background: var(--bx-card); border: 1px solid var(--bx-rule); border-radius: 10px; padding: 20px 22px; display: grid; gap: 8px; align-content: start; min-width: 0; }
 .bx-card h3 { font-size: 21px; font-weight: 600; }
 .bx-card p { color: var(--bx-ink2); font-size: 15.5px; margin: 0; }
-.bx-strip { display: inline-block; font: 600 11px/1 var(--bx-display); letter-spacing: .24em; text-transform: uppercase; background: var(--bx-plate); color: var(--bx-plate-ink); padding: 5px 9px; border-radius: 2px; }
+.bx-strip { display: inline-block; font: 600 11px/1 var(--bx-display-caps); letter-spacing: .24em; text-transform: uppercase; background: var(--bx-plate); color: var(--bx-plate-ink); padding: 5px 9px; border-radius: 2px; }
 .bx-strip.out { background: none; color: var(--bx-ink); box-shadow: inset 0 0 0 1px var(--bx-ink2); }
-.bx-led { display: inline-flex; gap: 6px; align-items: center; font: 600 11px/1 var(--bx-display); letter-spacing: .16em; text-transform: uppercase; }
+.bx-led { display: inline-flex; gap: 6px; align-items: center; font: 600 11px/1 var(--bx-display-caps); letter-spacing: .16em; text-transform: uppercase; }
 .bx-led::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--bx-go); box-shadow: 0 0 5px var(--bx-go); }
 .bx-led.ca::before { background: var(--bx-ca); box-shadow: 0 0 5px var(--bx-ca); } .bx-led.st::before { background: var(--bx-st); box-shadow: 0 0 5px var(--bx-st); }
 
@@ -122,10 +137,10 @@
 .bx-apps .soon { display: grid; grid-template-columns: 56px minmax(0, 1fr); gap: 14px; align-items: center; background: transparent; border: 1px dashed var(--bx-rule); border-radius: 10px; padding: 14px 16px; color: var(--bx-ink); }
 .bx-apps .soon img { width: 56px; height: 56px; opacity: .75; }
 .bx-apps .soon b { display: block; font: 600 19px/1.15 var(--bx-display); }
-.bx-apps .soon em { font: 600 10.5px/1 var(--bx-display); font-style: normal; letter-spacing: .18em; text-transform: uppercase; color: var(--bx-muted); margin-left: 6px; vertical-align: 2px; }
+.bx-apps .soon em { font: 600 10.5px/1 var(--bx-display-caps); font-style: normal; letter-spacing: .18em; text-transform: uppercase; color: var(--bx-muted); margin-left: 6px; vertical-align: 2px; }
 .bx-apps .soon span { display: block; font-size: 14.5px; color: var(--bx-ink2); margin-top: 2px; }
 
 /* Footer family panel: a not-yet-released app as a non-link item. */
 .bx-family .soon { display: grid; justify-items: center; gap: 6px; padding: 10px 4px; border-radius: 8px; color: #cfd0d1; font-size: 13px; text-align: center; opacity: .6; }
 .bx-family .soon img { width: 56px; height: 56px; }
-.bx-family .soon small { display: block; font: 600 9.5px/1 var(--bx-display); letter-spacing: .16em; text-transform: uppercase; color: #8f9192; margin-top: 2px; }
+.bx-family .soon small { display: block; font: 600 9.5px/1 var(--bx-display-caps); letter-spacing: .16em; text-transform: uppercase; color: #8f9192; margin-top: 2px; }
