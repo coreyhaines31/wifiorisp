@@ -151,3 +151,40 @@ public struct SurveyStore: Sendable {
         try FileManager.default.removeItem(at: url)
     }
 }
+
+/// Why a room couldn't be measured.
+public enum SurveyError: Error, Equatable, Sendable {
+    case wired
+    case notConnected
+    case noSignal
+
+    public var message: String {
+        switch self {
+        case .wired: "This Mac is on a wired connection. Unplug it and join Wi-Fi to survey rooms."
+        case .notConnected: "This Mac isn't on Wi-Fi. Join the network, then try again."
+        case .noSignal: "Couldn't read the Wi-Fi signal. Try again."
+        }
+    }
+}
+
+/// Takes one room's reading where the Mac is now.
+@MainActor
+public enum SurveyMeasurer {
+    /// How many samples make a reading, a second apart.
+    nonisolated public static let sampleCount = 5
+
+    /// - Parameter progress: called before each sample with its number, from 1.
+    public static func measure(room: String, progress: (Int) -> Void = { _ in }) async throws -> SurveyReading {
+        let sampler = Sampler()
+        var samples: [Sample] = []
+        for index in 0..<sampleCount {
+            progress(index + 1)
+            let sample = await sampler.sample().sample
+            guard sample.link == .wifi else { throw sample.link == .wired ? SurveyError.wired : .notConnected }
+            samples.append(sample)
+            if index < sampleCount - 1 { try? await Task.sleep(for: .seconds(1)) }
+        }
+        guard let reading = SurveyReading(room: room, samples: samples) else { throw SurveyError.noSignal }
+        return reading
+    }
+}

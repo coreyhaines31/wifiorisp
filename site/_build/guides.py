@@ -691,6 +691,103 @@ GUIDES += [
 ]
 
 GUIDES += [
+    # ------------------------------------------------------------------ Wi-Fi site survey
+    {
+        "slug": "wifi-site-survey",
+        "link": "Wi-Fi site survey on a Mac",
+        "title": "Wi-Fi Site Survey on a Mac: Test Signal Strength and Find Dead Zones",
+        "description": "Run a free Wi-Fi site survey on your Mac. Test Wi-Fi signal strength in every room, find dead zones, and check your fix with a before and after table.",
+        "updated": "2026-11-23",
+        "updated_text": "November 23, 2026",
+        "eyebrow": "Guide",
+        "scripts": '\n  <script src="/copy.js" defer></script>',
+        "h1": "Wi-Fi site survey on a Mac: find the dead zones room by room",
+        "lede": "Wi-Fi that's fine by the router and useless in the back bedroom is a coverage problem, and you can't fix what you haven't measured. Here's how to measure every room with a Mac in a few minutes, and how to tell whether a change helped.",
+        "tldr": "Carry your Mac to each room and write down the signal in dBm: Option-click the Wi-Fi icon, or let the free <code>wifiorisp survey</code> command keep the table for you. Below −75 dBm is weak, and below −85 dBm is a dead zone. Change one thing, measure again, and count a room as better only when its signal moved by 3 dB or more.",
+        "body": '''
+        <h2>What a Wi-Fi site survey is</h2>
+        <p>A site survey measures Wi-Fi where you use it, not where the router sits. Professional tools draw a heat map over a floor plan, which is right for an office with twenty access points. At home you need two answers: which rooms are weak, and whether the thing you just changed made them better.</p>
+        <p>A table with one row per room gives you both.</p>
+
+        <h2>Survey your home in a few minutes</h2>
+        <p>The <code>wifiorisp</code> command comes with <a href="/">WiFi or ISP</a>, a free Mac app. Open the Terminal app (press Command-Space and type Terminal) and install it with <code>brew install --cask coreyhaines31/tap/wifiorisp</code>, or <a href="/help#command-line">download the app and link the command</a>.</p>
+        <ol class="steps">
+          <li><b>Carry the Mac to a room.</b> Sit where you'd use it.</li>
+          <li><b>Take a reading.</b> In Terminal, run <code>wifiorisp survey room Kitchen</code>, with the room's name. It takes a few seconds.</li>
+          <li><b>Do the same in every room.</b> Include the one that's always bad.</li>
+          <li><b>Print the table.</b> Run <code>wifiorisp survey</code>.</li>
+        </ol>
+        <p>An example of what you get:</p>
+        <div class="prompt plain">
+          <pre>Room          Signal                Link rate   Router
+Living room   Excellent (-48 dBm)   1201 Mbps   Fast · 3 ms
+Kitchen       Good (-61 dBm)        720 Mbps    Fast · 4 ms
+Office        Good (-64 dBm)        576 Mbps    Fast · 5 ms
+Guest room    Fair (-72 dBm)        287 Mbps    Fast · 9 ms
+Bedroom       Weak (-79 dBm)        144 Mbps    OK · 18 ms
+
+Weakest signal: Bedroom.</pre>
+        </div>
+        <p>Not a Terminal person? Choose <b>Survey Rooms…</b> from the app's menu, type the room's name, and press Measure Here. It fills in the same table.</p>
+        <p>Without the app, hold Option and click the Wi-Fi icon in the menu bar, read RSSI under your network, and write it down for each room. It's the same number.</p>
+
+        <h2>How to read the table</h2>
+        <ul>
+          <li><strong>Signal</strong> is the one to judge by. Closer to zero is stronger: −55 dBm or better is excellent, down to −67 is good, down to −75 is fair, and below −75 is weak enough that calls drop and pages stall. Below −85 is a dead zone. <a href="/wifi-signal-strength">The full dBm chart is here.</a></li>
+          <li><strong>Link rate</strong> is the speed of the Wi-Fi link between your Mac and the router. It isn't your internet speed, and it falls as the signal does.</li>
+          <li><strong>Router</strong> is how long the router takes to answer. A few milliseconds is normal. A slow answer in a room with a good signal points at a crowded channel or a struggling router, not at distance.</li>
+        </ul>
+
+        <h2>Fix the weak rooms</h2>
+        <p>Change one thing at a time, so you know what worked.</p>
+        <ul>
+          <li><strong>Move the router</strong> up high and toward the middle of the home, out of cabinets and away from metal, mirrors, and fish tanks. It's free and often worth the most.</li>
+          <li><strong>Change the channel</strong> when the signal is good but the router answers slowly. <a href="/how-to-change-wifi-channel">Here's how.</a></li>
+          <li><strong>Add a mesh point</strong> halfway between the router and the dead zone, not inside the dead zone, where it would have nothing to repeat.</li>
+          <li><strong>Replace an old router</strong> if every room is weak. <a href="/routers">Here's what to look for.</a></li>
+        </ul>
+
+        <h2>Check that it worked</h2>
+        <p>Run <code>wifiorisp survey again</code>, then go back to each room and take the readings again. The table now shows before and after:</p>
+        <div class="prompt plain">
+          <pre>Room          Signal               Link rate          Router
+Living room   -48 → -50 dBm (-2)   1201 → 1201 Mbps   3 → 3 ms
+Kitchen       -61 → -58 dBm (+3)   720 → 864 Mbps     4 → 4 ms
+Office        -64 → -60 dBm (+4)   576 → 720 Mbps     5 → 4 ms
+Guest room    -72 → -66 dBm (+6)   287 → 432 Mbps     9 → 6 ms
+Bedroom       -79 → -70 dBm (+9)   144 → 287 Mbps     18 → 8 ms
+
+Stronger signal in 4 of 5 rooms.</pre>
+        </div>
+        <p>Count a room as better only when its signal moved by 3 dB or more. Signal wobbles by a decibel or two with the Mac sitting still, so the living room's −2 above is noise, and 3 dB is double the power.</p>
+        <p>Don't score the change by link rate. It hops between fixed steps from second to second. On our test Mac, eight readings in the same spot bounced between 864 and 1152 Mbps while the signal stayed within 1 dB. A before and after built on link rate can show a big gain that never happened.</p>
+
+        <h2>Let your AI agent run it</h2>
+        <p>The survey prints JSON with <code>--json</code>, so Claude Code or Codex can keep the table and read the result for you. Paste this:</p>
+        <div class="prompt">
+          <button class="pill copy" type="button" data-copy-target="agent-survey">Copy</button>
+          <pre id="agent-survey">Help me find the weak Wi-Fi rooms in this house with the `wifiorisp` command.
+If it isn't installed, install it: brew install --cask coreyhaines31/tap/wifiorisp
+Ask me which room I'm in, then run `wifiorisp survey room NAME --json`.
+Tell me to carry the Mac to the next room, and repeat until I say that's all of them.
+Then run `wifiorisp survey --json` and tell me which rooms are weak and the one
+change most likely to help. After I make the change, run `wifiorisp survey again`,
+ask me for each room again, and tell me which rooms improved by 3 dB or more.
+Judge by signal, not link rate.</pre>
+        </div>
+''',
+        "faqs": [
+            ("What is a Wi-Fi dead zone?", "A spot where the signal is too weak to use. Below −75 dBm is weak enough that calls drop and pages stall, and below −85 dBm a device barely connects at all."),
+            ("Do I need a heat map?", "Not at home. A heat map helps when you're placing many access points across an office. For a house or apartment, one reading per room tells you where it's weak and whether a change helped."),
+            ("How many readings do I need?", "One per room you use, taken where you actually sit. Take them again after each change, in the same spots."),
+            ("Is link rate my internet speed?", "No. It's the speed of the Wi-Fi link between your device and the router. Your internet speed is set by your plan and your ISP, and it can be far lower than the link rate."),
+            ("Can I survey with an iPhone?", "Not with this command, which runs on a Mac. An iPhone only shows signal in dBm through Apple's free AirPort Utility app, with its Wi-Fi Scanner turned on in Settings, so a Mac laptop is the easier way to walk the rooms."),
+        ],
+        "cta": "Know which rooms are weak, and when a fix worked.",
+    },
+]
+
+GUIDES += [
     {
         "slug": "help",
         "link": "Help and troubleshooting",
@@ -767,6 +864,7 @@ IP address, as open data.</pre>
         <p>Carry the Mac to a room and run <code>wifiorisp survey room Kitchen</code>. It takes a few seconds and files the signal, link rate, and router timing under that room. Do the same in each room, then run <code>wifiorisp survey</code> for the table.</p>
         <p>After you change something (move the router, change the channel, add a mesh point), run <code>wifiorisp survey again</code> and take the readings again. The table then shows before and after for every room.</p>
         <p>Judge by signal. It holds steady within a decibel or two, so a move of 3 dB or more is real. Link rate jumps between steps from second to second even when nothing changes, so the table shows it but doesn't score it. <code>wifiorisp survey reset</code> starts over.</p>
+        <p>Prefer clicking? Choose <b>Survey Rooms…</b> from the menu. It's the same survey and the same table, so you can start in one and finish in the other.</p>
 
         <h2 id="first-launch">Your first two minutes</h2>
         <ol class="steps">

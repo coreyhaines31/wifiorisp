@@ -220,32 +220,20 @@ var savedPlan: Plan? {
 
 // MARK: - Survey
 
-/// How many samples make one room's reading, a second apart.
-let surveySamples = 5
-
 /// Measures where the Mac is now. The command samples by itself, so it works while the app is closed.
 @MainActor
 func measureRoom(_ room: String) async -> SurveyReading {
-    let sampler = Sampler()
-    var samples: [Sample] = []
     var progress = ProgressLine()
-    for index in 0..<surveySamples {
-        progress.show("Measuring \(room): \(index + 1) of \(surveySamples)")
-        let sample = await sampler.sample().sample
-        guard sample.link == .wifi else {
-            progress.clear()
-            fail(sample.link == .wired
-                ? "This Mac is on a wired connection. Unplug it and join Wi-Fi to survey rooms."
-                : "This Mac isn't on Wi-Fi. Join the network, then try again.")
+    do {
+        let reading = try await SurveyMeasurer.measure(room: room) { step in
+            progress.show("Measuring \(room): \(step) of \(SurveyMeasurer.sampleCount)")
         }
-        samples.append(sample)
-        if index < surveySamples - 1 { try? await Task.sleep(for: .seconds(1)) }
+        progress.clear()
+        return reading
+    } catch {
+        progress.clear()
+        fail((error as? SurveyError)?.message ?? error.localizedDescription)
     }
-    progress.clear()
-    guard let reading = SurveyReading(room: room, samples: samples) else {
-        fail("Couldn't read the Wi-Fi signal. Try again.")
-    }
-    return reading
 }
 
 func runSurvey(_ action: CLICommand.SurveyAction, json: Bool) {

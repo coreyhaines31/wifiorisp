@@ -88,6 +88,7 @@ final class StatusItemController: NSObject, NSMenuDelegate {
 
         menu.addItem(ClosureMenuItem("Run Speed Test…") { [weak self] in self?.windows.showTests() })
         menu.addItem(ClosureMenuItem("Test Lag Under Load…") { [weak self] in self?.windows.showTests() })
+        menu.addItem(ClosureMenuItem("Survey Rooms…") { [weak self] in self?.windows.showSurvey() })
         menu.addItem(ClosureMenuItem("History…", keyEquivalent: "h") { [weak self] in self?.windows.showHistory() })
         menu.addItem(ClosureMenuItem("Export Report for Your ISP…", keyEquivalent: "e") { [weak self] in
             self?.windows.exportReport()

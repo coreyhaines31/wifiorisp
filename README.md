@@ -122,7 +122,7 @@ wifiorisp survey              # Wi-Fi room by room, with before and after
 - `status`, `watch`, `lag`, and `speed` ask the running app, so they share its history and test results, and open it in the background if it isn't running. `history` and `report` read the log directly.
 - The speed and lag tests take about 20 seconds each, and one runs at a time. The app pauses its measurements while they run, so their traffic isn't logged as slowness.
 
-**Room by room:** carry the Mac to a room and run `wifiorisp survey room Kitchen` (a few seconds). Do the same in each room, then `wifiorisp survey` prints the table. After you change something, such as moving the router or changing the channel, run `wifiorisp survey again` and take the readings again to see before and after. Judge by signal: a move of 3 dB or more is real, while link rate jumps between steps even when nothing changes. The survey measures by itself, so it works while the app is closed, and `wifiorisp survey reset` starts over.
+**Room by room:** carry the Mac to a room and run `wifiorisp survey room Kitchen` (a few seconds). Do the same in each room, then `wifiorisp survey` prints the table. After you change something, such as moving the router or changing the channel, run `wifiorisp survey again` and take the readings again to see before and after. Judge by signal: a move of 3 dB or more is real, while link rate jumps between steps even when nothing changes. The survey measures by itself, so it works while the app is closed, and `wifiorisp survey reset` starts over. The same survey is in the menu under **Survey Rooms…**, and the two share one table.
 
 **Installing the command:** Homebrew links it for you. If you installed from the DMG, link it once:
 
