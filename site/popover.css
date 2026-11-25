@@ -3,10 +3,10 @@
 .bx-pop-scope, :root {
   --page: #dcdddc; --bay: #cdcecd; --card: #ecedec; --ink: #161616; --muted: #5b5d5e; --rule: #b4b6b6; --edge: #8e9091;
   --rec: #e0452b;
-  --display: "Barlow Semi Condensed", "Helvetica Neue", ui-sans-serif, system-ui, sans-serif;
-  --body: "Barlow", "Helvetica Neue", ui-sans-serif, system-ui, sans-serif;
+  --display: "Barlow Semi Condensed", "Barlow Semi Condensed Fallback", "Helvetica Neue", ui-sans-serif, system-ui, sans-serif;
+  --body: "Barlow", "Barlow Fallback", "Helvetica Neue", ui-sans-serif, system-ui, sans-serif;
   --sys: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Inter", system-ui, sans-serif;
-  --cond: "Barlow Semi Condensed", "SF Pro Display", system-ui, sans-serif;
+  --cond: "Barlow Semi Condensed", "Barlow Semi Condensed Caps Fallback", "SF Pro Display", system-ui, sans-serif;
   --mono: ui-monospace, "SF Mono", Menlo, monospace;
   --brush-l: repeating-linear-gradient(0deg, rgba(255,255,255,.22) 0 1px, rgba(0,0,0,.035) 1px 2px, transparent 2px 3px), repeating-linear-gradient(0deg, rgba(0,0,0,.035) 0 1px, transparent 1px 7px), repeating-linear-gradient(0deg, rgba(255,255,255,.12) 0 1px, transparent 1px 11px), linear-gradient(100deg, rgba(255,255,255,0) 18%, rgba(255,255,255,.5) 40%, rgba(255,255,255,0) 64%), linear-gradient(180deg, #e7e8e9, #c3c5c7);
   --brush-d: repeating-linear-gradient(0deg, rgba(255,255,255,.035) 0 1px, transparent 1px 3px), repeating-linear-gradient(0deg, rgba(255,255,255,.03) 0 1px, transparent 1px 9px), linear-gradient(100deg, rgba(255,255,255,0) 20%, rgba(255,255,255,.07) 42%, rgba(255,255,255,0) 64%), linear-gradient(180deg, #2b2b2c, #18181a);
